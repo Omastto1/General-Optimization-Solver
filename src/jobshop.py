@@ -21,7 +21,8 @@ class JobShop(OptimizationProblem):
             [ model.end_before_start( x[i][j-1], x[i][j] )  for i in range(self.no_jobs) for j in range(self.no_machines) if 0<j ]
         )
 
-        sol = model.solve()
+        print("Using 10 second time limit")
+        sol = model.solve(TimeLimit=10, verbose=0, log_output=None)
 
         if sol:
             print("Project completion time:", sol.get_objective_value())
