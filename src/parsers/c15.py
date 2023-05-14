@@ -180,3 +180,24 @@ def load_c15(instance_path, verbose=False):
         parsed_input["resources"]["non_renewable_resources"]["non_renewable_availabilities"] = line[2:]
         
     return parsed_input
+
+def load_c15_solution(file_path, instance):
+    parameter = instance.split("_")[0][3:]
+    instance = instance.split("_")[1].split(".")[0]
+    solution = {}
+
+    with open(file_path, "r") as file:
+        line = ""
+        while not line.startswith("-----"):
+            line = file.readline()
+            
+        while line != "":
+            line = [char.strip() for char in line.split(" ") if len(char.strip()) > 0]
+
+            if line[0] == parameter and line[1] == instance:
+                solution = {"makespan": line[2], "cpu_time": line[3]}
+                break
+            
+            line = file.readline()
+    
+    return solution

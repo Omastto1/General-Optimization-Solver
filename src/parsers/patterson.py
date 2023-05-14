@@ -36,15 +36,21 @@ def load_patterson(instance_path, verbose=False):
             job_specification = {}
 
             job_specification["job_nr"] = job_no
+            job_specification["no_modes"] = 1
 
             duration = line[0]
             renewable_resource_consumption = line[1:1+int(number_of_renewable_resources)]
-            job_specification["duration"] = duration
-            job_specification["request_duration"] = {}
-            job_specification["request_duration"]["R1"] = renewable_resource_consumption[0]
-            job_specification["request_duration"]["R2"] = renewable_resource_consumption[1]
-            job_specification["request_duration"]["R3"] = renewable_resource_consumption[2]
-            job_specification["request_duration"]["R4"] = renewable_resource_consumption[3]
+
+            mode = {}
+            mode["mode_nr"] = 1
+            mode["duration"] = duration
+            mode["request_duration"] = {}
+            mode["request_duration"]["R1"] = renewable_resource_consumption[0]
+            mode["request_duration"]["R2"] = renewable_resource_consumption[1]
+            mode["request_duration"]["R3"] = renewable_resource_consumption[2]
+            mode["request_duration"]["R4"] = renewable_resource_consumption[3]
+
+            job_specification["modes"] = [mode]
             
             number_of_successors = line[1+int(number_of_renewable_resources)]
             job_specification["number_of_successors"] = number_of_successors

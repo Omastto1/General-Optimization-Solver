@@ -35,13 +35,21 @@ def load_j30(instance_path, verbose=False):
         parsed_input["resources"]["renewable_resources"] = {}
         parsed_input["resources"]["renewable_resources"]["number_of_resources"] = no_renewable
 
-        parsed_input["resources"]["no_renewable"] = no_renewable
+        # parsed_input["resources"]["no_renewable"] = no_renewable
         # non-renewable
         no_non_renewable = int(file.readline().split(":")[1].split()[0].strip())
-        parsed_input["resources"]["no_non_renewable"] = no_non_renewable
+        if no_non_renewable == 0:
+            pass
+        else:
+            assert False, "no_non_renewable is non zero"
+            # parsed_input["resources"]["no_non_renewable"] = no_non_renewable
         # doubly constrained
         no_doubly = int(file.readline().split(":")[1].split()[0].strip())
-        parsed_input["resources"]["no_doubly_constrained"] = no_doubly
+        if no_doubly == 0:
+            pass
+        else:
+            assert False, "no_doubly is non zero"
+            # parsed_input["resources"]["no_doubly_constrained"] = no_doubly
 
         # ******
         file.readline()
@@ -114,15 +122,22 @@ def load_j30(instance_path, verbose=False):
             mode = int(line[1].strip())
             assert mode == project_specification["no_modes"]
             # request_duration["mode"] = mode
+
+            mode_dict = {}
+            mode_dict["mode"] = mode
             duration = int(line[2].strip())
+            mode_dict["duration"] = duration
             # request_duration["duration"] = duration
-            project_specification["duration"] = duration
+            # project_specification["duration"] = duration
             resource_req = [int(req.strip()) for req in line[3:7]]
-            project_specification["request_duration"] = {}
-            project_specification["request_duration"]["R1"] = resource_req[0]
-            project_specification["request_duration"]["R2"] = resource_req[1]
-            project_specification["request_duration"]["R3"] = resource_req[2]
-            project_specification["request_duration"]["R4"] = resource_req[3]
+
+            mode_dict["request_duration"] = {}
+            mode_dict["request_duration"]["R1"] = resource_req[0]
+            mode_dict["request_duration"]["R2"] = resource_req[1]
+            mode_dict["request_duration"]["R3"] = resource_req[2]
+            mode_dict["request_duration"]["R4"] = resource_req[3]
+
+            project_specification["modes"] = [mode_dict]
 
             parsed_input["job_specifications"][job_no] = project_specification
 
@@ -151,3 +166,25 @@ def load_j30(instance_path, verbose=False):
         parsed_input["resources"]["renewable_resources"]["renewable_availabilities"] = line
     
     return parsed_input
+
+
+def load_j30_solution(file_path, instance):
+    parameter = instance.split("_")[0][3:]
+    instance = instance.split("_")[1].split(".")[0]
+    solution = {}
+
+    with open(file_path, "r") as file:
+        line = ""
+        while not line.startswith("-----"):
+            line = file.readline()
+            
+        while line != "":
+            line = [char.strip() for char in line.split(" ") if len(char.strip()) > 0]
+
+            if line[0] == parameter and line[1] == instance:
+                solution = {"makespan": line[2], "cpu_time": line[3]}
+                break
+            
+            line = file.readline()
+
+    return solution
