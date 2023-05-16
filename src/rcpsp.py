@@ -1,5 +1,8 @@
 from docplex.cp.model import CpoModel
 from src.optimization_problem import OptimizationProblem
+import docplex.cp.utils_visu as visu
+import matplotlib.pyplot as plt
+from docplex.cp.model import CpoStepFunction
 
 
 class RCPSP(OptimizationProblem):
@@ -8,31 +11,40 @@ class RCPSP(OptimizationProblem):
 
         self.no_jobs = self._data["number_of_jobs"]  # number of activities
         self.no_renewable_resources = self._data["resources"]["renewable_resources"]["number_of_resources"]
-        self.horizon = self._data["horizon"] if "horizon" in self._data else 2^32
-        self.durations = [job["modes"][0]["duration"] for job in self._data["job_specifications"]]  # duration of each activity
-        self.successors = [job["successors"] for job in self._data["job_specifications"]] # # precedence constraints
-        self.renewable_capacities = self._data["resources"]["renewable_resources"]["renewable_availabilities"]  # available resource capacity
-        self.requests = [[self._data["job_specifications"][i]["modes"][0]["request_duration"][f"R{k+1}"] for i in range(self.no_jobs)] for k in range(self.no_renewable_resources) ]
+        self.horizon = self._data["horizon"] if "horizon" in self._data else 2 ^ 32
+        self.durations = [job["modes"][0]["duration"]
+                          for job in self._data["job_specifications"]]  # duration of each activity
+        # precedence constraints
+        self.successors = [job["successors"]
+                           for job in self._data["job_specifications"]]
+        # available resource capacity
+        self.renewable_capacities = self._data["resources"]["renewable_resources"]["renewable_availabilities"]
+        self.requests = [[self._data["job_specifications"][i]["modes"][0]["request_duration"]
+                          [f"R{k+1}"] for i in range(self.no_jobs)] for k in range(self.no_renewable_resources)]
 # [resource_request for resource_request in mode["request_duration"].values()]
 
-    def solve(self, validate=False):
+    def solve(self, validate=False, visualize=False):
         mdl = CpoModel()
 
-        x = [ mdl.interval_var(size = duration, name=f"{i}") for i, duration in enumerate(self.durations) ] # (4)
+        x = [mdl.interval_var(size=duration, name=f"{i}") for i, duration in enumerate(
+            self.durations)]  # (4)
 
-        mdl.add( [ mdl.minimize ( mdl.max( [mdl.end_of(x[i]) for i in range(self.no_jobs)] ) ) ] )# (1)
+        mdl.add([mdl.minimize(mdl.max([mdl.end_of(x[i])
+                for i in range(self.no_jobs)]))])  # (1)
 
         # mdl.add( [ mdl.sum( mdl.pulse(x[i],parsed_input["job_specifications"][i]["request_duration"][f"R{k+1}"]) for i in range(no_jobs)) <= parsed_input["resources"]["renewable_resources"]["renewable_availabilities"][k] for k in range(parsed_input["resources"]["renewable_resources"]["number_of_resources"]) ] )# (2)
-        mdl.add( [ mdl.sum( mdl.pulse(x[i], self.requests[k][i]) for i in range(self.no_jobs)) <= self.renewable_capacities[k] for k in range(self.no_renewable_resources) ] )# (2)
+        mdl.add([mdl.sum(mdl.pulse(x[i], self.requests[k][i]) for i in range(self.no_jobs))
+                <= self.renewable_capacities[k] for k in range(self.no_renewable_resources)])  # (2)
 
-        mdl.add( [mdl.end_before_start( x[i], x[successor - 1] ) for (i, job_successors) in enumerate(self.successors) for successor in job_successors] ) # (3)
+        mdl.add([mdl.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
+                in enumerate(self.successors) for successor in job_successors])  # (3)
 
         # TODO: IS THIS NEEDED?
         # Define the initial conditions
         # mdl.add(x[0].get_start() == 0)
 
         sol = mdl.solve(LogVerbosity='Terse')\
-        # sol = mdl.solve(TimeLimit=10)
+            # sol = mdl.solve(TimeLimit=10)
 
         if sol:
             if validate:
@@ -44,7 +56,10 @@ class RCPSP(OptimizationProblem):
                     print("Solution is invalid.")
                     print(e)
                     return None, None
-                
+
+            if visualize:
+                self.visualize(sol, x)
+
             print("Project completion time:", sol.get_objective_value())
             # for i in range(no_jobs):
             #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
@@ -52,12 +67,70 @@ class RCPSP(OptimizationProblem):
             print("No solution found.")
 
         return sol, x
-    
+
     def validate(self, sol, x):
-        assert sol.get_objective_value() <= self.horizon, "Project completion time exceeds horizon."
+        assert sol.get_objective_value(
+        ) <= self.horizon, "Project completion time exceeds horizon."
 
         for i, job_successors in enumerate(self.successors):
             for successor in job_successors:
-                assert sol.get_var_solution(x[i]).get_end() <= sol.get_var_solution(x[successor - 1]).get_start(), f"Job {i} ends after job {successor} starts."
+                assert sol.get_var_solution(x[i]).get_end() <= sol.get_var_solution(
+                    x[successor - 1]).get_start(), f"Job {i} ends after job {successor} starts."
 
         return True
+
+    def visualize(self, sol, x):
+        no_jobs = len(x)
+
+        if sol and visu.is_visu_enabled():
+            visu.timeline('Solution SchedOptional', 0, 110)
+            for job_number in range(no_jobs):
+                visu.sequence(name=job_number)
+                wt = sol.get_var_solution(x[job_number])
+                if wt.is_present():
+                    if wt.get_start() != wt.get_end():
+                        visu.interval(wt, "salmon", x[job_number].get_name())
+        visu.show()
+
+        # Define the data for the Gantt chart
+        print(sol.get_value(x[0]))
+        start_times = [sol.get_var_solution(
+            x[i]).get_start() for i in range(no_jobs)]
+        end_times = [sol.get_var_solution(x[i]).get_end()
+                     for i in range(no_jobs)]
+
+        # Create the Gantt chart
+        fig, ax = plt.subplots()
+        for i in range(no_jobs):
+            ax.broken_barh(
+                [(start_times[i], end_times[i] - start_times[i])], (i, 1), facecolors='blue')
+        ax.set_ylim(0, no_jobs)
+        ax.set_xlim(0, max(end_times))
+        ax.set_xlabel('Time')
+        ax.set_yticks(range(no_jobs))
+        ax.set_yticklabels(['Activity %d' % i for i in range(no_jobs)])
+        ax.grid(True)
+        plt.show()
+
+        # https://ibmdecisionoptimization.github.io/docplex-doc/cp/visu.rcpsp.py.html
+
+        if sol and visu.is_visu_enabled():
+            load = [CpoStepFunction()
+                    for j in range(self.no_renewable_resources)]
+            for i in range(no_jobs):
+                itv = sol.get_var_solution(x[i])
+                for j in range(self.no_renewable_resources):
+                    if 0 < self.requests[j][i]:
+                        load[j].add_value(
+                            itv.get_start(), itv.get_end(), requests[j][i])
+
+            visu.timeline('Solution for RCPSP ')  # + filename)
+            visu.panel('Tasks')
+            for i in range(no_jobs):
+                visu.interval(sol.get_var_solution(x[i]), i, x[i].get_name())
+            for j in range(self.no_renewable_resources):
+                visu.panel('R' + str(j+1))
+                visu.function(
+                    segments=[(0, 200, self.capacities[j])], style='area', color='lightgrey')
+                visu.function(segments=load[j], style='area', color=j)
+            visu.show()

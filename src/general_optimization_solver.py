@@ -46,8 +46,10 @@ def load_instance(path, format):
 
         instance = RCPSP(benchmark_name, instance_name, format, data, solution, {})
     elif format == "patterson":
-        raise NotImplementedError("Patterson is not implemented yet")
-        return load_patterson(path)
+        data = load_patterson(path)
+        # solution = load_patterson_solution()
+
+        instance = RCPSP(benchmark_name, instance_name, format, data, None, {})
     elif format == "jobshop":
         data = load_jobshop(path)
         # solution = load_jobshop_solution()
