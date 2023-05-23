@@ -67,7 +67,7 @@ class JobShop(OptimizationProblem):
         if sol and visu.is_visu_enabled():
             print(1, sol.get_objective_value())
             visu.timeline('Solution for job-shop ' +
-                          self._self_name, 1, sol.get_objective_value())
+                          self._instance_name, 1, sol.get_objective_value())
             visu.panel('Jobs')
             for i in range(self.no_jobs):
                 visu.sequence(name='J' + str(i),

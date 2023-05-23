@@ -122,7 +122,7 @@ class RCPSP(OptimizationProblem):
                 for j in range(self.no_renewable_resources):
                     if 0 < self.requests[j][i]:
                         load[j].add_value(
-                            itv.get_start(), itv.get_end(), requests[j][i])
+                            itv.get_start(), itv.get_end(), self.requests[j][i])
 
             visu.timeline('Solution for RCPSP ')  # + filename)
             visu.panel('Tasks')
@@ -131,6 +131,6 @@ class RCPSP(OptimizationProblem):
             for j in range(self.no_renewable_resources):
                 visu.panel('R' + str(j+1))
                 visu.function(
-                    segments=[(0, 200, self.capacities[j])], style='area', color='lightgrey')
+                    segments=[(0, 200, self.renewable_capacities[j])], style='area', color='lightgrey')
                 visu.function(segments=load[j], style='area', color=j)
             visu.show()
