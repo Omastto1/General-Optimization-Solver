@@ -45,7 +45,7 @@ class MMRCPSPSolver(Solver):
                       for successor in job_successors])
 
         # solve model
-        sol = model.solve()
+        sol = model.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
 
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')

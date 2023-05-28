@@ -3,7 +3,7 @@ from pathlib import Path
 
 from src.parsers.c15 import load_c15, load_c15_solution
 from src.parsers.j30 import load_j30, load_j30_solution
-from src.parsers.patterson import load_patterson # , load_patterson_solution
+from src.parsers.patterson import load_patterson , load_patterson_solution
 from src.parsers.jobshop import load_jobshop, load_jobshop_solution
 from docplex.cp.model import CpoModel
 
@@ -22,6 +22,7 @@ def load_raw_benchmark(directory_path, solution_path, format=None, force_dump=Tr
     benchmark_instances = {}
     for instance in directory_path.iterdir():
         if instance.is_file():
+            print(f"loading {instance}")
             instance_path = str(instance).replace("\\", "/")
             instance_name = instance_path.split("/")[-1].split(".")[0]
             instance = load_raw_instance(instance_path, solution_path, format)
@@ -54,29 +55,30 @@ def load_benchmark(directory_path):
     benchmark = Benchmark("test benchmark", benchmark_instances)
     return benchmark
 
-def load_raw_instance(path, solution_path, format):
-    benchmark_name = path.split("/")[-2]
+def load_raw_instance(path, solution_path, format, verbose=False):
+    benchmark_name = path.split("/")[-2].split(".")[0]
     instance_name = path.split("/")[-1].split(".")[0]
 
     assert format is not None, "Specify valid raw data input argument `format`"
     
     if format == "c15":
-        data = load_c15(path)
-        solution = load_c15_solution(solution_path, instance_name)
+        data = load_c15(path, verbose)
+        solution = load_c15_solution(solution_path, benchmark_name, instance_name)
 
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
     elif format == "j30":
-        data = load_j30(path)
-        solution = load_j30_solution(solution_path, instance_name)
+        data = load_j30(path, verbose)
+        solution = load_j30_solution(solution_path, benchmark_name, instance_name)
 
         instance = RCPSP(benchmark_name, instance_name, data, solution, [])
     elif format == "patterson":
-        data = load_patterson(path)
-        solution = load_patterson_solution(solution_path)
+        print(solution_path, instance_name)
+        data = load_patterson(path, verbose)
+        solution = load_patterson_solution(solution_path, instance_name)
 
         instance = RCPSP(benchmark_name, instance_name, data, solution, [])
     elif format == "jobshop":
-        data = load_jobshop(path)
+        data = load_jobshop(path, verbose)
         solution = load_jobshop_solution(solution_path, instance_name)
 
         instance = JobShop(benchmark_name, instance_name, data, solution, [])

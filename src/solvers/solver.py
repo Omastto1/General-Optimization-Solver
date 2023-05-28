@@ -1,6 +1,9 @@
 class Solver:
-    def __init__(self):
+    def __init__(self, TimeLimit=60):
         self.solved = False
+        self.TimeLimit = TimeLimit
+
+        print(f"Time limit set to {self.TimeLimit} seconds" if self.TimeLimit is not None else "Time limit not restricted")
 
     def solve_cp(self, instance, validate=False, visualize=False, force_execution=False):
         raise ValueError("CP solver not supported for {instance._instance_kind}.")

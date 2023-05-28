@@ -181,8 +181,10 @@ def load_c15(instance_path, verbose=False):
         
     return parsed_input
 
-def load_c15_solution(file_path, instance):
-    parameter = instance.split("_")[0][3:]
+def load_c15_solution(file_path, benchmark_name, instance):
+    # parameter number is placed directly after the benchmark name in the instance name
+    # e.g. j301_1.sm -> benchmark_name = "j30", parameter = 1, instance = 1
+    parameter = instance.split("_")[0][len(benchmark_name):]
     instance = instance.split("_")[1].split(".")[0]
     solution = {"feasible": False, "optimum": None, "cpu_time": None}
 
@@ -192,7 +194,7 @@ def load_c15_solution(file_path, instance):
             line = file.readline()
             
         while line != "":
-            line = [char.strip() for char in line.split(" ") if len(char.strip()) > 0]
+            line = [char.strip() for char in line.split() if len(char.strip()) > 0]
 
             if line[0] == parameter and line[1] == instance:
                 solution = {"feasible": True, "optimum": int(line[2]), "cpu_time": float(line[3])}

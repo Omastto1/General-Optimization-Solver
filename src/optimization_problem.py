@@ -77,15 +77,15 @@ class OptimizationProblem:
             if obj_value == self._solution["optimum"]:
                 print("Solution is optimal.")
             else:
-                ratio = obj_value / self._solution["optimum"]
-                print(f"Solution is {ratio} worse than the optimum.")
+                ratio = round((obj_value / self._solution["optimum"] - 1) * 100, 1)
+                print(f"Solution is {ratio} % worse than the optimum.")
         else:
             if obj_value >= self._solution["bounds"]["lower"]:
-                ratio = obj_value / self._solution["bounds"]["lower"]
-                print(f"Solution is {ratio} worse than the lower bound.")
+                ratio = round((obj_value / self._solution["bounds"]["lower"] - 1) * 100, 1)
+                print(f"Solution is {ratio} % worse than the lower bound.")
             else:
-                ratio = obj_value / self._solution["bounds"]["upper"]
-                print(f"Solution is {ratio} worse than the uppter bound.")
+                ratio = round((obj_value / self._solution["bounds"]["upper"] - 1) * 100, 1)
+                print(f"Solution is {ratio} % worse than the upper bound.")
  
     def update_run_history(self, sol, variables, method):
         timestamp_now = datetime.datetime.now()

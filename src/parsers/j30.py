@@ -168,24 +168,39 @@ def load_j30(instance_path, verbose=False):
     return parsed_input
 
 
-def load_j30_solution(file_path, instance):
-    parameter = instance.split("_")[0][3:]
+def load_j30_solution(file_path, benchmark_name, instance):
+    # parameter number is placed directly after the benchmark name in the instance name
+    # e.g. j301_1.sm -> benchmark_name = "j30", parameter = 1, instance = 1
+    parameter = instance.split("_")[0][len(benchmark_name):]
     instance = instance.split("_")[1].split(".")[0]
     solution = {"feasible": False, "optimum": None, "cpu_time": None}
+    print(f"Loading solution for {benchmark_name} {parameter} {instance} ...")
 
     with open(file_path, "r") as file:
         line = ""
+
+        row = -1
         while not line.startswith("-----"):
             line = file.readline()
+            row += 1
+
+            if row > 100000:
+                raise Exception("Did not encounter `------` line separating solution from header, cancelling ...")
             
         while line != "":
-            line = [char.strip() for char in line.split(" ") if len(char.strip()) > 0]
+            line = [char.strip() for char in line.split() if len(char.strip()) > 0]
 
             if line[0] == parameter and line[1] == instance:
                 if file_path.split(".")[-2].endswith("opt"):
                     solution = {"feasible": True, "optimum": int(line[2]), "cpu_time": float(line[3])}
                 elif file_path.split(".")[-2].endswith("lb"):
-                    solution = {"feasible": True, "optimum": None, "bounds":{"upper": int(line[2]), "lower": int(line[3])}}
+                    upper_bound = int(line[2])
+                    lower_bound = int(line[3])
+
+                    if upper_bound == lower_bound:  # optimum is known
+                        solution = {"feasible": True, "optimum": lower_bound}
+                    else:
+                        solution = {"feasible": True, "optimum": None, "bounds":{"upper": int(line[2]), "lower": int(line[3])}}
                 else:
                     raise Exception("Unknown solution format")
 
