@@ -125,7 +125,7 @@ def load_c15(instance_path, verbose=False):
                 mode = int(line[1].strip())
             else:
                 mode = int(line[0].strip())
-            print(mode, project_specification["no_modes"])
+            print_verbose(f"mode {mode}", verbose)
             assert mode <= project_specification["no_modes"]
             # request_duration["mode"] = mode
             if len(line) == 7:
@@ -143,7 +143,7 @@ def load_c15(instance_path, verbose=False):
                 resource_req = [int(req.strip()) for req in line[3:7]]
             else:
                 resource_req = [int(req.strip()) for req in line[-4:]]
-            print(resource_req)
+            print_verbose(resource_req, verbose)
             mode_description["request_duration"] = {}
             mode_description["request_duration"]["R1"] = resource_req[0]
             mode_description["request_duration"]["R2"] = resource_req[1]
@@ -184,7 +184,7 @@ def load_c15(instance_path, verbose=False):
 def load_c15_solution(file_path, instance):
     parameter = instance.split("_")[0][3:]
     instance = instance.split("_")[1].split(".")[0]
-    solution = {}
+    solution = {"feasible": False, "optimum": None, "cpu_time": None}
 
     with open(file_path, "r") as file:
         line = ""
@@ -195,7 +195,7 @@ def load_c15_solution(file_path, instance):
             line = [char.strip() for char in line.split(" ") if len(char.strip()) > 0]
 
             if line[0] == parameter and line[1] == instance:
-                solution = {"makespan": line[2], "cpu_time": line[3]}
+                solution = {"feasible": True, "optimum": int(line[2]), "cpu_time": float(line[3])}
                 break
             
             line = file.readline()

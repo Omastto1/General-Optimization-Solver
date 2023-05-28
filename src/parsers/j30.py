@@ -171,7 +171,7 @@ def load_j30(instance_path, verbose=False):
 def load_j30_solution(file_path, instance):
     parameter = instance.split("_")[0][3:]
     instance = instance.split("_")[1].split(".")[0]
-    solution = {}
+    solution = {"feasible": False, "optimum": None, "cpu_time": None}
 
     with open(file_path, "r") as file:
         line = ""
@@ -182,7 +182,13 @@ def load_j30_solution(file_path, instance):
             line = [char.strip() for char in line.split(" ") if len(char.strip()) > 0]
 
             if line[0] == parameter and line[1] == instance:
-                solution = {"makespan": line[2], "cpu_time": line[3]}
+                if file_path.split(".")[-2].endswith("opt"):
+                    solution = {"feasible": True, "optimum": int(line[2]), "cpu_time": float(line[3])}
+                elif file_path.split(".")[-2].endswith("lb"):
+                    solution = {"feasible": True, "optimum": None, "bounds":{"upper": int(line[2]), "lower": int(line[3])}}
+                else:
+                    raise Exception("Unknown solution format")
+
                 break
             
             line = file.readline()
