@@ -9,7 +9,7 @@ def load_patterson(instance_path, verbose=False):
     with open(instance_path) as file:
         # 1. line: blank line
         line = file.readline()
-        while len(line) == 0:
+        while len(line.strip()) == 0:
             line = file.readline()
         print(line)
         # 2. line: Number of activities (starting with node 1 and two dummy nodes inclusive), Number of renewable resource
@@ -29,7 +29,7 @@ def load_patterson(instance_path, verbose=False):
         
         # 4. line: blank line
         line = file.readline()
-        while len(line) == 0:
+        while len(line.strip()) == 0:
             line = file.readline()
         print(line)
 
