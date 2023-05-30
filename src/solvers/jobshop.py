@@ -66,6 +66,6 @@ class JobShopSolver(Solver):
         Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
         variables = Solution(job_operations, machine_operations)
 
-        instance.update_run_history(sol, variables, "CP")
+        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
 
         return sol, variables

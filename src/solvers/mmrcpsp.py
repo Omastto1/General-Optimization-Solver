@@ -85,7 +85,20 @@ class MMRCPSPSolver(Solver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        obj_value = sol.get_objective_value()
+        # obj_value = sol.get_objective_value()
+        # obj_value = sol.get_objective_value()
+        print(vars(sol))
+        print("A")
+        print(sol.solution)
+        
+        print(sol.solution.get_objective_bounds())
+        print(sol.solution.get_objective_bounds())
+
+        print(type(sol.solution))
+
+        print(sol.solution.objs)
+        print(sol.solution["objs"])
+        obj_value = sol.objective_value
         print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 
@@ -95,7 +108,7 @@ class MMRCPSPSolver(Solver):
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         variables = Solution(xs)
 
-        instance.update_run_history(sol, variables, "CP")
+        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
 
         return sol, variables
 

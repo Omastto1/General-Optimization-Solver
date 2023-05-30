@@ -48,8 +48,22 @@ class RCPSPSolver(Solver):
 
             # for i in range(no_jobs):
             #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
+        
+            print(sol.solution.get_objective_bounds())
+            print(sol.solution.get_objective_gaps())
+            print(sol.solution.get_objective_values())
+
+            # obj_value = sol.objective_value
+            obj_value = sol.get_objective_values()[0]
+            print('Objective value:', obj_value)
+            instance.compare_to_reference(obj_value)
         else:
-            print("No solution found.")
+            print("No solution found.")        
+
+        Solution = namedtuple("Solution", ['xs'])
+        variables = Solution(x)
+
+        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
 
         # print solution
         if sol.get_solve_status() == 'Optimal':
@@ -60,14 +74,6 @@ class RCPSPSolver(Solver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        obj_value = sol.get_objective_value()
-        print('Objective value:', obj_value)
-        instance.compare_to_reference(obj_value)
-
-        Solution = namedtuple("Solution", ['xs'])
-        variables = Solution(x)
-
-        instance.update_run_history(sol, variables, "CP")
 
         return sol, variables
 

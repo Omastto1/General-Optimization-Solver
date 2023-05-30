@@ -17,20 +17,22 @@ class Benchmark:
     def __repr__(self):
         return "Benchmark"
     
-    def solve(self, solver, method="CP"):
+    def solve(self, solver, method="CP", force_dump=True):
         i = 1
         for instance_name, instance in self._instances.items():
             print("solving", instance_name)
             solver.solve(instance, method)
-            if i == 10:
-                print("Ending after 10 iterations")
-                break
+            # if i == 10:
+            #     print("Ending after 10 iterations")
+            #     break
             i += 1
+
+        if force_dump:
+            self.dump()
 
     def dump(self):
         print("Dumping instances to their respective paths")
         for instance_name, instance in self._instances.items():
-            print(instance_name)
             instance.dump_json()
 
 
@@ -54,7 +56,7 @@ class OptimizationProblem:
     def load(self, path):
         pass
 
-    def dump_json(self):
+    def dump_json(self, verbose=False):
         instance_dict = {
             "benchmark_name": self._benchmark_name,
             "instance_name": self._instance_name,
@@ -68,7 +70,10 @@ class OptimizationProblem:
         Path(benchmark_directory).mkdir(parents=True, exist_ok=True)
 
         path = benchmark_directory + f"{self._instance_name}.json"
-        print("dumping to", path)
+
+        if verbose:
+            print("dumping to", path)
+
         with open(path, "w+") as f:
             json.dump(instance_dict, f, indent=4, default=str)
 
@@ -87,26 +92,41 @@ class OptimizationProblem:
                 ratio = round((obj_value / self._solution["bounds"]["upper"] - 1) * 100, 1)
                 print(f"Solution is {ratio} % worse than the upper bound.")
  
-    def update_run_history(self, sol, variables, method):
+    def update_run_history(self, sol, variables, method, time_limit):
         timestamp_now = datetime.datetime.now()
 
-        self._run_history.append({
-            "timestamp": timestamp_now,
-            "method": method,
-            "solution_value": sol.get_objective_value(),
-            "solution_info": sol.write_in_string(),
-            "solve_status": sol.get_solve_status(),
-            "solve_time": sol.get_solve_time()
-        })
+        if sol:
+            self._run_history.append({
+                "timestamp": timestamp_now,
+                "method": method,
+                "solution_value": sol.get_objective_values()[0],
+                "solution_info": sol.write_in_string(),
+                "solve_status": sol.get_solve_status(),
+                "solve_time": sol.get_solve_time(),
+                "solver_config": {
+                    "TimeLimit": time_limit
+                }
+            })
+        else:
+            self._run_history.append({
+                "timestamp": timestamp_now,
+                "method": method,
+                "solution_value": -1,
+                "solve_status": "No solution found",
+                "solve_time": time_limit,
+                "solver_config": {
+                    "TimeLimit": time_limit
+                }
+            })
     
     def reset_run_history(self):
         self._run_history = []
     
     def skip_on_optimal_solution(self):
         is_solved_optimally = self._run_history[-1]["solution_value"] == self._solution["optimum"]
-        is_solved_better_than_upper_bound = self._run_history[-1]["solution_value"] <= self._solution["upper_bound"]
+        is_solved_better_than_upper_bound = "upper_bound" in self._solution and self._run_history[-1]["solution_value"] <= self._solution["upper_bound"]
         if is_solved_optimally or is_solved_better_than_upper_bound:
-            if self.run_history[-1]["solution_value"] == self._solution["upper_bount"]:
+            if self._run_history[-1]["solution_value"] == self._solution["optimum"]:
                 print("Instance already solved optimally.")
                 print("Skipping...")
                 return True
