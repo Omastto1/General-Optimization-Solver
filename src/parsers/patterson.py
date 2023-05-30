@@ -11,7 +11,6 @@ def load_patterson(instance_path, verbose=False):
         line = file.readline()
         while len(line.strip()) == 0:
             line = file.readline()
-        print(line)
         # 2. line: Number of activities (starting with node 1 and two dummy nodes inclusive), Number of renewable resource
         number_of_jobs, number_of_renewable_resources = [int(number.strip()) for number in line.split(" ") if len(number.strip()) > 0]
         parsed_input["number_of_jobs"] = number_of_jobs
@@ -31,7 +30,6 @@ def load_patterson(instance_path, verbose=False):
         line = file.readline()
         while len(line.strip()) == 0:
             line = file.readline()
-        print(line)
 
         parsed_input["job_specifications"] = []
         # following lines
@@ -40,7 +38,6 @@ def load_patterson(instance_path, verbose=False):
         line = [int(number.strip()) for number in line.split(" ") if len(number.strip()) > 0]
         ending_line = [0] + [0] * number_of_renewable_resources + [0]  # duration, renewable resources consumption, number of succesors
         while line != ending_line :
-            print(line)
             job_specification = {}
 
             job_specification["job_nr"] = job_no
@@ -98,16 +95,14 @@ def load_patterson(instance_path, verbose=False):
 
 def load_patterson_solution(file_path, instance_name):
     solution = {"feasible": False, "optimum": None}
-    print(instance_name)
-    print("aaaaa")
 
     instances_results = pd.read_excel(file_path)
 
     print(instances_results[instances_results["Instance name"] == instance_name])
-    instance_result = instances_results[instances_results["Instance name"] == instance_name].iloc[0]
-
-
-    assert instance_result.shape == (3,), "Instance reference result not found"
+    instance_result = instances_results[instances_results["Instance name"] == instance_name]
+    
+    assert instance_result.shape[0] == 1, f"Found zero or two and more reference results with the {instance_name} instance name"
+    instance_result = instance_result.iloc[0]
 
     upper_bound = int(instance_result["UB-lit"])
     lower_bound = int(instance_result["LB-lit"])
