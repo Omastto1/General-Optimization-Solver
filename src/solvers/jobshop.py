@@ -46,7 +46,7 @@ class JobShopSolver(Solver):
             if visualize:
                 instance.visualize(sol, job_operations, machine_operations)
 
-            print("Project completion time:", sol.get_objective_value())
+            print("Project completion time:", sol.get_objective_values()[0])
         else:
             print("No solution found.")
             
@@ -59,7 +59,7 @@ class JobShopSolver(Solver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        obj_value = sol.get_objective_value()
+        obj_value = sol.get_objective_values()[0]
         print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 

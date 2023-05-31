@@ -87,18 +87,8 @@ class MMRCPSPSolver(Solver):
 
         # obj_value = sol.get_objective_value()
         # obj_value = sol.get_objective_value()
-        print(vars(sol))
-        print("A")
-        print(sol.solution)
-        
-        print(sol.solution.get_objective_bounds())
-        print(sol.solution.get_objective_bounds())
 
-        print(type(sol.solution))
-
-        print(sol.solution.objs)
-        print(sol.solution["objs"])
-        obj_value = sol.objective_value
+        obj_value = sol.get_objective_values()[0]
         print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 
