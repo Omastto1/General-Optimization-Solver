@@ -546,7 +546,7 @@ class Cvrptw:
         log = self.sol.solver_log
 
         # Define the regex pattern
-        pattern = r"\*\s+(\d+\.\d+)\s+\d+\s+(\d+\.\d+s)"
+        pattern = r"\*\s+(\d+\.\d+)\s+\w+\s+(\d+\.\d+s)"
 
         # Find all matches of numbers and times in the log using the regex pattern
         matches = re.findall(pattern, log, re.MULTILINE)
@@ -574,18 +574,23 @@ class Cvrptw:
             self.instance['our_best_solution'] = self.solution
 
     def display_solution(self):
-        display_solution(self.sol, self.data_model)
+        display_solution(self.sol, self.data_model)    # TODO: convert to paths and allow to pass solution
 
     def validate_solution(self):
-        validate_solution(self.sol, self.data_model)
+        validate_solution(self.sol, self.data_model)    # TODO: convert to paths and allow to pass solution
 
     def visualize_solution(self):
-        visualize_solution(self.sol, self.data_model, self.data)
+        visualize_solution(self.sol, self.data_model, self.data)    # TODO: convert to paths and allow to pass solution
         # visualize_solution(solution, data_model, cvrptw_prob)
 
-    def visualize_progress(self):
-        numbers = [entry[0] for entry in self.solution['search_progress']]
-        times = [entry[1] for entry in self.solution['search_progress']]
+    def visualize_progress(self, solution=None):
+        if solution is None:
+            solution = self.solution
+        if solution is None:
+            solution = self.instance['solutions'][-1]
+
+        numbers = [entry[0] for entry in solution['search_progress']]
+        times = [entry[1] for entry in solution['search_progress']]
 
         best_known_solution = float(self.instance['best_known_solution']['Distance'])
 
