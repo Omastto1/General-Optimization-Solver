@@ -5,11 +5,13 @@ from src.parsers.c15 import load_c15, load_c15_solution
 from src.parsers.j30 import load_j30, load_j30_solution
 from src.parsers.patterson import load_patterson , load_patterson_solution
 from src.parsers.jobshop import load_jobshop, load_jobshop_solution
+from src.parsers.strip_packing_2d import load_strip_packing, load_strip_packing_solution
 from docplex.cp.model import CpoModel
 
 from src.mm_rcpsp import MMRCPSP
 from src.rcpsp import RCPSP
 from src.jobshop import JobShop
+from src.strip_packing_2d import StripPacking2D
 from src.optimization_problem import Benchmark
 
 
@@ -82,6 +84,11 @@ def load_raw_instance(path, solution_path, format, verbose=False):
         solution = load_jobshop_solution(solution_path, instance_name)
 
         instance = JobShop(benchmark_name, instance_name, data, solution, [])
+    elif format == "strippacking":
+        data = load_strip_packing(path, verbose)
+        solution = load_strip_packing_solution(solution_path, instance_name)
+
+        instance = StripPacking2D(benchmark_name, instance_name, data, solution, [])
     
     return instance
 
@@ -105,6 +112,8 @@ def load_instance(path):
         instance = RCPSP(benchmark_name, instance_name, data, solution, run_history)
     elif instance_kind == "JOBSHOP":
         instance = JobShop(benchmark_name, instance_name, data, solution, run_history)
+    elif instance_kind == "2DSTRIPPACKING":
+        instance = StripPacking2D(benchmark_name, instance_name, data, solution, run_history)
     else:
         raise ValueError("Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP")
 
