@@ -1,7 +1,7 @@
 import json
 
 
-def load_jobshop(path):
+def load_jobshop(path, verbose):
     with open(path, "r") as file:
         line = file.readline()
 
@@ -14,7 +14,7 @@ def load_jobshop(path):
         durations = []
         for job in range(int(no_jobs)):
             line = file.readline()
-            print(line.split(" "))
+            # print(line.split(" "))
             numbers = [int(number.strip()) for number in line.split(" ") if len(number.strip())]
             job_machines = numbers[::2]
             job_durations = numbers[1::2]
