@@ -98,7 +98,6 @@ def load_patterson_solution(file_path, instance_name):
 
     instances_results = pd.read_excel(file_path)
 
-    print(instances_results[instances_results["Instance name"] == instance_name])
     instance_result = instances_results[instances_results["Instance name"] == instance_name]
     
     assert instance_result.shape[0] == 1, f"Found zero or two and more reference results with the {instance_name} instance name"
