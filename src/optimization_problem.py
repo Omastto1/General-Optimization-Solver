@@ -84,13 +84,15 @@ class OptimizationProblem:
             else:
                 ratio = round((obj_value / self._solution["optimum"] - 1) * 100, 1)
                 print(f"Solution is {ratio} % worse than the optimum.")
-        else:
+        elif self._solution["bounds"] is not None:
             if obj_value >= self._solution["bounds"]["lower"]:
                 ratio = round((obj_value / self._solution["bounds"]["lower"] - 1) * 100, 1)
                 print(f"Solution is {ratio} % worse than the lower bound.")
             else:
                 ratio = round((obj_value / self._solution["bounds"]["upper"] - 1) * 100, 1)
                 print(f"Solution is {ratio} % worse than the upper bound.")
+        else:
+            print("There in no known reference solution in current data")
  
     def update_run_history(self, sol, variables, method, time_limit):
         timestamp_now = datetime.datetime.now()
