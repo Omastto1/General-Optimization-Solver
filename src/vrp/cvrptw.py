@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from collections import namedtuple
 import platform
 import re
+import multiprocessing
 
 # os.environ["PYTHONPATH"] = "/home/lukesmi1/Cplex/cplex/python/3.10/x86-64_linux"
 # print("os.environ[\"PYTHONPATH\"]=", os.environ["PYTHONPATH"])
@@ -310,21 +311,11 @@ def build_model(cvrp_prob):
     # KPIs
     mdl.add_kpi(used, 'Used')
 
-    # Solver params setting
-    params = CpoParameters()
-    # params.SearchType = 'Restart'
-    params.LogPeriod = 100000
-    params.LogVerbosity = 'Terse'
-    # params.Workers = 2
-
-    mdl.set_parameters(params=params)
-
     data.vrp = vrp
     data.prev = prev
     data.veh = veh
     data.load = load
     data.start_time = start_time
-    data.params = params
 
     return mdl, data
 
@@ -526,7 +517,18 @@ class Cvrptw:
         with open(fout, 'w') as f:
             json.dump(self.instance, f)
 
-    def solve(self, tlim, execfile='/home/lukesmi1/Cplex/cpoptimizer/bin/x86-64_linux/cpoptimizer'):
+    def solve(self, tlim, workers=None, execfile='/home/lukesmi1/Cplex/cpoptimizer/bin/x86-64_linux/cpoptimizer'):
+        # Solver params setting
+        params = CpoParameters()
+        # params.SearchType = 'Restart'
+        params.LogPeriod = 100000
+        params.LogVerbosity = 'Terse'
+        if workers is not None:
+            params.Workers = workers
+
+        self.model.set_parameters(params=params)
+        self.data_model.params = params
+
         if platform.system() == 'Windows' and execfile == '/home/lukesmi1/Cplex/cpoptimizer/bin/x86-64_linux/cpoptimizer':
             self.sol = self.model.solve(TimeLimit=tlim)
         else:
@@ -539,7 +541,8 @@ class Cvrptw:
         # Add to solution time from solution, number of cores, solver version and current time
         self.solution['time'] = self.sol.solver_infos['TotalTime']
         self.solution['reason'] = self.sol.solver_infos['SearchStopCause']
-        self.solution['n_cores'] = self.sol.solver_infos['EffectiveWorkers']
+        self.solution['n_workers'] = self.sol.solver_infos['EffectiveWorkers']
+        self.solution['n_cores'] = multiprocessing.cpu_count()
         self.solution['solver_version'] = self.sol.process_infos['SolverVersion']
         self.solution['date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 

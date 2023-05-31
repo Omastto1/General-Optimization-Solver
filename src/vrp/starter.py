@@ -3,10 +3,11 @@ from cvrptw import *
 
 
 def main(args):
-    if len(args) != 2:
-        print('Usage: python starter.py <data_folder> <output_folder>')
+    if len(args) != 3:
+        print('Usage: python starter.py <data_folder> <output_folder> <number of available cores>')
         return
     data_folder = args[0]
+    cores = args[3]
 
     for folder_name in os.listdir(data_folder):
         if not os.path.isdir(os.path.join(data_folder, folder_name)):
@@ -20,7 +21,7 @@ def main(args):
             instance_name = filename.split('.')[0]  # Extract the instance name from the file name
             instance_path = os.path.join(folder_path, filename)
 
-            tlim = 60*15  # 15 minutes
+            tlim = 60*1  # 15 minutes
 
             print('instance_name:', instance_name)
 
@@ -29,7 +30,9 @@ def main(args):
 
             print('best_known_solution:', instance.instance['best_known_solution']['Distance'])
 
-            # instance.solve(tlim)
+            instance.solve(tlim, workers=cores)
+
+            print('solution:', instance.solution['total_distance'])
 
             output = os.path.join(args[1], folder_name, instance_name + '.json')
             if not os.path.exists(os.path.dirname(output)):
