@@ -10,7 +10,8 @@ if instance_no % 10 == 0:
     parameter = 10
 else:
     instance = instance_no // 10 + 1
-    parameter = instance % 10
+    parameter = instance_no % 10
 
 instance = load_raw_instance(f"raw_data/rcpsp/j30.sm/j30{instance}_{parameter}.sm", "raw_data/rcpsp/j30opt.sm", "j30")
 RCPSPSolver(no_workers=14).solve(instance)
+instance.dump_json()
