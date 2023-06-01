@@ -1,0 +1,60 @@
+19
+raw_data/rcpsp/CV.xlsx cv19
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_88 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:52): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                             VarCumulAtom_91 = pulse("3", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:261): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_104 = pulse("16", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:424): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_114 = pulse("26", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:46:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_118 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:46:252): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_134 = pulse("16", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:46:412): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_144 = pulse("26", 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 28 variables, 49 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.00s (0.00s extraction + 0.00s propagation)
+ !  . Log search space  : 148.3 (before), 148.3 (after)
+ !  . Memory usage      : 583.1 kB (before), 583.1 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         28                 -
+ + New bound is 18
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            54       57  1.08s        1      (gap is 66.67%)
+ *            51      113  1.08s        1      (gap is 64.71%)
+              51     3055          5    1   F        -
+ + New bound is 41 (gap is 19.61%)
+ ! Using failure-directed search.
+ *            50    11394  1.08s        3      (gap is 18.00%)
+              50    28862          1    1   F    17 <= startOf(14)
+ + New bound is 42 (gap is 16.00%)
+              50    50367         16    1   F     9 <= startOf(1)
+ + New bound is 43 (gap is 14.00%)
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 3 solutions found.
+ ! Best objective         : 50 (gap is 14.00%)
+ ! Best bound             : 43
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 10836059
+ ! Number of fails        : 3148809
+ ! Total memory usage     : 10.3 MB (10.3 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 60.04s (60.04s engine + 0.00s extraction)
+ ! Search speed (br. / s) : 180480.7
+ ! ----------------------------------------------------------------------------
+(43,)
+(0.14,)
+(50,)
+Objective value: 50
+Solution is 16.3 % worse than the lower bound.
+Feasible solution found
