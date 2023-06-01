@@ -6,6 +6,7 @@ from src.parsers.j30 import load_j30, load_j30_solution
 from src.parsers.patterson import load_patterson , load_patterson_solution
 from src.parsers.jobshop import load_jobshop, load_jobshop_solution
 from src.parsers.strip_packing_2d import load_strip_packing, load_strip_packing_solution
+from src.parsers.mmlib import load_mmlib, load_mmlib_solution
 from docplex.cp.model import CpoModel
 
 from src.mm_rcpsp import MMRCPSP
@@ -95,6 +96,11 @@ def load_raw_instance(path, solution_path, format, verbose=False):
         solution = load_strip_packing_solution(solution_path, instance_name)
 
         instance = StripPacking2D(benchmark_name, instance_name, data, solution, [])
+    elif format == "mmlib":
+        data = load_mmlib(path, verbose)
+        solution = load_mmlib_solution(solution_path, instance_name)
+
+        instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
     
     return instance
 

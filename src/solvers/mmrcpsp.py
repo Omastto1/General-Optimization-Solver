@@ -23,6 +23,13 @@ class MMRCPSPSolver(Solver):
         ys = [[model.interval_var(size=instance.durations[i][j], name=f'task_{i}_mode_{j}', optional=True) for j in range(
             instance.no_modes_list[i])] for i in tasks]
 
+        cost = model.integer_var(0, 1000000, name="cost")
+
+        model.add(cost == model.max(model.end_of(x) for x in xs))
+
+        if "optimum" in instance._solution and instance._solution["optimum"] is not None:
+            model.add(cost >= instance._solution["optimum"])
+
         model.add(model.minimize(model.max(model.end_of(x) for x in xs)))
 
         for i in tasks:
