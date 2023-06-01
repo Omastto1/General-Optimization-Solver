@@ -22,7 +22,7 @@
 # force-stopped by the server. If you make the expected time too long, it will
 # take longer for the job to start. Here, we say the job will take 5 minutes.
 #              d-hh:mm:ss
-# SBATCH --time=0-00:01:00
+# SBATCH --time=0-00:01:10
 
 # Define the partition on which the job shall run. May be omitted.
 # See 'System configuration' for info about available partitionss

@@ -22,7 +22,7 @@
 # force-stopped by the server. If you make the expected time too long, it will
 # take longer for the job to start. Here, we say the job will take 5 minutes.
 #              d-hh:mm:ss
-# SBATCH --time=0-00:01:10
+# SBATCH --time=0-00:01:00
 
 # Define the partition on which the job shall run. May be omitted.
 # See 'System configuration' for info about available partitionss
@@ -58,7 +58,7 @@
 # time sleep 10
 #sleep 10
 echo $1
-python run_c15_1_instance.py $1
+python run_mmlib50_1_instance.py $1
 
 # After the job is done we copy our output back to $SLURM_SUBMIT_DIR
 # cp ${SCRATCH_DIRECTORY}/my_output ${SLURM_SUBMIT_DIR}
