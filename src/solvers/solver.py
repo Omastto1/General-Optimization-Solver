@@ -1,9 +1,17 @@
+from docplex.cp.model import CpoParameters
+
 class Solver:
     def __init__(self, TimeLimit=60):
         self.solved = False
-        self.TimeLimit = TimeLimit
+        # self.TimeLimit = TimeLimit
+        self.params = CpoParameters()
+        # params.SearchType = 'Restart'
+        # self.params.LogPeriod = 100000
+        self.params.LogVerbosity = 'Terse'
+        self.params.TimeLimit = TimeLimit
+        # params.Workers = 2
 
-        print(f"Time limit set to {self.TimeLimit} seconds" if self.TimeLimit is not None else "Time limit not restricted")
+        print(f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
 
     def solve_cp(self, instance, validate=False, visualize=False, force_execution=False):
         raise ValueError("CP solver not supported for {instance._instance_kind}.")

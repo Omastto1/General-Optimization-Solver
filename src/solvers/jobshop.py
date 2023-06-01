@@ -11,6 +11,7 @@ class JobShopSolver(Solver):
                 return None, None
 
         model = CpoModel()
+        model.set_parameters(params=self.params)
 
         job_operations = [[model.interval_var(name=f"J_{job}_{order_index}", size=instance.durations[job][order_index])
                            for order_index in range(instance.no_machines)] for job in range(instance.no_jobs)]
@@ -66,6 +67,6 @@ class JobShopSolver(Solver):
         Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
         variables = Solution(job_operations, machine_operations)
 
-        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
+        instance.update_run_history(sol, variables, "CP", self.params)
 
         return sol, variables

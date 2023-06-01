@@ -12,6 +12,7 @@ class MMRCPSPSolver(Solver):
 
         # define model
         model = CpoModel()
+        model.set_parameters(params=self.params)
 
         # define variables
         tasks = range(instance.no_jobs)
@@ -98,7 +99,7 @@ class MMRCPSPSolver(Solver):
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         variables = Solution(xs)
 
-        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
+        instance.update_run_history(sol, variables, "CP", self.params)
 
         return sol, variables
 

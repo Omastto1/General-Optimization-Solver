@@ -11,6 +11,7 @@ class StripPacking2DSolver(Solver):
                 return None, None
 
         model = CpoModel()
+        model.set_parameters(params=self.params)
 
         xs = [model.interval_var(name=f'element_{i}')
               for i in range(instance.no_elements)]
@@ -38,7 +39,7 @@ class StripPacking2DSolver(Solver):
             model.add(model.max(model.end_of(ys[level][i]) for i in range(instance.no_elements)) <= instance.strip_width)
 
         print("Using 10 second time limit")
-        sol = model.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
+        sol = model.solve()  # TimeLimit=self.TimeLimit, LogVerbosity='Terse'
 
         # if sol:
         #     if validate:
@@ -78,6 +79,6 @@ class StripPacking2DSolver(Solver):
             instance.no_elements) if sol.get_var_solution(ys[level][i]).is_present()]
         variables = Solution(xs)
 
-        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
+        instance.update_run_history(sol, variables, "CP", self.params)
 
         return sol, variables
