@@ -18,17 +18,16 @@ class JobShopSolver(Solver):
         
         cost = model.integer_var(0, 1000000, name="cost")
         
-        model.add(cost==[model.minimize(model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))] +
-            [model.end_before_start(job_operations[i][j-1], job_operations[i][j])
-             for i in range(instance.no_jobs) for j in range(instance.no_machines) if 0 < j])
+        model.add(cost == model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))
         
-        if ["optimum"] in instance._solution and instance._solution["optimum"] is not None:
+        if "optimum" in instance._solution and instance._solution["optimum"] is not None:
             model.add(cost >= instance._solution["optimum"])
-        # model.add(
-        #     [model.minimize(model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))] +
-        #     [model.end_before_start(job_operations[i][j-1], job_operations[i][j])
-        #      for i in range(instance.no_jobs) for j in range(instance.no_machines) if 0 < j]
-        # )
+        
+        model.add(
+            [model.minimize(model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))] +
+            [model.end_before_start(job_operations[i][j-1], job_operations[i][j])
+             for i in range(instance.no_jobs) for j in range(instance.no_machines) if 0 < j]
+        )
 
         # [ model.no_overlap( job_operations[job][machine_index] for job in range(instance.no_jobs) for machine_index in range(instance.no_machines) if instance.machines[job][machine_index] == k ) for k in range(instance.no_machines) ] +
         machine_operations = [[] for m in range(instance.no_machines)]
