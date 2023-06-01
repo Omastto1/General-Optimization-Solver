@@ -1,8 +1,12 @@
 import datetime
 import json
+import re
+import multiprocessing
 
 from pathlib import Path
 from typing import Optional
+
+from src.utils import convert_time_to_seconds
 
 
 class Benchmark:
@@ -94,8 +98,20 @@ class OptimizationProblem:
         else:
             print("There in no known reference solution in current data")
  
-    def update_run_history(self, sol, variables, method, time_limit):
-        timestamp_now = datetime.datetime.now()
+    def update_run_history(self, sol, variables, method, solver_params):
+        timestamp_now = datetime.datetime.now()\
+        
+        log = sol.solver_log
+
+        # Define the regex pattern
+        pattern = r"\*\s+(\d+)\s+(\d+)\s+(\d+\.\d+s)"
+
+        # Find all matches of numbers and times in the log using the regex pattern
+        matches = re.findall(pattern, log, re.MULTILINE)
+
+        # Convert minutes and hours into seconds and store the results
+        result = [[int(match[0]), int(match[1]), match[2]] for match in matches]
+        result = convert_time_to_seconds(result)
 
         if sol:
             self._run_history.append({
@@ -106,8 +122,12 @@ class OptimizationProblem:
                 "solve_status": sol.get_solve_status(),
                 "solve_time": sol.get_solve_time(),
                 "solver_config": {
-                    "TimeLimit": time_limit
-                }
+                    "TimeLimit": solver_params.TimeLimit,
+                    "NoWorkers": sol.solver_infos['EffectiveWorkers'],
+                    "NoCores": multiprocessing.cpu_count(),
+                    "SolverVersion": sol.process_infos['SolverVersion']
+                },
+                "solution_progress": result
             })
         else:
             self._run_history.append({
@@ -115,10 +135,14 @@ class OptimizationProblem:
                 "method": method,
                 "solution_value": -1,
                 "solve_status": "No solution found",
-                "solve_time": time_limit,
+                "solve_time": solver_params.TimeLimit,
                 "solver_config": {
-                    "TimeLimit": time_limit
-                }
+                    "TimeLimit": solver_params.TimeLimit,
+                    "NoWorkers": sol.solver_infos['EffectiveWorkers'],
+                    "NoCores": multiprocessing.cpu_count(),
+                    "SolverVersion": sol.process_infos['SolverVersion']
+                },
+                "solution_progress": []
             })
     
     def reset_run_history(self):
