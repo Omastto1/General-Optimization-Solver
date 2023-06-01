@@ -5,14 +5,15 @@
 ##############################
 
 # Give your job a name, so you can recognize it in the queue overview
-# SBATCH --job-name=omastto1_test
+# SBATCH --job-name=rcpsp_j30
 
 # Define, how many nodes you need. Here, we ask for 1 node.
 # 
 # See 'System configuration' part of this manual for information about
 # available cores.
-# SBATCH --nodes=20
-# SBATCH --ntasks=10
+# SBATCH --nodes=1
+# SBATCH --ntasks=1
+# SBATCH --cpus-per-task=24
 # You can further define the number of tasks with --ntasks-per-*
 # See "man sbatch" for details. e.g. --ntasks=4 will ask for 4 cpus.
 
@@ -21,7 +22,7 @@
 # force-stopped by the server. If you make the expected time too long, it will
 # take longer for the job to start. Here, we say the job will take 5 minutes.
 #              d-hh:mm:ss
-# SBATCH --time=0-01:00:00
+# SBATCH --time=0-00:00:10
 
 # Define the partition on which the job shall run. May be omitted.
 # See 'System configuration' for info about available partitionss
@@ -30,7 +31,7 @@
 # --mem will define memory per node and
 # --mem-per-cpu will define memory per CPU/core. Choose one of those.
 ## SBATCH --mem-per-cpu=1500MB
-#SBATCH --mem=32GB    # this one is not in effect, due to the double hash
+#SBATCH --mem=4GB    # this one is not in effect, due to the double hash
 
 # Turn on mail notification. There are many possible self-explaining values:
 # NONE, BEGIN, END, FAIL, ALL (including all aforementioned)
@@ -56,7 +57,7 @@
 # command worked
 # time sleep 10
 #sleep 10
-python run.py
+python run_cv_1_instances.py 5
 
 # After the job is done we copy our output back to $SLURM_SUBMIT_DIR
 # cp ${SCRATCH_DIRECTORY}/my_output ${SLURM_SUBMIT_DIR}

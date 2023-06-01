@@ -1,7 +1,7 @@
 from docplex.cp.model import CpoParameters
 
 class Solver:
-    def __init__(self, TimeLimit=60):
+    def __init__(self, TimeLimit=60, no_workers=0):
         self.solved = False
         # self.TimeLimit = TimeLimit
         self.params = CpoParameters()
@@ -9,7 +9,9 @@ class Solver:
         # self.params.LogPeriod = 100000
         self.params.LogVerbosity = 'Terse'
         self.params.TimeLimit = TimeLimit
-        # params.Workers = 2
+
+        if no_workers > 0:
+            self.params.Workers = no_workers
 
         print(f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
 

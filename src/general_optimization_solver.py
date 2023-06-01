@@ -16,13 +16,16 @@ from src.optimization_problem import Benchmark
 
 
 
-def load_raw_benchmark(directory_path, solution_path, format=None, force_dump=True):
+def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=0, force_dump=True):
     if isinstance(directory_path, str):
         directory_path = Path(directory_path)
 
     print("Loading raw benchmark data")
     benchmark_instances = {}
-    for instance in directory_path.iterdir():
+    for i, instance in enumerate(directory_path.iterdir()):
+        if no_instances > 0 and i >= no_instances:
+            break
+
         if instance.is_file():
             print(f"loading {instance}")
             instance_path = str(instance).replace("\\", "/")
@@ -39,12 +42,15 @@ def load_raw_benchmark(directory_path, solution_path, format=None, force_dump=Tr
     return benchmark
 
 
-def load_benchmark(directory_path):
+def load_benchmark(directory_path, no_instances=0):
     if isinstance(directory_path, str):
         directory_path = Path(directory_path)
 
     benchmark_instances = {}
     for instance in directory_path.iterdir():
+        if no_instances > 0 and i >= no_instances:
+            break
+
         if instance.is_file():
             instance_path = str(instance).replace("\\", "/")
             # print(instance)
