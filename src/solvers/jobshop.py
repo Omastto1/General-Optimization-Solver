@@ -31,7 +31,7 @@ class JobShopSolver(Solver):
             model.add(model.no_overlap(mops))
 
         print("Using 10 second time limit")
-        sol = model.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
+        sol = model.solve()
 
         if sol:
             if validate:

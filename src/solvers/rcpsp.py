@@ -25,7 +25,7 @@ class RCPSPSolver(Solver):
         model.add([model.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
                 in enumerate(instance.successors) for successor in job_successors])  # (3)
 
-        sol = model.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
+        sol = model.solve()
 
         if sol:
             if validate:
