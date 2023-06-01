@@ -1,18 +1,27 @@
+import datetime
 import sys
 import os
 import math
 import json
 import matplotlib.pyplot as plt
 from collections import namedtuple
-from docplex.cp.model import CpoModel, CpoParameters
+import platform
+import re
+import multiprocessing
 
+# os.environ["PYTHONPATH"] = "/home/lukesmi1/Cplex/cplex/python/3.10/x86-64_linux"
+# print("os.environ[\"PYTHONPATH\"]=", os.environ["PYTHONPATH"])
+# export PYTHONPATH="/home/lukesmi1/Cplex/cplex/python/3.10/x86-64_linux"
+
+from docplex.cp.model import CpoModel, CpoParameters
 import docplex.cp.solver.solver as solver
 from docplex.cp.utils import compare_natural
 
-solver_version = solver.get_version_info()['SolverVersion']
-if compare_natural(solver_version, '22.1.1.0') < 0:
-    print('Warning solver version', solver_version, 'is too old for', __file__)
-    exit(0)
+# print("solver.get_version_info()=", solver.get_version_info())
+# solver_version = solver.get_version_info()['SolverVersion']
+# if compare_natural(solver_version, '22.1.1.0') < 0:
+#     print('Warning solver version', solver_version, 'is too old for', __file__)
+#     exit(0)
 
 TIME_FACTOR = 10
 
@@ -129,7 +138,7 @@ class CVRPTWProblem:
         assert to_ < self.get_num_nodes()
         return self._get_distance(from_, to_)
 
-    def save_to_json(self, file_path):
+    def to_dict(self):
         data = {
             'nb_trucks': self.nb_trucks,
             'truck_capacity': self.truck_capacity,
@@ -143,12 +152,9 @@ class CVRPTWProblem:
             'service_time': self.service_time,
             '_xy': self._xy
         }
-        with open(file_path, 'w') as f:
-            json.dump(data, f)
+        return data
 
-    def load_from_json(self, file_path):    # TODO: info about data
-        with open(file_path, 'r') as f:
-            data = json.load(f)
+    def from_dict(self, data):
         self.nb_trucks = data['nb_trucks']
         self.truck_capacity = data['truck_capacity']
         self.max_horizon = data['max_horizon']
@@ -160,6 +166,7 @@ class CVRPTWProblem:
         self.latest_start = data['latest_start']
         self.service_time = data['service_time']
         self._xy = data['_xy']
+
 
 class VRP:
     VisitData = namedtuple("CustomerData", "demand service_time earliest, latest")
@@ -238,7 +245,7 @@ class DataModel:
     params = None
 
 
-def build_model(cvrp_prob, tlim):
+def build_model(cvrp_prob):
     data = DataModel()
     vrp = VRP(cvrp_prob)
     num_cust = vrp.get_num_customers()
@@ -304,21 +311,11 @@ def build_model(cvrp_prob, tlim):
     # KPIs
     mdl.add_kpi(used, 'Used')
 
-    # Solver params setting
-    params = CpoParameters()
-    params.SearchType = 'Restart'
-    params.LogPeriod = 10000
-    if tlim != None:
-        params.TimeLimit = tlim
-
-    mdl.set_parameters(params=params)
-
     data.vrp = vrp
     data.prev = prev
     data.veh = veh
     data.load = load
     data.start_time = start_time
-    data.params = params
 
     return mdl, data
 
@@ -446,43 +443,215 @@ def validate_solution(sol, data):
     print("Valid solution, total_distance =", total_distance)
 
 
-def save_solution(sol, path_to_instance):
+def get_solution(sol, data):
+    vrp = data.vrp
+    sprev = tuple(sol.solution[p] for p in data.prev)
+
+    n_vehicles = 0
+    total_distance = 0
+    paths = []
+
+    for v, fv, lv in vrp.vehicles():
+        route = []
+        nd = lv
+        while nd != fv:
+            route.append(nd)
+            nd = sprev[nd]
+        route.append(fv)
+        route.reverse()
+
+        if len(route) > 2:
+            n_vehicles += 1
+            paths.append([0 if i + 1 >= vrp.get_num_customers() else i + 1 for i in route])
+
+            for idx, nd in enumerate(route):
+                if nd != route[-1]:
+                    nxt = route[idx + 1]
+                    locald = vrp.get_distance(nd, nxt)
+                    total_distance += locald
+
+    total_distance /= TIME_FACTOR
+    ret = {'n_vehicles': n_vehicles, 'total_distance': total_distance, 'paths': paths}
+    return ret
+
+
+def save_solution(sol, path_to_instance, fout):
     # save solution to json with name, solution and time
 
     # get instance name
-    instance_name = path_to_instance.split('\\')[-1].split('.')[0]
+    solution_name = '.'.join(path_to_instance.split('.')[:-1]) + '.json'
     # get solution
     solution_value = sol.solution.objective_values[0]
     # TODO: add route
     # get time
     time = sol.solver_infos['TotalTime']
     # create dictionary
-    solution_dict = {'instance_name': instance_name, 'solution': solution_value, 'time': time}
+    solution_dict = {'solution_name': solution_name, 'solution': solution_value, 'time': time}
     # save to json
-    path = '\\'.join(path_to_instance.split('\\')[0:-1])
-    print(f'Saving solution for {instance_name} to {path}\\{instance_name}_result.json')
-    with open(f'{path}\\{instance_name}_result.json', 'w') as f:
+    print(f'Saving solution to {fout}')
+    with open(fout, 'w') as f:
         json.dump(solution_dict, f)
 
 
-if __name__ == "__main__":
-    fname = os.path.dirname(os.path.abspath(__file__)) + "\\..\\..\\data\\VRPTW\\solomon_25\\C101.txt"
-    if len(sys.argv) != 1:
-        if len(sys.argv) != 2:
-            print(f'Usage: {sys.argv[0]} OR {sys.argv[0]} <filename>')
-            exit(1)
-        else:
-            fname = sys.argv[1]
+class Cvrptw:
+    def __init__(self):
+        self.sol = None
+        self.solution = None
+        self.fname = None
+        self.model = None
+        self.data_model = None
+        self.instance = None
 
-    tlim = 5  # TODO: Change for evaluation
-    if len(sys.argv) == 3:
-        tlim = float(sys.argv[2])
+        self.data = CVRPTWProblem()
+
+    def read_json(self, fname):
+        self.fname = fname
+        with open(fname, 'r') as f:
+            self.instance = json.load(f)
+        self.data.from_dict(self.instance['data'])
+        self.model, self.data_model = build_model(self.data)
+
+    def save_to_json(self, fout=None):
+        if fout is None:
+            fout = self.fname
+        with open(fout, 'w') as f:
+            json.dump(self.instance, f)
+
+    def solve(self, tlim, workers=None, execfile='/home/lukesmi1/Cplex/cpoptimizer/bin/x86-64_linux/cpoptimizer'):
+        # Solver params setting
+        params = CpoParameters()
+        # params.SearchType = 'Restart'
+        params.LogPeriod = 100000
+        params.LogVerbosity = 'Terse'
+        if workers is not None:
+            params.Workers = workers
+
+        self.model.set_parameters(params=params)
+        self.data_model.params = params
+
+        if platform.system() == 'Windows' and execfile == '/home/lukesmi1/Cplex/cpoptimizer/bin/x86-64_linux/cpoptimizer':
+            self.sol = self.model.solve(TimeLimit=tlim)
+        else:
+            self.sol = self.model.solve(TimeLimit=tlim, agent='local', execfile=execfile)
+        # Get number of cars and their paths from solution
+        self.solution = get_solution(self.sol, self.data_model)
+
+        self.validate_solution()
+
+        # Add to solution time from solution, number of cores, solver version and current time
+        self.solution['time'] = self.sol.solver_infos['TotalTime']
+        self.solution['reason'] = self.sol.solver_infos['SearchStopCause']
+        self.solution['n_workers'] = self.sol.solver_infos['EffectiveWorkers']
+        self.solution['n_cores'] = multiprocessing.cpu_count()
+        self.solution['solver_version'] = self.sol.process_infos['SolverVersion']
+        self.solution['date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        log = self.sol.solver_log
+
+        # Define the regex pattern
+        pattern = r"\*\s+(\d+\.\d+)\s+\w+\s+(\d+\.\d+s)"
+
+        # Find all matches of numbers and times in the log using the regex pattern
+        matches = re.findall(pattern, log, re.MULTILINE)
+
+        # Convert minutes and hours into seconds and store the results
+        result = [[float(match[0]), match[1]] for match in matches]
+        for i in range(len(result)):
+            unit = result[i][1][-1]  # Get the last character of the time
+            if unit not in ['s', 'm', 'h']:  # If the unit is not minutes or hours
+                print("Error: Unknown unit", unit)
+            time = float(result[i][1][:-1])  # Get the time without the last character
+            if unit == 'm':  # If the unit is minutes
+                result[i][1] = time * 60  # Convert minutes to seconds
+            elif unit == 'h':  # If the unit is hours
+                result[i][1] = time * 3600  # Convert hours to seconds
+            else:
+                result[i][1] = time  # Otherwise, the unit is seconds
+
+        self.solution['search_progress'] = result
+
+        # Update instance with solution
+        self.instance['solutions'].append(self.solution)
+
+        if self.instance['our_best_solution'] == '' or self.instance['our_best_solution']['total_distance'] > self.solution['total_distance']:
+            self.instance['our_best_solution'] = self.solution
+
+    def display_solution(self):
+        display_solution(self.sol, self.data_model)    # TODO: convert to paths and allow to pass solution
+
+    def validate_solution(self):
+        validate_solution(self.sol, self.data_model)    # TODO: convert to paths and allow to pass solution
+
+    def visualize_solution(self):
+        visualize_solution(self.sol, self.data_model, self.data)    # TODO: convert to paths and allow to pass solution
+        # visualize_solution(solution, data_model, cvrptw_prob)
+
+    def visualize_progress(self, solution=None):
+        if solution is None:
+            solution = self.solution
+        if solution is None:
+            solution = self.instance['solutions'][-1]
+
+        numbers = [entry[0] for entry in solution['search_progress']]
+        times = [entry[1] for entry in solution['search_progress']]
+
+        best_known_solution = float(self.instance['best_known_solution']['Distance'])
+
+        # Plot the data
+        plt.plot(times, numbers, 'bo-', label='Results')
+        plt.axhline(y=best_known_solution, color='r', linestyle='--', label='Best Known Solution')
+        plt.ylabel('Value')
+        plt.xlabel('Time (seconds)')
+        plt.title('Results')
+        plt.legend()
+
+        # plt.ylim(min(times), max(times + [best_known_solution]))
+
+        # Display the plot
+        plt.show()
+
+
+if __name__ == "__main__":
+    fname = os.path.dirname(os.path.abspath(__file__)) + "\\..\\..\\data\\VRPTW\\solomon_25\\C101.json"
+    # fname = '/home/lukesmi1/General-Optimization-Solver/data/VRPTW/solomon_25/C101.json'
+    fout = None
+    tlim = 5
+    # tlim = None
+
+    if len(sys.argv) != 1:
+        if len(sys.argv) >= 2:
+            fname = sys.argv[1]
+        if len(sys.argv) >= 3:
+            fout = sys.argv[2]
+        if len(sys.argv) >= 4:
+            tlim = int(sys.argv[3])
+        elif len(sys.argv) >= 5:
+            print(f'Usage: {sys.argv[0]} <input file> <output folder path> <time limit>')
+            print(f'len(sys.argv)={len(sys.argv)}')
+            print(sys.argv)
+            exit(1)
+
+    print(f'input file={fname} output folder path={fout} time limit={tlim}s')
+
+    with open(fname, 'r') as f:
+        instace = json.load(f)
+
     cvrptw_prob = CVRPTWProblem()
-    cvrptw_prob.read(fname)
-    model, data_model = build_model(cvrptw_prob, tlim)
-    solution = model.solve()
+    # cvrptw_prob.read(fname)
+    cvrptw_prob.from_dict(instace['data'])
+    model, data_model = build_model(cvrptw_prob)
+    # solution = model.solve(TimeLimit=tlim,
+    #                         agent='local',
+    #                        execfile='/home/lukesmi1/Cplex/cpoptimizer/bin/x86-64_linux/cpoptimizer')
+    solution = model.solve(TimeLimit=tlim)
     if solution:
         # display_solution(solution, data_model)
         # visualize_solution(solution, data_model, cvrptw_prob)
         validate_solution(solution, data_model)
-        save_solution(solution, fname)
+        if not fout:
+            head, tail = os.path.split(fname)
+            tail = tail.split('.')[0] + '.json'
+            fout = os.path.join(head, tail)
+        save_solution(solution, fname, fout)
+    else:
+        print(f"No solution found for {fname}")
