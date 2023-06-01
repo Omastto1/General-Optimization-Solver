@@ -1,0 +1,82 @@
+9
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:108:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                               VarCumulAtom_149 = pulse(task_0_mode_0, 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:108:1257): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                                  VarCumulAtom_198 = pulse(task_17_mode_0, 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:109:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                               VarCumulAtom_202 = pulse(task_0_mode_0, 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:109:1255): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                                  VarCumulAtom_251 = pulse(task_17_mode_0, 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 69 variables, 51 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.00s (0.00s extraction + 0.00s propagation)
+ !  . Log search space  : 155.9 (before), 155.9 (after)
+ !  . Memory usage      : 754.6 kB (before), 754.6 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         69                 -
+ + New bound is 28
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            33       43  0.30s        1      (gap is 15.15%)
+ *            32       98  0.30s        1      (gap is 12.50%)
+ *            31      138  0.30s        1      (gap is 9.68%)
+ *            30      213  0.30s        1      (gap is 6.67%)
+ *            29      247  0.30s        1      (gap is 3.45%)
+ *            28      322  0.30s        1      (gap is 0.00%)
+ ! ----------------------------------------------------------------------------
+ ! Search completed, 6 solutions found.
+ ! Best objective         : 28 (optimal - effective tol. is 0)
+ ! Best bound             : 28
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 57214
+ ! Number of fails        : 1731
+ ! Total memory usage     : 9.7 MB (9.6 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 0.34s (0.34s engine + 0.00s extraction)
+ ! Search speed (br. / s) : 173375.8
+ ! ----------------------------------------------------------------------------
+task_0: (start=0, end=0, size=0, length=0)
+Task 0 is scheduled in mode 0 from 0 to 0
+task_1: (start=0, end=4, size=4, length=4)
+Task 1 is scheduled in mode 2 from 0 to 4
+task_2: (start=0, end=4, size=4, length=4)
+Task 2 is scheduled in mode 1 from 0 to 4
+task_3: (start=0, end=6, size=6, length=6)
+Task 3 is scheduled in mode 0 from 0 to 6
+task_4: (start=4, end=6, size=2, length=2)
+Task 4 is scheduled in mode 1 from 4 to 6
+task_5: (start=6, end=14, size=8, length=8)
+Task 5 is scheduled in mode 2 from 6 to 14
+task_6: (start=6, end=13, size=7, length=7)
+Task 6 is scheduled in mode 2 from 6 to 13
+task_7: (start=6, end=13, size=7, length=7)
+Task 7 is scheduled in mode 0 from 6 to 13
+task_8: (start=4, end=13, size=9, length=9)
+Task 8 is scheduled in mode 2 from 4 to 13
+task_9: (start=6, end=15, size=9, length=9)
+Task 9 is scheduled in mode 2 from 6 to 15
+task_10: (start=4, end=9, size=5, length=5)
+Task 10 is scheduled in mode 1 from 4 to 9
+task_11: (start=13, end=23, size=10, length=10)
+Task 11 is scheduled in mode 2 from 13 to 23
+task_12: (start=9, end=11, size=2, length=2)
+Task 12 is scheduled in mode 1 from 9 to 11
+task_13: (start=14, end=20, size=6, length=6)
+Task 13 is scheduled in mode 1 from 14 to 20
+task_14: (start=23, end=26, size=3, length=3)
+Task 14 is scheduled in mode 1 from 23 to 26
+task_15: (start=20, end=26, size=6, length=6)
+Task 15 is scheduled in mode 2 from 20 to 26
+task_16: (start=23, end=28, size=5, length=5)
+Task 16 is scheduled in mode 0 from 23 to 28
+task_17: (start=28, end=28, size=0, length=0)
+Task 17 is scheduled in mode 0 from 28 to 28
+Optimal solution found
+Objective value: 28
+Solution is optimal.
