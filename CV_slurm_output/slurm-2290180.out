@@ -1,0 +1,57 @@
+44
+raw_data/rcpsp/CV.xlsx cv44
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:43:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_82 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:43:380): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_106 = pulse("24", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:44:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_110 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:44:385): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_134 = pulse("24", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_138 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:393): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_162 = pulse("24", 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 26 variables, 48 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.01s (0.01s extraction + 0.00s propagation)
+ !  . Log search space  : 136.0 (before), 136.0 (after)
+ !  . Memory usage      : 583.3 kB (before), 583.3 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         26                 -
+ + New bound is 19
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            52       53  1.06s        1      (gap is 63.46%)
+ *            51      105  1.06s        1      (gap is 62.75%)
+ *            50      157  1.06s        1      (gap is 62.00%)
+ *            49      283  1.06s        1      (gap is 61.22%)
+ *            48      474  1.06s        1      (gap is 60.42%)
+ *            46      967  1.06s        1      (gap is 58.70%)
+              46     6751          1    1   F        -
+ + New bound is 38 (gap is 17.39%)
+ ! Using failure-directed search.
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 6 solutions found.
+ ! Best objective         : 46 (gap is 17.39%)
+ ! Best bound             : 38
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 8815085
+ ! Number of fails        : 2596586
+ ! Total memory usage     : 10.3 MB (10.2 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 60.08s (60.07s engine + 0.01s extraction)
+ ! Search speed (br. / s) : 146771.3
+ ! ----------------------------------------------------------------------------
+(38,)
+(0.173913,)
+(46,)
+Objective value: 46
+Solution is 9.5 % worse than the lower bound.
+Feasible solution found

@@ -10,21 +10,30 @@ class RCPSPSolver(Solver):
             if instance.skip_on_optimal_solution():
                 return None, None
 
-        mdl = CpoModel()
+        model = CpoModel()
+        model.set_parameters(params=self.params)
 
-        x = [mdl.interval_var(size=duration, name=f"{i}") for i, duration in enumerate(
+        x = [model.interval_var(size=duration, name=f"{i}") for i, duration in enumerate(
             instance.durations)]  # (4)
 
-        mdl.add([mdl.minimize(mdl.max([mdl.end_of(x[i])
-                for i in range(instance.no_jobs)]))])  # (1)
+        cost = model.integer_var(0, 1000000, name="cost")
 
-        mdl.add([mdl.sum(mdl.pulse(x[i], instance.requests[k][i]) for i in range(instance.no_jobs))
-                <= instance.renewable_capacities[k] for k in range(instance.no_renewable_resources)])  # (2)
+        model.add(cost == model.max([model.end_of(x[i])
+                                     for i in range(instance.no_jobs)]))
 
-        mdl.add([mdl.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
-                in enumerate(instance.successors) for successor in job_successors])  # (3)
+        if "optimum" in instance._solution and instance._solution["optimum"] is not None:
+            model.add(cost >= instance._solution["optimum"])
 
-        sol = mdl.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
+        model.add(model.minimize(model.max([model.end_of(x[i])
+                                            for i in range(instance.no_jobs)])))  # (1)
+
+        model.add([model.sum(model.pulse(x[i], instance.requests[k][i]) for i in range(instance.no_jobs))
+                   <= instance.renewable_capacities[k] for k in range(instance.no_renewable_resources)])  # (2)
+
+        model.add([model.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
+                   in enumerate(instance.successors) for successor in job_successors])  # (3)
+
+        sol = model.solve()
 
         if sol:
             if validate:
@@ -35,7 +44,7 @@ class RCPSPSolver(Solver):
 
                     obj_value = sol.get_objective_value()
                     print("Project completion time:", obj_value)
-                        
+
                     instance.compare_to_reference(obj_value)
                 except AssertionError as e:
                     print("Solution is invalid.")
@@ -45,10 +54,9 @@ class RCPSPSolver(Solver):
             if visualize:
                 instance.visualize(sol, x)
 
-
             # for i in range(no_jobs):
             #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
-        
+
             print(sol.solution.get_objective_bounds())
             print(sol.solution.get_objective_gaps())
             print(sol.solution.get_objective_values())
@@ -58,12 +66,12 @@ class RCPSPSolver(Solver):
             print('Objective value:', obj_value)
             instance.compare_to_reference(obj_value)
         else:
-            print("No solution found.")        
+            print("No solution found.")
 
         Solution = namedtuple("Solution", ['xs'])
         variables = Solution(x)
 
-        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
+        instance.update_run_history(sol, variables, "CP", self.params)
 
         # print solution
         if sol.get_solve_status() == 'Optimal':
@@ -73,7 +81,6 @@ class RCPSPSolver(Solver):
         else:
             print("Unknown solution status")
             print(sol.get_solve_status())
-
 
         return sol, variables
 
@@ -107,7 +114,7 @@ class RCPSPSolver(Solver):
 #                 print("Solution is invalid.")
 #                 print(e)
 #                 return None, None
-            
+
 #         print("Project completion time:", sol.get_objective_value())
 #         # for i in range(no_jobs):
 #         #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")

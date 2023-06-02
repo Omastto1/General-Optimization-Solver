@@ -1,0 +1,89 @@
+24
+raw_data/rcpsp/CV.xlsx cv24
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_94 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:36): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                             VarCumulAtom_96 = pulse("2", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:188): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_106 = pulse("12", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:220): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_108 = pulse("14", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:316): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_114 = pulse("20", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:348): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_116 = pulse("22", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:364): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_117 = pulse("23", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:47:444): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_122 = pulse("28", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_126 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:21): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                             VarCumulAtom_127 = pulse("1", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:66): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                             VarCumulAtom_130 = pulse("4", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:126): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_134 = pulse("8", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:268): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_143 = pulse("17", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:396): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_151 = pulse("25", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:48:444): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_154 = pulse("28", 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 30 variables, 59 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.00s (0.00s extraction + 0.00s propagation)
+ !  . Log search space  : 160.8 (before), 160.8 (after)
+ !  . Memory usage      : 583.5 kB (before), 583.5 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         30                 -
+ + New bound is 16
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            85       61  0.99s        1      (gap is 81.18%)
+ *            80      164  0.99s        1      (gap is 80.00%)
+              80     3555          5    1   F        -
+ + New bound is 60 (gap is 25.00%)
+ ! Using failure-directed search.
+ *            79     4559  0.99s        2      (gap is 24.05%)
+ *            77     4720  0.99s        2      (gap is 22.08%)
+              77    27863          1    1   F    32 <= startOf(19)
+ + New bound is 64 (gap is 16.88%)
+              77    34923         18    1   F    49 <= startOf(15)
+ + New bound is 65 (gap is 15.58%)
+              77    41705          1    1   F    69 >= cost
+ + New bound is 66 (gap is 14.29%)
+              77    45422          1    1        68 >= cost
+ + New bound is 68 (gap is 11.69%)
+              77    53743         18    1   F    71 >= cost
+ + New bound is 69 (gap is 10.39%)
+              77    67112          4    1   F    71 >= cost
+ + New bound is 70 (gap is 9.09%)
+              77    73837          1    1   F    42 <= startOf(15)
+ + New bound is 71 (gap is 7.79%)
+              77    89322          1    1   F    73 >= cost
+ + New bound is 72 (gap is 6.49%)
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 4 solutions found.
+ ! Best objective         : 77 (gap is 6.49%)
+ ! Best bound             : 72
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 11843006
+ ! Number of fails        : 3307555
+ ! Total memory usage     : 10.2 MB (10.2 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 60.09s (60.09s engine + 0.00s extraction)
+ ! Search speed (br. / s) : 197120.6
+ ! ----------------------------------------------------------------------------
+(72,)
+(0.0649351,)
+(77,)
+Objective value: 77
+Solution is 13.2 % worse than the lower bound.
+Feasible solution found

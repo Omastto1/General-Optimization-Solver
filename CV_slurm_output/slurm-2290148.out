@@ -1,0 +1,53 @@
+12
+raw_data/rcpsp/CV.xlsx cv12
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:44:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_85 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:44:396): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_110 = pulse("25", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_114 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:45:409): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_139 = pulse("25", 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 27 variables, 46 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.00s (0.00s extraction + 0.00s propagation)
+ !  . Log search space  : 142.1 (before), 142.1 (after)
+ !  . Memory usage      : 550.8 kB (before), 550.8 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         27                 -
+ + New bound is 29
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            57       55  1.07s        1      (gap is 49.12%)
+ *            55      109  1.07s        1      (gap is 47.27%)
+ *            53      163  1.07s        1      (gap is 45.28%)
+ *            52      443  1.07s        1      (gap is 44.23%)
+              52     3435          1    1            -
+ + New bound is 44 (gap is 15.38%)
+ ! Using failure-directed search.
+              52    69725         12    1   F    50 >= cost
+ + New bound is 45 (gap is 13.46%)
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 4 solutions found.
+ ! Best objective         : 52 (gap is 13.46%)
+ ! Best bound             : 45
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 10583225
+ ! Number of fails        : 3094167
+ ! Total memory usage     : 10.4 MB (10.3 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 60.09s (60.09s engine + 0.00s extraction)
+ ! Search speed (br. / s) : 176122.9
+ ! ----------------------------------------------------------------------------
+(45,)
+(0.134615,)
+(52,)
+Objective value: 52
+Solution is 8.3 % worse than the lower bound.
+Feasible solution found

@@ -1,0 +1,67 @@
+42
+raw_data/rcpsp/CV.xlsx cv42
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:42:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_79 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:42:364): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_102 = pulse("23", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:43:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_106 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:43:372): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_129 = pulse("23", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:44:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_133 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:44:364): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_156 = pulse("23", 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 25 variables, 43 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.00s (0.00s extraction + 0.00s propagation)
+ !  . Log search space  : 130.0 (before), 130.0 (after)
+ !  . Memory usage      : 583.1 kB (before), 583.1 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         25                 -
+ + New bound is 17
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            51       51  1.06s        1      (gap is 66.67%)
+ *            50      142  1.06s        1      (gap is 66.00%)
+ *            49      436  1.06s        1      (gap is 65.31%)
+              49     3024          3    1   F        -
+ + New bound is 39 (gap is 20.41%)
+ ! Using failure-directed search.
+ *            48     5317  1.06s        8      (gap is 18.75%)
+              48     6545         12    1   F    12 >= startOf(11)
+ + New bound is 40 (gap is 16.67%)
+              48     8665          1    1   F    19 >= startOf(16)
+ + New bound is 41 (gap is 14.58%)
+              48    13171         12    1        42 >= cost
+ + New bound is 42 (gap is 12.50%)
+              48    20600         11    1   F    24 <= startOf(16)
+ + New bound is 43 (gap is 10.42%)
+              48    34220         14    1   F    22 >= startOf(11)
+ + New bound is 44 (gap is 8.33%)
+              48    74264         15    1   F    13 >= startOf(17)
+ + New bound is 45 (gap is 6.25%)
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 4 solutions found.
+ ! Best objective         : 48 (gap is 6.25%)
+ ! Best bound             : 45
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 9213840
+ ! Number of fails        : 2707533
+ ! Total memory usage     : 10.3 MB (10.2 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 60.04s (60.04s engine + 0.00s extraction)
+ ! Search speed (br. / s) : 153487.3
+ ! ----------------------------------------------------------------------------
+(45,)
+(0.0625,)
+(48,)
+Objective value: 48
+Solution is 11.6 % worse than the lower bound.
+Feasible solution found
