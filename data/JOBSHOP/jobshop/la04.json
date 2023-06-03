@@ -1,0 +1,270 @@
+{
+    "benchmark_name": "jobshop",
+    "instance_name": "la04",
+    "instance_kind": "JOBSHOP",
+    "data": {
+        "no_jobs": 10,
+        "no_machines": 5,
+        "machines": [
+            [
+                0,
+                2,
+                3,
+                4,
+                1
+            ],
+            [
+                1,
+                3,
+                4,
+                2,
+                0
+            ],
+            [
+                1,
+                0,
+                3,
+                4,
+                2
+            ],
+            [
+                2,
+                4,
+                0,
+                3,
+                1
+            ],
+            [
+                1,
+                3,
+                4,
+                0,
+                2
+            ],
+            [
+                3,
+                2,
+                0,
+                4,
+                1
+            ],
+            [
+                2,
+                1,
+                0,
+                3,
+                4
+            ],
+            [
+                1,
+                3,
+                0,
+                4,
+                2
+            ],
+            [
+                2,
+                4,
+                0,
+                1,
+                3
+            ],
+            [
+                2,
+                4,
+                3,
+                1,
+                0
+            ]
+        ],
+        "durations": [
+            [
+                12,
+                94,
+                92,
+                91,
+                7
+            ],
+            [
+                19,
+                11,
+                66,
+                21,
+                87
+            ],
+            [
+                14,
+                75,
+                13,
+                16,
+                20
+            ],
+            [
+                95,
+                66,
+                7,
+                7,
+                77
+            ],
+            [
+                45,
+                6,
+                89,
+                15,
+                34
+            ],
+            [
+                77,
+                20,
+                76,
+                88,
+                53
+            ],
+            [
+                74,
+                88,
+                52,
+                27,
+                9
+            ],
+            [
+                88,
+                69,
+                62,
+                98,
+                52
+            ],
+            [
+                61,
+                9,
+                62,
+                52,
+                90
+            ],
+            [
+                54,
+                5,
+                59,
+                15,
+                88
+            ]
+        ]
+    },
+    "reference_solution": {
+        "feasible": true,
+        "optimum": 590
+    },
+    "run_history": [
+        {
+            "timestamp": "2023-06-02 00:21:38.557473",
+            "method": "CP",
+            "solution_value": 590,
+            "solution_info": "-------------------------------------------------------------------------------\nModel constraints: 47, variables: integer: 1, interval: 50, sequence: 5\nSolve status: Optimal\nSearch status: SearchCompleted, stop cause: SearchHasNotBeenStopped\nSolve time: 1.0 sec\n-------------------------------------------------------------------------------\nObjective values: (590,), bounds: (590,), gaps: (0,)\ncost=590\nJ_0_0: (start=0, end=12, size=12, length=12)\nJ_0_1: (start=304, end=398, size=94, length=94)\nJ_0_2: (start=398, end=490, size=92, length=92)\nJ_0_3: (start=490, end=581, size=91, length=91)\nJ_0_4: (start=581, end=588, size=7, length=7)\nJ_1_0: (start=0, end=19, size=19, length=19)\nJ_1_1: (start=19, end=30, size=11, length=11)\nJ_1_2: (start=30, end=96, size=66, length=66)\nJ_1_3: (start=398, end=419, size=21, length=21)\nJ_1_4: (start=470, end=557, size=87, length=87)\nJ_2_0: (start=19, end=33, size=14, length=14)\nJ_2_1: (start=33, end=108, size=75, length=75)\nJ_2_2: (start=113, end=126, size=13, length=13)\nJ_2_3: (start=209, end=225, size=16, length=16)\nJ_2_4: (start=419, end=439, size=20, length=20)\nJ_3_0: (start=135, end=230, size=95, length=95)\nJ_3_1: (start=230, end=296, size=66, length=66)\nJ_3_2: (start=411, end=418, size=7, length=7)\nJ_3_3: (start=490, end=497, size=7, length=7)\nJ_3_4: (start=497, end=574, size=77, length=77)\nJ_4_0: (start=33, end=78, size=45, length=45)\nJ_4_1: (start=107, end=113, size=6, length=6)\nJ_4_2: (start=120, end=209, size=89, length=89)\nJ_4_3: (start=246, end=261, size=15, length=15)\nJ_4_4: (start=439, end=473, size=34, length=34)\nJ_5_0: (start=30, end=107, size=77, length=77)\nJ_5_1: (start=115, end=135, size=20, length=20)\nJ_5_2: (start=170, end=246, size=76, length=76)\nJ_5_3: (start=296, end=384, size=88, length=88)\nJ_5_4: (start=392, end=445, size=53, length=53)\nJ_6_0: (start=230, end=304, size=74, length=74)\nJ_6_1: (start=304, end=392, size=88, length=88)\nJ_6_2: (start=418, end=470, size=52, length=52)\nJ_6_3: (start=497, end=524, size=27, length=27)\nJ_6_4: (start=581, end=590, size=9, length=9)\nJ_7_0: (start=78, end=166, size=88, length=88)\nJ_7_1: (start=185, end=254, size=69, length=69)\nJ_7_2: (start=261, end=323, size=62, length=62)\nJ_7_3: (start=384, end=482, size=98, length=98)\nJ_7_4: (start=482, end=534, size=52, length=52)\nJ_8_0: (start=0, end=61, size=61, length=61)\nJ_8_1: (start=96, end=105, size=9, length=9)\nJ_8_2: (start=108, end=170, size=62, length=62)\nJ_8_3: (start=170, end=222, size=52, length=52)\nJ_8_4: (start=254, end=344, size=90, length=90)\nJ_9_0: (start=61, end=115, size=54, length=54)\nJ_9_1: (start=115, end=120, size=5, length=5)\nJ_9_2: (start=126, end=185, size=59, length=59)\nJ_9_3: (start=222, end=237, size=15, length=15)\nJ_9_4: (start=323, end=411, size=88, length=88)\n",
+            "solve_status": "Optimal",
+            "solve_time": 1.0049941539764404,
+            "solver_config": {
+                "TimeLimit": 60,
+                "NoWorkers": 14,
+                "NoCores": 56,
+                "SolverVersion": "20.1.0.0"
+            },
+            "solution_progress": [
+                [
+                    876,
+                    102,
+                    0.63
+                ],
+                [
+                    803,
+                    202,
+                    0.63
+                ],
+                [
+                    790,
+                    302,
+                    0.63
+                ],
+                [
+                    773,
+                    402,
+                    0.63
+                ],
+                [
+                    771,
+                    502,
+                    0.63
+                ],
+                [
+                    721,
+                    818,
+                    0.63
+                ],
+                [
+                    704,
+                    870,
+                    0.63
+                ],
+                [
+                    696,
+                    921,
+                    0.63
+                ],
+                [
+                    694,
+                    984,
+                    0.63
+                ],
+                [
+                    689,
+                    1436,
+                    0.63
+                ],
+                [
+                    645,
+                    3130,
+                    0.63
+                ],
+                [
+                    636,
+                    3553,
+                    0.63
+                ],
+                [
+                    622,
+                    3992,
+                    0.63
+                ],
+                [
+                    621,
+                    4282,
+                    0.63
+                ],
+                [
+                    616,
+                    4527,
+                    0.63
+                ],
+                [
+                    611,
+                    4795,
+                    0.63
+                ],
+                [
+                    603,
+                    6476,
+                    0.63
+                ],
+                [
+                    596,
+                    4480,
+                    0.63
+                ],
+                [
+                    590,
+                    5298,
+                    0.64
+                ]
+            ]
+        }
+    ]
+}
