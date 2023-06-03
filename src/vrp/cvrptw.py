@@ -319,6 +319,86 @@ def build_model(cvrp_prob):
 
     return mdl, data
 
+def build_interval_model(cvrp_prob):
+    data = DataModel()
+    vrp = VRP(cvrp_prob)
+    num_cust = vrp.get_num_customers()
+    num_vehicles = vrp.get_num_vehicles()
+    n = vrp.get_num_visits()
+
+    mdl = CpoModel()
+
+    # job_operations = [[model.interval_var(name=f"J_{job}_{order_index}", size=instance.durations[job][order_index])
+    #                    for order_index in range(instance.no_machines)] for job in range(instance.no_jobs)]
+    # dvar interval visitInterval[v in clientVisits] in v.minTime..(v.maxTime+v.dropTime) size v.dropTime;
+
+    visitInterval = [mdl.interval_var(start_time[i], start_time[i] + vrp.get_service_time(i), "V{}".format(i)) for i in range(n)]
+
+    # Prev variables, circuit, first/last
+    prev = [mdl.integer_var(0, n - 1, "P{}".format(i)) for i in range(n)]
+    for v, fv, lv in vrp.vehicles():
+        mdl.add(prev[fv] == vrp.get_last((v - 1) % num_vehicles))
+
+    before = vrp.customers() + vrp.first()
+    for c in vrp.customers():
+        mdl.add(mdl.allowed_assignments(prev[c], before))
+        mdl.add(prev[c] != c)
+
+    for _, fv, lv in vrp.vehicles():
+        mdl.add(mdl.allowed_assignments(prev[lv], vrp.customers() + (fv,)))
+
+    mdl.add(mdl.sub_circuit(prev))
+
+    # Vehicle
+    veh = [mdl.integer_var(0, num_vehicles - 1, "V{}".format(i)) for i in range(n)]
+    for v, fv, lv in vrp.vehicles():
+        mdl.add(veh[fv] == v)
+        mdl.add(veh[lv] == v)
+        mdl.add(mdl.element(veh, prev[lv]) == v)
+    for c in vrp.customers():
+        mdl.add(veh[c] == mdl.element(veh, prev[c]))
+
+    # Demand
+    load = [mdl.integer_var(0, vrp.get_capacity(), "L{}".format(i)) for i in range(num_vehicles)]
+    used = mdl.integer_var(0, num_vehicles, 'U')
+    cust_veh = [veh[c] for c in vrp.customers()]
+    demand = [vrp.get_demand(c) for c in vrp.customers()]
+    mdl.add(mdl.pack(load, cust_veh, demand, used))
+
+    # Time
+    start_time = [mdl.integer_var(vrp.get_earliest_start(i), vrp.get_latest_start(i), "T{}".format(i)) for i in
+                  range(n)]
+    for fv in vrp.first():
+        mdl.add(start_time[fv] == 0)
+    for i in vrp.customers() + vrp.last():
+        arrive = mdl.element([start_time[j] + vrp.get_service_time(j) + vrp.get_distance(j, i) for j in range(n)],
+                             prev[i])
+        mdl.add(start_time[i] == mdl.max(arrive, vrp.get_earliest_start(i)))
+
+    # Distance
+    all_dist = []
+    for i in vrp.customers() + vrp.last():
+        ldist = [vrp.get_distance(j, i) for j in range(n)]
+        all_dist.append(mdl.element(ldist, prev[i]))
+    total_distance = mdl.sum(all_dist) / TIME_FACTOR
+
+    # Variables with inferred values
+    mdl.add(mdl.inferred(cust_veh + load + [used] + start_time))
+
+    # Objective
+    mdl.add(mdl.minimize(total_distance))
+
+    # KPIs
+    mdl.add_kpi(used, 'Used')
+
+    data.vrp = vrp
+    data.prev = prev
+    data.veh = veh
+    data.load = load
+    data.start_time = start_time
+
+    return mdl, data
+
 
 def display_solution(sol, data):
     vrp = data.vrp
@@ -590,16 +670,25 @@ class Cvrptw:
         if solution is None:
             solution = self.solution
         if solution is None:
+            if len(self.instance['solutions']) == 0:
+                print('No solution to visualize')
+                return
+            print('Visualizing last solution')
             solution = self.instance['solutions'][-1]
 
         numbers = [entry[0] for entry in solution['search_progress']]
         times = [entry[1] for entry in solution['search_progress']]
 
-        best_known_solution = float(self.instance['best_known_solution']['Distance'])
+        best = self.instance['best_known_solution']['Distance']
+        if best != '':
+            best_known_solution = float(best)
+            plt.axhline(y=best_known_solution, color='r', linestyle='--', label='Best Known Solution')
+        if self.instance['our_best_solution']:
+            our_best_solution = self.instance['our_best_solution']['total_distance']
+            plt.axhline(y=our_best_solution, color='g', linestyle='--', label='Our Best Solution')
 
         # Plot the data
         plt.plot(times, numbers, 'bo-', label='Results')
-        plt.axhline(y=best_known_solution, color='r', linestyle='--', label='Best Known Solution')
         plt.ylabel('Value')
         plt.xlabel('Time (seconds)')
         plt.title('Results')
