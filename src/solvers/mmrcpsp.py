@@ -12,6 +12,7 @@ class MMRCPSPSolver(Solver):
 
         # define model
         model = CpoModel()
+        model.set_parameters(params=self.params)
 
         # define variables
         tasks = range(instance.no_jobs)
@@ -21,6 +22,13 @@ class MMRCPSPSolver(Solver):
         xs = [model.interval_var(name=f'task_{i}') for i in tasks]
         ys = [[model.interval_var(size=instance.durations[i][j], name=f'task_{i}_mode_{j}', optional=True) for j in range(
             instance.no_modes_list[i])] for i in tasks]
+
+        cost = model.integer_var(0, 1000000, name="cost")
+
+        model.add(cost == model.max(model.end_of(x) for x in xs))
+
+        if "optimum" in instance._solution and instance._solution["optimum"] is not None:
+            model.add(cost >= instance._solution["optimum"])
 
         model.add(model.minimize(model.max(model.end_of(x) for x in xs)))
 
@@ -45,7 +53,7 @@ class MMRCPSPSolver(Solver):
                       for successor in job_successors])
 
         # solve model
-        sol = model.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
+        sol = model.solve()
 
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
@@ -98,7 +106,7 @@ class MMRCPSPSolver(Solver):
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         variables = Solution(xs)
 
-        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
+        instance.update_run_history(sol, variables, "CP", self.params)
 
         return sol, variables
 

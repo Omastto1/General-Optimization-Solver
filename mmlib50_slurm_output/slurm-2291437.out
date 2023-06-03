@@ -1,0 +1,166 @@
+100
+raw_data/mm-rcpsp/MMLIB50/J5020_5.mm
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:276:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                               VarCumulAtom_419 = pulse(task_0_mode_0, 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:276:3907): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                                  VarCumulAtom_570 = pulse(task_51_mode_0, 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:277:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                               VarCumulAtom_574 = pulse(task_0_mode_0, 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/mmrcpsp.py:42(stream:277:3910): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                                  VarCumulAtom_725 = pulse(task_51_mode_0, 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 205 variables, 291 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.02s (0.02s extraction + 0.00s propagation)
+ !  . Log search space  : 518.6 (before), 518.6 (after)
+ !  . Memory usage      : 1.3 MB (before), 1.3 MB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0        205                 -
+ + New bound is 22
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            43      111  0.85s        1      (gap is 48.84%)
+ *            42      369  0.85s        1      (gap is 47.62%)
+ *            40      477  0.85s        1      (gap is 45.00%)
+ *            39      647  0.85s        1      (gap is 43.59%)
+ *            38      833  0.85s        1      (gap is 42.11%)
+ *            37      987  0.85s        1      (gap is 40.54%)
+ *            36     1138  0.85s        1      (gap is 38.89%)
+ *            35     1186  0.85s        1      (gap is 37.14%)
+ *            34     1328  0.85s        1      (gap is 35.29%)
+ *            33     1414  0.85s        1      (gap is 33.33%)
+ *            32     1165  0.85s        5      (gap is 31.25%)
+ ! Using failure-directed search.
+ *            30     2778  1.63s        1      (gap is 26.67%)
+ *            29     3351  1.63s        2      (gap is 24.14%)
+ *            28     3062  1.63s        9      (gap is 21.43%)
+ *            27     6842  3.00s        2      (gap is 18.52%)
+              27     5688        112    1   F         !presenceOf(task_11_mode_2)
+ + New bound is 23 (gap is 14.81%)
+              27     7974         57    1   F         !presenceOf(task_42_mode_2)
+ + New bound is 24 (gap is 11.11%)
+ *            26    80355  33.52s      10      (gap is 7.69%)
+ ! ----------------------------------------------------------------------------
+ ! Search terminated by limit, 16 solutions found.
+ ! Best objective         : 26 (gap is 7.69%)
+ ! Best bound             : 24
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 4880557
+ ! Number of fails        : 713312
+ ! Total memory usage     : 19.5 MB (19.3 MB CP Optimizer + 0.2 MB Concert)
+ ! Time spent in solve    : 60.08s (60.06s engine + 0.02s extraction)
+ ! Search speed (br. / s) : 81261.4
+ ! ----------------------------------------------------------------------------
+task_0: (start=0, end=0, size=0, length=0)
+Task 0 is scheduled in mode 0 from 0 to 0
+task_1: (start=0, end=3, size=3, length=3)
+Task 1 is scheduled in mode 1 from 0 to 3
+task_2: (start=0, end=7, size=7, length=7)
+Task 2 is scheduled in mode 2 from 0 to 7
+task_3: (start=0, end=9, size=9, length=9)
+Task 3 is scheduled in mode 2 from 0 to 9
+task_4: (start=0, end=4, size=4, length=4)
+Task 4 is scheduled in mode 1 from 0 to 4
+task_5: (start=3, end=6, size=3, length=3)
+Task 5 is scheduled in mode 0 from 3 to 6
+task_6: (start=0, end=8, size=8, length=8)
+Task 6 is scheduled in mode 2 from 0 to 8
+task_7: (start=7, end=9, size=2, length=2)
+Task 7 is scheduled in mode 1 from 7 to 9
+task_8: (start=3, end=4, size=1, length=1)
+Task 8 is scheduled in mode 0 from 3 to 4
+task_9: (start=0, end=8, size=8, length=8)
+Task 9 is scheduled in mode 0 from 0 to 8
+task_10: (start=4, end=10, size=6, length=6)
+Task 10 is scheduled in mode 2 from 4 to 10
+task_11: (start=0, end=9, size=9, length=9)
+Task 11 is scheduled in mode 2 from 0 to 9
+task_12: (start=0, end=7, size=7, length=7)
+Task 12 is scheduled in mode 2 from 0 to 7
+task_13: (start=11, end=13, size=2, length=2)
+Task 13 is scheduled in mode 0 from 11 to 13
+task_14: (start=0, end=9, size=9, length=9)
+Task 14 is scheduled in mode 2 from 0 to 9
+task_15: (start=0, end=3, size=3, length=3)
+Task 15 is scheduled in mode 0 from 0 to 3
+task_16: (start=9, end=17, size=8, length=8)
+Task 16 is scheduled in mode 2 from 9 to 17
+task_17: (start=0, end=9, size=9, length=9)
+Task 17 is scheduled in mode 2 from 0 to 9
+task_18: (start=8, end=17, size=9, length=9)
+Task 18 is scheduled in mode 2 from 8 to 17
+task_19: (start=3, end=11, size=8, length=8)
+Task 19 is scheduled in mode 2 from 3 to 11
+task_20: (start=9, end=16, size=7, length=7)
+Task 20 is scheduled in mode 2 from 9 to 16
+task_21: (start=11, end=18, size=7, length=7)
+Task 21 is scheduled in mode 2 from 11 to 18
+task_22: (start=4, end=14, size=10, length=10)
+Task 22 is scheduled in mode 2 from 4 to 14
+task_23: (start=9, end=18, size=9, length=9)
+Task 23 is scheduled in mode 2 from 9 to 18
+task_24: (start=6, end=16, size=10, length=10)
+Task 24 is scheduled in mode 2 from 6 to 16
+task_25: (start=6, end=11, size=5, length=5)
+Task 25 is scheduled in mode 1 from 6 to 11
+task_26: (start=9, end=19, size=10, length=10)
+Task 26 is scheduled in mode 2 from 9 to 19
+task_27: (start=22, end=23, size=1, length=1)
+Task 27 is scheduled in mode 0 from 22 to 23
+task_28: (start=10, end=20, size=10, length=10)
+Task 28 is scheduled in mode 2 from 10 to 20
+task_29: (start=7, end=13, size=6, length=6)
+Task 29 is scheduled in mode 2 from 7 to 13
+task_30: (start=17, end=21, size=4, length=4)
+Task 30 is scheduled in mode 2 from 17 to 21
+task_31: (start=13, end=22, size=9, length=9)
+Task 31 is scheduled in mode 2 from 13 to 22
+task_32: (start=18, end=23, size=5, length=5)
+Task 32 is scheduled in mode 0 from 18 to 23
+task_33: (start=8, end=10, size=2, length=2)
+Task 33 is scheduled in mode 1 from 8 to 10
+task_34: (start=14, end=24, size=10, length=10)
+Task 34 is scheduled in mode 2 from 14 to 24
+task_35: (start=24, end=26, size=2, length=2)
+Task 35 is scheduled in mode 1 from 24 to 26
+task_36: (start=23, end=26, size=3, length=3)
+Task 36 is scheduled in mode 1 from 23 to 26
+task_37: (start=18, end=26, size=8, length=8)
+Task 37 is scheduled in mode 1 from 18 to 26
+task_38: (start=18, end=24, size=6, length=6)
+Task 38 is scheduled in mode 2 from 18 to 24
+task_39: (start=19, end=26, size=7, length=7)
+Task 39 is scheduled in mode 2 from 19 to 26
+task_40: (start=23, end=26, size=3, length=3)
+Task 40 is scheduled in mode 0 from 23 to 26
+task_41: (start=23, end=26, size=3, length=3)
+Task 41 is scheduled in mode 1 from 23 to 26
+task_42: (start=16, end=22, size=6, length=6)
+Task 42 is scheduled in mode 1 from 16 to 22
+task_43: (start=20, end=25, size=5, length=5)
+Task 43 is scheduled in mode 1 from 20 to 25
+task_44: (start=14, end=22, size=8, length=8)
+Task 44 is scheduled in mode 2 from 14 to 22
+task_45: (start=21, end=26, size=5, length=5)
+Task 45 is scheduled in mode 2 from 21 to 26
+task_46: (start=22, end=26, size=4, length=4)
+Task 46 is scheduled in mode 2 from 22 to 26
+task_47: (start=13, end=14, size=1, length=1)
+Task 47 is scheduled in mode 0 from 13 to 14
+task_48: (start=16, end=18, size=2, length=2)
+Task 48 is scheduled in mode 0 from 16 to 18
+task_49: (start=9, end=15, size=6, length=6)
+Task 49 is scheduled in mode 2 from 9 to 15
+task_50: (start=13, end=21, size=8, length=8)
+Task 50 is scheduled in mode 2 from 13 to 21
+task_51: (start=26, end=26, size=0, length=0)
+Task 51 is scheduled in mode 0 from 26 to 26
+Feasible solution found
+Objective value: 26
+Solution is 13.0 % worse than the lower bound.

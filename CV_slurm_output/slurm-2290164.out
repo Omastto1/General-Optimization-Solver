@@ -1,0 +1,61 @@
+28
+raw_data/rcpsp/CV.xlsx cv28
+Time limit set to 60 seconds
+Running CP solver
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:50:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_99 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:50:463): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_128 = pulse("29", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:51:6): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                            VarCumulAtom_132 = pulse("0", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:51:157): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_142 = pulse("10", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:51:397): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_157 = pulse("25", 0)
+/home/omastto1/General-Optimization-Solver/src/solvers/rcpsp.py:31(stream:51:461): Warning: Cumulative expression 'pulse': height is zero, expression is zero everywhere.
+                                                                                              VarCumulAtom_161 = pulse("29", 0)
+ ! --------------------------------------------------- CP Optimizer 20.1.0.0 --
+ ! Minimization problem - 31 variables, 65 constraints
+ ! TimeLimit            = 60
+ ! Workers              = 14
+ ! LogVerbosity         = Terse
+ ! Initial process time : 0.00s (0.00s extraction + 0.00s propagation)
+ !  . Log search space  : 167.1 (before), 167.1 (after)
+ !  . Memory usage      : 583.7 kB (before), 583.7 kB (after)
+ ! Using parallel search with 14 workers.
+ ! ----------------------------------------------------------------------------
+ !          Best Branches  Non-fixed    W       Branch decision
+                        0         31                 -
+ + New bound is 74
+ ! Using iterative diving.
+ ! Using temporal relaxation.
+ *            99       84  0.98s        1      (gap is 25.25%)
+ *            98      146  0.98s        1      (gap is 24.49%)
+ *            85      208  0.98s        1      (gap is 12.94%)
+ *            84     3623  0.98s        1      (gap is 11.90%)
+ *            83     3729  0.98s        1      (gap is 10.84%)
+ *            80     3866  0.98s        1      (gap is 7.50%)
+ ! Using failure-directed search.
+ *            79     4894  0.98s        2      (gap is 6.33%)
+ *            78     5770  0.98s        2      (gap is 5.13%)
+ *            77     7560  0.98s        3      (gap is 3.90%)
+ *            76    10144  0.98s        3      (gap is 2.63%)
+ *            75    10181  0.98s        7      (gap is 1.33%)
+ *            74     105k  10.49s       4      (gap is 0.00%)
+ ! ----------------------------------------------------------------------------
+ ! Search completed, 12 solutions found.
+ ! Best objective         : 74 (optimal - effective tol. is 0)
+ ! Best bound             : 74
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 1966974
+ ! Number of fails        : 555418
+ ! Total memory usage     : 7.8 MB (7.8 MB CP Optimizer + 0.1 MB Concert)
+ ! Time spent in solve    : 11.36s (11.36s engine + 0.00s extraction)
+ ! Search speed (br. / s) : 173149.1
+ ! ----------------------------------------------------------------------------
+(74,)
+(0,)
+(74,)
+Objective value: 74
+Solution is optimal.
+Optimal solution found

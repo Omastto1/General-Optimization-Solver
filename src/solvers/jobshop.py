@@ -11,9 +11,18 @@ class JobShopSolver(Solver):
                 return None, None
 
         model = CpoModel()
+        model.set_parameters(params=self.params)
 
         job_operations = [[model.interval_var(name=f"J_{job}_{order_index}", size=instance.durations[job][order_index])
                            for order_index in range(instance.no_machines)] for job in range(instance.no_jobs)]
+        
+        cost = model.integer_var(0, 1000000, name="cost")
+        
+        model.add(cost == model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))
+        
+        if "optimum" in instance._solution and instance._solution["optimum"] is not None:
+            model.add(cost >= instance._solution["optimum"])
+        
         model.add(
             [model.minimize(model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))] +
             [model.end_before_start(job_operations[i][j-1], job_operations[i][j])
@@ -30,7 +39,7 @@ class JobShopSolver(Solver):
             model.add(model.no_overlap(mops))
 
         print("Using 10 second time limit")
-        sol = model.solve(TimeLimit=self.TimeLimit, LogVerbosity='Terse')
+        sol = model.solve()
 
         if sol:
             if validate:
@@ -66,6 +75,6 @@ class JobShopSolver(Solver):
         Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
         variables = Solution(job_operations, machine_operations)
 
-        instance.update_run_history(sol, variables, "CP", self.TimeLimit)
+        instance.update_run_history(sol, variables, "CP", self.params)
 
         return sol, variables
