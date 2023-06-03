@@ -60,7 +60,7 @@ class OptimizationProblem:
     def load(self, path):
         pass
 
-    def dump_json(self, verbose=False):
+    def dump(self, verbose=False):
         instance_dict = {
             "benchmark_name": self._benchmark_name,
             "instance_name": self._instance_name,
@@ -104,13 +104,15 @@ class OptimizationProblem:
         log = sol.solver_log
 
         # Define the regex pattern
-        pattern = r"\*\s+(\d+)\s+(\d+)\s+(\d+\.\d+s)"
+        # pattern = r"\*\s+(\d+)\s+(\d+)\s+(\d+\.\d+s)"
+        pattern = r"\*\s+(\d+)\s+(?:\d+)\s+(\d+\.\d+s)"
 
         # Find all matches of numbers and times in the log using the regex pattern
         matches = re.findall(pattern, log, re.MULTILINE)
 
         # Convert minutes and hours into seconds and store the results
-        result = [[int(match[0]), int(match[1]), match[2]] for match in matches]
+        # result = [[int(match[0]), int(match[1]), match[2]] for match in matches]
+        result = [[int(match[0]), match[1]] for match in matches]
         result = convert_time_to_seconds(result)
 
         if sol:
