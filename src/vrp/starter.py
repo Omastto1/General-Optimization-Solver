@@ -1,5 +1,7 @@
 import os
 from cvrptw import *
+from ORsolver import *
+
 
 
 def main(args):
@@ -23,29 +25,54 @@ def main(args):
         # folder_name = 'solomon_25'
         # filename = 'R112.json'
         instance_name = filename.split('.')[0]  # Extract the instance name from the file name
+        print('instance_name:', instance_name)
         instance_path = os.path.join(folder_path, filename)
 
-        tlim = 60*15
+        path = instance_path
 
-        print('instance_name:', instance_name)
+        cvrptw_prob = CVRPTWProblem()
+        with open(path) as f:
+            instance = json.load(f)
+        cvrptw_prob.from_dict(instance['data'])
 
-        instance = Cvrptw()
-        instance.read_json(instance_path)
-
-        if instance.instance['best_known_solution'] is not None:
-            print('best_known_solution:', instance.instance['best_known_solution']['Distance'])
-        else:
-            print('best_known_solution: None')
-
-        instance.solve(tlim, workers=cores)
-
-        print('solution:', instance.solution['total_distance'])
+        time_precision_scaler = 10
+        solver = Solver(time_precision_scaler)
+        solver.load_instance(cvrptw_prob)
+        solver.create_model()
+        settings = {'time_limit': int(instance['our_best_solution']['search_progress'][-1][1] + 5)}
+        solver.solve_model(settings)
+        # solver.print_solution()
+        out = solver.output()
+        instance['solutions'].append(out)
 
         output = os.path.join(args[1], folder_name, instance_name + '.json')
         if not os.path.exists(os.path.dirname(output)):
             os.makedirs(os.path.dirname(output))
-        print('Saving to', output)
-        instance.save_to_json(output)
+
+        with open(output, 'w') as f:
+            json.dump(instance, f)
+
+        # tlim = 60*15
+        #
+        # print('instance_name:', instance_name)
+        #
+        # instance = Cvrptw()
+        # instance.read_json(instance_path)
+        #
+        # if instance.instance['best_known_solution'] is not None:
+        #     print('best_known_solution:', instance.instance['best_known_solution']['Distance'])
+        # else:
+        #     print('best_known_solution: None')
+        #
+        # instance.solve(tlim, workers=cores)
+        #
+        # print('solution:', instance.solution['total_distance'])
+        #
+        # output = os.path.join(args[1], folder_name, instance_name + '.json')
+        # if not os.path.exists(os.path.dirname(output)):
+        #     os.makedirs(os.path.dirname(output))
+        # print('Saving to', output)
+        # instance.save_to_json(output)
 
         # return
 

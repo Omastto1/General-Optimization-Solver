@@ -167,6 +167,10 @@ class CVRPTWProblem:
         self.service_time = data['service_time']
         self._xy = data['_xy']
 
+    @property
+    def xy(self):
+        return self._xy
+
 
 class VRP:
     VisitData = namedtuple("CustomerData", "demand service_time earliest, latest")
