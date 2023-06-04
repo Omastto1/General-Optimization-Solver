@@ -35,15 +35,15 @@ class RCPSP(OptimizationProblem):
     def visualize(self, sol, x):
         no_jobs = len(x)
 
-        if sol and visu.is_visu_enabled():
-            visu.timeline('Solution SchedOptional', 0, 110)
-            for job_number in range(no_jobs):
-                visu.sequence(name=job_number)
-                wt = sol.get_var_solution(x[job_number])
-                if wt.is_present():
-                    if wt.get_start() != wt.get_end():
-                        visu.interval(wt, "salmon", x[job_number].get_name())
-        visu.show()
+        # if sol and visu.is_visu_enabled():
+        #     visu.timeline('Solution SchedOptional', 0, 110)
+        #     for job_number in range(no_jobs):
+        #         visu.sequence(name=job_number)
+        #         wt = sol.get_var_solution(x[job_number])
+        #         if wt.is_present():
+        #             if wt.get_start() != wt.get_end():
+        #                 visu.interval(wt, "salmon", x[job_number].get_name())
+        # visu.show()
 
         # Define the data for the Gantt chart
         print(sol.get_value(x[0]))
