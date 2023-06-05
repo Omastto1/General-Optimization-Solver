@@ -28,42 +28,34 @@ class MMRCPSP(RCPSP):
     def validate(self, sol, x):
         super().validate(sol, x)
 
-    def visualize(self, sol, x, ys):
+    def visualize(self, sol, xs):
         # https://ibmdecisionoptimization.github.io/docplex-doc/cp/visu.rcpsp.py.html
 
         if sol and visu.is_visu_enabled():
             load = [CpoStepFunction() for j in range(
                 self.no_renewable_resources + self.no_non_renewable_resources)]
-            for i in range(self.no_jobs):
-                for j in range(self.no_modes_list[i]):
-                    if sol.get_var_solution(ys[i][j]).is_absent():
-                        continue
+            for i, _x in enumerate(xs[1:-1], start=1):
 
-                    _x = ys[i][j]
-
-                    itv = sol.get_var_solution(ys[i][j])
-                    print("itv solution", itv.get_start(), itv.get_end())
-                    print(ys[i][j].get_name())
-                    mode = int(ys[i][j].get_name().split("_")[-1])
-                    print("mode", mode)
-                    print("ranges", self.no_renewable_resources, self.no_jobs, self.no_modes_list[i])
-                    for j in range(self.no_renewable_resources):
-                        print(j, i, mode)
-                        if 0 < self.requests[j][i][mode]:
-                            load[j].add_value(
-                                itv.get_start(), itv.get_end(), self.requests[j][i][mode])
-                    for j in range(2, self.no_non_renewable_resources + 2):
-                        if 0 < self.requests[j][i][mode]:
-                            load[j].add_value(
-                                itv.get_start(), sol.get_objective_value(), self.requests[j][i][mode])
+                itv = sol.get_var_solution(_x)
+                print("itv solution", itv.get_start(), itv.get_end())
+                print(_x.get_name())
+                mode = int(_x.get_name().split("_")[-1])
+                print("mode", mode)
+                print("ranges", self.no_renewable_resources, self.no_jobs)
+                for j in range(self.no_renewable_resources):
+                    print(j, i, mode)
+                    if 0 < self.requests[j][i][mode]:
+                        load[j].add_value(
+                            itv.get_start(), itv.get_end(), self.requests[j][i][mode])
+                for j in range(2, self.no_non_renewable_resources + 2):
+                    if 0 < self.requests[j][i][mode]:
+                        load[j].add_value(
+                            itv.get_start(), sol.get_objective_value(), self.requests[j][i][mode])
 
             visu.timeline('Solution for RCPSP ')  # + filename)
             visu.panel('Tasks')
-            for i in range(self.no_jobs):
-                for j in range(self.no_modes_list[i]):
-                    if sol.get_var_solution(ys[i][j]).is_absent():
-                        continue
-                    visu.interval(sol.get_var_solution(ys[i][j]), i, ys[i][j].get_name())
+            for _x in xs[1:-1]:
+                visu.interval(sol.get_var_solution(_x), i, "_".join(_x.get_name().split("_")[:2] + _x.get_name().split("_")[3:]))
 
             for j in range(self.no_renewable_resources):
                 visu.panel('R' + str(j+1))
