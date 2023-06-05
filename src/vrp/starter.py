@@ -39,7 +39,8 @@ def main(args):
         solver = Solver(time_precision_scaler)
         solver.load_instance(cvrptw_prob)
         solver.create_model()
-        settings = {'time_limit': int(instance['our_best_solution']['search_progress'][-1][1] + 5)}
+        # settings = {'time_limit': int(instance['our_best_solution']['search_progress'][-1][1] + 5)}
+        settings = {'time_limit': 20}
         solver.solve_model(settings)
         # solver.print_solution()
         out = solver.output()
