@@ -1,5 +1,5 @@
 import os
-from cvrptw import *
+from integer_model import *
 from ORsolver import *
 
 
@@ -43,7 +43,7 @@ def main(args):
         settings = {'time_limit': 20}
         solver.solve_model(settings)
         # solver.print_solution()
-        out = solver.output()
+        out = solver.get_solution()
         instance['solutions'].append(out)
 
         output = os.path.join(args[1], folder_name, instance_name + '.json')

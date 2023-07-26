@@ -1,20 +1,12 @@
+import json
 from math import sqrt
 
 import numpy as np
 from ortools.constraint_solver import pywrapcp, routing_enums_pb2
 from pydantic import BaseModel
 
-from cvrptw import *
-
-
-class ProblemInstance(BaseModel):
-    time_matrix: list
-    time_windows: list
-    demands: list
-    depot: int
-    num_vehicles: int
-    vehicle_capacities: list
-    service_times: list
+from Solver import *
+from utils import *
 
 
 class SolverSetting(BaseModel):
@@ -186,9 +178,9 @@ class Solver:
             print(f"Total travel time of all routes: {total_travel_time}min")
             print(f"Total vehicles used: {total_vehicles}")
 
-    def output(self):
+    def get_solution(self):
         distance = 0
-        vehicles = 0
+        total_vehicles = 0
         time = self.time
         solver = 'OR-Tools'
         paths = []
@@ -199,7 +191,6 @@ class Solver:
             # )
             time_dimension = self.routing.GetDimensionOrDie("Time")
             cap_dimension = self.routing.GetDimensionOrDie("Capacity")
-            total_time = 0
             total_vehicles = 0
             for vehicle_id in range(self.data["num_vehicles"]):
                 index = self.routing.Start(vehicle_id)
@@ -215,21 +206,21 @@ class Solver:
                 # plan_output += f"{self.manager.IndexToNode(index)}\n"
                 # plan_output += f"Time of the route: {self.solution.Min(time_var)/self.time_precision_scaler}min\n"
                 # plan_output += f"Load of vehicle: {self.solution.Min(cap_var)}\n"
-                total_time += self.solution.Min(time_var) / self.time_precision_scaler
+                distance += self.solution.Min(time_var) / self.time_precision_scaler
                 if self.solution.Min(time_var) > 0:
                     # print(plan_output)
                     total_vehicles += 1
                     path = [i if i < len(self.data["service_times"]) else 0 for i in path]
                     paths.append(path)
             total_travel_time = (
-                total_time
+                distance
                 - sum(self.data["service_times"]) / self.time_precision_scaler
             )
             # print(f"Total time of all routes: {total_time}min")
             # print(f"Total travel time of all routes: {total_travel_time}min")
             # print(f"Total vehicles used: {total_vehicles}")
 
-        return {'distance': distance, 'vehicles': total_vehicles, 'time': time, 'solver': solver, 'paths': paths}
+        return {'distance': 0, 'vehicles': total_vehicles, 'time': time, 'solver': solver, 'paths': paths}
 
 
     def load_instance(self, instance: CVRPTWProblem):
@@ -276,3 +267,63 @@ class Solver:
         data["vehicle_capacities"] = [instance.truck_capacity for _ in range(instance.nb_trucks)]
 
         self.data = data
+
+
+def path_to_distance(path, data):
+    vrp = data
+
+    total_distance = 0
+    for route in path['paths']:
+        if len(route) > 2:
+            for idx, nd in enumerate(route[:-1]):
+                nxt = route[idx + 1]
+                locald = vrp.get_distance(nd, nxt)
+
+                total_distance += locald
+
+    total_distance /= TIME_FACTOR
+    return total_distance
+
+
+class ORsolver(Solver):
+    def __init__(self):
+        self.sol = None
+        self.solution = None
+        self.fname = None
+        self.model = None
+        self.data_model = None
+        self.instance = None
+
+        self.data = CVRPTWProblem()
+
+    def read_json(self, fname):
+        self.fname = fname
+        with open(fname) as f:
+            self.instance = json.load(f)
+        self.data.from_dict(self.instance['data'])
+        self.model = Solver(TIME_FACTOR)
+        self.model.load_instance(self.data)
+        self.model.create_model()
+
+    def save_to_json(self, fout=None):
+        if fout is None:
+            fout = self.fname
+        with open(fout, 'w') as f:
+            json.dump(self.instance, f)
+
+    def solve(self, tlim):
+        settings = {'time_limit': tlim}
+        self.model.solve_model(settings)
+        # solver.print_solution()
+        self.solution = self.model.get_solution()
+        self.solution['total_distance'] = path_to_distance(self.solution, self.data)
+        self.instance['solutions'].append(self.solution)
+
+    def display_solution(self):
+        self.model.print_solution()
+
+    def validate_solution(self):
+        validate_path(self.solution, self.data)
+
+    def visualize_solution(self):
+        visualize_path(self.solution, self.data, self.data)
