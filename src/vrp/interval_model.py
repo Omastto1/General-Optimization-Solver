@@ -13,8 +13,8 @@ from docplex.cp.model import CpoModel, CpoParameters
 import docplex.cp.solver.solver as solver
 from docplex.cp.utils import compare_natural
 
-from .Solver import *
-from .utils import *
+from Solver import *
+from utils import *
 
 # print("solver.get_version_info()=", solver.get_version_info())
 solver_version = solver.get_version_info()['SolverVersion']
@@ -106,6 +106,10 @@ def build_model(cvrp_prob):
     num_vehicles = vrp.get_num_vehicles()
     n = vrp.get_num_visits()
 
+    print("num_cust=", num_cust)
+    print("num_vehicles=", num_vehicles)
+    print("n=", n)
+
     mdl = CpoModel()
 
     # job_operations = [[model.interval_var(name=f"J_{job}_{order_index}", size=instance.durations[job][order_index])
@@ -117,16 +121,20 @@ def build_model(cvrp_prob):
 
     visit = [mdl.interval_var(size=vrp.get_service_time(i), name="V{}".format(i)) for i in range(n)]
 
+    #  dvar interval wtvisitInterval [v in clientVisits] size v.dropTime..horizon;
+
+    twVisitInterval = [mdl.interval_var(size=(vrp.get_earliest_start(i), vrp.get_latest_start(i) + vrp.get_service_time(i)), name="TW{}".format(i)) for i in range(num_cust)]
+
     # optional interval variable that represents the time
     # interval for the visit of vehicle k 2 K l at vertex
     # i 2 Vþ
 
-    visit_veh = [[mdl.interval_var(optional=True, name="V{}_{}".format(i, k)) for i in range(n)] for k in range(num_vehicles)]
+    visit_veh = [[mdl.interval_var(optional=True, name="V{}_{}".format(i, vehicle)) if i != num_cust + vehicle and i != num_cust + num_vehicles + vehicle else mdl.interval_var(name="V{}_{}".format(i, vehicle)) for i in range(n)] for vehicle in range(num_vehicles)]
 
     # dvar sequence route[veh in vehicles] in all(v in allVisits) tvisitInterval[v][veh]
     #                                   types all(v in allVisits) ord(allVisits,v);
 
-    seq = [mdl.sequence_var([visit_veh[k][i] for i in range(n)], types=[i for i in range(n)], name="R{}".format(k)) for k in range(num_vehicles)]
+    route = [mdl.sequence_var([visit_veh[vehicle][i] for i in range(n)], types=[i for i in range(n)], name="R{}".format(vehicle)) for vehicle in range(num_vehicles)]
 
     # dvar interval truck [veh in vehicles] optional;
 
@@ -134,36 +142,58 @@ def build_model(cvrp_prob):
 
     # dexpr float travelMaxTime = max(veh in vehicles) endOf(tvisitInterval[lastDepotVisit][veh]);
 
-    travel_max_time = mdl.max([mdl.end_of(visit_veh[k][n - 1]) for k in range(num_vehicles)])
+    travel_max_time = mdl.sum([mdl.end_of(visit_veh[vehicle][num_cust + num_vehicles + vehicle]) for vehicle in range(num_vehicles)])
 
     # dexpr int nbUsed = sum(veh in vehicles) presenceOf(truck[veh]);
 
     nb_used = mdl.sum([mdl.presence_of(truck[k]) for k in range(num_vehicles)])
+
+    # dexpr int load[veh in vehicles] = sum(v in clientVisits) presenceOf(tvisitInterval[v][veh])*v.quantity;
+
+    load = [mdl.sum([mdl.presence_of(visit_veh[vehicle][i]) * vrp.get_demand(i) for i in range(n)]) for vehicle in range(num_vehicles)]
 
     # minimize staticLex(travelMaxTime,nbUsed);
 
     # mdl.add(mdl.minimize_static_lex([travel_max_time, nb_used]))
     mdl.add(mdl.minimize(travel_max_time))
 
-    print(len(vrp.distance_matrix))
-    print(vrp.distance_matrix)
+    # print("len(vrp.distance_matrix)= ", len(vrp.distance_matrix))
+    # for i in range(len(vrp.distance_matrix)):
+    #     print(f"vrp.distance_matrix[{i}]= ", vrp.distance_matrix[i])
+    # print(vrp.distance_matrix)
 
     #   forall(veh in vehicles) {
-    for k in range(num_vehicles):
+    for vehicle in range(num_vehicles):
         #   	span (truck[veh], all(v in clientVisits) tvisitInterval[v][veh]);
-        mdl.add(mdl.span(truck[k], [visit_veh[k][i] for i in range(n)]))
+        # mdl.add(mdl.span(truck[vehicle], [visit_veh[vehicle][i] for i in range(n)]))
         #     noOverlap(route[veh], Dist);          // Travel time
-        mdl.add(mdl.no_overlap(seq[k], vrp.distance_matrix))
+        mdl.add(mdl.no_overlap(route[vehicle], vrp.distance_matrix))
         #     startOf(tvisitInterval[firstDepotVisit][veh])==0;     // Truck t starts at time 0 from depot
-        mdl.add(mdl.first(seq[k], visit_veh[k][0]))
-
+        mdl.add(mdl.start_of(visit_veh[vehicle][num_cust + vehicle]) == 0)
+        mdl.add(mdl.first(route[vehicle], visit_veh[vehicle][num_cust + vehicle]))
         #     last (route[veh],tvisitInterval[lastDepotVisit] [veh]); // Truck t returns at depot
-        mdl.add(mdl.last(seq[k], visit_veh[k][n - 1]))
+        mdl.add(mdl.last(route[vehicle], visit_veh[vehicle][num_cust + num_vehicles + vehicle]))
+        # print(f"Vehicle {vehicle} starts at {num_cust + vehicle} and ends at {num_cust + num_vehicles + vehicle}")
+        # load[veh] <= veh.capacity;                       // Truck capacity
+        # temp1 = load[vehicle]
+        # temp2 = vrp.get_capacity()
+        # print(f"temp1= {temp1}")
+        # print()
+        # print(f"temp2= {temp2}")
+        mdl.add(load[vehicle] <= vrp.get_capacity())
 
     #   forall(v in clientVisits)
     #     alternative(visitInterval[v], all(t in vehicles) tvisitInterval[v][t]); // Truck selection
     for i in range(n):
         mdl.add(mdl.alternative(visit[i], [visit_veh[k][i] for k in range(num_vehicles)]))
+
+    for i in range(num_cust):
+        # endAtEnd(wtvisitInterval[v], visitInterval[v]);
+        mdl.add(mdl.end_before_end(visit[i], twVisitInterval[i]))
+
+        # mdl.add(mdl.end_at_end(twVisitInterval[i], visit[i]))
+        # startBeforeStart(wtvisitInterval[v], visitInterval[v]);
+        mdl.add(mdl.start_before_start(twVisitInterval[i], visit[i]))
 
     return mdl, data
 
