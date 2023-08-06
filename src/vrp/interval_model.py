@@ -123,7 +123,7 @@ def build_model(cvrp_prob):
 
     #  dvar interval wtvisitInterval [v in clientVisits] size v.dropTime..horizon;
 
-    twVisitInterval = [mdl.interval_var(size=(vrp.get_earliest_start(i), vrp.get_latest_start(i) + vrp.get_service_time(i)), name="TW{}".format(i)) for i in range(num_cust)]
+    twVisitInterval = [mdl.interval_var(start=vrp.get_earliest_start(i), end=vrp.get_latest_start(i) + vrp.get_service_time(i), name="TW{}".format(i)) for i in range(num_cust)]
 
     # optional interval variable that represents the time
     # interval for the visit of vehicle k 2 K l at vertex
@@ -150,7 +150,7 @@ def build_model(cvrp_prob):
 
     # dexpr int load[veh in vehicles] = sum(v in clientVisits) presenceOf(tvisitInterval[v][veh])*v.quantity;
 
-    load = [mdl.sum([mdl.presence_of(visit_veh[vehicle][i]) * vrp.get_demand(i) for i in range(n)]) for vehicle in range(num_vehicles)]
+    load = [mdl.sum([mdl.presence_of(visit_veh[vehicle][i]) * vrp.get_demand(i-1) for i in range(n)]) for vehicle in range(num_vehicles)]
 
     # minimize staticLex(travelMaxTime,nbUsed);
 
@@ -188,8 +188,10 @@ def build_model(cvrp_prob):
         mdl.add(mdl.alternative(visit[i], [visit_veh[k][i] for k in range(num_vehicles)]))
 
     for i in range(num_cust):
+        if i == 23:
+            print(i, visit[i], twVisitInterval[i])
         # endAtEnd(wtvisitInterval[v], visitInterval[v]);
-        mdl.add(mdl.end_before_end(visit[i], twVisitInterval[i]))
+        mdl.add(mdl.end_before_end(visit[i], twVisitInterval[i], ))
 
         # mdl.add(mdl.end_at_end(twVisitInterval[i], visit[i]))
         # startBeforeStart(wtvisitInterval[v], visitInterval[v]);

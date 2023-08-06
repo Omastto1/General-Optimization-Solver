@@ -226,7 +226,11 @@ def validate_path(path, data):
     assert all(visited), "Not all customers have been visited"
 
     total_distance /= TIME_FACTOR
-    target = path['total_distance']
-    diff = abs(total_distance - target)
-    assert diff < 0.1, f"Total distance {total_distance} does not match objective value {target}"
+    if 'total_distance' in path:
+        target = path['total_distance']
+        diff = abs(total_distance - target)
+        assert diff < 0.1, f"Total distance {total_distance} does not match objective value {target}"
+    else:
+        print("No distance found in solution, adding it", total_distance)
+        path['total_distance'] = total_distance
     print("Valid solution, total_distance =", total_distance)
