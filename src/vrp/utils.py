@@ -2,7 +2,7 @@ import math
 
 from matplotlib import pyplot as plt
 
-TIME_FACTOR = 10
+TIME_FACTOR = 1
 
 class CVRPTWProblem:
     def __init__(self):
@@ -221,6 +221,7 @@ def validate_path(path, data):
                     arrive = start + locald
                     total_distance += locald
             assert total_load <= vrp.get_capacity(), f"Vehicle {v} exceeds its capacity"
+            # print("Route len", arrive)
         v += 1
 
     assert all(visited), "Not all customers have been visited"
