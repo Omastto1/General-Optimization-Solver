@@ -309,6 +309,8 @@ class Integer_model(Solver):
         self.solution['solver_version'] = self.sol.process_infos['SolverVersion']
         self.solution['date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        self.solution['solver'] = 'Docplex, integer model'
+
         log = self.sol.solver_log
 
         # Define the regex pattern

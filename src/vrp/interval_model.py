@@ -8,7 +8,9 @@ from collections import namedtuple
 import platform
 import re
 import multiprocessing
+import numpy as np
 
+import docplex
 from docplex.cp.model import *
 import docplex.cp.solver.solver as solver
 from docplex.cp.utils import compare_natural
@@ -144,7 +146,7 @@ def build_model(cvrp_prob):
     all_dist = []
     for vehicle in range(num_vehicles):
         for curr in range(n):
-            all_dist.append(mdl.element(vrp.distance_matrix[curr], mdl.type_of_next(route[vehicle], visit_veh[vehicle][curr], curr)))
+            all_dist.append(mdl.element(vrp.distance_matrix[curr], mdl.type_of_next(route[vehicle], visit_veh[vehicle][curr], curr, curr)))
     total_distance = mdl.sum(all_dist) / TIME_FACTOR
 
     # cost = mdl.sum(mdl.sum(transition_matrix[curr][mdl.type_of_next(route[vehicle], visit_veh[vehicle][curr], curr, curr)])
@@ -237,34 +239,40 @@ def display_solution(sol, data):
 
 
 def get_solution(sol, data):
-    vrp = data.vrp
-    sprev = tuple(sol.solution[p] for p in data.prev)
+    vrp = data
 
     n_vehicles = 0
-    total_distance = 0
+    total_distance = np.round(sol.solution.objective_values[0], 3)
     paths = []
 
-    for v, fv, lv in vrp.vehicles():
-        route = []
-        nd = lv
-        while nd != fv:
-            route.append(nd)
-            nd = sprev[nd]
-        route.append(fv)
-        route.reverse()
+    solutions = []
 
-        if len(route) > 2:
-            n_vehicles += 1
-            paths.append([0 if i + 1 > vrp.get_num_customers() else i + 1 for i in route])
+    for key, sol in sol.solution.var_solutions_dict.items():
+        match type(sol):
 
-            for idx, nd in enumerate(route):
-                if nd != route[-1]:
-                    nxt = route[idx + 1]
-                    locald = vrp.get_distance(nd, nxt)
-                    total_distance += locald
+            case docplex.cp.solution.CpoSequenceVarSolution:
+                if sol.lvars != []:
+                    # print(sol)
+                    if len(sol.lvars) > 2:
+                        solutions.append(sol)
+                        # print("found path", key)
 
-    total_distance /= TIME_FACTOR
-    ret = {'n_vehicles': n_vehicles, 'total_distance': total_distance, 'paths': paths}
+
+    # convert sequence to path
+    paths = []
+    for sol in solutions:
+        path = []
+        for i in range(len(sol.lvars)):
+            target = int(sol.lvars[i].get_name()[1:].split('_')[0]) + 1
+            if target > vrp.nb_customers:
+                target = 0
+            path.append(target)
+        if path in paths:
+            continue
+        # path.reverse()
+        paths.append(path)
+
+    ret = {'n_vehicles': len(paths), 'total_distance': total_distance, 'paths': paths}
     return ret
 
 
@@ -326,7 +334,7 @@ class Interval_model(Solver):
         else:
             self.sol = self.model.solve(TimeLimit=tlim, agent='local', execfile=execfile)
         # Get number of cars and their paths from solution
-        self.solution = get_solution(self.sol, self.data_model)
+        self.solution = get_solution(self.sol, self.data)
 
         # self.validate_solution()
 
@@ -337,6 +345,8 @@ class Interval_model(Solver):
         self.solution['n_cores'] = multiprocessing.cpu_count()   # Doesn't work on cluster
         self.solution['solver_version'] = self.sol.process_infos['SolverVersion']
         self.solution['date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        self.solution['solver'] = 'Docplex, interval model'
 
         log = self.sol.solver_log
 
@@ -413,4 +423,21 @@ class Interval_model(Solver):
 
 
 if __name__ == "__main__":
-    pass
+    fname = "..\\..\\data\\VRPTW\\solomon_25\\RC201.json"
+
+    instance = Interval_model()
+    instance.read_json(fname)
+
+    print('best_known_solution:', instance.instance['best_known_solution']['Distance'])
+    if instance.instance['best_known_solution'] is not None:
+        print('best_known_solution:', instance.instance['best_known_solution']['Distance'])
+        print('prdel')
+    else:
+        print('best_known_solution: None')
+
+    instance.solve(10)
+    instance.visualize_solution()
+    instance.visualize_progress()
+    instance.display_solution()
+    instance.validate_solution()
+
