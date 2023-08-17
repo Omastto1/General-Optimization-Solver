@@ -2,7 +2,7 @@ import math
 
 from matplotlib import pyplot as plt
 
-TIME_FACTOR = 1
+TIME_FACTOR = 10
 
 class CVRPTWProblem:
     def __init__(self):

@@ -112,6 +112,8 @@ def build_model(cvrp_prob):
 
     mdl = CpoModel()
 
+    # transition_matrix = CpoTransitionMatrix(values=vrp.distance_matrix)
+
     # job_operations = [[model.interval_var(name=f"J_{job}_{order_index}", size=instance.durations[job][order_index])
     #                            for order_index in range(instance.no_machines)] for job in range(instance.no_jobs)]
     # interval variable that represents the time interval of size
@@ -139,18 +141,13 @@ def build_model(cvrp_prob):
 
     route = [mdl.sequence_var([visit_veh[vehicle][i] for i in range(n)], types=[i for i in range(n)], name="R{}".format(vehicle)) for vehicle in range(num_vehicles)]
 
-    # dvar interval truck [veh in vehicles] optional;
+    all_dist = []
+    for vehicle in range(num_vehicles):
+        for curr in range(n):
+            all_dist.append(mdl.element(vrp.distance_matrix[curr], mdl.type_of_next(route[vehicle], visit_veh[vehicle][curr], curr)))
+    total_distance = mdl.sum(all_dist) / TIME_FACTOR
 
-    # truck = [mdl.interval_var(optional=True, name="T{}".format(k)) for k in range(num_vehicles)]
-
-    # dexpr float travelMaxTime = max(veh in vehicles) endOf(tvisitInterval[lastDepotVisit][veh]);
-
-    # print("sum fuk=", sum([vrp.get_service_time(i) for i in range(num_cust)]))
-
-    travel_max_time = (mdl.sum([mdl.end_of(visit_veh[vehicle][num_cust + num_vehicles + vehicle]) for vehicle in range(num_vehicles)])
-                       - sum([vrp.get_service_time(i) for i in range(num_cust)]))
-
-    # cost = mdl.sum(mdl.sum(vrp.get_distance(num_cust + vehicle, mdl.type_of_next()), last = 5) for vehicle in range(num_vehicles))
+    # cost = mdl.sum(mdl.sum(transition_matrix[curr][mdl.type_of_next(route[vehicle], visit_veh[vehicle][curr], curr, curr)])
 
     # total_distance =
 
@@ -165,7 +162,7 @@ def build_model(cvrp_prob):
     # minimize staticLex(travelMaxTime,nbUsed);
 
     # mdl.add(mdl.minimize_static_lex([travel_max_time, nb_used]))
-    mdl.add(mdl.minimize(travel_max_time))
+    mdl.add(mdl.minimize(total_distance))
 
     # print("len(vrp.distance_matrix)= ", len(vrp.distance_matrix))
     # for i in range(len(vrp.distance_matrix)):
