@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SchedulingPeriod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                  xsi:noNamespaceSchemaLocation="SchedulingPeriod-3.0.xsd">
+
+    <StartDate>2014-01-06</StartDate>
+    <EndDate>2014-02-02</EndDate>
+ 
+    <ShiftTypes>
+ 
+        <Shift ID="E">
+            <Color>LightPink</Color>
+            <StartTime>6:0</StartTime>
+            <Duration>480</Duration>
+        </Shift>       
+     
+        <Shift ID="L">
+            <Color>FloralWhite</Color>
+            <StartTime>14:0</StartTime>
+            <Duration>480</Duration>
+        </Shift>       
+     
+    </ShiftTypes>
+
+
+    <Contracts>
+        <Contract ID="All">
+            <MinRestTime label="At least 840 minutes rest after a shift">840</MinRestTime>
+        </Contract>
+        
+        <Contract ID="A">
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,"/>
+        </Contract>
+        
+        <Contract ID="B">
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,"/>
+        </Contract>
+        
+        <Contract ID="C">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="D">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="E">
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,"/>
+        </Contract>
+        
+        <Contract ID="F">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="G">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="H">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="I">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="J">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 5 consecutive shifts" value="5" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 2 consecutive days off" value="2" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>2</Count><Label>Max 2 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="K">
+            <MaxSeq label="Max 6 consecutive shifts" value="6" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 3 consecutive days off" value="3" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>3</Count><Label>Max 3 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,"/>
+        </Contract>
+        
+        <Contract ID="L">
+            <MaxSeq label="Max 6 consecutive shifts" value="6" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 3 consecutive days off" value="3" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>3</Count><Label>Max 3 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,"/>
+        </Contract>
+        
+        <Contract ID="M">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 6 consecutive shifts" value="6" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 3 consecutive days off" value="3" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>3</Count><Label>Max 3 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="N">
+            <MaxSeq label="Max 6 consecutive shifts" value="6" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 3 consecutive days off" value="3" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>3</Count><Label>Max 3 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,"/>
+        </Contract>
+        
+        <Contract ID="O">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 6 consecutive shifts" value="6" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 3 consecutive days off" value="3" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>3</Count><Label>Max 3 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+        
+        <Contract ID="P">
+            <MaxTot label="Max 14 L shifts" value="14" shift="L"/>
+            <MaxSeq label="Max 6 consecutive shifts" value="6" shift="$"/>
+            <MinSeq label="Min 2 consecutive shifts" value="2" shift="$"/>
+            <MinSeq label="Min 3 consecutive days off" value="3" shift="-"/>
+            <Workload><TimeUnits><Max><Count>8640</Count><Label>Max 8640 mins</Label></Max></TimeUnits>
+                      <TimeUnits><Min><Count>7560</Count><Label>Min 7560 mins</Label></Min></TimeUnits></Workload>
+            <Patterns><Match>
+                <Max><Count>3</Count><Label>Max 3 weekends</Label></Max>        
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>-</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>-</Shift><Shift>$</Shift></Pattern>
+                <Pattern><StartDay>Saturday</StartDay><Shift>$</Shift><Shift>$</Shift></Pattern>    
+            </Match></Patterns>
+            <ValidShifts shift="E,L,"/>
+        </Contract>
+          
+    </Contracts>
+    
+    <Employees>
+        <Employee ID="A">
+            <ContractID>All</ContractID>
+            <ContractID>A</ContractID>
+        </Employee>
+        <Employee ID="B">
+            <ContractID>All</ContractID>
+            <ContractID>B</ContractID>
+        </Employee>
+        <Employee ID="C">
+            <ContractID>All</ContractID>
+            <ContractID>C</ContractID>
+        </Employee>
+        <Employee ID="D">
+            <ContractID>All</ContractID>
+            <ContractID>D</ContractID>
+        </Employee>
+        <Employee ID="E">
+            <ContractID>All</ContractID>
+            <ContractID>E</ContractID>
+        </Employee>
+        <Employee ID="F">
+            <ContractID>All</ContractID>
+            <ContractID>F</ContractID>
+        </Employee>
+        <Employee ID="G">
+            <ContractID>All</ContractID>
+            <ContractID>G</ContractID>
+        </Employee>
+        <Employee ID="H">
+            <ContractID>All</ContractID>
+            <ContractID>H</ContractID>
+        </Employee>
+        <Employee ID="I">
+            <ContractID>All</ContractID>
+            <ContractID>I</ContractID>
+        </Employee>
+        <Employee ID="J">
+            <ContractID>All</ContractID>
+            <ContractID>J</ContractID>
+        </Employee>
+        <Employee ID="K">
+            <ContractID>All</ContractID>
+            <ContractID>K</ContractID>
+        </Employee>
+        <Employee ID="L">
+            <ContractID>All</ContractID>
+            <ContractID>L</ContractID>
+        </Employee>
+        <Employee ID="M">
+            <ContractID>All</ContractID>
+            <ContractID>M</ContractID>
+        </Employee>
+        <Employee ID="N">
+            <ContractID>All</ContractID>
+            <ContractID>N</ContractID>
+        </Employee>
+        <Employee ID="O">
+            <ContractID>All</ContractID>
+            <ContractID>O</ContractID>
+        </Employee>
+        <Employee ID="P">
+            <ContractID>All</ContractID>
+            <ContractID>P</ContractID>
+        </Employee>
+    
+    </Employees>
+
+    <FixedAssignments>
+        <Employee><EmployeeID>A</EmployeeID><Assign><Shift>-</Shift><Day>17</Day></Assign></Employee>
+        <Employee><EmployeeID>A</EmployeeID><Assign><Shift>-</Shift><Day>22</Day></Assign></Employee>
+        <Employee><EmployeeID>B</EmployeeID><Assign><Shift>-</Shift><Day>9</Day></Assign></Employee>
+        <Employee><EmployeeID>B</EmployeeID><Assign><Shift>-</Shift><Day>23</Day></Assign></Employee>
+        <Employee><EmployeeID>C</EmployeeID><Assign><Shift>-</Shift><Day>5</Day></Assign></Employee>
+        <Employee><EmployeeID>C</EmployeeID><Assign><Shift>-</Shift><Day>6</Day></Assign></Employee>
+        <Employee><EmployeeID>D</EmployeeID><Assign><Shift>-</Shift><Day>9</Day></Assign></Employee>
+        <Employee><EmployeeID>D</EmployeeID><Assign><Shift>-</Shift><Day>13</Day></Assign></Employee>
+        <Employee><EmployeeID>E</EmployeeID><Assign><Shift>-</Shift><Day>22</Day></Assign></Employee>
+        <Employee><EmployeeID>E</EmployeeID><Assign><Shift>-</Shift><Day>23</Day></Assign></Employee>
+        <Employee><EmployeeID>F</EmployeeID><Assign><Shift>-</Shift><Day>11</Day></Assign></Employee>
+        <Employee><EmployeeID>F</EmployeeID><Assign><Shift>-</Shift><Day>12</Day></Assign></Employee>
+        <Employee><EmployeeID>G</EmployeeID><Assign><Shift>-</Shift><Day>8</Day></Assign></Employee>
+        <Employee><EmployeeID>G</EmployeeID><Assign><Shift>-</Shift><Day>19</Day></Assign></Employee>
+        <Employee><EmployeeID>H</EmployeeID><Assign><Shift>-</Shift><Day>6</Day></Assign></Employee>
+        <Employee><EmployeeID>H</EmployeeID><Assign><Shift>-</Shift><Day>10</Day></Assign></Employee>
+        <Employee><EmployeeID>I</EmployeeID><Assign><Shift>-</Shift><Day>18</Day></Assign></Employee>
+        <Employee><EmployeeID>I</EmployeeID><Assign><Shift>-</Shift><Day>19</Day></Assign></Employee>
+        <Employee><EmployeeID>J</EmployeeID><Assign><Shift>-</Shift><Day>15</Day></Assign></Employee>
+        <Employee><EmployeeID>J</EmployeeID><Assign><Shift>-</Shift><Day>16</Day></Assign></Employee>
+        <Employee><EmployeeID>K</EmployeeID><Assign><Shift>-</Shift><Day>5</Day></Assign></Employee>
+        <Employee><EmployeeID>K</EmployeeID><Assign><Shift>-</Shift><Day>6</Day></Assign></Employee>
+        <Employee><EmployeeID>L</EmployeeID><Assign><Shift>-</Shift><Day>25</Day></Assign></Employee>
+        <Employee><EmployeeID>L</EmployeeID><Assign><Shift>-</Shift><Day>26</Day></Assign></Employee>
+        <Employee><EmployeeID>M</EmployeeID><Assign><Shift>-</Shift><Day>1</Day></Assign></Employee>
+        <Employee><EmployeeID>M</EmployeeID><Assign><Shift>-</Shift><Day>7</Day></Assign></Employee>
+        <Employee><EmployeeID>N</EmployeeID><Assign><Shift>-</Shift><Day>16</Day></Assign></Employee>
+        <Employee><EmployeeID>N</EmployeeID><Assign><Shift>-</Shift><Day>26</Day></Assign></Employee>
+        <Employee><EmployeeID>O</EmployeeID><Assign><Shift>-</Shift><Day>2</Day></Assign></Employee>
+        <Employee><EmployeeID>O</EmployeeID><Assign><Shift>-</Shift><Day>3</Day></Assign></Employee>
+        <Employee><EmployeeID>P</EmployeeID><Assign><Shift>-</Shift><Day>16</Day></Assign></Employee>
+        <Employee><EmployeeID>P</EmployeeID><Assign><Shift>-</Shift><Day>17</Day></Assign></Employee>
+
+    </FixedAssignments>
+    
+    <ShiftOffRequests>
+        <ShiftOff weight="2"><Shift>E</Shift><EmployeeID>A</EmployeeID><Day>10</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>A</EmployeeID><Day>19</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>E</Shift><EmployeeID>B</EmployeeID><Day>3</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>E</Shift><EmployeeID>B</EmployeeID><Day>4</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>E</Shift><EmployeeID>B</EmployeeID><Day>5</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>E</Shift><EmployeeID>B</EmployeeID><Day>11</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>E</Shift><EmployeeID>B</EmployeeID><Day>12</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>L</Shift><EmployeeID>C</EmployeeID><Day>14</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>L</Shift><EmployeeID>C</EmployeeID><Day>25</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>L</Shift><EmployeeID>C</EmployeeID><Day>26</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>L</Shift><EmployeeID>C</EmployeeID><Day>27</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>F</EmployeeID><Day>20</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>F</EmployeeID><Day>21</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>F</EmployeeID><Day>22</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>G</EmployeeID><Day>3</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>G</EmployeeID><Day>4</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>G</EmployeeID><Day>5</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>1</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>2</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>3</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>4</Day></ShiftOff>
+        <ShiftOff weight="2"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>5</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>E</Shift><EmployeeID>J</EmployeeID><Day>20</Day></ShiftOff>
+        <ShiftOff weight="1"><Shift>L</Shift><EmployeeID>O</EmployeeID><Day>25</Day></ShiftOff>
+        <ShiftOff weight="3"><Shift>L</Shift><EmployeeID>P</EmployeeID><Day>22</Day></ShiftOff>
+        <ShiftOff weight="3"><Shift>L</Shift><EmployeeID>P</EmployeeID><Day>23</Day></ShiftOff>
+        <ShiftOff weight="3"><Shift>L</Shift><EmployeeID>P</EmployeeID><Day>24</Day></ShiftOff>
+
+    </ShiftOffRequests>
+    
+    <ShiftOnRequests>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>A</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>A</EmployeeID><Day>3</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>A</EmployeeID><Day>4</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>A</EmployeeID><Day>5</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>C</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>C</EmployeeID><Day>9</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>C</EmployeeID><Day>10</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>1</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>3</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>4</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>5</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>D</EmployeeID><Day>10</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>D</EmployeeID><Day>14</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>D</EmployeeID><Day>15</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>D</EmployeeID><Day>16</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>20</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>21</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>D</EmployeeID><Day>22</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>3</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>4</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>5</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>6</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>12</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>13</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>14</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>15</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>E</EmployeeID><Day>16</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>F</EmployeeID><Day>8</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>L</Shift><EmployeeID>G</EmployeeID><Day>20</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>12</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>19</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>20</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>21</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>22</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>H</EmployeeID><Day>23</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>I</EmployeeID><Day>6</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>L</Shift><EmployeeID>I</EmployeeID><Day>12</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>L</Shift><EmployeeID>I</EmployeeID><Day>13</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>L</Shift><EmployeeID>I</EmployeeID><Day>14</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>L</Shift><EmployeeID>I</EmployeeID><Day>15</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>J</EmployeeID><Day>1</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>J</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>J</EmployeeID><Day>3</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>J</EmployeeID><Day>4</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>L</Shift><EmployeeID>J</EmployeeID><Day>10</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>K</EmployeeID><Day>22</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>K</EmployeeID><Day>23</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>K</EmployeeID><Day>24</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>K</EmployeeID><Day>25</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>L</EmployeeID><Day>7</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>L</EmployeeID><Day>8</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>L</EmployeeID><Day>9</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>L</EmployeeID><Day>10</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>9</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>10</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>11</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>12</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>13</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>21</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>22</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>M</EmployeeID><Day>23</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>N</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>N</EmployeeID><Day>3</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>N</EmployeeID><Day>11</Day></ShiftOn>
+         <ShiftOn weight="2"><Shift>E</Shift><EmployeeID>N</EmployeeID><Day>18</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>O</EmployeeID><Day>4</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>O</EmployeeID><Day>15</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>O</EmployeeID><Day>16</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>O</EmployeeID><Day>17</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>L</Shift><EmployeeID>O</EmployeeID><Day>18</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>2</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>3</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>4</Day></ShiftOn>
+         <ShiftOn weight="1"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>5</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>12</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>13</Day></ShiftOn>
+         <ShiftOn weight="3"><Shift>E</Shift><EmployeeID>P</EmployeeID><Day>14</Day></ShiftOn>
+
+    </ShiftOnRequests>
+    
+    <CoverRequirements>
+      <DateSpecificCover><Day>0</Day>
+          <Cover><Shift>E</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>1</Day>
+          <Cover><Shift>E</Shift><Min weight="100">7</Min><Max weight="1">7</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>2</Day>
+          <Cover><Shift>E</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>3</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>4</Day>
+          <Cover><Shift>E</Shift><Min weight="100">7</Min><Max weight="1">7</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">3</Min><Max weight="1">3</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>5</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">3</Min><Max weight="1">3</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>6</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>7</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>8</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>9</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>10</Day>
+          <Cover><Shift>E</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>11</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>12</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>13</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>14</Day>
+          <Cover><Shift>E</Shift><Min weight="100">7</Min><Max weight="1">7</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">3</Min><Max weight="1">3</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>15</Day>
+          <Cover><Shift>E</Shift><Min weight="100">8</Min><Max weight="1">8</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>16</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>17</Day>
+          <Cover><Shift>E</Shift><Min weight="100">7</Min><Max weight="1">7</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>18</Day>
+          <Cover><Shift>E</Shift><Min weight="100">7</Min><Max weight="1">7</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>19</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>20</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>21</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>22</Day>
+          <Cover><Shift>E</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>23</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>24</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>25</Day>
+          <Cover><Shift>E</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">4</Min><Max weight="1">4</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>26</Day>
+          <Cover><Shift>E</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">6</Min><Max weight="1">6</Max></Cover>
+      </DateSpecificCover>
+      <DateSpecificCover><Day>27</Day>
+          <Cover><Shift>E</Shift><Min weight="100">7</Min><Max weight="1">7</Max></Cover>
+          <Cover><Shift>L</Shift><Min weight="100">5</Min><Max weight="1">5</Max></Cover>
+      </DateSpecificCover>
+    </CoverRequirements>
+
+</SchedulingPeriod>
