@@ -4,18 +4,20 @@
 DOCS:
 
 # Parsers
-Collection of '{benchmark_name}.py' modules which should contain `load_{benchmark_name}` which load instance file and `load_{benchmark_name}_solution` which loads instance solution functions.
-instance loader should return json with keys similar to the specific PROBLEM class
-instance solution loader should return following json {"feasible": None, "optimum": None, "cpu_time": None, "bounds": None} (cpu_time and bounds being optional)
+
+Collection of '{benchmark_name}.py' modules which should contain `load_{benchmark_name}` which load instance file and `load_{benchmark_name}_solution` which loads instance solution functions.  
+
+Instance loader should return json with keys similar to the specific PROBLEM class.  
+
+Instance solution loader should return following json {"feasible": None, "optimum": None, "cpu_time": None, "bounds": None} (cpu_time and bounds being optional)
     
 # Solvers
-Solver class:
-    - __init__(TimeLimit, no_workers):
-        self.solved = False
-        self.params = CpoParameters()
-        self.params.LogVerbosity = 'Terse'
-        self.params.TimeLimit = TimeLimit
-        self.params.Workers = no_workers
+
+Solver class:  
+
+    - __init__(TimeLimit, no_workers):  
+        - solved  
+        - params  
 
     - solve_cp(instance, validate, visualize, force_execution): - solver specific
     - solve_gp(instance, validate, visualize, force_execution): - solver specific
@@ -23,10 +25,11 @@ Solver class:
     - solve(instance, method, validate, visualize, force_execution): -- abstract
 
 # PROBLEMS
-Benchmark class:
-    - __init__(name, instances):
-        _name
-        _instances
+Benchmark class:  
+
+    - __init__(name, instances):  
+        _name  
+        _instances  
 
     - solve(solver, method, force_dump)
       - for each instance in benchmark, run solver.solve method 
@@ -37,15 +40,16 @@ Benchmark class:
 
 
 OptimizationProblem class
-    - __init__(benchmark_name, instance_name, _instance_kind, data, solution, run_history):
-      - General config
-        - _benchmark_name
-        - _instance_name
-        - _instance_kind
-        - _data
-        - _solution
-        - _run_history
-      - Problem specific config
+
+    - __init__(benchmark_name, instance_name, _instance_kind, data, solution, run_history):  
+      - General config  
+        - _benchmark_name  
+        - _instance_name  
+        - _instance_kind  
+        - _data  
+        - _solution  
+        - _run_history  
+      - Problem specific config  
         - ...
 
     - load(path):
