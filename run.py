@@ -1,7 +1,7 @@
-from src.parsers.j30 import load_j30
-from src.parsers.patterson import load_patterson
-from src.parsers.c15 import load_c15
-from src.parsers.jobshop import load_jobshop
+from src.rcpsp.j30 import load_j30
+from src.rcpsp.patterson import load_patterson
+from src.mmrcpsp.c15 import load_c15
+from src.jobshop.parser import load_jobshop
 
 from src.general_optimization_solver import load_instance, load_raw_instance, load_benchmark, load_raw_benchmark
 

@@ -1,12 +1,12 @@
 import json
 from pathlib import Path
 
-from src.parsers.c15 import load_c15, load_c15_solution
-from src.parsers.j30 import load_j30, load_j30_solution
-from src.parsers.patterson import load_patterson , load_patterson_solution
-from src.parsers.jobshop import load_jobshop, load_jobshop_solution
-from src.parsers.strip_packing_2d import load_strip_packing, load_strip_packing_solution
-from src.parsers.mmlib import load_mmlib, load_mmlib_solution
+from src.mmrcpsp.c15 import load_c15, load_c15_solution
+from src.rcpsp.j30 import load_j30, load_j30_solution
+from src.rcpsp.patterson import load_patterson , load_patterson_solution
+from src.jobshop.parser import load_jobshop, load_jobshop_solution
+from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution
+from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
 
 from src.common.optimization_problem import Benchmark
 from src.mmrcpsp.problem import MMRCPSP
