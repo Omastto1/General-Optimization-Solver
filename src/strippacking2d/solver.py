@@ -1,7 +1,7 @@
 from docplex.cp.model import CpoModel
 from collections import namedtuple
 
-from .solver import Solver
+from ..common.solver import Solver
 
 
 class StripPacking2DSolver(Solver):

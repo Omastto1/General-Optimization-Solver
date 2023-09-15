@@ -1,4 +1,4 @@
-from src.rcpsp import RCPSP
+from src.rcpsp.problem import RCPSP
 import docplex.cp.utils_visu as visu
 from docplex.cp.model import CpoStepFunction
 

@@ -7,14 +7,12 @@ from src.parsers.patterson import load_patterson , load_patterson_solution
 from src.parsers.jobshop import load_jobshop, load_jobshop_solution
 from src.parsers.strip_packing_2d import load_strip_packing, load_strip_packing_solution
 from src.parsers.mmlib import load_mmlib, load_mmlib_solution
-from docplex.cp.model import CpoModel
 
-from src.mm_rcpsp import MMRCPSP
-from src.rcpsp import RCPSP
-from src.jobshop import JobShop
-from src.strip_packing_2d import StripPacking2D
-from src.optimization_problem import Benchmark
-
+from src.common.optimization_problem import Benchmark
+from src.mmrcpsp.problem import MMRCPSP
+from src.rcpsp.problem import RCPSP
+from src.jobshop.problem import JobShop
+from src.strippacking2d.problem import StripPacking2D
 
 
 def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=0, force_dump=True):

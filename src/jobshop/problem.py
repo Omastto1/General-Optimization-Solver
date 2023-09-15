@@ -1,4 +1,4 @@
-from src.optimization_problem import OptimizationProblem
+from src.common.optimization_problem import OptimizationProblem
 import docplex.cp.utils_visu as visu
 
 

@@ -1,5 +1,5 @@
 from src.general_optimization_solver import load_raw_instance
-from src.solvers.mmrcpsp import MMRCPSPSolver
+from src.mmrcpsp.solver import MMRCPSPSolver
 
 import sys
 

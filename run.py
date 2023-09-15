@@ -5,9 +5,9 @@ from src.parsers.jobshop import load_jobshop
 
 from src.general_optimization_solver import load_instance, load_raw_instance, load_benchmark, load_raw_benchmark
 
-from src.solvers.rcpsp import RCPSPSolver
-from src.solvers.mmrcpsp import MMRCPSPSolver
-from src.solvers.jobshop import JobShopSolver
+from src.rcpsp.solver import RCPSPSolver
+from src.mmrcpsp.solver import MMRCPSPSolver
+from src.jobshop.solver import JobShopSolver
 
 # instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
 # solution, _ = RCPSPSolver(TimeLimit=10).solve(instance, "CP")  # TimeLimit=1
