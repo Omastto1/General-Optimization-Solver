@@ -1,9 +1,9 @@
 # General-Optimization-Solver
 
 
-DOCS:
+## CLASS DOCS:
 
-# Parsers
+### Parsers
 
 Collection of '{benchmark_name}.py' modules which should contain `load_{benchmark_name}` which load instance file and `load_{benchmark_name}_solution` which loads instance solution functions.  
 
@@ -11,7 +11,7 @@ Instance loader should return json with keys similar to the specific PROBLEM cla
 
 Instance solution loader should return following json {"feasible": None, "optimum": None, "cpu_time": None, "bounds": None} (cpu_time and bounds being optional)
     
-# Solvers
+### Solvers
 
 Solver class:  
 
@@ -24,7 +24,7 @@ Solver class:
     
     - solve(instance, method, validate, visualize, force_execution): -- abstract
 
-# PROBLEMS
+### PROBLEMS
 Benchmark class:  
 
     - __init__(name, instances):  
@@ -79,6 +79,12 @@ OptimizationProblem class
     - visualize(solution, variables) - problem specific
     - validate(solution, variables) - problem specific
 
+## PROJECT STRUCTURE
+Each problem type has its own directory, which contains `solver.py` and `problem.py` modules as well as `parser` module, if only one input format is implemented or multiple modules with respective format names (`c15.py` and `mmlib.py` for MM-RCPSP)
+
+Base classes are located in `common` directory
+
+All important classes are imported to the `general_optimization_solver.py` module, which is the main entry point for the project
 
 ## TODO LIST
 ### Tomas
