@@ -1,17 +1,16 @@
 from src.common.optimization_problem import OptimizationProblem
-import docplex.cp.utils_visu as visu
+
 import matplotlib.pyplot as plt
-from docplex.cp.model import CpoStepFunction
+from matplotlib.patches import Rectangle
 
 
 class StripPacking2D(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
         super().__init__(benchmark_name, instance_name, "2DSTRIPPACKING", data, solution, run_history)
 
-        self.no_elements = self._data["no_elements"]  # number of activities
+        self.no_elements = len(self._data["rectangles"])
         self.strip_width = self._data["strip_width"]
-        self.widths = [element["width"] for element in self._data["elements"]]
-        self.heights = [element["height"] for element in self._data["elements"]]
+        self.rectangles = self._data["rectangles"]
 
     def validate(self, sol, x):
         # assert sol.get_objective_value(
@@ -24,60 +23,30 @@ class StripPacking2D(OptimizationProblem):
         print("WARNING: No validation implemented for 2D Strip Packing")
         return True
 
-    def visualize(self, sol, x):
-        print("WARNING: No visualization implemented for 2D Strip Packing")
-        pass
-        # no_jobs = len(x)
+    def visualize(self, sol, placements, total_height):
+        rectangles = []
+        for i, rectangle in enumerate(self.rectangles):
+            x, y = placements[i]
+            width, height = rectangle
+            rectangles.append((x, y, width, height))
 
-        # if sol and visu.is_visu_enabled():
-        #     visu.timeline('Solution SchedOptional', 0, 110)
-        #     for job_number in range(no_jobs):
-        #         visu.sequence(name=job_number)
-        #         wt = sol.get_var_solution(x[job_number])
-        #         if wt.is_present():
-        #             if wt.get_start() != wt.get_end():
-        #                 visu.interval(wt, "salmon", x[job_number].get_name())
-        # visu.show()
+        # Create a figure and axis for plotting
+        fig, ax = plt.subplots()
+        ax.set_xlim([0, self.strip_width])
+        ax.set_ylim([0, total_height])
 
-        # # Define the data for the Gantt chart
-        # print(sol.get_value(x[0]))
-        # start_times = [sol.get_var_solution(
-        #     x[i]).get_start() for i in range(no_jobs)]
-        # end_times = [sol.get_var_solution(x[i]).get_end()
-        #              for i in range(no_jobs)]
+        # Draw the large rectangle
+        large_rect = Rectangle((0, 0), self.strip_width, total_height, edgecolor='black', facecolor='none')
+        ax.add_patch(large_rect)
 
-        # # Create the Gantt chart
-        # fig, ax = plt.subplots()
-        # for i in range(no_jobs):
-        #     ax.broken_barh(
-        #         [(start_times[i], end_times[i] - start_times[i])], (i, 1), facecolors='blue')
-        # ax.set_ylim(0, no_jobs)
-        # ax.set_xlim(0, max(end_times))
-        # ax.set_xlabel('Time')
-        # ax.set_yticks(range(no_jobs))
-        # ax.set_yticklabels(['Activity %d' % i for i in range(no_jobs)])
-        # ax.grid(True)
-        # plt.show()
+        # Draw the small rectangles within the large rectangle
+        for i, (x, y, width, height) in enumerate(rectangles):
+            print(x, y, width, height)
+            # if orientations[i] == 'rotated':
+            #     height, width = width, height
+            rect = Rectangle((x, y), width, height, edgecolor='red', facecolor='green')
+            ax.add_patch(rect)
 
-        # # https://ibmdecisionoptimization.github.io/docplex-doc/cp/visu.rcpsp.py.html
-
-        # if sol and visu.is_visu_enabled():
-        #     load = [CpoStepFunction()
-        #             for j in range(self.no_renewable_resources)]
-        #     for i in range(no_jobs):
-        #         itv = sol.get_var_solution(x[i])
-        #         for j in range(self.no_renewable_resources):
-        #             if 0 < self.requests[j][i]:
-        #                 load[j].add_value(
-        #                     itv.get_start(), itv.get_end(), self.requests[j][i])
-
-        #     visu.timeline('Solution for RCPSP ')  # + filename)
-        #     visu.panel('Tasks')
-        #     for i in range(no_jobs):
-        #         visu.interval(sol.get_var_solution(x[i]), i, x[i].get_name())
-        #     for j in range(self.no_renewable_resources):
-        #         visu.panel('R' + str(j+1))
-        #         visu.function(
-        #             segments=[(0, 200, self.renewable_capacities[j])], style='area', color='lightgrey')
-        #         visu.function(segments=load[j], style='area', color=j)
-        #     visu.show()
+        # Set the aspect ratio and display the plot
+        ax.set_aspect('equal', 'box')
+        plt.show()
