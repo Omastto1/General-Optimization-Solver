@@ -1,11 +1,11 @@
 from docplex.cp.model import CpoModel
 from collections import namedtuple
 
-from ..common.solver import Solver
+from ...common.solver import CPSolver
 
 
-class MMRCPSPSolver(Solver):
-    def _solve_cp(self, instance, validate=False, visualize=False, force_execution=False):
+class MMRCPSPCPSolver(CPSolver):
+    def solve(self, instance, validate=False, visualize=False, force_execution=False):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
                 return None, None
