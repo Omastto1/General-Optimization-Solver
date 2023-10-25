@@ -3,6 +3,13 @@
 
 ## CLASS DOCS:
 
+## PROJECT STRUCTURE
+Each problem type has its own directory, which contains `solver` directory with solver modules and `problem.py` module as well as `parser` modules, if only one input format is implemented or multiple modules with respective format names (`c15.py` and `mmlib.py` for MM-RCPSP)
+
+Base classes are located in `common` directory
+
+All important classes are imported to the `general_optimization_solver.py` module, which is the main entry point for the project
+
 ### Parsers
 
 Collection of '{benchmark_name}.py' modules which should contain `load_{benchmark_name}` which load instance file and `load_{benchmark_name}_solution` which loads instance solution functions.  
@@ -13,16 +20,21 @@ Instance solution loader should return following json {"feasible": None, "optimu
     
 ### Solvers
 
-Solver class:  
+Solver class:
+    
+    - solve(): -- abstract
+
+CPSolver class:  
 
     - __init__(TimeLimit, no_workers):  
         - solved  
         - params  
 
-    - solve_cp(instance, validate, visualize, force_execution): - solver specific
-    - solve_gp(instance, validate, visualize, force_execution): - solver specific
-    
-    - solve(instance, method, validate, visualize, force_execution): -- abstract
+    - solve(instance, validate, visualize, force_execution): - CP solver specific
+  
+GASolver class:
+
+  - solve(): - GA solver specific
 
 ### PROBLEMS
 Benchmark class:  
@@ -78,13 +90,6 @@ OptimizationProblem class
 
     - visualize(solution, variables) - problem specific
     - validate(solution, variables) - problem specific
-
-## PROJECT STRUCTURE
-Each problem type has its own directory, which contains `solver.py` and `problem.py` modules as well as `parser` module, if only one input format is implemented or multiple modules with respective format names (`c15.py` and `mmlib.py` for MM-RCPSP)
-
-Base classes are located in `common` directory
-
-All important classes are imported to the `general_optimization_solver.py` module, which is the main entry point for the project
 
 ## TODO LIST
 ### Tomas
