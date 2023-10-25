@@ -29,21 +29,7 @@ class CPSolver:
         pass
 
 
-class GPSolver(Solver):
-    def __init__(self, TimeLimit=60, no_workers=0):
-        self.solved = False
-        # self.TimeLimit = TimeLimit
-        self.params = CpoParameters()
-        # params.SearchType = 'Restart'
-        # self.params.LogPeriod = 100000
-        self.params.LogVerbosity = 'Terse'
-        self.params.TimeLimit = TimeLimit
-
-        if no_workers > 0:
-            self.params.Workers = no_workers
-
-        print(f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
-
+class GASolver(Solver):
     @abstractmethod
     def solve(self):
         """Abstract solve method for GP solver."""
