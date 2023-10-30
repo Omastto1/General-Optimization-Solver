@@ -30,6 +30,9 @@ class CPSolver:
 
 
 class GASolver(Solver):
+    def __init__(self, seed=None):
+        self.seed = seed
+
     @abstractmethod
     def solve(self):
         """Abstract solve method for GP solver."""
