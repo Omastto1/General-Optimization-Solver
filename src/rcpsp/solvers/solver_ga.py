@@ -47,6 +47,9 @@ class RCPSPGASolver(GASolver):
                 except AssertionError as e:
                     print("Solution is invalid.")
                     print(e)
+
+                    self.add_run_to_history(instance, fitness_value, start_times, is_valid=False)
+
                     return None, None, res
 
             if visualize:
