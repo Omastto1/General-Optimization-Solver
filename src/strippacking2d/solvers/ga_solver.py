@@ -46,13 +46,13 @@ class StripPacking2DSolver(GASolver):
 
         if res:
             X = res.X
-            total_height = res.F[0]
+            fitness_value = res.F[0]
             d = {}
             problem._evaluate(X, d)
             rectangles = d['rectangles']
 
             placements = [rectangle.__dict__ for rectangle in rectangles]
-            return total_height, placements, res
+            return fitness_value, placements, res
         else:
             return None, None, res
 
