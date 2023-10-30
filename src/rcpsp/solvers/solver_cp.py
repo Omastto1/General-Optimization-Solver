@@ -75,7 +75,7 @@ class RCPSPCPSolver(CPSolver):
         Solution = namedtuple("Solution", ['xs'])
         variables = Solution(x)
 
-        instance.update_run_history(sol, variables, "CP", self.params)
+        self.add_run_to_history(instance, sol)
 
         # print solution
         if sol.get_solve_status() == 'Optimal':

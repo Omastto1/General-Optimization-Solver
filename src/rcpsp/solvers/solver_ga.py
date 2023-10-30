@@ -51,7 +51,13 @@ class RCPSPGASolver(GASolver):
 
             if visualize:
                 instance.visualize(None, None, start_times, [str(i) for i in range(instance.no_jobs)])
+        else:
+            fitness_value = -1
+            start_times = []
 
+        self.add_run_to_history(instance, fitness_value, start_times)
+
+        if res.F is not None:
             return fitness_value, start_times, res
         else:
             return None, None, res

@@ -1,12 +1,9 @@
 import datetime
 import json
-import re
-import multiprocessing
 
 from pathlib import Path
 from typing import Optional
 
-from src.utils import convert_time_to_seconds
 
 
 class Benchmark:
@@ -94,55 +91,20 @@ class OptimizationProblem:
                 print(f"Solution is {ratio} % worse than the upper bound.")
         else:
             print("There in no known reference solution in current data")
- 
-    def update_run_history(self, sol, variables, method, solver_params):
-        timestamp_now = datetime.datetime.now()\
+
+    def update_run_history(self, method, objective_value, solution_info, solve_status, solve_time, solver_config, solution_progress):
+        timestamp_now = datetime.datetime.now()
         
-        log = sol.solver_log
-
-        # Define the regex pattern
-        # pattern = r"\*\s+(\d+)\s+(\d+)\s+(\d+\.\d+s)"
-        pattern = r"\*\s+(\d+)\s+(?:\d+)\s+(\d+\.\d+s)"
-
-        # Find all matches of numbers and times in the log using the regex pattern
-        matches = re.findall(pattern, log, re.MULTILINE)
-
-        # Convert minutes and hours into seconds and store the results
-        # result = [[int(match[0]), int(match[1]), match[2]] for match in matches]
-        result = [[int(match[0]), match[1]] for match in matches]
-        result = convert_time_to_seconds(result)
-
-        if sol:
-            self._run_history.append({
-                "timestamp": timestamp_now,
-                "method": method,
-                "solution_value": sol.get_objective_values()[0],
-                "solution_info": sol.write_in_string(),
-                "solve_status": sol.get_solve_status(),
-                "solve_time": sol.get_solve_time(),
-                "solver_config": {
-                    "TimeLimit": solver_params.TimeLimit,
-                    "NoWorkers": sol.solver_infos['EffectiveWorkers'],
-                    "NoCores": multiprocessing.cpu_count(),
-                    "SolverVersion": sol.process_infos['SolverVersion']
-                },
-                "solution_progress": result
-            })
-        else:
-            self._run_history.append({
-                "timestamp": timestamp_now,
-                "method": method,
-                "solution_value": -1,
-                "solve_status": "No solution found",
-                "solve_time": solver_params.TimeLimit,
-                "solver_config": {
-                    "TimeLimit": solver_params.TimeLimit,
-                    "NoWorkers": sol.solver_infos['EffectiveWorkers'],
-                    "NoCores": multiprocessing.cpu_count(),
-                    "SolverVersion": sol.process_infos['SolverVersion']
-                },
-                "solution_progress": []
-            })
+        self._run_history.append({
+            "timestamp": timestamp_now,
+            "method": method,
+            "solution_value": objective_value,
+            "solution_info": solution_info,  # docplex specific so far
+            "solve_status": solve_status,  # docplex specific so far
+            "solve_time": solve_time,  # docplex specific so far
+            "solver_config": solver_config,
+            "solution_progress": solution_progress  # docplex specific so far
+        })
     
     def reset_run_history(self):
         self._run_history = []
