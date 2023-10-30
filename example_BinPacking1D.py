@@ -82,8 +82,8 @@ if not skip_custom_input:
 
 if not skip_instance_input:
     # SPECIFIC BENCHMARK INSTANCE
-    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP")
-    # instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
+    # instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "", "1Dbinpacking")
+    instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
     cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver(TimeLimit=10).solve(instance, validate=False, visualize=False, force_execution=True)
 
 
