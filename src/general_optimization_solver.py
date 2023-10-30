@@ -7,12 +7,16 @@ from src.rcpsp.patterson import load_patterson , load_patterson_solution
 from src.jobshop.parser import load_jobshop, load_jobshop_solution
 from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution
 from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
+from src.binpacking1d.parser import load_1dbinpacking
+from src.binpacking2d.parser import load_2dbinpacking
 
 from src.common.optimization_problem import Benchmark
 from src.mmrcpsp.problem import MMRCPSP
 from src.rcpsp.problem import RCPSP
 from src.jobshop.problem import JobShop
 from src.strippacking2d.problem import StripPacking2D
+from src.binpacking1d.problem import BinPacking1D
+from src.binpacking2d.problem import BinPacking2D
 
 
 def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=0, force_dump=True):
@@ -94,6 +98,20 @@ def load_raw_instance(path, solution_path, format, verbose=False):
         solution = load_strip_packing_solution(solution_path, instance_name)
 
         instance = StripPacking2D(benchmark_name, instance_name, data, solution, [])
+    elif format == "1Dbinpacking":
+        data = load_1dbinpacking(path, verbose)
+        solution = {}
+        # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
+        # solution = load_strip_packing_solution(solution_path, instance_name)
+
+        instance = BinPacking1D(benchmark_name, instance_name, data, solution, [])
+    elif format == "2Dbinpacking":
+        data = load_2dbinpacking(path, verbose)
+        solution = {}
+        # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
+        # solution = load_strip_packing_solution(solution_path, instance_name)
+
+        instance = BinPacking2D(benchmark_name, instance_name, data, solution, [])
     elif format == "mmlib":
         data = load_mmlib(path, verbose)
         solution = load_mmlib_solution(solution_path, instance_name)
