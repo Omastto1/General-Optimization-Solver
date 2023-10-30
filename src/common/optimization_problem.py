@@ -46,7 +46,6 @@ class OptimizationProblem:
         self._benchmark_name: str = benchmark_name
         self._instance_name: str = instance_name
         self._instance_kind: str = _instance_kind
-        # self._format: str = format_
         self._data: dict = data
         self._solution: Optional[dict] = solution
         self._run_history: Optional[list] = run_history
@@ -56,9 +55,6 @@ class OptimizationProblem:
 
     def __repr__(self):
         return "Optimization Problem"
-
-    def load(self, path):
-        pass
 
     def dump(self, verbose=False):
         instance_dict = {
