@@ -5,6 +5,12 @@ from pymoo.optimize import minimize
 from ...common.solver import GASolver
 
 
+def indices_to_onehot(indices, num_classes):
+    onehot = np.zeros((len(indices), num_classes))
+    onehot[np.arange(len(indices)), indices] = 1
+    return onehot
+
+
 ## python -m examples.example_BinPacking1D
 
 class BinPacking1DGASolver(GASolver):
@@ -29,6 +35,42 @@ class BinPacking1DGASolver(GASolver):
 
         problem = BinPackingProblem(instance.weights, instance.bin_capacity)
         res = minimize(problem, algorithm, termination, verbose=True, seed=self.seed)
+
+        if res.F is not None:
+            X = np.floor(res.X).astype(int)
+            fitness_value = res.F[0]
+
+            d = {}
+            problem._evaluate(X, d)
+            placements = d['placements']
+
+            assignment = indices_to_onehot(placements, len(instance.weights))
+            if validate:
+                try:
+                    print("Validating solution...")
+                    instance.validate(instance, assignment, is_bin_used)
+                    print("Solution is valid.")
+
+                    # TODO
+                    # obj_value = sol.get_objective_value()
+                    # print("Project completion time:", obj_value)
+
+                    # TODO
+                    # instance.compare_to_reference(obj_value)
+                except AssertionError as e:
+                    print("Solution is invalid.")
+                    print(e)
+
+                    self.add_run_to_history(instance, fitness_value, start_times, is_valid=False)
+
+                    return None, None, res
+
+            if visualize:
+                
+                instance.visualize(assignment)
+        else:
+            fitness_value = -1
+            placements = []
 
         solution_info = f"placements: {placements}"
         self.add_run_to_history(instance, fitness_value, solution_info)
