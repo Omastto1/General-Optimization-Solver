@@ -30,7 +30,10 @@ class BinPacking1DGASolver(GASolver):
         problem = BinPackingProblem(instance.weights, instance.bin_capacity)
         res = minimize(problem, algorithm, termination, verbose=True, seed=self.seed)
 
-        if res:
+        solution_info = f"placements: {placements}"
+        self.add_run_to_history(instance, fitness_value, solution_info)
+
+        if res.F is not None:
             X = np.floor(res.X).astype(int)
             fitness_value = res.F[0]
 
