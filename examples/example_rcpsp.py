@@ -5,15 +5,16 @@ from pymoo.operators.sampling.rnd import FloatRandomSampling
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.pm import PolynomialMutation
 
-from src.general_optimization_solver import load_raw_instance
+from src.general_optimization_solver import load_raw_instance, load_instance
 from src.rcpsp.solvers.solver_ga import RCPSPGASolver
+from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
 
 
 ## python -m examples.example_rcpsp
 
 
 def fitness_func(instance, x, out):
-    # Initialize finish times with a large number to represent that they haven't been scheduled yet.
+    # project makespan unknown, default to 65536
     finish_times = np.full(instance.no_jobs, 65536)
     
     # Start with the ending node
@@ -33,7 +34,7 @@ def fitness_func(instance, x, out):
 
         for job in schedulable_jobs:
             # Find the latest time this job can be finished based on resource availability and successor constraints
-            finish_time = min([finish_times[succ - 1] for succ in instance.successors[job]])
+            finish_time = min([finish_times[succ - 1] - instance.durations[succ-1] for succ in instance.successors[job]])
             while True:
                 # Check if finishing the job at 'finish_time' violates any resource constraints
                 resource_violation = False
@@ -72,50 +73,9 @@ def fitness_func(instance, x, out):
     out["G"] = resource_violations
     out["start_times"] = start_times
 
-    # Decode the solution 'x' to get the start times for each job
-    # start_times = np.round(x)  # This function depends on how you represent solutions in 'x'
 
-    # # Objective (Makespan Calculation)
-    # finish_times = [start + instance.durations[i] for i, start in enumerate(start_times)]
-    # makespan = np.max(finish_times)
-
-    # # Renewable Resource Constraints
-    # max_time = int(np.max(start_times + instance.durations))
-    # resource_usage_over_time = np.zeros((instance.no_renewable_resources, max_time))
-
-    # for t in range(max_time):
-    #     for i in range(instance.no_jobs):
-    #         if start_times[i] <= t < start_times[i] + instance.durations[i]:
-    #             for k in range(instance.no_renewable_resources):
-    #                 resource_usage_over_time[k, t] += instance.requests[k][i]
-
-    # resource_violations = np.max(resource_usage_over_time - np.array(instance.renewable_capacities)[:, np.newaxis], axis=1)
-
-    # # Precedence Constraints
-    # precedence_violations = []
-    # for i, job_successors in enumerate(instance.successors):
-    #     for successor in job_successors:
-    #         if finish_times[i] > start_times[successor - 1]:  # Assuming job indices start from 1
-    #             precedence_violations.append(finish_times[i] - start_times[successor - 1])
-
-    # # Combine all constraints
-    # constraints = np.concatenate([resource_violations, precedence_violations])
-
-    # out["F"] = makespan
-    # out["G"] = (constraints > 0).any()
-
-
-instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
-
-
-# Define problem parameters (example values)
-num_activities = 10
-precedence_matrix = np.random.randint(0, 2, (num_activities, num_activities))
-np.fill_diagonal(precedence_matrix, 0)
-resource_requirements = np.random.randint(1, 5, (num_activities, 3))
-resource_capacities = np.array([10, 10, 10])
-durations = np.random.randint(1, 5, (num_activities, 1))
-
+# instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
+instance = load_instance("data/RCPSP/CV/cv1.json")
 
 # Define the algorithm
 algorithm = GA(
@@ -127,8 +87,12 @@ algorithm = GA(
     eliminate_duplicates=True
 )
 
-ga_fitness_value, ga_assignment, ga_solution = RCPSPGASolver().solve(algorithm, instance, fitness_func, ("n_gen", 100))
+# ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver().solve(algorithm, instance, fitness_func, ("n_gen", 100), validate=True, visualize=True)
+# print("Best solution found: \nX = ", ga_solution.X)
 
-print("Best solution found: \nX = ", ga_solution.X)
-print("Objective value: \nF = ", ga_solution.F)
-instance.visualize(ga_solution, 
+cp_solution, cp_variables = RCPSPCPSolver(TimeLimit=10).solve(instance, validate=True, visualize=True)
+
+
+ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver().solve(algorithm, instance, fitness_func, ("n_gen", 100), validate=True, visualize=True)
+
+instance.dump()
