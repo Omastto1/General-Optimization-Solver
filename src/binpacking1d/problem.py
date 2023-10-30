@@ -9,14 +9,14 @@ import matplotlib.pyplot as plt
 
 class BinPacking1D(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
-        super().__init__(benchmark_name, instance_name, "BinPacking1D", data, solution, run_history)
+        super().__init__(benchmark_name, instance_name, "1DBINPACKING", data, solution, run_history)
 
         # self.no_items = len(instance.weights)
         self.bin_capacity = self._data["bin_capacity"]
         self.weights = self._data["weights"]
         self.no_items = len(self._data["weights"])
 
-    def validate(self, instance, item_bin_pos_assignment, is_bin_used):
+    def validate(self, instance, item_bin_pos_assignment, ):
         # The sum of item_bin_pos_assignment[i][j] for each item i should be 1
         sums_per_item = [sum(item_bin_pos_assignment[i][j] for j in range(instance.no_items)) for i in range(instance.no_items)]
         if not all(s == 1 for s in sums_per_item):

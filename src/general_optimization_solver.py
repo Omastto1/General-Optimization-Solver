@@ -142,6 +142,8 @@ def load_instance(path):
         instance = JobShop(benchmark_name, instance_name, data, solution, run_history)
     elif instance_kind == "2DSTRIPPACKING":
         instance = StripPacking2D(benchmark_name, instance_name, data, solution, run_history)
+    elif instance_kind == "1DBINPACKING":
+        instance = BinPacking1D(benchmark_name, instance_name, data, solution, run_history)
     else:
         raise ValueError("Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP")
 
