@@ -1,6 +1,6 @@
 from src.strippacking2doriented.problem import StripPacking2D
 # from src.strippacking2doriented.solver import StripPacking2DSolver
-from src.strippacking2d.solver import StripPacking2DSolver
+from src.strippacking2d.solvers.solver import StripPacking2DSolver
 import docplex.cp.utils_visu as visu
 import matplotlib.pyplot as plt
 
@@ -38,7 +38,7 @@ def parse_bkf_benchmark(file_path):
 
 results = {}
 
-for i in range(1, 6):
+for i in range(6, 13):
     strip_width, rectangles = parse_bkf_benchmark(f"data/2DSTRIPPACKING/BKW/{i}.json")
 
     # strip_width, rectangles = parse_txt_file("data/2DSTRIPPACKING/zdf2.txt")
@@ -46,7 +46,7 @@ for i in range(1, 6):
     problem = StripPacking2D(benchmark_name="StripPacking2DTest", instance_name="Test01", data={"rectangles": rectangles, "strip_width": strip_width}, solution={}, run_history={})
 
 
-    total_height, placements, solution = StripPacking2DSolver(TimeLimit=300)._solve_cp(problem, validate=False, visualize=False, force_execution=True)  # orientations, 
+    total_height, placements, solution = StripPacking2DSolver(TimeLimit=300).solve(problem, validate=False, visualize=False, force_execution=True)  # orientations, 
 
     print("Total height:", total_height)
     print("Placement of rectangles:", placements)
