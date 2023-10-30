@@ -110,12 +110,10 @@ class OptimizationProblem:
         self._run_history = []
     
     def skip_on_optimal_solution(self):
-        is_solved_optimally = self._run_history[-1]["solution_value"] == self._solution["optimum"]
-        is_solved_better_than_upper_bound = "upper_bound" in self._solution and self._run_history[-1]["solution_value"] <= self._solution["upper_bound"]
-        if is_solved_optimally or is_solved_better_than_upper_bound:
-            if self._run_history[-1]["solution_value"] == self._solution["optimum"]:
-                print("Instance already solved optimally.")
-                print("Skipping...")
-                return True
+        is_solved_optimally = self._run_history[-1]["solution_value"] == self._solution.get("optimum", None)
+        if is_solved_optimally:
+            print("Instance already solved optimally.")
+            print("Skipping...")
+            return True
             
         return False
