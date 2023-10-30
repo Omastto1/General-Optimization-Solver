@@ -47,11 +47,11 @@ class RCPSP(OptimizationProblem):
         return True
 
     def visualize(self, sol, x):
-        no_jobs = len(x)
+        # self.no_jobs = len(x)
 
         # if sol and visu.is_visu_enabled():
         #     visu.timeline('Solution SchedOptional', 0, 110)
-        #     for job_number in range(no_jobs):
+        #     for job_number in range(self.no_jobs):
         #         visu.sequence(name=job_number)
         #         wt = sol.get_var_solution(x[job_number])
         #         if wt.is_present():
@@ -68,14 +68,14 @@ class RCPSP(OptimizationProblem):
 
         # Create the Gantt chart
         fig, ax = plt.subplots()
-        for i in range(no_jobs):
+        for i in range(self.no_jobs):
             ax.broken_barh(
                 [(start_times[i], end_times[i] - start_times[i])], (i, 1), facecolors='blue')
-        ax.set_ylim(0, no_jobs)
+        ax.set_ylim(0, self.no_jobs)
         ax.set_xlim(0, max(end_times))
         ax.set_xlabel('Time')
-        ax.set_yticks(range(no_jobs))
-        ax.set_yticklabels(['Activity %d' % i for i in range(no_jobs)])
+        ax.set_yticks(range(self.no_jobs))
+        ax.set_yticklabels(['Activity %d' % i for i in range(self.no_jobs)])
         ax.grid(True)
         plt.show()
 
@@ -84,7 +84,7 @@ class RCPSP(OptimizationProblem):
         if sol and visu.is_visu_enabled():
             load = [CpoStepFunction()
                     for j in range(self.no_renewable_resources)]
-            for i in range(no_jobs):
+            for i in range(self.no_jobs):
                 itv = sol.get_var_solution(x[i])
                 for j in range(self.no_renewable_resources):
                     if 0 < self.requests[j][i]:
@@ -93,7 +93,7 @@ class RCPSP(OptimizationProblem):
 
             visu.timeline('Solution for RCPSP ')  # + filename)
             visu.panel('Tasks')
-            for i in range(no_jobs):
+            for i in range(self.no_jobs):
                 visu.interval(sol.get_var_solution(x[i]), i, x[i].get_name())
             for j in range(self.no_renewable_resources):
                 visu.panel('R' + str(j+1))
