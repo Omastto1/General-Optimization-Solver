@@ -63,7 +63,13 @@ class BinPacking1DCPSolver(CPSolver):
             # start_times = [solution.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
             instance.compare_to_reference(obj_value)
         else:
+            obj_value = -1
+            item_bin_pos_assignment = []
+
             print("No solution found.")
+            
+        # solution_info = f"placements: {item_bin_pos_assignment}"
+        self.add_run_to_history(instance, solution)
         
         # Extract and return the solution
         if solution:
