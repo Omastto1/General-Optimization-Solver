@@ -20,9 +20,14 @@ class BinPacking1D(OptimizationProblem):
         raise NotImplementedError
 
     def visualize(self, item_bin_assignment):
+        """visualize the solution of the problem
+        expects one hot encoded item_bin_assignment
+
+        Args:
+            item_bin_assignment (List[List[int]]): one hot encoded item_bin_assignment
+        """
         if not visu.is_visu_enabled():
-            print("Visualization not available. Please install docplex and enable visu.")
-            return
+            assert False, "Visualization not available. Please install docplex and enable visu."
         
         bin_item_assignment = [list(row) for row in zip(*item_bin_assignment)]
 
