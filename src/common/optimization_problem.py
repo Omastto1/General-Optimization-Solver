@@ -76,13 +76,13 @@ class OptimizationProblem:
 
     def compare_to_reference(self, obj_value):
         # TODO: WHAT HAPPENS IF SELF SOLUTION IS NOT FEASIBLE?
-        if self._solution["optimum"] is not None:
+        if self._solution.get("optimum", None) is not None:
             if obj_value == self._solution["optimum"]:
                 print("Solution is optimal.")
             else:
                 ratio = round((obj_value / self._solution["optimum"] - 1) * 100, 1)
                 print(f"Solution is {ratio} % worse than the optimum.")
-        elif self._solution["bounds"] is not None:
+        elif self._solution.get("bounds", None) is not None:
             if obj_value >= self._solution["bounds"]["lower"]:
                 ratio = round((obj_value / self._solution["bounds"]["lower"] - 1) * 100, 1)
                 print(f"Solution is {ratio} % worse than the lower bound.")
