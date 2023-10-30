@@ -22,7 +22,7 @@ class StripPacking2DSolver(GASolver):
                 self.strip_width = strip_width
 
             def _evaluate(self, x, out, *args, **kwargs):
-                out = fitness_func(x, out)
+                out = fitness_func(self, x, out)
 
                 return out
                 # print("running \n")
