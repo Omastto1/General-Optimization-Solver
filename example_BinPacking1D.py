@@ -10,7 +10,7 @@ from pymoo.operators.mutation.pm import PolynomialMutation
 from src.binpacking1d.problem import BinPacking1D
 from src.binpacking1d.solvers.solver_cp import BinPacking1DCPSolver
 from src.binpacking1d.solvers.solver_ga import BinPacking1DGASolver
-from src.general_optimization_solver import load_raw_instance
+from src.general_optimization_solver import load_raw_instance, load_instance
 
 # GA ALG CONFIG AND FITNESS FUNC
 algorithm = GA(
@@ -36,6 +36,11 @@ def fitness_func(instance, x, out):
     
     # Constraint: No bin should overflow
     out["G"] = max_bin_load - instance.bin_capacity
+
+def indices_to_onehot(indices, num_classes):
+    onehot = np.zeros((len(indices), num_classes))
+    onehot[np.arange(len(indices)), indices] = 1
+    return onehot
 
 
 skip_custom_input = True
@@ -67,10 +72,6 @@ if not skip_custom_input:
 
     num_bins = len(bins)
 
-    def indices_to_onehot(indices, num_classes):
-        onehot = np.zeros((len(indices), num_classes))
-        onehot[np.arange(len(indices)), indices] = 1
-        return onehot
 
     ga_assignment = indices_to_onehot(ga_assignment, len(weights))
 
@@ -81,7 +82,8 @@ if not skip_custom_input:
 
 if not skip_instance_input:
     # SPECIFIC BENCHMARK INSTANCE
-    instance = load_raw_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.BPP", "", "1Dbinpacking")
+    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP")
+    # instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
     cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver(TimeLimit=10).solve(instance, validate=False, visualize=False, force_execution=True)
 
 
@@ -100,14 +102,12 @@ if not skip_instance_input:
 
     num_bins = len(bins)
 
-    def indices_to_onehot(indices, num_classes):
-        onehot = np.zeros((len(indices), num_classes))
-        onehot[np.arange(len(indices)), indices] = 1
-        return onehot
-
     ga_assignment = indices_to_onehot(ga_assignment, len(instance.weights))
 
     print(f"Best solution: {np.floor(ga_solution.X)}")
     print(f"Number of bins used: {num_bins}")
     print(ga_assignment)
     instance.visualize(ga_assignment)
+
+    instance.dump()
+

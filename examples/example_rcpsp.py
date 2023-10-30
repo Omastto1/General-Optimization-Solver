@@ -87,12 +87,10 @@ algorithm = GA(
     eliminate_duplicates=True
 )
 
-# ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver().solve(algorithm, instance, fitness_func, ("n_gen", 100), validate=True, visualize=True)
-# print("Best solution found: \nX = ", ga_solution.X)
-
 cp_solution, cp_variables = RCPSPCPSolver(TimeLimit=10).solve(instance, validate=True, visualize=True)
 
 
 ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver().solve(algorithm, instance, fitness_func, ("n_gen", 100), validate=True, visualize=True)
+# print("Best solution found: \nX = ", ga_solution.X)
 
 instance.dump()
