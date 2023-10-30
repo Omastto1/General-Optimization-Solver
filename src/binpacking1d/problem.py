@@ -16,8 +16,17 @@ class BinPacking1D(OptimizationProblem):
         self.weights = self._data["weights"]
         self.no_items = len(self._data["weights"])
 
-    def validate(self, sol, jobs):
-        raise NotImplementedError
+    def validate(self, instance, item_bin_pos_assignment, is_bin_used):
+        # The sum of item_bin_pos_assignment[i][j] for each item i should be 1
+        sums_per_item = [sum(item_bin_pos_assignment[i][j] for j in range(instance.no_items)) for i in range(instance.no_items)]
+        if not all(s == 1 for s in sums_per_item):
+            raise ValueError("Constraint violated: The sum of item_bin_pos_assignment[i][j] for each item i should be 1")
+
+        # The sum of weights for items in each bin should not exceed the capacity
+        sums_per_bin = [sum(instance.weights[i] * item_bin_pos_assignment[i][j] for i in range(instance.no_items)) for j in range(instance.no_items)]
+        if not all(s <= instance.bin_capacity * is_bin_used[j] for j, s in enumerate(sums_per_bin)):
+            raise ValueError("Constraint violated: The sum of weights for items in each bin should not exceed the capacity")
+
 
     def visualize(self, item_bin_assignment):
         """visualize the solution of the problem
