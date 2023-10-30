@@ -22,19 +22,27 @@ Instance solution loader should return following json {"feasible": None, "optimu
 
 Solver class:
     
-    - solve(): -- abstract
+  - solve(): -- abstract
 
 CPSolver class:  
 
-    - __init__(TimeLimit, no_workers):  
-        - solved  
-        - params  
+  - __init__(TimeLimit, no_workers):  
+      - solved  
+      - params  
 
-    - solve(instance, validate, visualize, force_execution): - CP solver specific
+  - solve(instance, validate, visualize, force_execution): - CP solver specific (base abstract)
+    - so far returns docplex solution and cp variables
+
+  - add_run_to_history(instance, sol): - CP Solver specific (implemented in base class)
+    - extracts common info from docplex solution and updates the instance run history
   
 GASolver class:
 
-  - solve(): - GA solver specific
+  - solve(algorithm, instance, fitness_func, termination, validate, visualize, force_execution): - GA solver specific
+    - returns objective value, {other important solution values like start times for rcpsp}, pymoo solution object
+
+  - add_run_to_history(instance, objective_value, start_times, is_valid): - GA Solver specific (implemented in base class)
+    - extracts common info from pymoo solution and updates the instance run history
 
 ### PROBLEMS
 Benchmark class:  
@@ -53,43 +61,41 @@ Benchmark class:
 
 OptimizationProblem class
 
-    - __init__(benchmark_name, instance_name, _instance_kind, data, solution, run_history):  
-      - General config  
-        - _benchmark_name  
-        - _instance_name  
-        - _instance_kind  
-        - _data  
-        - _solution  
-        - _run_history  
-      - Problem specific config  
-        - ...
+  - __init__(benchmark_name, instance_name, _instance_kind, data, solution, run_history):  
+    - General config  
+      - _benchmark_name  
+      - _instance_name  
+      - _instance_kind  
+      - _data  
+      - _solution  
+      - _run_history  
+    - Problem specific config  
+      - ...
+  
+  - dump():
+    - save json to "data/{self._instance_kind}/{self._benchmark_name}/{self._instance_name}.json"
+    - dict prescription:
+      {
+          "benchmark_name": self._benchmark_name,
+          "instance_name": self._instance_name,
+          "instance_kind": self._instance_kind,
 
-    - load(path):
-    
-    - dump():
-      - save json to "data/{self._instance_kind}/{self._benchmark_name}/{self._instance_name}.json"
-      - dict prescription:
-        {
-            "benchmark_name": self._benchmark_name,
-            "instance_name": self._instance_name,
-            "instance_kind": self._instance_kind,
+          "data": self._data,
+          "reference_solution": self._solution,
+          "run_history": self._run_history,
+      }
+  - compare_to_reference(obj_value):
+    - print out whether solution is optimal or worse than optimal if optimum is known
+    - print out whether solution is worse than upper / lower bound
+    - print out if no solution exists
 
-            "data": self._data,
-            "reference_solution": self._solution,
-            "run_history": self._run_history,
-        }
-    - compare_to_reference(obj_value):
-      - print out whether solution is optimal or worse than optimal if optimum is known
-      - print out whether solution is worse than upper / lower bound
-      - print out if no solution exists
+  - update_run_history(solution, method, solver_params)
+  - reset_run_history()
 
-    - update_run_history(solution, method, solver_params)
-    - reset_run_history()
+  - skip_on_optimal_solution
 
-    - skip_on_optimal_solution
-
-    - visualize(solution, variables) - problem specific
-    - validate(solution, variables) - problem specific
+  - visualize(solution, variables) - problem specific
+  - validate(solution, variables) - problem specific
 
 ## TODO LIST
 ### Tomas
