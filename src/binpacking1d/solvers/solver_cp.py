@@ -1,5 +1,3 @@
-
-
 from docplex.cp.model import CpoModel
 
 from ...common.solver import CPSolver
@@ -35,9 +33,9 @@ class BinPacking1DCPSolver(CPSolver):
         if solution:
             bins_used = sum([int(solution[is_bin_used[j]]) for j in range(instance.no_items)])
             assignment = [[int(solution[item_bin_pos_assignment[i][j]]) for j in range(instance.no_items)] for i in range(instance.no_items)]
-            return bins_used, assignment
+            return bins_used, assignment, solution
         else:
-            return None, None
+            return None, None, solution
 
 
 
