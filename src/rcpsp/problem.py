@@ -10,7 +10,7 @@ class RCPSP(OptimizationProblem):
 
         self.no_jobs = self._data["number_of_jobs"]  # number of activities
         self.no_renewable_resources = self._data["resources"]["renewable_resources"]["number_of_resources"]
-        self.horizon = self._data["horizon"] if "horizon" in self._data else 2 ^ 32
+        self.horizon = self._data["horizon"] if "horizon" in self._data else 2 ** 32
         self.durations = [job["modes"][0]["duration"]
                           for job in self._data["job_specifications"]]  # duration of each activity
         # precedence constraints
