@@ -1,7 +1,7 @@
 from docplex.cp.model import CpoModel
 from collections import namedtuple
 
-from ...common.solver import CPSolver
+from src.common.solver import CPSolver
 
 
 class RCPSPCPSolver(CPSolver):
@@ -64,9 +64,13 @@ class RCPSPCPSolver(CPSolver):
             # obj_value = sol.objective_value
             obj_value = sol.get_objective_values()[0]
             print('Objective value:', obj_value)
+            # start_times = [sol.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
             instance.compare_to_reference(obj_value)
         else:
             print("No solution found.")
+
+            # TODO: UPDATE HISTORY
+            # return None, None, sol
 
         Solution = namedtuple("Solution", ['xs'])
         variables = Solution(x)
