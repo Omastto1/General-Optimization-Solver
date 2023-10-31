@@ -10,6 +10,18 @@ Base classes are located in `common` directory
 
 All important classes are imported to the `general_optimization_solver.py` module, which is the main entry point for the project
 
+### Framework API
+
+  - load_raw_benchmark(directory_path, solution_path, format, no_instances, force_dump)
+    - load raw data from specified files in a specified format
+
+  - load_benchmark(directory_path, no_instances)
+    - load unified data from json files in specified directory
+
+  - load_raw_instance(path, solution_path, format, verbose)
+
+  - load_instance(path):
+
 ### Parsers
 
 Collection of '{benchmark_name}.py' modules which should contain `load_{benchmark_name}` which load instance file and `load_{benchmark_name}_solution` which loads instance solution functions.  
@@ -51,12 +63,15 @@ Benchmark class:
         _name  
         _instances  
 
-    - solve(solver, method, force_dump)
+    - solve(solver, method, solver_config, force_dump)
       - for each instance in benchmark, run solver.solve method 
-      - accepts either "CP" or "GP" method
+      - solver config is method (CP/GA) specific
 
     - dump()
       - calls OptimizationProble.dump_json for each instance in benchmark
+
+    - generate_solver_comparison_markdown(instances_subset, methods_subset):
+      - generate markdown table with comparison of solver results for given instances and methods
 
 
 OptimizationProblem class
