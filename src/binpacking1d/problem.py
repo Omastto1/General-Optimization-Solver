@@ -16,7 +16,8 @@ class BinPacking1D(OptimizationProblem):
         self.weights = self._data["weights"]
         self.no_items = len(self._data["weights"])
 
-    def validate(self, instance, item_bin_pos_assignment, ):
+    def validate(self, instance, item_bin_pos_assignment):
+        # TODO: FINISH
         # The sum of item_bin_pos_assignment[i][j] for each item i should be 1
         sums_per_item = [sum(item_bin_pos_assignment[i][j] for j in range(instance.no_items)) for i in range(instance.no_items)]
         if not all(s == 1 for s in sums_per_item):
