@@ -9,11 +9,18 @@ from src.common.optimization_problem import Benchmark
 
 
 class Solver(ABC):
-    def solve(self, instance_or_benchmark, **kwargs):
+    def solve(self, instance_or_benchmark, force_dump=None, **kwargs):
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
                 self._solve(instance, **kwargs)
             # return self.solve_benchmark(instance_or_benchmark)
+
+            if force_dump is None:
+                print("Force Dump not set, defaulting to saving the instances")
+                force_dump = True
+            
+            if force_dump:
+                instance_or_benchmark.dump()
         else:
             return self._solve(instance_or_benchmark, **kwargs)
         pass
