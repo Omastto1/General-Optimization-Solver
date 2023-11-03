@@ -36,6 +36,40 @@ class Benchmark:
         for instance_name, instance in self._instances.items():
             instance.dump_json()
 
+    def generate_solver_comparison_markdown(self, instances_subset=None, methods_subset=None):
+        if instances_subset is None:
+            instances_subset = self._instances.keys()
+        if methods_subset is None:
+            temp_methods_subset = set()
+    
+        table_data = {instance_name: {} for instance_name in instances_subset}
+
+        for instance_name, instance in self._instances.items():
+            if instance_name in instances_subset:
+                for instance_run in instance._run_history:
+                    if methods_subset is None or instance_run["method"] in methods_subset:
+                        print(instance_run["method"], instance_run["solve_time"])
+                        table_data[instance_name][instance_run["method"]] = instance_run["solution_value"]
+
+                        if methods_subset is None:
+                            temp_methods_subset.add(instance_run["method"])
+                            
+        if methods_subset is None:
+            methods_subset = list(temp_methods_subset)
+
+        column_headers = [""] + ["Instance"] + methods_subset + [""]  # empty start and end to force " | " to start and end the line
+        table_markdown = " | ".join(column_headers).strip() + "\n"
+
+        column_header_body_delimiter = [""] + [" -- "] * (len(column_headers) - 2) + [""]
+        table_markdown += " | ".join(column_header_body_delimiter).strip() + "\n"
+
+        for instance_name, instance_data in table_data.items():
+            table_markdown += f"| {instance_name} | "
+            for method in methods_subset:
+                table_markdown += f"{instance_data.get(method, 'N/A')} | "
+            table_markdown += "\n"
+
+        return table_markdown
 
 
 class OptimizationProblem:
