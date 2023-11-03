@@ -36,7 +36,7 @@ class CPSolver(Solver):
             f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
 
     @abstractmethod
-    def solve(self):
+    def _solve(self):
         """Abstract solve method for CP solver."""
         pass
 
@@ -84,7 +84,7 @@ class GASolver(Solver):
         self.seed = seed
 
     @abstractmethod
-    def solve(self):
+    def _solve(self):
         """Abstract solve method for GP solver."""
         pass
 
