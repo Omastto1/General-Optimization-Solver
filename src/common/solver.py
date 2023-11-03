@@ -80,7 +80,10 @@ class CPSolver(Solver):
 
 
 class GASolver(Solver):
-    def __init__(self, seed=None):
+    def __init__(self, algorithm, fitness_func, termination, seed=None):
+        self.algorithm = algorithm
+        self.fitness_func = fitness_func
+        self.termination = termination
         self.seed = seed
 
     @abstractmethod

@@ -1,5 +1,3 @@
-from docplex.cp.model import CpoModel
-from collections import namedtuple
 from pymoo.core.problem import ElementwiseProblem
 from pymoo.optimize import minimize
 
@@ -8,9 +6,9 @@ from ..utils.rectangle import Rectangle, RectanglePenalty
 
 
 class StripPacking2DSolver(GASolver):
-    def solve(self, algorithm, instance, fitness_func, termination, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         class StripPackingProblem(ElementwiseProblem):
-            def __init__(self, rectangles, strip_width):
+            def __init__(self, rectangles, strip_width, fitness_func):
                 super().__init__(n_var=len(rectangles),
                                 n_obj=1,
                                 n_constr=0,
@@ -20,9 +18,10 @@ class StripPacking2DSolver(GASolver):
 
                 self.rectangles = rectangles
                 self.strip_width = strip_width
+                self.fitness_func = fitness_func
 
             def _evaluate(self, x, out, *args, **kwargs):
-                out = fitness_func(self, x, out)
+                out = self.fitness_func(self, x, out)
 
                 return out
                 # print("running \n")

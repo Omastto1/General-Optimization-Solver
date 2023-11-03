@@ -14,9 +14,9 @@ def indices_to_onehot(indices, num_classes):
 ## python -m examples.example_BinPacking1D
 
 class BinPacking1DGASolver(GASolver):
-    def solve(self, algorithm, instance, fitness_func, termination, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         class BinPackingProblem(ElementwiseProblem):
-            def __init__(self, weights, bin_capacity):
+            def __init__(self, weights, bin_capacity, fitness_func):
                 super().__init__(n_var=len(weights),
                                 n_obj=1,
                                 n_constr=1,  # One constraint: no bin overflow
@@ -25,16 +25,17 @@ class BinPacking1DGASolver(GASolver):
                                 elementwise_evaluation=True)
                 self.weights = weights
                 self.bin_capacity = bin_capacity
+                self.fitness_func = fitness_func
 
             def _evaluate(self, x, out, *args, **kwargs):
-                out = fitness_func(self, x, out)
+                out = self.fitness_func(self, x, out)
         
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
                 return None, None
 
-        problem = BinPackingProblem(instance.weights, instance.bin_capacity)
-        res = minimize(problem, algorithm, termination, verbose=True, seed=self.seed)
+        problem = BinPackingProblem(instance.weights, instance.bin_capacity, self.fitness_func)
+        res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed)
 
         if res.F is not None:
             X = np.floor(res.X).astype(int)
@@ -73,6 +74,7 @@ class BinPacking1DGASolver(GASolver):
             placements = []
 
         solution_info = f"placements: {placements}"
+        # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
         self.add_run_to_history(instance, fitness_value, solution_info)
 
         if res.F is not None:

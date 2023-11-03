@@ -4,15 +4,16 @@ from pymoo.optimize import minimize
 from src.common.solver import GASolver
 
 class RCPSPGASolver(GASolver):
-    def solve(self, algorithm, instance, fitness_func, termination, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         class RCPSP(ElementwiseProblem):
             
-            def __init__(self, instance):
-                super().__init__(n_var=instance.no_jobs, n_obj=1, n_constr=1, xu=100, xl=0)
+            def __init__(self, instance, fitness_func):
+                super().__init__(n_var=instance.no_jobs, n_obj=1, n_constr=instance.no_renewable_resources, xu=100, xl=0)
                 self.instance = instance
+                self.fitness_func = fitness_func
 
             def _evaluate(self, x, out, *args, **kwargs):
-                out = fitness_func(self.instance, x, out)
+                out = self.fitness_func(self.instance, x, out)
 
                 return out
         
@@ -20,8 +21,8 @@ class RCPSPGASolver(GASolver):
             if instance.skip_on_optimal_solution():
                 return None, None
 
-        problem = RCPSP(instance)
-        res = minimize(problem, algorithm, termination, verbose=True, seed=self.seed)
+        problem = RCPSP(instance, self.fitness_func)
+        res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed)
 
         if res.F is not None:
             X = np.floor(res.X).astype(int)
