@@ -5,12 +5,17 @@ from docplex.cp.model import CpoParameters
 from abc import ABC, abstractmethod
 
 from src.utils import convert_time_to_seconds
+from src.common.optimization_problem import Benchmark
 
 
 class Solver(ABC):
-
-    @abstractmethod
-    def solve(self):
+    def solve(self, instance_or_benchmark, **kwargs):
+        if isinstance(instance_or_benchmark, Benchmark):
+            for instance_name, instance in instance_or_benchmark._instances.items():
+                self._solve(instance, **kwargs)
+            # return self.solve_benchmark(instance_or_benchmark)
+        else:
+            return self._solve(instance_or_benchmark, **kwargs)
         pass
 
 
