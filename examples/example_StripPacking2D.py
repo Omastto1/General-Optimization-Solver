@@ -1,5 +1,5 @@
 from src.strippacking2d.problem import StripPacking2D
-from src.strippacking2d.solver import StripPacking2DSolver
+from src.strippacking2d.solvers.solver_cp_not_oriented import StripPacking2DCPSolver
 import docplex.cp.utils_visu as visu
 import matplotlib.pyplot as plt
 
@@ -12,7 +12,7 @@ strip_width = 7
 problem = StripPacking2D(benchmark_name="StripPacking2DTest", instance_name="Test01", data={"rectangles": rectangles, "strip_width": strip_width}, solution={}, run_history={})
 
 
-total_height, placements, solution = StripPacking2DSolver()._solve_cp(problem, validate=False, visualize=False, force_execution=True)
+total_height, placements, solution = StripPacking2DCPSolver(TimeLimit=3).solve(problem, validate=False, visualize=False, force_execution=True)
 
 print("Total height:", total_height)
 print("Placement of rectangles:", placements)

@@ -5,7 +5,7 @@ from pymoo.operators.sampling.rnd import FloatRandomSampling
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.pm import PolynomialMutation
 
-from src.general_optimization_solver import load_raw_instance, load_instance
+from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 from src.rcpsp.solvers.solver_ga import RCPSPGASolver
 from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
 
@@ -53,6 +53,7 @@ def fitness_func(instance, x, out):
             
             # Schedule the job and update resource usage
             finish_times[job] = finish_time
+            
             for t in range(finish_time - instance.durations[job], finish_time):
                 for k in range(instance.no_renewable_resources):
                     resource_usage_over_time[k, t] += instance.requests[k][job]
@@ -68,18 +69,18 @@ def fitness_func(instance, x, out):
     # Calculate makespan and constraints violation
     makespan = np.max(finish_times)
     resource_violations = np.max(resource_usage_over_time - np.array(instance.renewable_capacities)[:, np.newaxis], axis=1)
+
+    if len(resource_violations) > 1:
+        pass
+        # print("asd")
     
     out["F"] = makespan
     out["G"] = resource_violations
     out["start_times"] = start_times
 
-
-# instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
-instance = load_instance("data/RCPSP/CV/cv1.json")
-
 # Define the algorithm
 algorithm = GA(
-    pop_size=100,
+    pop_size=20,
     n_offsprings=50,
     sampling=FloatRandomSampling(),
     crossover=TwoPointCrossover(prob=0.9),
@@ -87,10 +88,31 @@ algorithm = GA(
     eliminate_duplicates=True
 )
 
-cp_solution, cp_variables = RCPSPCPSolver(TimeLimit=10).solve(instance, validate=True, visualize=True)
+# BENCHMARK TEST 
+benchmark = load_raw_benchmark("raw_data/rcpsp/CV", "raw_data/rcpsp/CV.xlsx", "patterson", 10, force_dump=False)
+
+cp_solver_config = {"validate": True}
+RCPSPCPSolver(TimeLimit=3).solve(benchmark, **cp_solver_config)
+
+ga_solver_config = {"validate": True}
+RCPSPGASolver(algorithm, fitness_func, ("n_gen", 10)).solve(benchmark, **ga_solver_config)
+
+table_markdown = benchmark.generate_solver_comparison_markdown()
+print(table_markdown)
 
 
-ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver().solve(algorithm, instance, fitness_func, ("n_gen", 100), validate=True, visualize=True)
-# print("Best solution found: \nX = ", ga_solution.X)
+# BENCHMARK TEST END
+
+
+# instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
+instance = load_instance("data/RCPSP/CV/cv1.json")
+
+
+cp_solution, cp_variables = RCPSPCPSolver(TimeLimit=5).solve(instance, validate=True, visualize=True)
+
+
+ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver(algorithm, fitness_func, ("n_gen", 20)).solve(instance, validate=True, visualize=True)
+print("Best solution found: \nX = ", ga_solution.X)
 
 instance.dump()
+

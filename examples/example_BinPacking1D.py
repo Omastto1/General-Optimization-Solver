@@ -53,17 +53,14 @@ if not skip_custom_input:
     bin_capacity = 10
     problem = BinPacking1D(benchmark_name="BinPacking1DTest", instance_name="Test01", data={"weights": weights, "bin_capacity": bin_capacity}, solution={}, run_history={})
 
-    cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver().solve(problem, validate=False, visualize=False, force_execution=True)
+    cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver().solve(problem, validate=False, visualize=True, force_execution=True)
 
     print("Number of bins used:", cp_bins_used)
     print("Assignment of items to bins:", cp_assignment)
-    problem.visualize(cp_assignment)
-
-
 
     problem = BinPacking1D(benchmark_name="BinPacking1DTest", instance_name="Test01", data={"weights": weights, "bin_capacity": bin_capacity}, solution={}, run_history={})
 
-    ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(seed=1).solve(algorithm, problem, fitness_func, ("n_gen", 100))
+    ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1).solve(problem)
 
     bins = {}
     for idx, bin_idx in enumerate(ga_assignment):
@@ -82,8 +79,8 @@ if not skip_custom_input:
 
 if not skip_instance_input:
     # SPECIFIC BENCHMARK INSTANCE
-    # instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "", "1Dbinpacking")
-    instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
+    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "", "1Dbinpacking")
+    # instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
     cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver(TimeLimit=10).solve(instance, validate=False, visualize=False, force_execution=True)
 
 
@@ -91,9 +88,8 @@ if not skip_instance_input:
     print("Assignment of items to bins:", cp_assignment)
     instance.visualize(cp_assignment)
 
+    ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1).solve(instance)
 
-
-    ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(seed=1).solve(algorithm, instance, fitness_func, ("n_gen", 100))
 
     bins = {}
     for idx, bin_idx in enumerate(ga_assignment):
