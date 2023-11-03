@@ -19,7 +19,7 @@ class Solver(ABC):
         pass
 
 
-class CPSolver:
+class CPSolver(Solver):
     def __init__(self, TimeLimit=60, no_workers=0):
         self.solved = False
         # self.TimeLimit = TimeLimit
