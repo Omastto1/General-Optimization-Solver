@@ -27,14 +27,14 @@ def fitness_func(instance, x, out):
     # While there are unscheduled jobs
     while len(unscheduled_jobs) > 0:
         # Find jobs that can be scheduled (those whose all successors are already scheduled)
-        schedulable_jobs = [j for j in unscheduled_jobs if all(succ not in unscheduled_jobs for succ in instance.successors[j])]
+        schedulable_jobs = [j for j in unscheduled_jobs if all((succ - 1) not in unscheduled_jobs for succ in instance.successors[j])]
 
         # Sort schedulable jobs based on their order in X (in reverse since we're scheduling backward)
         schedulable_jobs.sort(key=lambda j: -x[j])
 
         for job in schedulable_jobs:
             # Find the latest time this job can be finished based on resource availability and successor constraints
-            finish_time = min([finish_times[succ - 1] - instance.durations[succ-1] for succ in instance.successors[job]])
+            finish_time = min([finish_times[succ-1] - instance.durations[succ-1] for succ in instance.successors[job]])
             while True:
                 # Check if finishing the job at 'finish_time' violates any resource constraints
                 resource_violation = False
