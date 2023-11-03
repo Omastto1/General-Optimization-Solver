@@ -34,7 +34,7 @@ class Benchmark:
     def dump(self):
         print("Dumping instances to their respective paths")
         for instance_name, instance in self._instances.items():
-            instance.dump_json()
+            instance.dump()
 
     def generate_solver_comparison_markdown(self, instances_subset=None, methods_subset=None):
         if instances_subset is None:
