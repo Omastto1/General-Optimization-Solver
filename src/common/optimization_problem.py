@@ -17,12 +17,15 @@ class Benchmark:
 
     def __repr__(self):
         return "Benchmark"
-    
-    def solve(self, solver, method="CP", force_dump=True):
+
+    # DEPRECATE IN DECEMBER 
+    def solve(self, solver, solver_config, force_dump=True):
+        print("WARNING: THIS METHOD IS DEPRECATED IN FAVOR OF SOLVER.SOLVE(BENCHMARK)")
         i = 1
         for instance_name, instance in self._instances.items():
+            print("WARNING: THIS METHOD IS DEPRECATED IN FAVOR OF SOLVER.SOLVE(BENCHMARK)")
             print("solving", instance_name)
-            solver.solve(instance, method)
+            solver.solve(instance=instance, **solver_config)
             # if i == 10:
             #     print("Ending after 10 iterations")
             #     break
@@ -30,6 +33,8 @@ class Benchmark:
 
         if force_dump:
             self.dump()
+
+        print("WARNING: THIS METHOD IS DEPRECATED IN FAVOR OF SOLVER.SOLVE(BENCHMARK)")
 
     def dump(self):
         print("Dumping instances to their respective paths")
