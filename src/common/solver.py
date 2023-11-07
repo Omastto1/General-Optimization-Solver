@@ -30,7 +30,7 @@ class Solver(ABC):
             if force_dump is None:
                 print("Force Dump not set, defaulting to saving the instances")
                 force_dump = True
-            
+
             if force_dump:
                 instance_or_benchmark.dump()
         else:
@@ -205,9 +205,9 @@ class GASolver(Solver):
         # TODO
         solution_progress = []
         solve_time = ""
-        
+
         if is_valid and objective_value >= 0:
-            solve_status = "Feasible" 
+            solve_status = "Feasible"
         elif not is_valid:
             solve_status = "Infeasible"
         else:
