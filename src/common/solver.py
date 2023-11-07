@@ -214,8 +214,23 @@ class GASolver(Solver):
             solve_status = "No solution found"
 
         solver_name = self.solver_name
+
+        # TODO: FINISH - replace algorithm (function execution result) and fitness function (function definition)
+
+        algorithm = self.algorithm.__dict__
+        algorithm["crossover"] = self.algorithm.mating.crossover.__dict__
+        algorithm["crossover"]["prob"] = self.algorithm.mating.crossover.prob.__dict__
+        algorithm["selection"] = self.algorithm.mating.selection.__dict__
+        algorithm["mutation"] = self.algorithm.mating.mutation.__dict__
+        algorithm["mutation"]["prob"] = self.algorithm.mating.mutation.prob.__dict__
+        algorithm["mutation"]["eta"] = self.algorithm.mating.mutation.eta.__dict__
+        algorithm["sampling"] = self.algorithm.initialization.sampling.__dict__
+
         solver_config = {
-            "seed": self.seed
+            "seed": self.seed,
+            "algorithm": algorithm,
+            "fitness_func": self.fitness_func,
+            "termination": self.termination
         }
 
         instance.update_run_history(solver_name, objective_value, solution_info,
