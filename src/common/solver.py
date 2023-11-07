@@ -1,11 +1,15 @@
 import re
 import multiprocessing
+import functools
 
 from docplex.cp.model import CpoParameters
 from abc import ABC, abstractmethod
 
 from src.utils import convert_time_to_seconds
 from src.common.optimization_problem import Benchmark
+
+from docplex.cp.solution import CpoSequenceVarSolution
+from docplex.cp.expression import compare_expressions
 
 
 class Solver(ABC):
@@ -59,18 +63,88 @@ class CPSolver(Solver):
 
         return solution_progress
 
+    def parse_cp_solution_info(self, sol):
+        """docplex.cp.solution.CpoSolveResult.write
+        """
+        info_dict = {}
+
+        # Print model attributes
+        sinfos = sol.get_solver_infos()
+        info_dict["Model constraints"] = sinfos.get_number_of_constraints()
+        info_dict["variables"] = {"integer": sinfos.get_number_of_integer_vars(),
+                             "interval": sinfos.get_number_of_interval_vars(),
+                             "sequence": sinfos.get_number_of_sequence_vars()}
+
+        # Print search/solve status
+        s = sol.get_search_status()
+        if s:
+            info_dict["Solve status"] = str(sol.get_solve_status())
+            info_dict["Search status"] = str(s)
+            s = sol.get_stop_cause()
+            if s:
+                info_dict["Search status stop cause"] = str(s)
+        else:
+            # Old fashion
+            info_dict["Solve status"] = str(sol.get_solve_status())
+            info_dict["Fail status"] = str(sol.get_fail_status())
+        # Print solve time
+        info_dict["Solve time"] = str(round(sol.get_solve_time(), 2)) + " sec"
+
+        info_dict = self.parse_cp_model_solution_info(sol.solution, info_dict)
+
+        return info_dict
+    
+    def parse_cp_model_solution_info(self, model_sol, info_dict):
+        """docplex.cp.solution.CpoModelSolution.write
+        """
+                # Print objective value, bounds and gaps
+        ovals = model_sol.get_objective_values()
+        if ovals:
+            info_dict["Objective values"] = ovals
+        bvals = model_sol.get_objective_bounds()
+        if bvals:
+                info_dict["Bounds"] = bvals
+        gvals = model_sol.get_objective_gaps()
+        if gvals:
+            info_dict["Gaps"] = gvals
+
+        # Print all KPIs in declaration order
+        kpis = model_sol.get_kpis()
+        if kpis:
+            info_dict["KPIs"] = {}
+            for k in kpis.keys():
+                info_dict["KPIs"][k] = kpis[k]
+
+        # Print all variables in natural name order
+        allvars = model_sol.get_all_var_solutions()
+        if allvars:
+            info_dict["Variables"] = {}
+            lvars = [v for v in allvars if v.get_name()]
+            lvars = sorted(lvars, key=functools.cmp_to_key(lambda v1, v2: compare_expressions(v1.expr, v2.expr)))
+            for v in lvars:
+                vval = v.get_value()
+                if isinstance(v, CpoSequenceVarSolution):
+                    vval = [iv.get_name() for iv in vval]
+                info_dict["Variables"][v.get_name()] = vval
+            nbanonym = len(allvars) - len(lvars)
+            if nbanonym > 0:
+                info_dict["Variables"]["Anonymous variables"] = nbanonym
+
+        return info_dict
+
     def add_run_to_history(self, instance, sol):
         solution_progress = self._extract_solution_progress(sol.solver_log)
 
         if sol:
             objective_value = sol.get_objective_values()[0]
-            solution_info = sol.write_in_string()
+            # solution_info = sol.write_in_string()
+            solution_info = self.parse_cp_solution_info(sol)
             solve_status = sol.get_solve_status()
             solve_time = sol.get_solve_time(),
             solution_progress = solution_progress
         else:
             objective_value = -1
-            solution_info = ""
+            solution_info = {}
             solve_status = "No solution found"
             solve_time = self.params.TimeLimit
             solution_progress = []

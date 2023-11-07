@@ -73,7 +73,7 @@ class BinPacking1DGASolver(GASolver):
             fitness_value = -1
             placements = []
 
-        solution_info = f"placements: {placements}"
+        solution_info = {"placements": placements}
         # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
         self.add_run_to_history(instance, fitness_value, solution_info)
 
