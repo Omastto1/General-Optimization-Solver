@@ -58,8 +58,6 @@ if not skip_custom_input:
     print("Number of bins used:", cp_bins_used)
     print("Assignment of items to bins:", cp_assignment)
 
-    problem = BinPacking1D(benchmark_name="BinPacking1DTest", instance_name="Test01", data={"weights": weights, "bin_capacity": bin_capacity}, solution={}, run_history={})
-
     ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1).solve(problem)
 
     bins = {}
