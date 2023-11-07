@@ -32,7 +32,7 @@ def fitness_func(instance, x, out):
     
     # Objective: Minimize the number of bins used
     out["F"] = num_bins - max_bin_load / instance.bin_capacity
-    out["placements"] = x
+    out["placements"] = x.tolist()
     
     # Constraint: No bin should overflow
     out["G"] = max_bin_load - instance.bin_capacity
