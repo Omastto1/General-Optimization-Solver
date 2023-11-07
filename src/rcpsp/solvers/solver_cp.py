@@ -5,6 +5,8 @@ from src.common.solver import CPSolver
 
 
 class RCPSPCPSolver(CPSolver):
+    solver_name="CP Default"
+
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():

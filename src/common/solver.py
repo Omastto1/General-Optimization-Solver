@@ -12,7 +12,15 @@ from docplex.cp.solution import CpoSequenceVarSolution
 from docplex.cp.expression import compare_expressions
 
 
+SOLVER_DEFAULT_NAME = "Unknown solver - check whether solver_name is specified for solver class"
+# TODO: Add solver path (to better identify solver if 2 solvers have the same name) and class name to output
 class Solver(ABC):
+    solver_name = SOLVER_DEFAULT_NAME
+
+    def __init__(self):
+        if self.solver_name == SOLVER_DEFAULT_NAME:
+            print("\nWarning: solver_name not specified for solver\n")
+
     def solve(self, instance_or_benchmark, force_dump=None, **kwargs):
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
@@ -30,8 +38,17 @@ class Solver(ABC):
         pass
 
 
+CP_SOLVER_DEFAULT_NAME = "CP solver without name specified"
 class CPSolver(Solver):
+    solver_name = CP_SOLVER_DEFAULT_NAME
+
     def __init__(self, TimeLimit=60, no_workers=0):
+        super().__init__()
+
+        if self.solver_name == "CP_SOLVER_DEFAULT_NAME":
+            # TODO: ADD SOLVER PARAMS TO NAME
+            print("\nWarning: solver_name not specified for CP solver\n")
+
         self.solved = False
         # self.TimeLimit = TimeLimit
         self.params = CpoParameters()
@@ -149,6 +166,7 @@ class CPSolver(Solver):
             solve_time = self.params.TimeLimit
             solution_progress = []
 
+        solver_name = self.solver_name
         solver_config = {
             "TimeLimit": self.params.TimeLimit,
             "NoWorkers": sol.solver_infos['EffectiveWorkers'],
@@ -156,12 +174,23 @@ class CPSolver(Solver):
             "SolverVersion": sol.process_infos['SolverVersion']
         }
 
-        instance.update_run_history("CP", objective_value, solution_info,
+        instance.update_run_history(solver_name, objective_value, solution_info,
                                     solve_status, solve_time, solver_config, solution_progress)
 
 
+GA_SOLVER_DEFAULT_NAME = "GA solver without name specified"
 class GASolver(Solver):
-    def __init__(self, algorithm, fitness_func, termination, seed=None):
+    solver_name = GA_SOLVER_DEFAULT_NAME
+
+    def __init__(self, algorithm, fitness_func, termination, seed=None, solver_name=None):
+        super().__init__()
+
+        if solver_name is not None:
+            self.solver_name = solver_name
+        else:
+            # TODO: ADD SOLVER PARAMS TO NAME
+            print("\nWarning: solver_name not specified for GA solver\n")
+
         self.algorithm = algorithm
         self.fitness_func = fitness_func
         self.termination = termination
@@ -184,9 +213,10 @@ class GASolver(Solver):
         else:
             solve_status = "No solution found"
 
+        solver_name = self.solver_name
         solver_config = {
             "seed": self.seed
         }
 
-        instance.update_run_history("GA", objective_value, solution_info,
+        instance.update_run_history(solver_name, objective_value, solution_info,
                                     solve_status, solve_time, solver_config, solution_progress)
