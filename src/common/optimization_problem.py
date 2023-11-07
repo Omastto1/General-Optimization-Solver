@@ -136,12 +136,12 @@ class OptimizationProblem:
         
         self._run_history.append({
             "timestamp": timestamp_now,
-            "solution_value": objective_value,
-            "solution_info": solution_info,  # docplex specific so far
             "solver_name": method,
+            "solver_config": solver_config,
             "solve_status": solve_status,  # docplex specific so far
             "solve_time": solve_time,  # docplex specific so far
-            "solver_config": solver_config,
+            "solution_value": objective_value,
+            "solution_info": solution_info,  # docplex specific so far
             "solution_progress": solution_progress  # docplex specific so far
         })
     
