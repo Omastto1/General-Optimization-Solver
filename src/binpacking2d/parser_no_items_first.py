@@ -1,6 +1,10 @@
 # THIS FILE LOADS .BPP FORMAT FOR 2D BINPACKING
-
-def load_2dbinpacking(path, verbose):
+###
+# {no items}
+# {bin_width} {bin_height}
+# {items...}
+ 
+def load_2dbinpacking_no_items_first(path, verbose):
     with open(path, "r") as file:
         line = file.readline()        
         no_items = int(line.strip())
@@ -21,4 +25,4 @@ def load_2dbinpacking(path, verbose):
             "items_sizes": items_sizes,
         }
         
-        return parsed_input
+    return parsed_input
