@@ -25,7 +25,7 @@ class Benchmark:
         for instance_name, instance in self._instances.items():
             print("WARNING: THIS METHOD IS DEPRECATED IN FAVOR OF SOLVER.SOLVE(BENCHMARK)")
             print("solving", instance_name)
-            solver.solve(instance=instance, **solver_config)
+            solver.solve(instance=instance)
             # if i == 10:
             #     print("Ending after 10 iterations")
             #     break
