@@ -10,7 +10,7 @@ from pymoo.operators.mutation.pm import PolynomialMutation
 from src.binpacking1d.problem import BinPacking1D
 from src.binpacking1d.solvers.solver_cp import BinPacking1DCPSolver
 from src.binpacking1d.solvers.solver_ga import BinPacking1DGASolver
-from src.general_optimization_solver import load_raw_instance, load_instance
+from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 
 # GA ALG CONFIG AND FITNESS FUNC
 algorithm = GA(
@@ -43,15 +43,16 @@ def indices_to_onehot(indices, num_classes):
     return onehot
 
 
-skip_custom_input = True
+skip_custom_input = False
 skip_instance_input = False
+skip_benchmark_input = False
 
 if not skip_custom_input:
     #### CUSTOM INPUT
 
     weights = [2, 5, 4, 7, 1, 3, 8]
     bin_capacity = 10
-    problem = BinPacking1D(benchmark_name="BinPacking1DTest", instance_name="Test01", data={"weights": weights, "bin_capacity": bin_capacity}, solution={}, run_history={})
+    problem = BinPacking1D(benchmark_name="BinPacking1DTest", instance_name="Test01", data={"weights": weights, "bin_capacity": bin_capacity}, solution={}, run_history=[])
 
     cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver().solve(problem, validate=False, visualize=True, force_execution=True)
 
@@ -105,3 +106,34 @@ if not skip_instance_input:
 
     instance.dump()
 
+if not skip_benchmark_input:
+    # SPECIFIC BENCHMARK INSTANCE
+    benchmark = load_raw_benchmark("raw_data/1d-binpacking/scholl_bin1data", "", "1Dbinpacking", 2)
+    # benchmark = load_benchmark("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
+    BinPacking1DCPSolver(TimeLimit=2).solve(benchmark, validate=False, visualize=False, force_execution=True)
+
+
+    # print("Number of bins used:", cp_bins_used)
+    # print("Assignment of items to bins:", cp_assignment)
+    # benchmark.visualize(cp_assignment)
+
+    BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 20), seed=1).solve(benchmark)
+
+
+    # bins = {}
+    # for idx, bin_idx in enumerate(ga_assignment):
+    #     bin_idx = int(bin_idx)
+    #     bins[bin_idx] = bins.get(bin_idx, 0) + instance.weights[idx]
+
+    # num_bins = len(bins)
+
+    # ga_assignment = indices_to_onehot(ga_assignment, len(instance.weights))
+
+    # print(f"Best solution: {np.floor(ga_solution.X)}")
+    # print(f"Number of bins used: {num_bins}")
+    # print(ga_assignment)
+    # instance.visualize(ga_assignment)
+
+    # instance.dump()
+    
+    table_markdown = benchmark.generate_solver_comparison_markdown_table()
