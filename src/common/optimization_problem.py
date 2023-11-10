@@ -79,6 +79,9 @@ class Benchmark:
 
 class OptimizationProblem:
     def __init__(self, benchmark_name, instance_name, _instance_kind, data, solution, run_history) -> None:
+        assert isinstance(run_history, list)
+        assert isinstance(solution, dict)
+        
         self._benchmark_name: str = benchmark_name
         self._instance_name: str = instance_name
         self._instance_kind: str = _instance_kind
