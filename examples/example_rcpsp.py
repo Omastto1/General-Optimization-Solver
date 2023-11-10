@@ -89,7 +89,7 @@ algorithm = GA(
 )
 
 # BENCHMARK TEST 
-benchmark = load_raw_benchmark("raw_data/rcpsp/CV", "raw_data/rcpsp/CV.xlsx", "patterson", 10, force_dump=False)
+benchmark = load_raw_benchmark("raw_data/rcpsp/CV", "raw_data/rcpsp/CV.xlsx", "patterson", 2, force_dump=False)
 
 cp_solver_config = {"validate": True}
 RCPSPCPSolver(TimeLimit=3).solve(benchmark, **cp_solver_config)
@@ -97,7 +97,7 @@ RCPSPCPSolver(TimeLimit=3).solve(benchmark, **cp_solver_config)
 ga_solver_config = {"validate": True}
 RCPSPGASolver(algorithm, fitness_func, ("n_gen", 10)).solve(benchmark, **ga_solver_config)
 
-table_markdown = benchmark.generate_solver_comparison_markdown()
+table_markdown = benchmark.generate_solver_comparison_markdown_table()
 print(table_markdown)
 
 

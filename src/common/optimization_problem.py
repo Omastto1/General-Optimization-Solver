@@ -41,7 +41,7 @@ class Benchmark:
         for instance_name, instance in self._instances.items():
             instance.dump()
 
-    def generate_solver_comparison_markdown(self, instances_subset=None, solvers_subset=None):
+    def generate_solver_comparison_markdown_table(self, instances_subset=None, solvers_subset=None):
         if instances_subset is None:
             instances_subset = self._instances.keys()
         if solvers_subset is None:
