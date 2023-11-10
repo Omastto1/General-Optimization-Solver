@@ -35,6 +35,10 @@ class Solver(ABC):
                 instance_or_benchmark.dump()
         else:
             return self._solve(instance_or_benchmark, **kwargs)
+
+    @abstractmethod
+    def _solve(self):
+        """Abstract solve method for solver."""
         pass
 
 
@@ -216,12 +220,13 @@ class GASolver(Solver):
         solver_name = self.solver_name
 
         # TODO: FINISH - replace algorithm (function execution result) and fitness function (function definition)
+        import copy
 
         algorithm = self.algorithm.__dict__
-        algorithm["crossover"] = self.algorithm.mating.crossover.__dict__
+        algorithm["crossover"] = copy.deepcopy(self.algorithm.mating.crossover.__dict__)
         algorithm["crossover"]["prob"] = self.algorithm.mating.crossover.prob.__dict__
         algorithm["selection"] = self.algorithm.mating.selection.__dict__
-        algorithm["mutation"] = self.algorithm.mating.mutation.__dict__
+        algorithm["mutation"] = copy.deepcopy(self.algorithm.mating.mutation.__dict__)
         algorithm["mutation"]["prob"] = self.algorithm.mating.mutation.prob.__dict__
         algorithm["mutation"]["eta"] = self.algorithm.mating.mutation.eta.__dict__
         algorithm["sampling"] = self.algorithm.initialization.sampling.__dict__
