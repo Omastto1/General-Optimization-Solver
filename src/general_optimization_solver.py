@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 
@@ -23,13 +24,19 @@ def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=
     if isinstance(directory_path, str):
         directory_path = Path(directory_path)
 
+    if format is None:
+        meta_path = Path(directory_path) / '.meta'
+        meta_data = _get_and_validate_meta_data(meta_path)
+
+        format = meta_data["FORMAT"]
+
     print("Loading raw benchmark data")
     benchmark_instances = {}
     for i, instance in enumerate(directory_path.iterdir()):
         if no_instances > 0 and i >= no_instances:
             break
 
-        if instance.is_file():
+        if instance.is_file() and instance.name != ".meta":
             print(f"loading {instance}")
             instance_path = str(instance).replace("\\", "/")
             instance_name = instance_path.split("/")[-1].split(".")[0]
@@ -66,9 +73,58 @@ def load_benchmark(directory_path, no_instances=0):
     benchmark = Benchmark("test benchmark", benchmark_instances)
     return benchmark
 
-def load_raw_instance(path, solution_path, format, verbose=False):
+
+def _get_and_validate_meta_data(filepath):
+    """
+    Reads and validates a .meta file, returning a dictionary of metadata.
+
+    The function checks if the .meta file exists, parses its content, and validates
+    that each line conforms to the expected key-value format. It ensures that each key
+    is one of the predefined valid keys. If the file is valid, it returns a dictionary
+    containing the metadata. If the file is invalid or missing, it raises an error.
+
+    Parameters:
+    filepath (str): The path to the .meta file.
+
+    Returns:
+    dict: A dictionary containing the metadata from the .meta file.
+
+    Raises:
+    FileNotFoundError: If the .meta file does not exist.
+    ValueError: If the file contains invalid or unexpected content.
+    """
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Metadata file {filepath} does not exist.\nPlease create .meta file or provide `format` parameter.")
+
+    valid_keys = {"FORMAT"}  # Add more valid keys as needed
+    metadata = {}
+
+    with open(filepath, 'r') as file:
+        for line in file:
+            parts = line.strip().split('=')
+            if len(parts) != 2:
+                raise ValueError(f"Invalid line in metadata file: {line.strip()}")
+
+            key, value = parts
+            key = key.strip().upper()  # Normalize the key
+            if key not in valid_keys:
+                raise ValueError(f"Unexpected key in metadata file: {key}")
+
+            metadata[key] = value.strip()
+
+    return metadata
+
+
+
+def load_raw_instance(path, solution_path, format=None, verbose=False):
     benchmark_name = path.split("/")[-2].split(".")[0]
     instance_name = path.split("/")[-1].split(".")[0]
+
+    if format is None:
+        meta_path = Path(path).parent / '.meta'
+        meta_data = _get_and_validate_meta_data(meta_path)
+
+        format = meta_data["FORMAT"]
 
     assert format is not None, "Specify valid raw data input argument `format`"
     
@@ -117,6 +173,8 @@ def load_raw_instance(path, solution_path, format, verbose=False):
         solution = load_mmlib_solution(solution_path, instance_name)
 
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
+    else:
+        raise ValueError("Invalid format, should be one of: c15, j30, patterson, jobshop, strippacking, 1Dbinpacking, 2Dbinpacking, mmlib")
     
     return instance
 
