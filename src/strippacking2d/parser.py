@@ -10,15 +10,15 @@ def load_strip_packing(instance_path, verbose=False):
 
     with open(instance_path) as file:
         # {no_elements}
-        no_elements = int(file.readline().strip())
-        parsed_input["no_elements"] = no_elements
+        no_rectangles = int(file.readline().strip())
+        parsed_input["no_rectangles"] = no_rectangles
 
         # {strip_width}
         strip_width = int(file.readline().strip())
         parsed_input["strip_width"] = strip_width
 
-        parsed_input["elements"] = []
-        for i in range(no_elements):
+        parsed_input["rectangles"] = []
+        for i in range(no_rectangles):
             # {element_width} {element_height}
             line = file.readline()
             _, element_width, element_height = [int(number.strip()) for number in line.split() if len(number) > 0]
@@ -26,7 +26,7 @@ def load_strip_packing(instance_path, verbose=False):
             element["width"] = element_width
             element["height"] = element_height
             
-            parsed_input["elements"].append(element)
+            parsed_input["rectangles"].append(element)
 
     return parsed_input
 
