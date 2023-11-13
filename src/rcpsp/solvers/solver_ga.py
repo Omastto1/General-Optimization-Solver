@@ -15,6 +15,8 @@ class RCPSPGASolver(GASolver):
             def _evaluate(self, x, out, *args, **kwargs):
                 out = self.fitness_func(self.instance, x, out)
 
+                assert "solution" not in out, "Do not use `solution` key, it is pymoo reserved keyword"
+
                 return out
         
         if not force_execution and len(instance._run_history) > 0:

@@ -28,7 +28,11 @@ class BinPacking1DGASolver(GASolver):
                 self.fitness_func = fitness_func
 
             def _evaluate(self, x, out, *args, **kwargs):
-                out = self.fitness_func(self, x, out)
+                out = self.fitness_func(self.instance, x, out)
+
+                assert "solution" not in out, "Do not use `solution` key, it is pymoo reserved keyword"
+
+                return out
         
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
