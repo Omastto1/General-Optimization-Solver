@@ -21,10 +21,10 @@ class Solver(ABC):
         if self.solver_name == SOLVER_DEFAULT_NAME:
             print("\nWarning: solver_name not specified for solver\n")
 
-    def solve(self, instance_or_benchmark, force_dump=None, **kwargs):
+    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None):
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
-                self._solve(instance, **kwargs)
+                self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution)
             # return self.solve_benchmark(instance_or_benchmark)
 
             if force_dump is None:
@@ -34,7 +34,7 @@ class Solver(ABC):
             if force_dump:
                 instance_or_benchmark.dump()
         else:
-            return self._solve(instance_or_benchmark, **kwargs)
+            return self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution)
 
     @abstractmethod
     def _solve(self):
@@ -68,7 +68,7 @@ class CPSolver(Solver):
             f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
 
     @abstractmethod
-    def _solve(self):
+    def _solve(self, instance, validate, visualize, force_execution):
         """Abstract solve method for CP solver."""
         pass
 
@@ -201,7 +201,7 @@ class GASolver(Solver):
         self.seed = seed
 
     @abstractmethod
-    def _solve(self):
+    def _solve(self, instance, validate, visualize, force_execution):
         """Abstract solve method for GP solver."""
         pass
 
