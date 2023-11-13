@@ -16,15 +16,14 @@ def indices_to_onehot(indices, num_classes):
 class BinPacking1DGASolver(GASolver):
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         class BinPackingProblem(ElementwiseProblem):
-            def __init__(self, weights, bin_capacity, fitness_func):
-                super().__init__(n_var=len(weights),
+            def __init__(self, instance, fitness_func):
+                super().__init__(n_var=len(instance.weights),
                                 n_obj=1,
                                 n_constr=1,  # One constraint: no bin overflow
-                                xl=np.zeros(len(weights)),
-                                xu=np.ones(len(weights)) * len(weights) - 1,
+                                xl=np.zeros(len(instance.weights)),
+                                xu=np.ones(len(instance.weights)) * len(instance.weights) - 1,
                                 elementwise_evaluation=True)
-                self.weights = weights
-                self.bin_capacity = bin_capacity
+                self.instance = instance
                 self.fitness_func = fitness_func
 
             def _evaluate(self, x, out, *args, **kwargs):
@@ -38,7 +37,7 @@ class BinPacking1DGASolver(GASolver):
             if instance.skip_on_optimal_solution():
                 return None, None
 
-        problem = BinPackingProblem(instance.weights, instance.bin_capacity, self.fitness_func)
+        problem = BinPackingProblem(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed)
 
         if res.F is not None:
