@@ -130,28 +130,43 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
     
     if format == "c15":
         data = load_c15(path, verbose)
-        solution = load_c15_solution(solution_path, benchmark_name, instance_name)
+        if solution_path:
+            solution = load_c15_solution(solution_path, benchmark_name, instance_name)
+        else:
+            solution = {}
 
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
     elif format == "j30":
         data = load_j30(path, verbose)
-        solution = load_j30_solution(solution_path, benchmark_name, instance_name)
+        if solution_path:
+            solution = load_j30_solution(solution_path, benchmark_name, instance_name)
+        else:
+            solution = {}
 
         instance = RCPSP(benchmark_name, instance_name, data, solution, [])
     elif format == "patterson":
         print(solution_path, instance_name)
         data = load_patterson(path, verbose)
-        solution = load_patterson_solution(solution_path, instance_name)
+        if solution_path:
+            solution = load_patterson_solution(solution_path, instance_name)
+        else:
+            solution = {}
 
         instance = RCPSP(benchmark_name, instance_name, data, solution, [])
     elif format == "jobshop":
         data = load_jobshop(path, verbose)
-        solution = load_jobshop_solution(solution_path, instance_name)
+        if solution_path:
+            solution = load_jobshop_solution(solution_path, instance_name)
+        else:
+            solution = {}
 
         instance = JobShop(benchmark_name, instance_name, data, solution, [])
     elif format == "strippacking":
         data = load_strip_packing(path, verbose)
-        solution = load_strip_packing_solution(solution_path, instance_name)
+        if solution_path:
+            solution = load_strip_packing_solution(solution_path, instance_name)
+        else:
+            solution = {}
 
         instance = StripPacking2D(benchmark_name, instance_name, data, solution, [])
     elif format == "1Dbinpacking":
@@ -170,7 +185,11 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
         instance = BinPacking2D(benchmark_name, instance_name, data, solution, [])
     elif format == "mmlib":
         data = load_mmlib(path, verbose)
-        solution = load_mmlib_solution(solution_path, instance_name)
+        if solution_path:
+            solution = load_mmlib_solution(solution_path, instance_name)
+        else:
+            solution = {}
+
 
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
     else:
