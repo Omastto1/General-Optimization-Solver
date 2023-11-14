@@ -35,13 +35,30 @@ class RCPSPCPSolver(CPSolver):
         model.add([model.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
                    in enumerate(instance.successors) for successor in job_successors])  # (3)
 
+        print("Looking for solution")
         sol = model.solve()
 
-        if sol:
+        if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
+            print('No solution found')
+            return None, None, sol
+        else:
+
+            export = []
+            for i in range(instance.no_jobs):
+                interval_value = sol[x[i]]
+                start = interval_value.start
+                end = interval_value.end
+
+                export.append(
+                    {"start": start, 
+                    "end": end,
+                    "name": x[i].name}
+                    )
+
             if validate:
                 try:
                     print("Validating solution...")
-                    instance.validate(sol, x)
+                    instance.validate(None, None, export)
                     print("Solution is valid.")
 
                     obj_value = sol.get_objective_value()
@@ -54,7 +71,7 @@ class RCPSPCPSolver(CPSolver):
                     return None, None
 
             if visualize:
-                instance.visualize(sol, x)
+                instance.visualize(sol, x, export, )
 
             # for i in range(no_jobs):
             #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
@@ -68,11 +85,6 @@ class RCPSPCPSolver(CPSolver):
             print('Objective value:', obj_value)
             # start_times = [sol.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
             instance.compare_to_reference(obj_value)
-        else:
-            print("No solution found.")
-
-            # TODO: UPDATE HISTORY
-            # return None, None, sol
 
         Solution = namedtuple("Solution", ['xs'])
         variables = Solution(x)
@@ -88,7 +100,7 @@ class RCPSPCPSolver(CPSolver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        return sol, variables
+        return obj_value, {"jobs": export}, sol
 
 
 # def solve_rcpsp(no_jobs, no_resources, durations, successors, capacities, requests, validate=False):

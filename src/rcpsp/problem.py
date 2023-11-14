@@ -22,7 +22,8 @@ class RCPSP(OptimizationProblem):
         self.requests = [[self._data["job_specifications"][i]["modes"][0]["request_duration"]
                           [f"R{k+1}"] for i in range(self.no_jobs)] for k in range(self.no_renewable_resources)]
 
-    def validate(self, sol, x, start_times=None):
+    def validate(self, sol, x, xs=None):  #
+        """ xs holding arrays of "start", "end" dictionaries """
         # TODO:
         if sol is not None:
             assert sol.get_objective_value(
@@ -35,14 +36,15 @@ class RCPSP(OptimizationProblem):
             
             assert sol.get_var_solution(x[0]).get_start() == min(sol.get_var_solution(x[i]).get_start() for i in range(self.no_jobs)), "Job 0 does not start first."
         else:
-            end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
-            assert max(end_times) <= self.horizon, "Project completion time exceeds horizon."
+            # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
+            # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
+            assert max([x['end'] for x in xs]) <= self.horizon, "Project completion time exceeds horizon."
 
             for i, job_successors in enumerate(self.successors):
                 for successor in job_successors:
-                    assert end_times[i] <= start_times[successor - 1], f"Job {i} ends after job {successor} starts."
+                    assert xs[i]['end'] <= xs[successor - 1]['start'], f"Job {i} ends after job {successor} starts."
                     
-            assert start_times[0] == min(start_times), "Job 0 does not start first."
+            assert xs[0]['start'] == min([x['start'] for x in xs]), "Job 0 does not start first."
 
 
         return True
