@@ -49,7 +49,7 @@ class RCPSP(OptimizationProblem):
 
         return True
 
-    def visualize(self, sol, x, start_times=[], task_names=[]):
+    def visualize(self, jobs):
         # self.no_jobs = len(x)
 
         # if sol and visu.is_visu_enabled():
@@ -63,14 +63,9 @@ class RCPSP(OptimizationProblem):
         # visu.show()
 
         # Define the data for the Gantt chart
-        if sol:
-            print(sol.get_value(x[0]))
-            start_times = [sol.get_var_solution(
-                x[i]).get_start() for i in range(self.no_jobs)]
-            end_times = [sol.get_var_solution(x[i]).get_end()
-                        for i in range(self.no_jobs)]
-        else:
-            end_times = start_times + self.durations
+        end_times = [job['end'] for job in jobs]
+        start_times = [job['start'] for job in jobs]
+        task_names = [job['name'] for job in jobs]
 
         # Create the Gantt chart
         fig, ax = plt.subplots()
@@ -92,11 +87,8 @@ class RCPSP(OptimizationProblem):
             load = [CpoStepFunction()
                     for j in range(self.no_renewable_resources)]
             for i in range(self.no_jobs):
-                if sol:
-                    itv = sol.get_var_solution(x[i])
-                else:
-                    itv = CpoIntervalVarSolution(
-                        None, True, start_times[i], end_times[i], start_times[i] - end_times[i])
+                itv = CpoIntervalVarSolution(
+                    None, True, start_times[i], end_times[i], start_times[i] - end_times[i])
                 for j in range(self.no_renewable_resources):
                     if 0 < self.requests[j][i]:
                         load[j].add_value(
@@ -105,10 +97,7 @@ class RCPSP(OptimizationProblem):
             visu.timeline('Solution for RCPSP ')  # + filename)
             visu.panel('Tasks')
             for i in range(self.no_jobs):
-                if sol:
-                    visu.interval(sol.get_var_solution(x[i]), i, x[i].get_name())
-                else:
-                    visu.interval(CpoIntervalVarSolution(None, True, start_times[i], end_times[i], start_times[i] - end_times[i]), i, task_names[i])
+                visu.interval(CpoIntervalVarSolution(None, True, start_times[i], end_times[i], start_times[i] - end_times[i]), i, task_names[i])
             for j in range(self.no_renewable_resources):
                 visu.panel('R' + str(j+1))
                 visu.function(
