@@ -67,29 +67,29 @@ class JobShopCPSolver(CPSolver):
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
-        else:
-            job_operations_export = self._export_solution(
-                instance, sol, job_operations)
-            if validate:
-                try:
-                    print("Validating solution...")
-                    is_valid = instance.validate(job_operations_export)
-                    if is_valid:
-                        print("Solution is valid.")
-                    else:
-                        print("Solution is invalid.")
-                except AssertionError as e:
+        
+        job_operations_export = self._export_solution(
+            instance, sol, job_operations)
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(job_operations_export)
+                if is_valid:
+                    print("Solution is valid.")
+                else:
                     print("Solution is invalid.")
-                    print(e)
-                    return None, None, None
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None, None
 
-            if visualize:
-                # sol, job_operations, machine_operations,
-                instance.visualize(job_operations_export)
+        if visualize:
+            instance.visualize(job_operations_export)
 
-            print("Project completion time:", sol.get_objective_values()[0])
+        obj_value = sol.get_objective_values()[0]
+        print('Objective value:', obj_value)
 
-        # print solution
         if sol.get_solve_status() == 'Optimal':
             print("Optimal solution found")
         elif sol.get_solve_status() == 'Feasible':
@@ -98,14 +98,8 @@ class JobShopCPSolver(CPSolver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        obj_value = sol.get_objective_values()[0]
-        print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 
-        # Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
-        # variables = Solution(job_operations, machine_operations)
-
         self.add_run_to_history(instance, sol)
-        # instance.update_run_history(sol, variables, "CP", self.params)
 
         return obj_value, {"jobs": job_operations_export}, sol

@@ -32,6 +32,21 @@ class RCPSPCPSolver(CPSolver):
                    in enumerate(instance.successors) for successor in job_successors])  # (3)
         
         return model, x
+    
+    def _export_solution(self, instance, sol, x):
+        export = []
+        for i in range(instance.no_jobs):
+            interval_value = sol[x[i]]
+            start = interval_value.start
+            end = interval_value.end
+
+            export.append(
+                {"start": start, 
+                "end": end,
+                "name": x[i].name}
+                )
+        
+        return export
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         print("Building model")
@@ -43,50 +58,49 @@ class RCPSPCPSolver(CPSolver):
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
-        else:
+        
+        export = self._export_solution(instance, sol, x)
 
-            export = []
-            for i in range(instance.no_jobs):
-                interval_value = sol[x[i]]
-                start = interval_value.start
-                end = interval_value.end
-
-                export.append(
-                    {"start": start, 
-                    "end": end,
-                    "name": x[i].name}
-                    )
-
-            if validate:
-                try:
-                    print("Validating solution...")
-                    instance.validate(None, None, export)
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(None, None, export)
+                if is_valid:
                     print("Solution is valid.")
-
-                    obj_value = sol.get_objective_value()
-                    print("Project completion time:", obj_value)
-
-                    instance.compare_to_reference(obj_value)
-                except AssertionError as e:
+                else:
                     print("Solution is invalid.")
-                    print(e)
-                    return None, None
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
 
-            if visualize:
-                instance.visualize(sol, x, export, )
+        if visualize:
+            instance.visualize(export)
 
-            # for i in range(no_jobs):
-            #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
+        obj_value = sol.get_objective_value()
+        print('Objective value:', obj_value)
 
-            print(sol.solution.get_objective_bounds())
-            print(sol.solution.get_objective_gaps())
-            print(sol.solution.get_objective_values())
+        if sol.get_solve_status() == 'Optimal':
+            print("Optimal solution found")
+        elif sol.get_solve_status() == 'Feasible':
+            print("Feasible solution found")
+        else:
+            print("Unknown solution status")
+            print(sol.get_solve_status())
 
-            # obj_value = sol.objective_value
-            obj_value = sol.get_objective_values()[0]
-            print('Objective value:', obj_value)
-            # start_times = [sol.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
-            instance.compare_to_reference(obj_value)
+        instance.compare_to_reference(obj_value)
+        # for i in range(no_jobs):
+        #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
+
+        print(sol.solution.get_objective_bounds())
+        print(sol.solution.get_objective_gaps())
+        print(sol.solution.get_objective_values())
+
+        # obj_value = sol.objective_value
+        obj_value = sol.get_objective_values()[0]
+        print('Objective value:', obj_value)
+        # start_times = [sol.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
+        instance.compare_to_reference(obj_value)
 
         Solution = namedtuple("Solution", ['xs'])
         variables = Solution(x)
@@ -102,6 +116,10 @@ class RCPSPCPSolver(CPSolver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
+        instance.compare_to_reference(obj_value)
+            
+        self.add_run_to_history(instance, sol)
+        
         return obj_value, {"jobs": export}, sol
 
 

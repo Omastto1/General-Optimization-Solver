@@ -71,42 +71,33 @@ class MMRCPSPCPSolver(CPSolver):
         jobs = range(instance.no_jobs)
 
         print("Looking for solution")
-        # solve model
         sol = model.solve()
 
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
-        else:
-            export = self._export_solution(instance, sol, ys)
 
-            if validate:
-                try:
-                    print("Validating solution...")
-                    instance.validate(export)  # sol, _xs, 
+        export = self._export_solution(instance, sol, ys)
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(export)  # sol, _xs, 
+                if is_valid:
                     print("Solution is valid.")
-                except AssertionError as e:
+                else:
                     print("Solution is invalid.")
-                    print(e)
-                    return None, None
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
 
-            if visualize:
-                instance.visualize(export)  # sol, _xs
+        if visualize:
+            instance.visualize(export)
+            
+        obj_value = sol.get_objective_values()[0]
+        print('Objective value:', obj_value)
         
-        for i in jobs:
-            print(sol.get_var_solution(xs[i]))
-            for j in range(instance.no_modes_list[i]):
-                if sol.get_var_solution(ys[i][j]).is_absent():
-                    continue
-
-                print(
-                    f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(ys[i][j]).start} to {sol.get_var_solution(ys[i][j]).end}')
-                # if sol.get_var_solution(y[i][j]) == 1:
-                #     print(f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(x[i][j]).start} to {sol.get_var_solution(x[i][j]).end}')
-        # for k in resources:
-        #     print(f'Resource {k} usage: {sol.get_var_solution(z[k])}')
-        
-        # print solution
         if sol.get_solve_status() == 'Optimal':
             print("Optimal solution found")
         elif sol.get_solve_status() == 'Feasible':
@@ -115,21 +106,22 @@ class MMRCPSPCPSolver(CPSolver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        # obj_value = sol.get_objective_value()
-        # obj_value = sol.get_objective_value()
-
-        obj_value = sol.get_objective_values()[0]
-        print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 
-        Solution = namedtuple("Solution", ['xs'])
+        for i in jobs:
+            print(sol.get_var_solution(xs[i]))
+            for j in range(instance.no_modes_list[i]):
+                if sol.get_var_solution(ys[i][j]).is_absent():
+                    continue
+
+                print(
+                    f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(ys[i][j]).start} to {sol.get_var_solution(ys[i][j]).end}')
+
+        instance.compare_to_reference(obj_value)
 
         self.add_run_to_history(instance, sol)
-        # instance.update_run_history(sol, variables, "CP", self.params)
 
         return obj_value, {"task_mode_assignment": export}, sol
-        raise NotImplementedError("TODO: Implement this to have 3 return values")
-        return sol, variables
 
 # def solve_mmrcpsp(no_jobs, no_modes_list, no_renewable_resources, no_non_renewable_resources, durations, successors, renewable_capacities, non_renewable_capacities, requests, validate=False):
 #     # define model

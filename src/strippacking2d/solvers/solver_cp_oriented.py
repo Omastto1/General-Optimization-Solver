@@ -81,17 +81,17 @@ class StripPacking2DCPSolver(CPSolver):
         if solution.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, solution
-        else:
-            total_height = solution.get_objective_values()[0]
-            placements = []
-            orientations = []
-            for i, (w, h) in enumerate(instance.rectangles):
-                if solution.get_var_solution(X[i]).is_present():
-                    placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
-                    orientations.append("original")
-                else:
-                    placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
-                    orientations.append("rotated")
-                
-            self.add_run_to_history(instance, solution)
-            return total_height, placements, orientations, solution
+        
+        total_height = solution.get_objective_values()[0]
+        placements = []
+        orientations = []
+        for i, (w, h) in enumerate(instance.rectangles):
+            if solution.get_var_solution(X[i]).is_present():
+                placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
+                orientations.append("original")
+            else:
+                placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
+                orientations.append("rotated")
+            
+        self.add_run_to_history(instance, solution)
+        return total_height, placements, orientations, solution
