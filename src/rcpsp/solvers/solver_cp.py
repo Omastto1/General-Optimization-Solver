@@ -7,11 +7,7 @@ from src.common.solver import CPSolver
 class RCPSPCPSolver(CPSolver):
     solver_name="CP Default"
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
+    def build_model(self, instance):
         model = CpoModel()
         model.set_parameters(params=self.params)
 
@@ -34,6 +30,12 @@ class RCPSPCPSolver(CPSolver):
 
         model.add([model.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
                    in enumerate(instance.successors) for successor in job_successors])  # (3)
+        
+        return model, x
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, x = self.build_model(instance)
 
         print("Looking for solution")
         sol = model.solve()

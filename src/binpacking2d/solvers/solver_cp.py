@@ -3,11 +3,7 @@ from docplex.cp.model import CpoModel
 from ...common.solver import CPSolver
 
 class BinPacking2DCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
+    def build_model(self, instance):
         model = CpoModel(name="2DBinPacking")
         model.set_parameters(params=self.params)
         
@@ -56,15 +52,22 @@ class BinPacking2DCPSolver(CPSolver):
         
         # Objective: minimize the number of bins used
         model.add(model.minimize(model.sum(used[k] for k in range(instance.no_items))))
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, xs, ys = self.build_model(instance)
         
+        print("Looking for solution")
         # Solve the model
         solution = model.solve()
-        
-        # Extract and return the solution
-        if solution:
+
+        if solution.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
+            print('No solution found')
+            return None, None, solution
+        else:
+            self.add_run_to_history(instance, solution)
+            raise NotImplementedError("Missing visualize and validate")
+
             bins_used = sum([int(solution[used[k]]) for k in range(instance.no_items)])
             assignment = [[[int(solution[x[i][j][k]]) for k in range(instance.no_items)] for j in range(instance.bin_size[0] * instance.bin_size[1])] for i in range(instance.no_items)]
             orientations = [int(solution[orientation[i]]) for i in range(instance.no_items)]
             return bins_used, assignment, orientations
-        else:
-            return None, None, None

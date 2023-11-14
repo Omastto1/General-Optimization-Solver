@@ -5,20 +5,22 @@ from ...common.solver import CPSolver
 
 
 class JobShopCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+
+    def build_model(self, instance):
         model = CpoModel()
         model.set_parameters(params=self.params)
 
         job_operations = [[model.interval_var(name=f"J_{job}_{order_index}", size=instance.durations[job][order_index])
                            for order_index in range(instance.no_machines)] for job in range(instance.no_jobs)]
-        
+
         cost = model.integer_var(0, 1000000, name="cost")
-        
-        model.add(cost == model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))
-        
+
+        model.add(cost == model.max(model.end_of(
+            job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))
+
         if "optimum" in instance._solution and instance._solution["optimum"] is not None:
             model.add(cost >= instance._solution["optimum"])
-        
+
         model.add(
             [model.minimize(model.max(model.end_of(job_operations[i][instance.no_machines-1]) for i in range(instance.no_jobs)))] +
             [model.end_before_start(job_operations[i][j-1], job_operations[i][j])
@@ -34,9 +36,9 @@ class JobShopCPSolver(CPSolver):
         for mops in machine_operations:
             model.add(model.no_overlap(mops))
 
-        print("Looking for solution")
-        sol = model.solve()
+        return model, job_operations  # , machine_operations
 
+    def _export_solution(self, instance, sol, job_operations):
         job_operations_export = []
         for i in range(instance.no_jobs):
             job_operations_export.append([])
@@ -47,21 +49,27 @@ class JobShopCPSolver(CPSolver):
                 end = interval_value.end
 
                 job_operations_export[i].append(
-                    {"start": start, 
-                     "end": end, 
+                    {"start": start,
+                     "end": end,
                      "machine": machine}
-                     )
+                )
 
-        machine_operations_export = [[] for m in range(instance.no_machines)]
-        for j in range(instance.no_jobs):
-            for s in range(instance.no_machines):
-                machine_operations_export[instance.machines[j]
-                                   [s]].append(job_operations_export[j][s])
+        return job_operations_export
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, job_operations = self.build_model(
+            instance)  # , machine_operations
+
+        print("Looking for solution")
+        sol = model.solve()
 
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
         else:
+            job_operations_export = self._export_solution(
+                instance, sol, job_operations)
             if validate:
                 try:
                     print("Validating solution...")
@@ -76,10 +84,11 @@ class JobShopCPSolver(CPSolver):
                     return None, None, None
 
             if visualize:
-                instance.visualize(job_operations_export, machine_operations_export)  # sol, job_operations, machine_operations, 
+                # sol, job_operations, machine_operations,
+                instance.visualize(job_operations_export)
 
             print("Project completion time:", sol.get_objective_values()[0])
-            
+
         # print solution
         if sol.get_solve_status() == 'Optimal':
             print("Optimal solution found")
@@ -93,10 +102,10 @@ class JobShopCPSolver(CPSolver):
         print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 
-        Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
-        variables = Solution(job_operations, machine_operations)
+        # Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
+        # variables = Solution(job_operations, machine_operations)
 
         self.add_run_to_history(instance, sol)
         # instance.update_run_history(sol, variables, "CP", self.params)
 
-        return obj_value, {"jobs": job_operations_export, "machines": machine_operations_export}, sol
+        return obj_value, {"jobs": job_operations_export}, sol

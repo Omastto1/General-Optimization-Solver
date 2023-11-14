@@ -5,9 +5,8 @@ from ...common.solver import CPSolver
 
 
 class StripPacking2DCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def build_model(self, instance):
         # Create a new CP model
-        print("Building model")
         model = CpoModel()
         model.set_parameters(params=self.params)
 
@@ -34,37 +33,8 @@ class StripPacking2DCPSolver(CPSolver):
             model.add(model.alternative(X_main[i], [X[i], X_rot[i]]))
             model.add(model.alternative(Y_main[i], [Y[i], Y_rot[i]]))
 
-            # model.add(model.if_then(X[i].size[0] > 0, X_rot[i].size[0] == 0))
-            # model.add(model.if_then(X_rot[i].size[0] > 0, X[i].size[0] == 0))
-
-            # model.add(model.if_then(Y[i].size[0] > 0, Y_rot[i].size[0] == 0))
-            # model.add(model.if_then(Y_rot[i].size[0] > 0, Y[i].size[0] == 0))
-
             model.add(model.if_then(O[i] == 0, model.all_of([model.presence_of(X_rot[i]), model.presence_of(Y_rot[i])])))
             model.add(model.if_then(O[i] == 1, model.all_of([model.presence_of(X[i]), model.presence_of(Y[i])])))
-            # model.add(model.if_then(O[i] == 0, model.all_of([X_rot[i].is_present(), Y_rot[i].is_present()])))
-            # model.add(model.if_then(O[i] == 1, model.all_of([X[i].is_present(), Y[i].is_present()])))
-            # model.add(model.logical_and(O[i] == 0, Y_main[i].is_present()))
-
-            # model.add(model.alternative(X_main[i], [X[i], X_rot[i]], O[i]))  # 
-            # model.add(model.alternative(Y_main[i], [Y[i], Y_rot[i]], O[i]))  # 
-
-            # model.add(model.logical_and(O[i] == 0, X_main[i].is_present()))
-            # model.add(model.logical_and(O[i] == 0, Y_main[i].is_present()))
-
-            # model.add(model.logical_or(model.logical_and(Y[i].is_present(), X[i].is_present())), model.logical_and(Y_rot[i].is_present(), X_rot[i].is_present()))
-    
-            #(O[i] = 1 implies X_rot[i] and Y_rot[i] are selected
-            # model.add(model.if_then(O[i] == 1, X[i].is_present()))
-            # model.add(model.if_then(O[i] == 1, Y[i].is_present()))
-            # model.add(model.if_then(O[i] == 0, X_rot[i].is_present()))
-            # model.add(model.if_then(O[i] == 0, Y_rot[i].is_present()))
-
-            
-            # model.add(model.if_then(X[i].is_present(), Y[i].is_present()))
-            # model.add(model.if_then(Y[i].is_present(), X[i].is_present()))
-            # model.add(model.if_then(X_rot[i].is_present(), Y_rot[i].is_present()))
-            # model.add(model.if_then(Y_rot[i].is_present(), X_rot[i].is_present()))
 
         def double_no_overlap(model, X1, X2, Y1, Y2):
             # start before end
@@ -75,7 +45,6 @@ class StripPacking2DCPSolver(CPSolver):
 
             # Ensuring that at least one non-overlapping condition is satisfied
             model.add((no_overlap_X1 | no_overlap_X2) | (no_overlap_Y1 | no_overlap_Y2))
-
 
         # Add non-overlap constraints considering both orientations
         for i in range(instance.no_elements):
@@ -98,6 +67,12 @@ class StripPacking2DCPSolver(CPSolver):
 
         # Minimize the total height
         model.add(model.minimize(z))
+
+        return model, X, Y, X_rot, Y_rot
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, X, Y, X_rot, Y_rot = self.build_model(instance)
 
         print("Looking for solution")
         # Solve the model

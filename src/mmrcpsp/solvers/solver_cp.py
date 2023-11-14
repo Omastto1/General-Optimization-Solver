@@ -5,19 +5,22 @@ from ...common.solver import CPSolver
 
 
 class MMRCPSPCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+
+
+    
+    def build_model(self, instance):
         # define model
         model = CpoModel()
         model.set_parameters(params=self.params)
 
         # define variables
-        tasks = range(instance.no_jobs)
+        jobs = range(instance.no_jobs)
         renewable_resources = range(instance.no_renewable_resources)
         non_renewable_resources = range(instance.no_non_renewable_resources)
 
-        xs = [model.interval_var(name=f'task_{i}') for i in tasks]
+        xs = [model.interval_var(name=f'task_{i}') for i in jobs]
         ys = [[model.interval_var(size=instance.durations[i][j], name=f'task_{i}_mode_{j}', optional=True) for j in range(
-            instance.no_modes_list[i])] for i in tasks]
+            instance.no_modes_list[i])] for i in jobs]
 
         cost = model.integer_var(0, 1000000, name="cost")
 
@@ -28,18 +31,18 @@ class MMRCPSPCPSolver(CPSolver):
 
         model.add(model.minimize(model.max(model.end_of(x) for x in xs)))
 
-        for i in tasks:
+        for i in jobs:
             model.add(model.alternative(xs[i], ys[i]))
 
         for k in renewable_resources:
             renewable_resources_requirements = [model.pulse(
-                ys[i][j], instance.requests[k][i][j]) for i in tasks for j in range(instance.no_modes_list[i])]
+                ys[i][j], instance.requests[k][i][j]) for i in jobs for j in range(instance.no_modes_list[i])]
             model.add(model.sum(renewable_resources_requirements)
                       <= instance.renewable_capacities[k])
 
         for k in non_renewable_resources:
             non_renewable_resources_requirements = [model.presence_of(
-                ys[i][j]) * instance.requests[k+2][i][j] for i in tasks for j in range(instance.no_modes_list[i])]
+                ys[i][j]) * instance.requests[k+2][i][j] for i in jobs for j in range(instance.no_modes_list[i])]
             model.add(model.sum(non_renewable_resources_requirements)
                       <= instance.non_renewable_capacities[k])
 
@@ -47,22 +50,36 @@ class MMRCPSPCPSolver(CPSolver):
         for (i, job_successors) in enumerate(instance.successors):
             model.add([model.end_before_start(xs[i], xs[successor - 1])
                       for successor in job_successors])
+            
+        return model, xs, ys
+    
+    def _export_solution(self, instance, sol, ys):
+        jobs = range(instance.no_jobs)
+
+        _xs = [ys[i][j] for i in jobs for j in range(
+            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
+        
+        export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name()} for i in jobs for j in range(
+            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
+        
+        return export
+
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, xs, ys = self.build_model(instance)
+        jobs = range(instance.no_jobs)
 
         print("Looking for solution")
         # solve model
         sol = model.solve()
 
-        
-        _xs = [ys[i][j] for i in tasks for j in range(
-            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
-        
-        export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name()} for i in tasks for j in range(
-            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
-
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
         else:
+            export = self._export_solution(instance, sol, ys)
+
             if validate:
                 try:
                     print("Validating solution...")
@@ -76,7 +93,7 @@ class MMRCPSPCPSolver(CPSolver):
             if visualize:
                 instance.visualize(export)  # sol, _xs
         
-        for i in tasks:
+        for i in jobs:
             print(sol.get_var_solution(xs[i]))
             for j in range(instance.no_modes_list[i]):
                 if sol.get_var_solution(ys[i][j]).is_absent():
@@ -110,7 +127,7 @@ class MMRCPSPCPSolver(CPSolver):
         self.add_run_to_history(instance, sol)
         # instance.update_run_history(sol, variables, "CP", self.params)
 
-        return obj_value, {"task_mode_assignment": _xs}, sol
+        return obj_value, {"task_mode_assignment": export}, sol
         raise NotImplementedError("TODO: Implement this to have 3 return values")
         return sol, variables
 

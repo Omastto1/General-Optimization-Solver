@@ -3,12 +3,7 @@ from docplex.cp.model import CpoModel
 from ...common.solver import CPSolver
 
 class BinPacking1DCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
-        print("Building model")
+    def build_model(self, instance):
         model = CpoModel(name="BinPacking")
         model.set_parameters(params=self.params)
 
@@ -26,6 +21,18 @@ class BinPacking1DCPSolver(CPSolver):
         
         # Objective: minimize the number of bins used
         model.add(model.minimize(model.sum(is_bin_used[j] for j in range(instance.no_items))))
+
+        return model, item_bin_pos_assignment, is_bin_used
+    
+    def _export_solution(self, instance, solution, item_bin_pos_assignment, is_bin_used):
+        item_bin_pos_assignment_export = [[solution[item_bin_pos_assignment[i][j]] for j in range(instance.no_items)] for i in range(instance.no_items)]
+        is_bin_used_export = [solution[is_bin_used[j]] for j in range(instance.no_items)]
+        
+        return item_bin_pos_assignment_export, is_bin_used_export
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, item_bin_pos_assignment, is_bin_used = self.build_model(instance)
         
         print("Looking for solution")
         # Solve the model
@@ -35,9 +42,8 @@ class BinPacking1DCPSolver(CPSolver):
             print('No solution found')
             return None, None, solution
         else:
+            item_bin_pos_assignment_export, is_bin_used_export = self._export_solution(instance, solution, item_bin_pos_assignment, is_bin_used)
 
-            item_bin_pos_assignment_export = [[solution[item_bin_pos_assignment[i][j]] for j in range(instance.no_items)] for i in range(instance.no_items)]
-            is_bin_used_export = [solution[is_bin_used[j]] for j in range(instance.no_items)]
             if validate:
                 try:
                     print("Validating solution...")
