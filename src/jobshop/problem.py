@@ -18,8 +18,14 @@ class JobShop(OptimizationProblem):
 
         return True
 
-    def visualize(self, job_operations_export, machine_operations_export):
-        if visu.is_visu_enabled():            
+    def visualize(self, job_operations):
+        if visu.is_visu_enabled():
+            machine_operations_export = [[] for m in range(self.no_machines)]
+            for j in range(self.no_jobs):
+                for s in range(self.no_machines):
+                    machine_operations_export[self.machines[j]
+                                    [s]].append(job_operations[j][s])
+
             # visu.timeline('Solution for job-shop ' +
             #               self._instance_name, 1, sol.get_objective_value())
             visu.panel('Jobs')
@@ -28,7 +34,7 @@ class JobShop(OptimizationProblem):
                 #               intervals=[(sol.get_var_solution(job_operations[i][j]), self.machines[i][j], 'M' + str(self.machines[i][j])) for j in
                 #                          range(self.no_machines)])
                 visu.sequence(name='J' + str(i),
-                              intervals=[(job_operations_export[i][j]['start'], job_operations_export[i][j]['end'], self.machines[i][j], 'M' + str(self.machines[i][j])) for j in
+                              intervals=[(job_operations[i][j]['start'], job_operations[i][j]['end'], self.machines[i][j], 'M' + str(self.machines[i][j])) for j in
                                          range(self.no_machines)])
             visu.panel('Machines')
             for k in range(self.no_machines):
