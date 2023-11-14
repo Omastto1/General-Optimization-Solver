@@ -1,10 +1,6 @@
 from src.common.optimization_problem import OptimizationProblem
 import docplex.cp.utils_visu as visu
-
-
-from src.common.optimization_problem import OptimizationProblem
-import docplex.cp.utils_visu as visu
-import matplotlib.pyplot as plt
+from typing import List
 
 
 class BinPacking1D(OptimizationProblem):
@@ -16,25 +12,33 @@ class BinPacking1D(OptimizationProblem):
         self.weights = self._data["weights"]
         self.no_items = len(self._data["weights"])
 
-    def validate(self, instance, item_bin_pos_assignment):
-        # TODO: FINISH
-        # The sum of item_bin_pos_assignment[i][j] for each item i should be 1
-        sums_per_item = [sum(item_bin_pos_assignment[i][j] for j in range(instance.no_items)) for i in range(instance.no_items)]
-        if not all(s == 1 for s in sums_per_item):
-            raise ValueError("Constraint violated: The sum of item_bin_pos_assignment[i][j] for each item i should be 1")
+    def validate(self, item_bin_pos_assignment: List[List[int]], is_bin_used: List[int]):
+        """_summary_
 
+        Args:
+            item_bin_pos_assignment (_type_): one hot encoded item_bin_assignment - item_bin_assignment[0][5] - is the first item in the sixth bin
+            is_bin_used (List[int]): 0/1 list showing which bin is used (=1)
+
+        Raises:
+            ValueError: sum of item weights in one of bins exceeds the capacity
+
+        Returns:
+            bool: True if valid
+        """
         # The sum of weights for items in each bin should not exceed the capacity
-        sums_per_bin = [sum(instance.weights[i] * item_bin_pos_assignment[i][j] for i in range(instance.no_items)) for j in range(instance.no_items)]
-        if not all(s <= instance.bin_capacity * is_bin_used[j] for j, s in enumerate(sums_per_bin)):
+        sums_per_bin = [sum(self.weights[i] * item_bin_pos_assignment[i][j] for i in range(self.no_items)) for j in range(self.no_items)]
+        if not all(s <= self.bin_capacity * is_bin_used[j] for j, s in enumerate(sums_per_bin)):
             raise ValueError("Constraint violated: The sum of weights for items in each bin should not exceed the capacity")
+    
+        return True
 
 
-    def visualize(self, item_bin_assignment):
+    def visualize(self, item_bin_assignment: List[List[int]]):
         """visualize the solution of the problem
         expects one hot encoded item_bin_assignment
 
         Args:
-            item_bin_assignment (List[List[int]]): one hot encoded item_bin_assignment
+            item_bin_assignment (List[List[int]]): one hot encoded item_bin_assignment - item_bin_assignment[0][5] - is the first item in the sixth bin
         """
         if not visu.is_visu_enabled():
             assert False, "Visualization not available. Please install docplex and enable visu."
