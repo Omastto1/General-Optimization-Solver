@@ -9,7 +9,8 @@ from src.jobshop.parser import load_jobshop, load_jobshop_solution
 from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution
 from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
 from src.binpacking1d.parser import load_1dbinpacking
-from src.binpacking2d.parser import load_2dbinpacking
+from src.binpacking2d.parser_no_items_first import load_2dbinpacking_no_items_first
+from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first # TODO
 
 from src.common.optimization_problem import Benchmark
 from src.mmrcpsp.problem import MMRCPSP
@@ -128,6 +129,7 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
 
     assert format is not None, "Specify valid raw data input argument `format`"
     
+    # TODO: ADD SOLUTION PATH TO METADATA
     if format == "c15":
         data = load_c15(path, verbose)
         if solution_path:
@@ -177,7 +179,14 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
 
         instance = BinPacking1D(benchmark_name, instance_name, data, solution, [])
     elif format == "2Dbinpacking":
-        data = load_2dbinpacking(path, verbose)
+        data = load_2dbinpacking_no_items_first(path, verbose)
+        solution = {}
+        # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
+        # solution = load_strip_packing_solution(solution_path, instance_name)
+
+        instance = BinPacking2D(benchmark_name, instance_name, data, solution, [])
+    elif format == "2Dbinpacking_bin_size_first":
+        data = load_2dbinpacking_bin_size_first()(path, verbose)
         solution = {}
         # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
         # solution = load_strip_packing_solution(solution_path, instance_name)
