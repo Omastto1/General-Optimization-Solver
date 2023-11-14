@@ -6,10 +6,6 @@ from ...common.solver import CPSolver
 
 class MMRCPSPCPSolver(CPSolver):
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
         # define model
         model = CpoModel()
         model.set_parameters(params=self.params)
@@ -52,24 +48,33 @@ class MMRCPSPCPSolver(CPSolver):
             model.add([model.end_before_start(xs[i], xs[successor - 1])
                       for successor in job_successors])
 
+        print("Looking for solution")
         # solve model
         sol = model.solve()
 
+        
+        _xs = [ys[i][j] for i in tasks for j in range(
+            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
+        
+        export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name()} for i in tasks for j in range(
+            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
+
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
+            return None, None, sol
+        else:
+            if validate:
+                try:
+                    print("Validating solution...")
+                    instance.validate(export)  # sol, _xs, 
+                    print("Solution is valid.")
+                except AssertionError as e:
+                    print("Solution is invalid.")
+                    print(e)
+                    return None, None
 
-        if validate:
-            try:
-                print("Validating solution...")
-                instance.validate(sol, xs)
-                print("Solution is valid.")
-            except AssertionError as e:
-                print("Solution is invalid.")
-                print(e)
-                return None, None
-
-        if visualize:
-            instance.visualize(sol, xs, ys)
+            if visualize:
+                instance.visualize(export)  # sol, _xs
         
         for i in tasks:
             print(sol.get_var_solution(xs[i]))
@@ -101,13 +106,12 @@ class MMRCPSPCPSolver(CPSolver):
         instance.compare_to_reference(obj_value)
 
         Solution = namedtuple("Solution", ['xs'])
-        
-        xs = [ys[i][j] for i in tasks for j in range(
-            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
-        variables = Solution(xs)
 
-        instance.update_run_history(sol, variables, "CP", self.params)
+        self.add_run_to_history(instance, sol)
+        # instance.update_run_history(sol, variables, "CP", self.params)
 
+        return obj_value, {"task_mode_assignment": _xs}, sol
+        raise NotImplementedError("TODO: Implement this to have 3 return values")
         return sol, variables
 
 # def solve_mmrcpsp(no_jobs, no_modes_list, no_renewable_resources, no_non_renewable_resources, durations, successors, renewable_capacities, non_renewable_capacities, requests, validate=False):
