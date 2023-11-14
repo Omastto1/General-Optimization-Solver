@@ -6,10 +6,6 @@ from ...common.solver import CPSolver
 
 class JobShopCPSolver(CPSolver):
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
         model = CpoModel()
         model.set_parameters(params=self.params)
 
@@ -38,26 +34,51 @@ class JobShopCPSolver(CPSolver):
         for mops in machine_operations:
             model.add(model.no_overlap(mops))
 
-        print("Using 10 second time limit")
+        print("Looking for solution")
         sol = model.solve()
 
-        if sol:
+        job_operations_export = []
+        for i in range(instance.no_jobs):
+            job_operations_export.append([])
+            for j in range(instance.no_machines):
+                interval_value = sol[job_operations[i][j]]
+                machine = instance.machines[i][j]
+                start = interval_value.start
+                end = interval_value.end
+
+                job_operations_export[i].append(
+                    {"start": start, 
+                     "end": end, 
+                     "machine": machine}
+                     )
+
+        machine_operations_export = [[] for m in range(instance.no_machines)]
+        for j in range(instance.no_jobs):
+            for s in range(instance.no_machines):
+                machine_operations_export[instance.machines[j]
+                                   [s]].append(job_operations_export[j][s])
+
+        if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
+            print('No solution found')
+            return None, None, sol
+        else:
             if validate:
                 try:
                     print("Validating solution...")
-                    instance.validate(sol, job_operations)
-                    print("Solution is valid.")
+                    is_valid = instance.validate(job_operations_export)
+                    if is_valid:
+                        print("Solution is valid.")
+                    else:
+                        print("Solution is invalid.")
                 except AssertionError as e:
                     print("Solution is invalid.")
                     print(e)
                     return None, None, None
 
             if visualize:
-                instance.visualize(sol, job_operations, machine_operations)
+                instance.visualize(job_operations_export, machine_operations_export)  # sol, job_operations, machine_operations, 
 
             print("Project completion time:", sol.get_objective_values()[0])
-        else:
-            print("No solution found.")
             
         # print solution
         if sol.get_solve_status() == 'Optimal':
@@ -75,6 +96,7 @@ class JobShopCPSolver(CPSolver):
         Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
         variables = Solution(job_operations, machine_operations)
 
-        instance.update_run_history(sol, variables, "CP", self.params)
+        self.add_run_to_history(instance, sol)
+        # instance.update_run_history(sol, variables, "CP", self.params)
 
-        return sol, variables
+        return obj_value, {"jobs": job_operations_export, "machines": machine_operations_export}, sol
