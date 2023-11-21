@@ -68,6 +68,19 @@ class StripPacking2DCPSolver(CPSolver):
         model.add(model.minimize(z))
 
         return model, X, Y, X_rot, Y_rot
+    
+    def _export_solution(self, instance, solution, X, Y, X_rot, Y_rot):
+        placements = []
+        orientations = []
+        for i, (w, h) in enumerate(instance.rectangles):
+            if solution.get_var_solution(X[i]).is_present():
+                placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
+                orientations.append("original")
+            else:
+                placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
+                orientations.append("rotated")
+        
+        return placements, orientations
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         print("Building model")
@@ -81,16 +94,43 @@ class StripPacking2DCPSolver(CPSolver):
             print('No solution found')
             return None, None, solution
         
-        total_height = solution.get_objective_values()[0]
-        placements = []
-        orientations = []
-        for i, (w, h) in enumerate(instance.rectangles):
-            if solution.get_var_solution(X[i]).is_present():
-                placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
-                orientations.append("original")
-            else:
-                placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
-                orientations.append("rotated")
+        placements, orientations = self._export_solution(instance, solution, X, Y, X_rot, Y_rot)
+        total_height = solution.get_objective_value()
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(solution)
+                if is_valid:
+                    print("Solution is valid.")
+                else:
+                    print("Solution is invalid.")
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
+        
+        if visualize:
+            instance.visualize(solution, placements, total_height)
+
+        obj_value = solution.get_objective_value()
+        print('Objective value:', obj_value)
+
+        if solution.get_solve_status() == 'Optimal':
+            print("Optimal solution found")
+        elif solution.get_solve_status() == 'Feasible':
+            print("Feasible solution found")
+        else:
+            print("Unknown solution status")
+            print(solution.get_solve_status())
+
+        print(solution.solution.get_objective_bounds())
+        print(solution.solution.get_objective_gaps())
+        print(solution.solution.get_objective_values())
+
+        instance.compare_to_reference(obj_value)
             
         self.add_run_to_history(instance, solution)
-        return total_height, placements, orientations, solution
+            
+        self.add_run_to_history(instance, solution)
+        return total_height, {"placements": placements, "orientations": orientations}, solution
