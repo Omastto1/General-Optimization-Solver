@@ -1,10 +1,3 @@
-import numpy as np
-
-from pymoo.algorithms.soo.nonconvex.ga import GA
-from pymoo.operators.sampling.rnd import FloatRandomSampling
-from pymoo.operators.crossover.pntx import TwoPointCrossover
-from pymoo.operators.mutation.pm import PolynomialMutation
-
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 from src.jobshop.solvers.solver_cp import JobShopCPSolver
 from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
@@ -19,8 +12,8 @@ from src.strippacking2d.solvers.solver_cp_oriented import StripPacking2DCPSolver
 solvers_config = {"TimeLimit": 1}
 instances = {
     "jobshop": {"solver": JobShopCPSolver(**solvers_config),"path": "raw_data/jobshop/jobshop/abz5"},
-    # "rcpsp": {"solver": RCPSPCPSolver(**solvers_config),"path": "raw_data/rcpsp/CV/cv1.rcp"},
-    # "mmrcpsp": {"solver": MMRCPSPCPSolver(**solvers_config),"path": "raw_data/mm-rcpsp/c15.mm/c154_3.mm"},
+    "rcpsp": {"solver": RCPSPCPSolver(**solvers_config),"path": "raw_data/rcpsp/CV/cv1.rcp"},
+    "mmrcpsp": {"solver": MMRCPSPCPSolver(**solvers_config),"path": "raw_data/mm-rcpsp/c15.mm/c154_3.mm"},
     "1dbinpacking": {"solver": BinPacking1DCPSolver(**solvers_config),"path": "raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP"},
     # 2d bin packing not working - slow model build
     # "2dbinpacking": {"solver": BinPacking2DCPSolver(**solvers_config),"path": "raw_data/2d-binpacking/ngcut_bin/ngcut_1.BPP"},
