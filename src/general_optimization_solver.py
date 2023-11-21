@@ -33,7 +33,8 @@ def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=
 
     print("Loading raw benchmark data")
     benchmark_instances = {}
-    for i, instance in enumerate(directory_path.iterdir()):
+    instances = [file for file in directory_path.iterdir() if file.name != '.meta']
+    for i, instance in enumerate(instances):
         if no_instances > 0 and i >= no_instances:
             break
 
