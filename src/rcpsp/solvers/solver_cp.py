@@ -1,5 +1,4 @@
 from docplex.cp.model import CpoModel
-from collections import namedtuple
 
 from src.common.solver import CPSolver
 

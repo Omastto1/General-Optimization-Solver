@@ -1,6 +1,6 @@
 from docplex.cp.model import CpoModel
 
-from ...common.solver import CPSolver
+from src.common.solver import CPSolver
 
 class BinPacking2DCPSolver(CPSolver):
     def build_model(self, instance):
