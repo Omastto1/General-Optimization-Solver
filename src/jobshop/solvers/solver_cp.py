@@ -35,9 +35,11 @@ class JobShopCPSolver(CPSolver):
         for mops in machine_operations:
             model.add(model.no_overlap(mops))
 
-        return model, job_operations  # , machine_operations
+        return model, {"jobs_operations": job_operations}  # , machine_operations
 
-    def _export_solution(self, instance, sol, job_operations):
+    def _export_solution(self, instance, sol, model_variables):
+        job_operations = model_variables["jobs_operations"]
+
         job_operations_export = []
         for i in range(instance.no_jobs):
             job_operations_export.append([])
@@ -53,11 +55,11 @@ class JobShopCPSolver(CPSolver):
                      "machine": machine}
                 )
 
-        return job_operations_export
+        return {"jobs_operations": job_operations_export}
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         print("Building model")
-        model, job_operations = self.build_model(
+        model, model_variables = self.build_model(
             instance)  # , machine_operations
 
         print("Looking for solution")
@@ -67,13 +69,13 @@ class JobShopCPSolver(CPSolver):
             print('No solution found')
             return None, None, sol
         
-        job_operations_export = self._export_solution(
-            instance, sol, job_operations)
+        model_variables_export = self._export_solution(
+            instance, sol, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = instance.validate(job_operations_export)
+                is_valid = instance.validate(model_variables_export)
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -84,7 +86,7 @@ class JobShopCPSolver(CPSolver):
                 return None, None, None
 
         if visualize:
-            instance.visualize(job_operations_export)
+            instance.visualize(model_variables_export)
 
         obj_value = sol.get_objective_values()[0]
         print('Objective value:', obj_value)
@@ -101,4 +103,4 @@ class JobShopCPSolver(CPSolver):
 
         self.add_run_to_history(instance, sol)
 
-        return obj_value, {"jobs": job_operations_export}, sol
+        return obj_value, model_variables_export, sol
