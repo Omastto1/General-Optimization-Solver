@@ -4,9 +4,6 @@ from src.common.solver import CPSolver
 
 
 class MMRCPSPCPSolver(CPSolver):
-
-
-    
     def build_model(self, instance):
         # define model
         model = CpoModel()
@@ -50,9 +47,11 @@ class MMRCPSPCPSolver(CPSolver):
             model.add([model.end_before_start(xs[i], xs[successor - 1])
                       for successor in job_successors])
             
-        return model, xs, ys
+        return model, {"xs": xs, "ys": ys}
     
-    def _export_solution(self, instance, sol, ys):
+    def _export_solution(self, instance, sol, model_variables):
+        ys = model_variables["ys"]
+
         jobs = range(instance.no_jobs)
 
         _xs = [ys[i][j] for i in jobs for j in range(
@@ -61,12 +60,12 @@ class MMRCPSPCPSolver(CPSolver):
         export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name()} for i in jobs for j in range(
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         
-        return export
+        return {"task_mode_assignment": export}
 
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         print("Building model")
-        model, xs, ys = self.build_model(instance)
+        model, model_variables = self.build_model(instance)
         jobs = range(instance.no_jobs)
 
         print("Looking for solution")
@@ -76,12 +75,12 @@ class MMRCPSPCPSolver(CPSolver):
             print('No solution found')
             return None, None, sol
 
-        export = self._export_solution(instance, sol, ys)
+        model_variables_export = self._export_solution(instance, sol, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = instance.validate(export)  # sol, _xs, 
+                is_valid = instance.validate(model_variables_export)  # sol, _xs, 
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -92,7 +91,7 @@ class MMRCPSPCPSolver(CPSolver):
                 return None, None
 
         if visualize:
-            instance.visualize(export)
+            instance.visualize(model_variables_export)
             
         obj_value = sol.get_objective_values()[0]
         print('Objective value:', obj_value)
@@ -107,20 +106,20 @@ class MMRCPSPCPSolver(CPSolver):
 
         instance.compare_to_reference(obj_value)
 
-        for i in jobs:
-            print(sol.get_var_solution(xs[i]))
-            for j in range(instance.no_modes_list[i]):
-                if sol.get_var_solution(ys[i][j]).is_absent():
-                    continue
+        # for i in jobs:
+        #     print(sol.get_var_solution(xs[i]))
+        #     for j in range(instance.no_modes_list[i]):
+        #         if sol.get_var_solution(ys[i][j]).is_absent():
+        #             continue
 
-                print(
-                    f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(ys[i][j]).start} to {sol.get_var_solution(ys[i][j]).end}')
+        #         print(
+        #             f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(ys[i][j]).start} to {sol.get_var_solution(ys[i][j]).end}')
 
         instance.compare_to_reference(obj_value)
 
         self.add_run_to_history(instance, sol)
 
-        return obj_value, {"task_mode_assignment": export}, sol
+        return obj_value, model_variables_export, sol
 
 # def solve_mmrcpsp(no_jobs, no_modes_list, no_renewable_resources, no_non_renewable_resources, durations, successors, renewable_capacities, non_renewable_capacities, requests, validate=False):
 #     # define model
