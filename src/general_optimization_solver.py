@@ -59,14 +59,12 @@ def load_benchmark(directory_path, no_instances=0):
         directory_path = Path(directory_path)
 
     benchmark_instances = {}
-    for instance in directory_path.iterdir():
+    for i, instance in enumerate(directory_path.iterdir()):
         if no_instances > 0 and i >= no_instances:
             break
 
         if instance.is_file():
             instance_path = str(instance).replace("\\", "/")
-            # print(instance)
-            # print(instance_path)
             instance_name = instance_path.split("/")[-1].split(".")[0]
             instance = load_instance(instance_path)
 
