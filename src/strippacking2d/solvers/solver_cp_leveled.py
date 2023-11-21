@@ -15,7 +15,7 @@ class StripPackingLeveled2DCPSolver(CPSolver):
 
         xs = [model.interval_var(name=f'element_{i}')
               for i in range(instance.no_elements)]
-        ys = [[model.interval_var(size=instance.widths[i], name=f'level_{j}_element_{i}', optional=True) for i in range(
+        ys = [[model.interval_var(size=instance.rectangles[i]['width'], name=f'level_{j}_element_{i}', optional=True) for i in range(
             instance.no_elements)] for j in range(
             instance.no_elements)]
 
@@ -23,7 +23,7 @@ class StripPackingLeveled2DCPSolver(CPSolver):
             model.minimize(
                 model.sum(
                     model.max(
-                        model.presence_of(ys[level][i]) * instance.heights[i] for i in range(instance.no_elements)
+                        model.presence_of(ys[level][i]) * instance.rectangles[i]['height'] for i in range(instance.no_elements)
                     ) for level in range(instance.no_elements)
                 )
             )
@@ -79,6 +79,6 @@ class StripPackingLeveled2DCPSolver(CPSolver):
             instance.no_elements) if sol.get_var_solution(ys[level][i]).is_present()]
         variables = Solution(xs)
 
-        instance.update_run_history(sol, variables, "CP", self.params)
+        self.add_run_to_history(instance, sol)
 
         return sol, variables
