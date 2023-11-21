@@ -23,17 +23,20 @@ class BinPacking1DCPSolver(CPSolver):
         # Objective: minimize the number of bins used
         model.add(model.minimize(model.sum(is_bin_used[j] for j in range(instance.no_items))))
 
-        return model, item_bin_pos_assignment, is_bin_used
+        return model, {"item_bin_pos_assignment": item_bin_pos_assignment, "is_bin_used": is_bin_used}, 
     
-    def _export_solution(self, instance, solution, item_bin_pos_assignment, is_bin_used):
+    def _export_solution(self, instance, solution, model_variables):
+        item_bin_pos_assignment = model_variables['item_bin_pos_assignment']
+        is_bin_used = model_variables['is_bin_used']
+
         item_bin_pos_assignment_export = [[solution[item_bin_pos_assignment[i][j]] for j in range(instance.no_items)] for i in range(instance.no_items)]
         is_bin_used_export = [solution[is_bin_used[j]] for j in range(instance.no_items)]
         
-        return item_bin_pos_assignment_export, is_bin_used_export
+        return {"item_bin_pos_assignment": item_bin_pos_assignment_export, "is_bin_used": is_bin_used_export}
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         print("Building model")
-        model, item_bin_pos_assignment, is_bin_used = self.build_model(instance)
+        model, model_variables = self.build_model(instance)
         
         print("Looking for solution")
         # Solve the model
@@ -43,12 +46,12 @@ class BinPacking1DCPSolver(CPSolver):
             print('No solution found')
             return None, None, solution
         
-        item_bin_pos_assignment_export, is_bin_used_export = self._export_solution(instance, solution, item_bin_pos_assignment, is_bin_used)
+        model_variables_export = self._export_solution(instance, solution, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = instance.validate(item_bin_pos_assignment_export, is_bin_used_export)
+                is_valid = instance.validate(model_variables_export)
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -59,7 +62,7 @@ class BinPacking1DCPSolver(CPSolver):
                 return None, None
 
         if visualize:
-            instance.visualize(item_bin_pos_assignment_export)
+            instance.visualize(model_variables_export)
 
         obj_value = solution.get_objective_value()
         print('Objective value:', obj_value)
@@ -83,7 +86,7 @@ class BinPacking1DCPSolver(CPSolver):
             
         self.add_run_to_history(instance, solution)
         
-        return obj_value, {"item_bin_pos_assignment": item_bin_pos_assignment_export}, solution
+        return obj_value, model_variables_export, solution
 
 
 
