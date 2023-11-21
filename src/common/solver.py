@@ -24,6 +24,7 @@ class Solver(ABC):
     def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None):
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
+                print(f"Solving instance {instance_name}...")
                 self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution)
             # return self.solve_benchmark(instance_or_benchmark)
 
