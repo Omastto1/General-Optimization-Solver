@@ -78,6 +78,8 @@ def fitness_func(instance, x, out):
     out["G"] = resource_violations
     out["start_times"] = start_times
 
+    return out
+
 # Define the algorithm
 algorithm = GA(
     pop_size=20,
@@ -89,7 +91,7 @@ algorithm = GA(
 )
 
 # BENCHMARK TEST 
-benchmark = load_raw_benchmark("raw_data/rcpsp/CV", "raw_data/rcpsp/CV.xlsx", "patterson", 2, force_dump=False)
+benchmark = load_raw_benchmark("raw_data/rcpsp/CV", "raw_data/rcpsp/CV.xlsx", no_instances=2, force_dump=False)
 
 cp_solver_config = {"validate": True}
 RCPSPCPSolver(TimeLimit=3).solve(benchmark, **cp_solver_config)
