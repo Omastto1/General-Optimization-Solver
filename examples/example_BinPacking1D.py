@@ -37,6 +37,8 @@ def fitness_func(instance, x, out):
     # Constraint: No bin should overflow
     out["G"] = max_bin_load - instance.bin_capacity
 
+    return out
+
 def indices_to_onehot(indices, num_classes):
     onehot = np.zeros((len(indices), num_classes))
     onehot[np.arange(len(indices)), indices] = 1
@@ -78,7 +80,7 @@ if not skip_custom_input:
 
 if not skip_instance_input:
     # SPECIFIC BENCHMARK INSTANCE
-    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "", "1Dbinpacking")
+    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "")  # , "1Dbinpacking"
     # instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
     cp_bins_used, cp_assignment, cp_solution = BinPacking1DCPSolver(TimeLimit=10).solve(instance, validate=False, visualize=False, force_execution=True)
 
@@ -108,7 +110,7 @@ if not skip_instance_input:
 
 if not skip_benchmark_input:
     # SPECIFIC BENCHMARK INSTANCE
-    benchmark = load_raw_benchmark("raw_data/1d-binpacking/scholl_bin1data", "", "1Dbinpacking", 2)
+    benchmark = load_raw_benchmark("raw_data/1d-binpacking/scholl_bin1data", no_instances=2)  # , "1Dbinpacking"
     # benchmark = load_benchmark("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
     BinPacking1DCPSolver(TimeLimit=2).solve(benchmark, validate=False, visualize=False, force_execution=True)
 
