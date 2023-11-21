@@ -34,11 +34,12 @@ class RCPSPGASolver(GASolver):
             d = {}
             problem._evaluate(X, d)
             start_times = d['start_times']
+            export = {"tasks_schedule": [{"start": start_times[i], "end": start_times[i] + instance.durations[i], "name": f"Task_{i}"} for i in range(instance.no_jobs)]}
 
             if validate:
                 try:
                     print("Validating solution...")
-                    instance.validate(None, None, start_times)
+                    instance.validate(None, None, export)
                     print("Solution is valid.")
 
                     # TODO
@@ -56,7 +57,7 @@ class RCPSPGASolver(GASolver):
                     return None, None, res
 
             if visualize:
-                instance.visualize(None, None, start_times, [str(i) for i in range(instance.no_jobs)])
+                instance.visualize(export)
         else:
             fitness_value = -1
             start_times = []
