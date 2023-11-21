@@ -30,9 +30,11 @@ class RCPSPCPSolver(CPSolver):
         model.add([model.end_before_start(x[i], x[successor - 1]) for (i, job_successors)
                    in enumerate(instance.successors) for successor in job_successors])  # (3)
         
-        return model, x
+        return model, {"x": x}
     
-    def _export_solution(self, instance, sol, x):
+    def _export_solution(self, instance, sol, model_variables):
+        x = model_variables['x']
+
         export = []
         for i in range(instance.no_jobs):
             interval_value = sol[x[i]]
@@ -45,11 +47,11 @@ class RCPSPCPSolver(CPSolver):
                 "name": x[i].name}
                 )
         
-        return export
+        return {"tasks_schedule": export}
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         print("Building model")
-        model, x = self.build_model(instance)
+        model, model_variables = self.build_model(instance)
 
         print("Looking for solution")
         sol = model.solve()
@@ -58,12 +60,12 @@ class RCPSPCPSolver(CPSolver):
             print('No solution found')
             return None, None, sol
         
-        export = self._export_solution(instance, sol, x)
+        model_variables_export = self._export_solution(instance, sol, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = instance.validate(None, None, export)
+                is_valid = instance.validate(None, None, model_variables_export)
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -74,7 +76,7 @@ class RCPSPCPSolver(CPSolver):
                 return None, None
 
         if visualize:
-            instance.visualize(export)
+            instance.visualize(model_variables_export)
 
         obj_value = sol.get_objective_value()
         print('Objective value:', obj_value)
@@ -101,8 +103,6 @@ class RCPSPCPSolver(CPSolver):
         # start_times = [sol.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
         instance.compare_to_reference(obj_value)
 
-        Solution = namedtuple("Solution", ['xs'])
-        variables = Solution(x)
 
         self.add_run_to_history(instance, sol)
 
@@ -119,7 +119,7 @@ class RCPSPCPSolver(CPSolver):
             
         self.add_run_to_history(instance, sol)
         
-        return obj_value, {"jobs": export}, sol
+        return obj_value, model_variables_export, sol
 
 
 # def solve_rcpsp(no_jobs, no_resources, durations, successors, capacities, requests, validate=False):
