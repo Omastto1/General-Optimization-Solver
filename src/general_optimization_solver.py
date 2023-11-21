@@ -21,7 +21,7 @@ from src.binpacking1d.problem import BinPacking1D
 from src.binpacking2d.problem import BinPacking2D
 
 
-def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=0, force_dump=True):
+def load_raw_benchmark(directory_path, solution_path=None, format=None, no_instances=0, force_dump=True):
     if isinstance(directory_path, str):
         directory_path = Path(directory_path)
 
@@ -30,6 +30,11 @@ def load_raw_benchmark(directory_path, solution_path, format=None, no_instances=
         meta_data = _get_and_validate_meta_data(meta_path)
 
         format = meta_data["FORMAT"]
+        if solution_path is None:
+            solution_path = meta_data.get("SOLUTION_PATH", None)
+    
+    if solution_path is None:
+        print("\nWARNING: Loading benchmark instances without solutions\n")
 
     print("Loading raw benchmark data")
     benchmark_instances = {}
