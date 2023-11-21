@@ -4,6 +4,8 @@ from src.common.solver import CPSolver
 
 
 class BinPacking1DCPSolver(CPSolver):
+    solver_name = 'CP Default'
+    
     def build_model(self, instance):
         model = CpoModel(name="BinPacking")
         model.set_parameters(params=self.params)
