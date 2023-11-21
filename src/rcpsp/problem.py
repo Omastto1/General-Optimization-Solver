@@ -22,7 +22,7 @@ class RCPSP(OptimizationProblem):
         self.requests = [[self._data["job_specifications"][i]["modes"][0]["request_duration"]
                           [f"R{k+1}"] for i in range(self.no_jobs)] for k in range(self.no_renewable_resources)]
 
-    def validate(self, sol, x, xs=None):  #
+    def validate(self, sol, x, model_variables_export=None):  #
         """ xs holding arrays of "start", "end" dictionaries """
         # TODO:
         if sol is not None:
@@ -36,6 +36,7 @@ class RCPSP(OptimizationProblem):
             
             assert sol.get_var_solution(x[0]).get_start() == min(sol.get_var_solution(x[i]).get_start() for i in range(self.no_jobs)), "Job 0 does not start first."
         else:
+            xs = model_variables_export['tasks_schedule']
             # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
             # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
             assert max([x['end'] for x in xs]) <= self.horizon, "Project completion time exceeds horizon."
@@ -49,7 +50,7 @@ class RCPSP(OptimizationProblem):
 
         return True
 
-    def visualize(self, jobs):
+    def visualize(self, model_variables_export):
         # self.no_jobs = len(x)
 
         # if sol and visu.is_visu_enabled():
@@ -61,6 +62,7 @@ class RCPSP(OptimizationProblem):
         #             if wt.get_start() != wt.get_end():
         #                 visu.interval(wt, "salmon", x[job_number].get_name())
         # visu.show()
+        jobs = model_variables_export['tasks_schedule']
 
         # Define the data for the Gantt chart
         end_times = [job['end'] for job in jobs]
