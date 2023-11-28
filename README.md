@@ -70,7 +70,7 @@ Benchmark class:
     - dump()
       - calls OptimizationProble.dump_json for each instance in benchmark
 
-    - generate_solver_comparison_markdown(instances_subset, methods_subset):
+    - generate_solver_comparison_markdown_table(instances_subset, methods_subset):
       - generate markdown table with comparison of solver results for given instances and methods
 
 

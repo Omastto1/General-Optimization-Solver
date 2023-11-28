@@ -5,23 +5,24 @@ from ...common.solver import GASolver
 from ..utils.rectangle import Rectangle, RectanglePenalty
 
 
-class StripPacking2DSolver(GASolver):
+class StripPacking2DGASolver(GASolver):
     def _solve(self, instance, validate=False, visualize=False, force_execution=False):
         class StripPackingProblem(ElementwiseProblem):
-            def __init__(self, rectangles, strip_width, fitness_func):
-                super().__init__(n_var=len(rectangles),
+            def __init__(self, instance, fitness_func):
+                super().__init__(n_var=len(instance.rectangles),
                                 n_obj=1,
                                 n_constr=0,
                                 xl=0,
-                                xu=max(map(lambda x: x.width, rectangles)),
+                                xu=max(map(lambda x: x['width'], instance.rectangles)),
                                 elementwise_evaluation=True)
 
-                self.rectangles = rectangles
-                self.strip_width = strip_width
+                self.instance = instance
                 self.fitness_func = fitness_func
 
             def _evaluate(self, x, out, *args, **kwargs):
-                out = self.fitness_func(self, x, out)
+                out = self.fitness_func(self.instance, x, out)
+
+                assert "solution" not in out, "Do not use `solution` key, it is pymoo reserved keyword"
 
                 return out
                 # print("running \n")
@@ -39,19 +40,39 @@ class StripPacking2DSolver(GASolver):
             if instance.skip_on_optimal_solution():
                 return None, None
         
-        problem = StripPackingProblem(instance.rectangles, instance.strip_width)
+        problem = StripPackingProblem(instance, self.fitness_func)
 
-        res = minimize(problem, algorithm, termination, verbose=True)
+        res = minimize(problem, self.algorithm, self.termination, verbose=True)
 
-        if res:
-            X = res.X
-            fitness_value = res.F[0]
-            d = {}
-            problem._evaluate(X, d)
-            rectangles = d['rectangles']
+        if not res:
+            return None, None, None
+        
+        X = res.X
+        fitness_value = res.F[0]
+        d = {}
+        problem._evaluate(X, d)
+        rectangles = d['rectangles']
 
-            placements = [rectangle.__dict__ for rectangle in rectangles]
-            return fitness_value, placements, res
-        else:
-            return None, None, res
+        # rectangle..__dict__
+        placements = [rectangle for rectangle in rectangles]
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(None)
+                if is_valid:
+                    print("Solution is valid.")
+                else:
+                    print("Solution is invalid.")
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
+        
+        if visualize:
+            instance.visualize(None, placements, fitness_value)
+        
+        self.add_run_to_history(instance, fitness_value, {"placements": placements})
+
+        return fitness_value, placements, res
 

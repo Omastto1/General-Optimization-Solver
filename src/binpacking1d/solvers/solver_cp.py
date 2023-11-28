@@ -1,13 +1,12 @@
 from docplex.cp.model import CpoModel
 
-from ...common.solver import CPSolver
+from src.common.solver import CPSolver
+
 
 class BinPacking1DCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
+    solver_name = 'CP Default'
+    
+    def build_model(self, instance):
         model = CpoModel(name="BinPacking")
         model.set_parameters(params=self.params)
 
@@ -25,59 +24,71 @@ class BinPacking1DCPSolver(CPSolver):
         
         # Objective: minimize the number of bins used
         model.add(model.minimize(model.sum(is_bin_used[j] for j in range(instance.no_items))))
+
+        return model, {"item_bin_pos_assignment": item_bin_pos_assignment, "is_bin_used": is_bin_used}, 
+    
+    def _export_solution(self, instance, solution, model_variables):
+        item_bin_pos_assignment = model_variables['item_bin_pos_assignment']
+        is_bin_used = model_variables['is_bin_used']
+
+        item_bin_pos_assignment_export = [[solution[item_bin_pos_assignment[i][j]] for j in range(instance.no_items)] for i in range(instance.no_items)]
+        is_bin_used_export = [solution[is_bin_used[j]] for j in range(instance.no_items)]
         
+        return {"item_bin_pos_assignment": item_bin_pos_assignment_export, "is_bin_used": is_bin_used_export}
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, model_variables = self.build_model(instance)
+        
+        print("Looking for solution")
         # Solve the model
         solution = model.solve()
 
-        if solution:
-            if validate:
-                try:
-                    print("Validating solution...")
-                    instance.validate(instance, item_bin_pos_assignment, is_bin_used)
+        if solution.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
+            print('No solution found')
+            return None, None, solution
+        
+        model_variables_export = self._export_solution(instance, solution, model_variables)
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(model_variables_export)
+                if is_valid:
                     print("Solution is valid.")
-
-                    obj_value = solution.get_objective_value()
-                    print("Project completion time:", obj_value)
-
-                    instance.compare_to_reference(obj_value)
-                except AssertionError as e:
+                else:
                     print("Solution is invalid.")
-                    print(e)
-                    return None, None
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
 
-            if visualize:
-                bins_used = sum([int(solution[is_bin_used[j]]) for j in range(instance.no_items)])
-                assignment = [[int(solution[item_bin_pos_assignment[i][j]]) for j in range(instance.no_items)] for i in range(instance.no_items)]
-                instance.visualize(assignment)
+        if visualize:
+            instance.visualize(model_variables_export)
 
-            # for i in range(no_jobs):
-            #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
+        obj_value = solution.get_objective_value()
+        print('Objective value:', obj_value)
 
-            print(solution.solution.get_objective_bounds())
-            print(solution.solution.get_objective_gaps())
-            print(solution.solution.get_objective_values())
-
-            # obj_value = solution.objective_value
-            obj_value = solution.get_objective_values()[0]
-            print('Objective value:', obj_value)
-            # start_times = [solution.get_var_solution(x[i]).get_start() for i in range(instance.no_jobs)]
-            instance.compare_to_reference(obj_value)
+        if solution.get_solve_status() == 'Optimal':
+            print("Optimal solution found")
+        elif solution.get_solve_status() == 'Feasible':
+            print("Feasible solution found")
         else:
-            obj_value = -1
-            item_bin_pos_assignment = []
+            print("Unknown solution status")
+            print(solution.get_solve_status())
+        
+        # for i in range(no_jobs):
+        #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
 
-            print("No solution found.")
+        print(solution.solution.get_objective_bounds())
+        print(solution.solution.get_objective_gaps())
+        print(solution.solution.get_objective_values())
+
+        instance.compare_to_reference(obj_value)
             
-        # solution_info = f"placements: {item_bin_pos_assignment}"
         self.add_run_to_history(instance, solution)
         
-        # Extract and return the solution
-        if solution:
-            bins_used = sum([int(solution[is_bin_used[j]]) for j in range(instance.no_items)])
-            assignment = [[int(solution[item_bin_pos_assignment[i][j]]) for j in range(instance.no_items)] for i in range(instance.no_items)]
-            return bins_used, assignment, solution
-        else:
-            return None, None, solution
+        return obj_value, model_variables_export, solution
 
 
 

@@ -5,6 +5,24 @@ from docplex.cp.model import CpoStepFunction
 from docplex.cp.solution import CpoIntervalVarSolution
 
 
+def create_predecessors(successors_list):
+    predecessors = {}
+
+    # Fix variable name conflict by using a different name for loop variable
+    for job_index, successors in enumerate(successors_list, start=1):  # successors are indexed starting from zero
+        for successor in successors:
+            if successor not in predecessors:
+                predecessors[successor] = []
+            predecessors[successor].append(job_index)
+
+    # Create a list of predecessors for each job
+    predecessors_list = []
+    for job_index in range(len(successors_list)):
+        predecessors_list.append(predecessors.get(job_index + 1, []))
+
+    return predecessors_list
+
+
 class RCPSP(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
         super().__init__(benchmark_name, instance_name, "RCPSP", data, solution, run_history)
@@ -17,12 +35,14 @@ class RCPSP(OptimizationProblem):
         # precedence constraints
         self.successors = [job["successors"]
                            for job in self._data["job_specifications"]]
+        self.predecessors = create_predecessors(self.successors)
         # available resource capacity
         self.renewable_capacities = self._data["resources"]["renewable_resources"]["renewable_availabilities"]
         self.requests = [[self._data["job_specifications"][i]["modes"][0]["request_duration"]
                           [f"R{k+1}"] for i in range(self.no_jobs)] for k in range(self.no_renewable_resources)]
 
-    def validate(self, sol, x, start_times=None):
+    def validate(self, sol, x, model_variables_export=None):  #
+        """ xs holding arrays of "start", "end" dictionaries """
         # TODO:
         if sol is not None:
             assert sol.get_objective_value(
@@ -35,19 +55,21 @@ class RCPSP(OptimizationProblem):
             
             assert sol.get_var_solution(x[0]).get_start() == min(sol.get_var_solution(x[i]).get_start() for i in range(self.no_jobs)), "Job 0 does not start first."
         else:
-            end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
-            assert max(end_times) <= self.horizon, "Project completion time exceeds horizon."
+            xs = model_variables_export['tasks_schedule']
+            # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
+            # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
+            assert max([x['end'] for x in xs]) <= self.horizon, "Project completion time exceeds horizon."
 
             for i, job_successors in enumerate(self.successors):
                 for successor in job_successors:
-                    assert end_times[i] <= start_times[successor - 1], f"Job {i} ends after job {successor} starts."
+                    assert xs[i]['end'] <= xs[successor - 1]['start'], f"Job {i} ends after job {successor} starts."
                     
-            assert start_times[0] == min(start_times), "Job 0 does not start first."
+            assert xs[0]['start'] == min([x['start'] for x in xs]), "Job 0 does not start first."
 
 
         return True
 
-    def visualize(self, sol, x, start_times=[], task_names=[]):
+    def visualize(self, model_variables_export):
         # self.no_jobs = len(x)
 
         # if sol and visu.is_visu_enabled():
@@ -59,16 +81,12 @@ class RCPSP(OptimizationProblem):
         #             if wt.get_start() != wt.get_end():
         #                 visu.interval(wt, "salmon", x[job_number].get_name())
         # visu.show()
+        jobs = model_variables_export['tasks_schedule']
 
         # Define the data for the Gantt chart
-        if sol:
-            print(sol.get_value(x[0]))
-            start_times = [sol.get_var_solution(
-                x[i]).get_start() for i in range(self.no_jobs)]
-            end_times = [sol.get_var_solution(x[i]).get_end()
-                        for i in range(self.no_jobs)]
-        else:
-            end_times = start_times + self.durations
+        end_times = [job['end'] for job in jobs]
+        start_times = [job['start'] for job in jobs]
+        task_names = [job['name'] for job in jobs]
 
         # Create the Gantt chart
         fig, ax = plt.subplots()
@@ -90,11 +108,8 @@ class RCPSP(OptimizationProblem):
             load = [CpoStepFunction()
                     for j in range(self.no_renewable_resources)]
             for i in range(self.no_jobs):
-                if sol:
-                    itv = sol.get_var_solution(x[i])
-                else:
-                    itv = CpoIntervalVarSolution(
-                        None, True, start_times[i], end_times[i], start_times[i] - end_times[i])
+                itv = CpoIntervalVarSolution(
+                    None, True, start_times[i], end_times[i], start_times[i] - end_times[i])
                 for j in range(self.no_renewable_resources):
                     if 0 < self.requests[j][i]:
                         load[j].add_value(
@@ -103,10 +118,7 @@ class RCPSP(OptimizationProblem):
             visu.timeline('Solution for RCPSP ')  # + filename)
             visu.panel('Tasks')
             for i in range(self.no_jobs):
-                if sol:
-                    visu.interval(sol.get_var_solution(x[i]), i, x[i].get_name())
-                else:
-                    visu.interval(CpoIntervalVarSolution(None, True, start_times[i], end_times[i], start_times[i] - end_times[i]), i, task_names[i])
+                visu.interval(CpoIntervalVarSolution(None, True, start_times[i], end_times[i], start_times[i] - end_times[i]), i, task_names[i])
             for j in range(self.no_renewable_resources):
                 visu.panel('R' + str(j+1))
                 visu.function(

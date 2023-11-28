@@ -12,7 +12,7 @@ class StripPacking2D(OptimizationProblem):
         self.strip_width = self._data["strip_width"]
         self.rectangles = self._data["rectangles"]
 
-    def validate(self, sol, x):
+    def validate(self, sol):
         # assert sol.get_objective_value(
         # ) <= self.horizon, "Project completion time exceeds horizon."
 
@@ -27,7 +27,7 @@ class StripPacking2D(OptimizationProblem):
         rectangles = []
         for i, rectangle in enumerate(self.rectangles):
             x, y = placements[i]
-            width, height = rectangle
+            width, height = rectangle['width'], rectangle['height']
             rectangles.append((x, y, width, height))
 
         # Create a figure and axis for plotting

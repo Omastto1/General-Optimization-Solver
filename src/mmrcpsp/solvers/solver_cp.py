@@ -1,27 +1,22 @@
 from docplex.cp.model import CpoModel
-from collections import namedtuple
 
-from ...common.solver import CPSolver
+from src.common.solver import CPSolver
 
 
 class MMRCPSPCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
+    def build_model(self, instance):
         # define model
         model = CpoModel()
         model.set_parameters(params=self.params)
 
         # define variables
-        tasks = range(instance.no_jobs)
+        jobs = range(instance.no_jobs)
         renewable_resources = range(instance.no_renewable_resources)
         non_renewable_resources = range(instance.no_non_renewable_resources)
 
-        xs = [model.interval_var(name=f'task_{i}') for i in tasks]
+        xs = [model.interval_var(name=f'task_{i}') for i in jobs]
         ys = [[model.interval_var(size=instance.durations[i][j], name=f'task_{i}_mode_{j}', optional=True) for j in range(
-            instance.no_modes_list[i])] for i in tasks]
+            instance.no_modes_list[i])] for i in jobs]
 
         cost = model.integer_var(0, 1000000, name="cost")
 
@@ -32,18 +27,18 @@ class MMRCPSPCPSolver(CPSolver):
 
         model.add(model.minimize(model.max(model.end_of(x) for x in xs)))
 
-        for i in tasks:
+        for i in jobs:
             model.add(model.alternative(xs[i], ys[i]))
 
         for k in renewable_resources:
             renewable_resources_requirements = [model.pulse(
-                ys[i][j], instance.requests[k][i][j]) for i in tasks for j in range(instance.no_modes_list[i])]
+                ys[i][j], instance.requests[k][i][j]) for i in jobs for j in range(instance.no_modes_list[i])]
             model.add(model.sum(renewable_resources_requirements)
                       <= instance.renewable_capacities[k])
 
         for k in non_renewable_resources:
             non_renewable_resources_requirements = [model.presence_of(
-                ys[i][j]) * instance.requests[k+2][i][j] for i in tasks for j in range(instance.no_modes_list[i])]
+                ys[i][j]) * instance.requests[k+2][i][j] for i in jobs for j in range(instance.no_modes_list[i])]
             model.add(model.sum(non_renewable_resources_requirements)
                       <= instance.non_renewable_capacities[k])
 
@@ -51,40 +46,56 @@ class MMRCPSPCPSolver(CPSolver):
         for (i, job_successors) in enumerate(instance.successors):
             model.add([model.end_before_start(xs[i], xs[successor - 1])
                       for successor in job_successors])
+            
+        return model, {"xs": xs, "ys": ys}
+    
+    def _export_solution(self, instance, sol, model_variables):
+        ys = model_variables["ys"]
 
-        # solve model
+        jobs = range(instance.no_jobs)
+
+        _xs = [ys[i][j] for i in jobs for j in range(
+            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
+        
+        export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name()} for i in jobs for j in range(
+            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
+        
+        return {"task_mode_assignment": export}
+
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, model_variables = self.build_model(instance)
+        jobs = range(instance.no_jobs)
+
+        print("Looking for solution")
         sol = model.solve()
 
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
+            return None, None, sol
+
+        model_variables_export = self._export_solution(instance, sol, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                instance.validate(sol, xs)
-                print("Solution is valid.")
+                is_valid = instance.validate(model_variables_export)  # sol, _xs, 
+                if is_valid:
+                    print("Solution is valid.")
+                else:
+                    print("Solution is invalid.")
             except AssertionError as e:
                 print("Solution is invalid.")
                 print(e)
                 return None, None
 
         if visualize:
-            instance.visualize(sol, xs, ys)
+            instance.visualize(model_variables_export)
+            
+        obj_value = sol.get_objective_values()[0]
+        print('Objective value:', obj_value)
         
-        for i in tasks:
-            print(sol.get_var_solution(xs[i]))
-            for j in range(instance.no_modes_list[i]):
-                if sol.get_var_solution(ys[i][j]).is_absent():
-                    continue
-
-                print(
-                    f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(ys[i][j]).start} to {sol.get_var_solution(ys[i][j]).end}')
-                # if sol.get_var_solution(y[i][j]) == 1:
-                #     print(f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(x[i][j]).start} to {sol.get_var_solution(x[i][j]).end}')
-        # for k in resources:
-        #     print(f'Resource {k} usage: {sol.get_var_solution(z[k])}')
-        
-        # print solution
         if sol.get_solve_status() == 'Optimal':
             print("Optimal solution found")
         elif sol.get_solve_status() == 'Feasible':
@@ -93,22 +104,22 @@ class MMRCPSPCPSolver(CPSolver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        # obj_value = sol.get_objective_value()
-        # obj_value = sol.get_objective_value()
-
-        obj_value = sol.get_objective_values()[0]
-        print('Objective value:', obj_value)
         instance.compare_to_reference(obj_value)
 
-        Solution = namedtuple("Solution", ['xs'])
-        
-        xs = [ys[i][j] for i in tasks for j in range(
-            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
-        variables = Solution(xs)
+        # for i in jobs:
+        #     print(sol.get_var_solution(xs[i]))
+        #     for j in range(instance.no_modes_list[i]):
+        #         if sol.get_var_solution(ys[i][j]).is_absent():
+        #             continue
 
-        instance.update_run_history(sol, variables, "CP", self.params)
+        #         print(
+        #             f'Task {i} is scheduled in mode {j} from {sol.get_var_solution(ys[i][j]).start} to {sol.get_var_solution(ys[i][j]).end}')
 
-        return sol, variables
+        instance.compare_to_reference(obj_value)
+
+        self.add_run_to_history(instance, sol)
+
+        return obj_value, model_variables_export, sol
 
 # def solve_mmrcpsp(no_jobs, no_modes_list, no_renewable_resources, no_non_renewable_resources, durations, successors, renewable_capacities, non_renewable_capacities, requests, validate=False):
 #     # define model

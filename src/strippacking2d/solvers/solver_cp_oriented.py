@@ -1,15 +1,10 @@
 from docplex.cp.model import CpoModel
-from collections import namedtuple
 
-from ...common.solver import CPSolver
+from src.common.solver import CPSolver
 
 
 class StripPacking2DCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
-        if not force_execution and len(instance._run_history) > 0:
-            if instance.skip_on_optimal_solution():
-                return None, None
-
+    def build_model(self, instance):
         # Create a new CP model
         model = CpoModel()
         model.set_parameters(params=self.params)
@@ -19,52 +14,26 @@ class StripPacking2DCPSolver(CPSolver):
 
         # Create interval variables for each rectangle's horizontal and vertical positions for both orientations
         X_main = [model.interval_var() for i in range(instance.no_elements)]
-        X = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i][0]), size=instance.rectangles[i][0], optional=True) for i in range(instance.no_elements)]
-        X_rot = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i][1]), size=instance.rectangles[i][1], optional=True) for i in range(instance.no_elements)]
+        X = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
+        X_rot = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i]['height'] if instance.strip_width - instance.rectangles[i]['height'] >= 0 else 2 ** 31), size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
         
+        print("1")
         Y_main = [model.interval_var() for i in range(instance.no_elements)]
-        Y = [model.interval_var(size=instance.rectangles[i][1], optional=True) for i in range(instance.no_elements)]
-        Y_rot = [model.interval_var(size=instance.rectangles[i][0], optional=True) for i in range(instance.no_elements)]
+        Y = [model.interval_var(size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
+        Y_rot = [model.interval_var(size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
 
+        print("2")
         # Orientation decision variables
         O = [model.binary_var() for i in range(instance.no_elements)]
 
         # Adjust size and domain of interval variables based on orientation
         for i in range(instance.no_elements):
+            print(i)
             model.add(model.alternative(X_main[i], [X[i], X_rot[i]]))
             model.add(model.alternative(Y_main[i], [Y[i], Y_rot[i]]))
 
-            # model.add(model.if_then(X[i].size[0] > 0, X_rot[i].size[0] == 0))
-            # model.add(model.if_then(X_rot[i].size[0] > 0, X[i].size[0] == 0))
-
-            # model.add(model.if_then(Y[i].size[0] > 0, Y_rot[i].size[0] == 0))
-            # model.add(model.if_then(Y_rot[i].size[0] > 0, Y[i].size[0] == 0))
-
             model.add(model.if_then(O[i] == 0, model.all_of([model.presence_of(X_rot[i]), model.presence_of(Y_rot[i])])))
             model.add(model.if_then(O[i] == 1, model.all_of([model.presence_of(X[i]), model.presence_of(Y[i])])))
-            # model.add(model.if_then(O[i] == 0, model.all_of([X_rot[i].is_present(), Y_rot[i].is_present()])))
-            # model.add(model.if_then(O[i] == 1, model.all_of([X[i].is_present(), Y[i].is_present()])))
-            # model.add(model.logical_and(O[i] == 0, Y_main[i].is_present()))
-
-            # model.add(model.alternative(X_main[i], [X[i], X_rot[i]], O[i]))  # 
-            # model.add(model.alternative(Y_main[i], [Y[i], Y_rot[i]], O[i]))  # 
-
-            # model.add(model.logical_and(O[i] == 0, X_main[i].is_present()))
-            # model.add(model.logical_and(O[i] == 0, Y_main[i].is_present()))
-
-            # model.add(model.logical_or(model.logical_and(Y[i].is_present(), X[i].is_present())), model.logical_and(Y_rot[i].is_present(), X_rot[i].is_present()))
-    
-            #(O[i] = 1 implies X_rot[i] and Y_rot[i] are selected
-            # model.add(model.if_then(O[i] == 1, X[i].is_present()))
-            # model.add(model.if_then(O[i] == 1, Y[i].is_present()))
-            # model.add(model.if_then(O[i] == 0, X_rot[i].is_present()))
-            # model.add(model.if_then(O[i] == 0, Y_rot[i].is_present()))
-
-            
-            # model.add(model.if_then(X[i].is_present(), Y[i].is_present()))
-            # model.add(model.if_then(Y[i].is_present(), X[i].is_present()))
-            # model.add(model.if_then(X_rot[i].is_present(), Y_rot[i].is_present()))
-            # model.add(model.if_then(Y_rot[i].is_present(), X_rot[i].is_present()))
 
         def double_no_overlap(model, X1, X2, Y1, Y2):
             # start before end
@@ -76,18 +45,20 @@ class StripPacking2DCPSolver(CPSolver):
             # Ensuring that at least one non-overlapping condition is satisfied
             model.add((no_overlap_X1 | no_overlap_X2) | (no_overlap_Y1 | no_overlap_Y2))
 
-
         # Add non-overlap constraints considering both orientations
         for i in range(instance.no_elements):
+            print(i)
             for j in range(i + 1, n):
                 double_no_overlap(model, X[i], X[j], Y[i], Y[j])
                 double_no_overlap(model, X_rot[i], X[j], Y_rot[i], Y[j])
                 double_no_overlap(model, X[i], X_rot[j], Y[i], Y_rot[j])
                 double_no_overlap(model, X_rot[i], X_rot[j], Y_rot[i], Y_rot[j])
 
+        print("3")
         # Create variable z for the total height of the packing
-        z = model.integer_var(0, sum(max(rect) for rect in instance.rectangles))
+        z = model.integer_var(0, sum(max(rect.values()) for rect in instance.rectangles))
 
+        print("4")
         # Add constraints linking z to the Y variables
         for i in range(instance.no_elements):
             # model.add(model.max(model.end_of(Y[i]), model.end_of(Y_rot[i])) <= z)
@@ -96,21 +67,69 @@ class StripPacking2DCPSolver(CPSolver):
         # Minimize the total height
         model.add(model.minimize(z))
 
-            # Solve the model
-        solution = model.solve()
+        return model, X, Y, X_rot, Y_rot
+    
+    def _export_solution(self, instance, solution, X, Y, X_rot, Y_rot):
+        placements = []
+        orientations = []
+        for i, (w, h) in enumerate(instance.rectangles):
+            if solution.get_var_solution(X[i]).is_present():
+                placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
+                orientations.append("original")
+            else:
+                placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
+                orientations.append("rotated")
         
-        # Extract and return the solution
-        if solution:
-            total_height = solution.get_objective_values()[0]
-            placements = []
-            orientations = []
-            for i, (w, h) in enumerate(instance.rectangles):
-                if solution.get_var_solution(X[i]).is_present():
-                    placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
-                    orientations.append("original")
+        return placements, orientations
+
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+        print("Building model")
+        model, X, Y, X_rot, Y_rot = self.build_model(instance)
+
+        print("Looking for solution")
+        # Solve the model
+        solution = model.solve()
+
+        if solution.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
+            print('No solution found')
+            return None, None, solution
+        
+        placements, orientations = self._export_solution(instance, solution, X, Y, X_rot, Y_rot)
+        total_height = solution.get_objective_value()
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(solution)
+                if is_valid:
+                    print("Solution is valid.")
                 else:
-                    placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
-                    orientations.append("rotated")
-            return total_height, placements, orientations, solution
+                    print("Solution is invalid.")
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
+        
+        if visualize:
+            instance.visualize(solution, placements, total_height)
+
+        obj_value = solution.get_objective_value()
+        print('Objective value:', obj_value)
+
+        if solution.get_solve_status() == 'Optimal':
+            print("Optimal solution found")
+        elif solution.get_solve_status() == 'Feasible':
+            print("Feasible solution found")
         else:
-            return None, None, None, solution
+            print("Unknown solution status")
+            print(solution.get_solve_status())
+
+        print(solution.solution.get_objective_bounds())
+        print(solution.solution.get_objective_gaps())
+        print(solution.solution.get_objective_values())
+
+        instance.compare_to_reference(obj_value)
+            
+        self.add_run_to_history(instance, solution)
+            
+        return total_height, {"placements": placements, "orientations": orientations}, solution

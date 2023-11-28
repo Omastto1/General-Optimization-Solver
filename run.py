@@ -5,16 +5,19 @@ from src.jobshop.parser import load_jobshop
 
 from src.general_optimization_solver import load_instance, load_raw_instance, load_benchmark, load_raw_benchmark
 
-from src.rcpsp.solver import RCPSPSolver
-from src.mmrcpsp.solver import MMRCPSPSolver
-from src.jobshop.solver import JobShopSolver
+from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
+from src.mmrcpsp.solvers.solver import MMRCPSPCPSolver
+from src.jobshop.solvers.solver import JobShopCPSolver
 
 # instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
 # solution, _ = RCPSPSolver(TimeLimit=10).solve(instance, "CP")  # TimeLimit=1
 
 instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "raw_data/rcpsp/CV.xlsx", "patterson")
 
-RCPSPSolver(3).solve(instance)
+# fitness_value, start_times, sol = RCPSPCPSolver(3).solve(instance)
+sol, variables = RCPSPCPSolver(3).solve(instance)
+
+instance.visualize(sol, variables[0])
 
 # solution, _ = RCPSPSolver(TimeLimit=3).solve(instance, "CP")  # TimeLimit=1
 
