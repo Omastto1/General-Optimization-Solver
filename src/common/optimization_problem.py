@@ -75,6 +75,54 @@ class Benchmark:
             table_markdown += "\n"
 
         return table_markdown
+    
+    def generate_solver_comparison_percent_deviation_markdown_table(self, instances_subset=None, solvers_subset=None):
+        if all(instance._solution == {} for instance in self._instances.values()):
+            print("No solution found for instance")
+            return
+        
+        if instances_subset is None:
+            instances_subset = self._instances.keys()
+        if solvers_subset is None:
+            temp_solvers_subset = set()
+
+        table_data = {}
+
+        for instance_name, instance in self._instances.items():
+            if instance_name in instances_subset:
+                for instance_run in instance._run_history:
+                    if solvers_subset is None or instance_run["solver_name"] in solvers_subset:
+                        print(instance_run["solver_name"],
+                              instance_run["solve_time"])
+                        if instance_run["solver_name"] not in table_data:
+                            table_data[instance_run["solver_name"]] = {}
+
+                        table_data[instance_run["solver_name"]][instance_name] = 100 * instance_run["solution_value"] / instance._solution.get(
+                                'optimum') -  100
+
+                        if solvers_subset is None:
+                            temp_solvers_subset.add(
+                                instance_run["solver_name"])
+
+        if solvers_subset is None:
+            solvers_subset = list(temp_solvers_subset)
+
+        # empty start and end to force " | " to start and end the line
+        column_headers = [""] + ["solver"] + ["deviation (%)"] + [""]
+        table_markdown = " | ".join(column_headers).strip() + "\n"
+
+        column_header_body_delimiter = [
+            ""] + [" -- "] * (len(column_headers) - 2) + [""]
+        table_markdown += " | ".join(
+            column_header_body_delimiter).strip() + "\n"
+
+        for solver_name, solver_data in table_data.items():
+            table_markdown += f"| {solver_name} | "
+            avg_deviation = round(sum(solver_data.values()) / len(solver_data.values()), 1)
+
+            table_markdown += f"{avg_deviation} | \n"
+
+        return table_markdown
 
 
 class OptimizationProblem:
