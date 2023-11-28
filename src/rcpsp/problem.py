@@ -5,6 +5,24 @@ from docplex.cp.model import CpoStepFunction
 from docplex.cp.solution import CpoIntervalVarSolution
 
 
+def create_predecessors(successors_list):
+    predecessors = {}
+
+    # Fix variable name conflict by using a different name for loop variable
+    for job_index, successors in enumerate(successors_list, start=1):  # successors are indexed starting from zero
+        for successor in successors:
+            if successor not in predecessors:
+                predecessors[successor] = []
+            predecessors[successor].append(job_index)
+
+    # Create a list of predecessors for each job
+    predecessors_list = []
+    for job_index in range(len(successors_list)):
+        predecessors_list.append(predecessors.get(job_index + 1, []))
+
+    return predecessors_list
+
+
 class RCPSP(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
         super().__init__(benchmark_name, instance_name, "RCPSP", data, solution, run_history)
@@ -17,6 +35,7 @@ class RCPSP(OptimizationProblem):
         # precedence constraints
         self.successors = [job["successors"]
                            for job in self._data["job_specifications"]]
+        self.predecessors = create_predecessors(self.successors)
         # available resource capacity
         self.renewable_capacities = self._data["resources"]["renewable_resources"]["renewable_availabilities"]
         self.requests = [[self._data["job_specifications"][i]["modes"][0]["request_duration"]
