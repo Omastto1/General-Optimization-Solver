@@ -172,6 +172,7 @@ class CPSolver(Solver):
             solution_progress = []
 
         solver_name = self.solver_name
+        solver_type = self.solver_type
         solver_config = {
             "TimeLimit": self.params.TimeLimit,
             "NoWorkers": sol.solver_infos['EffectiveWorkers'],
@@ -179,7 +180,7 @@ class CPSolver(Solver):
             "SolverVersion": sol.process_infos['SolverVersion']
         }
 
-        instance.update_run_history(solver_name, objective_value, solution_info,
+        instance.update_run_history(solver_name, solver_type, objective_value, solution_info,
                                     solve_status, solve_time, solver_config, solution_progress)
 
 
@@ -219,6 +220,7 @@ class GASolver(Solver):
             solve_status = "No solution found"
 
         solver_name = self.solver_name
+        solver_type = self.solver_type
 
         # TODO: FINISH - replace algorithm (function execution result) and fitness function (function definition)
         import copy
@@ -239,5 +241,5 @@ class GASolver(Solver):
             "termination": self.termination
         }
 
-        instance.update_run_history(solver_name, objective_value, solution_info,
+        instance.update_run_history(solver_name, solver_type, objective_value, solution_info,
                                     solve_status, solve_time, solver_config, solution_progress)
