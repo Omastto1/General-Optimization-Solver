@@ -46,6 +46,7 @@ class Solver(ABC):
 CP_SOLVER_DEFAULT_NAME = "CP solver without name specified"
 class CPSolver(Solver):
     solver_name = CP_SOLVER_DEFAULT_NAME
+    solver_type = "CP"
 
     def __init__(self, TimeLimit=60, no_workers=0):
         super().__init__()
@@ -187,6 +188,7 @@ class CPSolver(Solver):
 GA_SOLVER_DEFAULT_NAME = "GA solver without name specified"
 class GASolver(Solver):
     solver_name = GA_SOLVER_DEFAULT_NAME
+    solver_type = "GA"
 
     def __init__(self, algorithm, fitness_func, termination, seed=None, solver_name=None):
         super().__init__()
