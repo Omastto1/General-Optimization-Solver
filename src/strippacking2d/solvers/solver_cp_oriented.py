@@ -132,5 +132,4 @@ class StripPacking2DCPSolver(CPSolver):
             
         self.add_run_to_history(instance, solution)
             
-        self.add_run_to_history(instance, solution)
         return total_height, {"placements": placements, "orientations": orientations}, solution
