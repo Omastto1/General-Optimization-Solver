@@ -36,17 +36,17 @@ class Benchmark:
 
         print("WARNING: THIS METHOD IS DEPRECATED IN FAVOR OF SOLVER.SOLVE(BENCHMARK)")
 
-    def dump(self):
+    def dump(self, dir_path: Optional[str] = None):
         print("Dumping instances to their respective paths")
         for instance_name, instance in self._instances.items():
-            instance.dump()
+            instance.dump(dir_path=dir_path)
 
     def generate_solver_comparison_markdown_table(self, instances_subset=None, solvers_subset=None):
         if instances_subset is None:
             instances_subset = self._instances.keys()
         if solvers_subset is None:
             temp_solvers_subset = set()
-    
+
         table_data = {instance_name: {} for instance_name in instances_subset}
 
         for instance_name, instance in self._instances.items():
@@ -81,7 +81,7 @@ class OptimizationProblem:
     def __init__(self, benchmark_name, instance_name, _instance_kind, data, solution, run_history) -> None:
         assert isinstance(run_history, list)
         assert isinstance(solution, dict)
-        
+
         self._benchmark_name: str = benchmark_name
         self._instance_name: str = instance_name
         self._instance_kind: str = _instance_kind
@@ -95,7 +95,7 @@ class OptimizationProblem:
     def __repr__(self):
         return "Optimization Problem"
 
-    def dump(self, verbose=False):
+    def dump(self, verbose=False, dir_path: Optional[str] = None):
         instance_dict = {
             "benchmark_name": self._benchmark_name,
             "instance_name": self._instance_name,
@@ -108,7 +108,12 @@ class OptimizationProblem:
         benchmark_directory = f"data/{self._instance_kind}/{self._benchmark_name}/"
         Path(benchmark_directory).mkdir(parents=True, exist_ok=True)
 
-        path = benchmark_directory + f"{self._instance_name}.json"
+        if dir_path is not None:
+            if not dir_path.ends_with("/"):
+                dir_path += "/"
+            path = dir_path + f"{self._instance_name}.json"
+        else:
+            path = benchmark_directory + f"{self._instance_name}.json"
 
         if verbose:
             print("dumping to", path)
