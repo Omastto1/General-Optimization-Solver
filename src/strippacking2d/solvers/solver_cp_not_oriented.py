@@ -6,7 +6,7 @@ from src.common.solver import CPSolver
 class StripPacking2DCPSolver(CPSolver):
     solver_name = 'CP Default'
     
-    def build_model(self, instance):
+    def build_model(self, instance, initial_solution=None):
         # Create a new CP model
         model = CpoModel(name='2D Strip Packing With 90 degree Rotations')
         model.set_parameters(params=self.params)
@@ -14,6 +14,17 @@ class StripPacking2DCPSolver(CPSolver):
         # Create interval variables for each rectangle's horizontal and vertical positions
         X = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width']) for i in range(instance.no_elements)]
         Y = [model.interval_var(size=instance.rectangles[i]['height']) for i in range(instance.no_elements)]
+
+        if initial_solution is not None:
+            stp = model.create_empty_solution()
+
+            for i, rectangle in enumerate(instance.rectangles):
+                x, y = initial_solution[i]
+                width, height = rectangle['width'], rectangle['height']
+                stp.add_interval_var_solution(X[i], start=x, end=x + width)
+                stp.add_interval_var_solution(Y[i], start=y, end=y + height)
+
+            model.set_starting_point(stp)
 
         # Add non-overlap constraints
         for i in range(instance.no_elements):

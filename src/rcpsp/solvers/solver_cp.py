@@ -6,12 +6,20 @@ from src.common.solver import CPSolver
 class RCPSPCPSolver(CPSolver):
     solver_name="CP Default"
 
-    def build_model(self, instance):
+    def build_model(self, instance, initial_solution=None):
         model = CpoModel()
         model.set_parameters(params=self.params)
 
         x = [model.interval_var(size=duration, name=f"{i}") for i, duration in enumerate(
             instance.durations)]  # (4)
+        
+        if initial_solution is not None:
+            stp = model.create_empty_solution()
+
+            for i, duration in enumerate(instance.durations):
+                stp.add_interval_var_solution(x[i], start=initial_solution[i], end=initial_solution[i] + duration)
+                
+            model.set_starting_point(stp)
 
         cost = model.integer_var(0, 1000000, name="cost")
 
@@ -49,9 +57,9 @@ class RCPSPCPSolver(CPSolver):
         
         return {"tasks_schedule": export}
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None):
         print("Building model")
-        model, model_variables = self.build_model(instance)
+        model, model_variables = self.build_model(instance, initial_solution)
 
         print("Looking for solution")
         sol = model.solve()
