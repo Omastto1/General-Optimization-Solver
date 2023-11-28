@@ -44,15 +44,35 @@ class StripPacking2DGASolver(GASolver):
 
         res = minimize(problem, self.algorithm, self.termination, verbose=True)
 
-        if res:
-            X = res.X
-            fitness_value = res.F[0]
-            d = {}
-            problem._evaluate(X, d)
-            rectangles = d['rectangles']
+        if not res:
+            return None, None, None
+        
+        X = res.X
+        fitness_value = res.F[0]
+        d = {}
+        problem._evaluate(X, d)
+        rectangles = d['rectangles']
 
-            placements = [rectangle.__dict__ for rectangle in rectangles]
-            return fitness_value, placements, res
-        else:
-            return None, None, res
+        # rectangle..__dict__
+        placements = [rectangle for rectangle in rectangles]
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(None)
+                if is_valid:
+                    print("Solution is valid.")
+                else:
+                    print("Solution is invalid.")
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None
+        
+        if visualize:
+            instance.visualize(None, placements, fitness_value)
+        
+        self.add_run_to_history(instance, fitness_value, {"placements": placements})
+
+        return fitness_value, placements, res
 
