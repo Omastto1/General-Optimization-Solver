@@ -53,8 +53,23 @@ class Benchmark:
             if instance_name in instances_subset:
                 for instance_run in instance._run_history:
                     if solvers_subset is None or instance_run["solver_name"] in solvers_subset:
-                        print(instance_run["solver_name"], instance_run["solve_time"])
-                        table_data[instance_name][instance_run["solver_name"]] = instance_run["solution_value"]
+                        print(instance_run["solver_name"],
+                              instance_run["solve_time"])
+                        table_data[instance_name][instance_run["solver_name"]] = {
+                            "objective_value": instance_run["solution_value"]}
+
+                        solution_status = instance_run.get(
+                            "solve_status", "Unknown")
+
+                        if instance_run['solver_type'] != "CP":
+                            solution_status = "Optimal" if instance._solution.get(
+                                'optimum') == instance_run['solution_value'] else ""
+                        else:
+                            solution_status = instance_run.get(
+                                "solve_status", "Unknown")
+
+                        table_data[instance_name][instance_run["solver_name"]
+                                                  ]["solution_status"] = solution_status
 
                         if solvers_subset is None:
                             temp_solvers_subset.add(instance_run["solver_name"])
@@ -71,7 +86,16 @@ class Benchmark:
         for instance_name, instance_data in table_data.items():
             table_markdown += f"| {instance_name} | "
             for method in solvers_subset:
-                table_markdown += f"{instance_data.get(method, 'N/A')} | "
+                if method in instance_data:
+                    is_optimal_objective = instance_data[method]["solution_status"] == "Optimal"
+
+                    table_markdown += f"{instance_data[method]['objective_value']}"
+                    if is_optimal_objective:
+                        table_markdown += "*"
+
+                    table_markdown += " | "
+                else:
+                    table_markdown += f"{instance_data.get(method, 'N/A')} | "
             table_markdown += "\n"
 
         return table_markdown
