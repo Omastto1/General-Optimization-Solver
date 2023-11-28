@@ -104,7 +104,7 @@ def _get_and_validate_meta_data(filepath):
     valid_keys = {"FORMAT", "SOLUTION_PATH"}  # Add more valid keys as needed
     metadata = {}
 
-    with open(filepath, 'r') as file:
+    with open(filepath, 'r', encoding='utf-8') as file:
         for line in file:
             parts = line.strip().split('=')
             if len(parts) != 2:
