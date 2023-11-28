@@ -4,13 +4,13 @@ from pathlib import Path
 
 from src.mmrcpsp.c15 import load_c15, load_c15_solution
 from src.rcpsp.j30 import load_j30, load_j30_solution
-from src.rcpsp.patterson import load_patterson , load_patterson_solution
+from src.rcpsp.patterson import load_patterson, load_patterson_solution
 from src.jobshop.parser import load_jobshop, load_jobshop_solution
 from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution
 from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
 from src.binpacking1d.parser import load_1dbinpacking
 from src.binpacking2d.parser_no_items_first import load_2dbinpacking_no_items_first
-from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first # TODO
+from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first  # TODO
 
 from src.common.optimization_problem import Benchmark
 from src.mmrcpsp.problem import MMRCPSP
@@ -32,13 +32,15 @@ def load_raw_benchmark(directory_path, solution_path=None, format=None, no_insta
         format = meta_data["FORMAT"]
         if solution_path is None:
             solution_path = meta_data.get("SOLUTION_PATH", None)
-    
+            print("Loading .meta solution path: %s" % solution_path)
+
     if solution_path is None:
         print("\nWARNING: Loading benchmark instances without solutions\n")
 
     print("Loading raw benchmark data")
     benchmark_instances = {}
-    instances = [file for file in directory_path.iterdir() if file.name != '.meta']
+    instances = [file for file in directory_path.iterdir()
+                 if file.name != '.meta']
     for i, instance in enumerate(instances):
         if no_instances > 0 and i >= no_instances:
             break
@@ -50,7 +52,7 @@ def load_raw_benchmark(directory_path, solution_path=None, format=None, no_insta
             instance = load_raw_instance(instance_path, solution_path, format)
 
             benchmark_instances[instance_name] = instance
-    
+
     benchmark = Benchmark("test benchmark", benchmark_instances)
 
     if force_dump:
@@ -74,7 +76,7 @@ def load_benchmark(directory_path, no_instances=0):
             instance = load_instance(instance_path)
 
             benchmark_instances[instance_name] = instance
-    
+
     benchmark = Benchmark("test benchmark", benchmark_instances)
     return benchmark
 
@@ -99,7 +101,8 @@ def _get_and_validate_meta_data(filepath):
     ValueError: If the file contains invalid or unexpected content.
     """
     if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Metadata file {filepath} does not exist.\nPlease create .meta file or provide `format` parameter.")
+        raise FileNotFoundError(
+            f"Metadata file {filepath} does not exist.\nPlease create .meta file or provide `format` parameter.")
 
     valid_keys = {"FORMAT", "SOLUTION_PATH"}  # Add more valid keys as needed
     metadata = {}
@@ -108,7 +111,8 @@ def _get_and_validate_meta_data(filepath):
         for line in file:
             parts = line.strip().split('=')
             if len(parts) != 2:
-                raise ValueError(f"Invalid line in metadata file: {line.strip()}")
+                raise ValueError(
+                    f"Invalid line in metadata file: {line.strip()}")
 
             key, value = parts
             key = key.strip().upper()  # Normalize the key
@@ -118,7 +122,6 @@ def _get_and_validate_meta_data(filepath):
             metadata[key] = value.strip()
 
     return metadata
-
 
 
 def load_raw_instance(path, solution_path, format=None, verbose=False):
@@ -132,12 +135,13 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
         format = meta_data["FORMAT"]
 
     assert format is not None, "Specify valid raw data input argument `format`"
-    
+
     # TODO: ADD SOLUTION PATH TO METADATA
     if format == "c15":
         data = load_c15(path, verbose)
         if solution_path:
-            solution = load_c15_solution(solution_path, benchmark_name, instance_name)
+            solution = load_c15_solution(
+                solution_path, benchmark_name, instance_name)
         else:
             solution = {}
 
@@ -145,7 +149,8 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
     elif format == "j30":
         data = load_j30(path, verbose)
         if solution_path:
-            solution = load_j30_solution(solution_path, benchmark_name, instance_name)
+            solution = load_j30_solution(
+                solution_path, benchmark_name, instance_name)
         else:
             solution = {}
 
@@ -170,32 +175,37 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
     elif format == "strippacking":
         data = load_strip_packing(path, verbose)
         if solution_path:
-            solution = load_strip_packing_solution(solution_path, instance_name)
+            solution = load_strip_packing_solution(
+                solution_path, instance_name)
         else:
             solution = {}
 
-        instance = StripPacking2D(benchmark_name, instance_name, data, solution, [])
+        instance = StripPacking2D(
+            benchmark_name, instance_name, data, solution, [])
     elif format == "1Dbinpacking":
         data = load_1dbinpacking(path, verbose)
         solution = {}
         # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
         # solution = load_strip_packing_solution(solution_path, instance_name)
 
-        instance = BinPacking1D(benchmark_name, instance_name, data, solution, [])
+        instance = BinPacking1D(
+            benchmark_name, instance_name, data, solution, [])
     elif format == "2Dbinpacking":
         data = load_2dbinpacking_no_items_first(path, verbose)
         solution = {}
         # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
         # solution = load_strip_packing_solution(solution_path, instance_name)
 
-        instance = BinPacking2D(benchmark_name, instance_name, data, solution, [])
+        instance = BinPacking2D(
+            benchmark_name, instance_name, data, solution, [])
     elif format == "2Dbinpacking_bin_size_first":
         data = load_2dbinpacking_bin_size_first()(path, verbose)
         solution = {}
         # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
         # solution = load_strip_packing_solution(solution_path, instance_name)
 
-        instance = BinPacking2D(benchmark_name, instance_name, data, solution, [])
+        instance = BinPacking2D(
+            benchmark_name, instance_name, data, solution, [])
     elif format == "mmlib":
         data = load_mmlib(path, verbose)
         if solution_path:
@@ -203,20 +213,21 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
         else:
             solution = {}
 
-
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
     else:
-        raise ValueError("Invalid format, should be one of: c15, j30, patterson, jobshop, strippacking, 1Dbinpacking, 2Dbinpacking, mmlib")
-    
+        raise ValueError(
+            "Invalid format, should be one of: c15, j30, patterson, jobshop, strippacking, 1Dbinpacking, 2Dbinpacking, mmlib")
+
     return instance
 
 
 def load_instance(path):
-    assert path.endswith(".json"), "Invalid input file, should be .json with predefined structure"
-    
+    assert path.endswith(
+        ".json"), "Invalid input file, should be .json with predefined structure"
+
     with open(path, "r") as f:
         instance_dict = json.load(f)
-    
+
     benchmark_name = instance_dict["benchmark_name"]
     instance_name = instance_dict["instance_name"]
     instance_kind = instance_dict["instance_kind"]
@@ -225,16 +236,22 @@ def load_instance(path):
     run_history = instance_dict["run_history"]
 
     if instance_kind == "MMRCPSP":
-        instance = MMRCPSP(benchmark_name, instance_name, data, solution, run_history)
+        instance = MMRCPSP(benchmark_name, instance_name,
+                           data, solution, run_history)
     elif instance_kind == "RCPSP":
-        instance = RCPSP(benchmark_name, instance_name, data, solution, run_history)
+        instance = RCPSP(benchmark_name, instance_name,
+                         data, solution, run_history)
     elif instance_kind == "JOBSHOP":
-        instance = JobShop(benchmark_name, instance_name, data, solution, run_history)
+        instance = JobShop(benchmark_name, instance_name,
+                           data, solution, run_history)
     elif instance_kind == "2DSTRIPPACKING":
-        instance = StripPacking2D(benchmark_name, instance_name, data, solution, run_history)
+        instance = StripPacking2D(
+            benchmark_name, instance_name, data, solution, run_history)
     elif instance_kind == "1DBINPACKING":
-        instance = BinPacking1D(benchmark_name, instance_name, data, solution, run_history)
+        instance = BinPacking1D(
+            benchmark_name, instance_name, data, solution, run_history)
     else:
-        raise ValueError("Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP")
+        raise ValueError(
+            "Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP")
 
     return instance
