@@ -61,16 +61,17 @@ def load_patterson(instance_path, verbose=False):
 
             successors = line[2+int(number_of_renewable_resources):2+int(number_of_renewable_resources)+int(number_of_successors)]
 
-            if len(successors) < number_of_successors:
+            while len(successors) < number_of_successors:
                 line = file.readline()
                 while line.strip() == "":
                     line = file.readline()
                 
                 line = [int(number.strip()) for number in line.split(" ") if len(number.strip()) > 0]
 
-                assert len(line) == number_of_successors - len(successors), "Number of successors does not match the number of successors given in the line"
-
                 successors += line
+
+            assert len(successors) == number_of_successors, "Number of successors does not match the number of successors given in the line"
+
                 
             job_specification["successors"] = successors
 
