@@ -27,7 +27,7 @@ class StripPacking2D(OptimizationProblem):
         rectangles = []
         for i, rectangle in enumerate(self.rectangles):
             x, y = placements[i]
-            width, height = rectangle
+            width, height = rectangle['width'], rectangle['height']
             rectangles.append((x, y, width, height))
 
         # Create a figure and axis for plotting
