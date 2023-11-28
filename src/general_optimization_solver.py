@@ -101,7 +101,7 @@ def _get_and_validate_meta_data(filepath):
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Metadata file {filepath} does not exist.\nPlease create .meta file or provide `format` parameter.")
 
-    valid_keys = {"FORMAT"}  # Add more valid keys as needed
+    valid_keys = {"FORMAT", "SOLUTION_PATH"}  # Add more valid keys as needed
     metadata = {}
 
     with open(filepath, 'r') as file:
