@@ -185,6 +185,26 @@ class CPSolver(Solver):
                                     solve_status, solve_time, solver_config, solution_progress)
 
 
+def serialize_class_instance(obj):
+    """
+    Serialize a class instance (including nested class instances) into a dictionary.
+    """
+    if not hasattr(obj, "__dict__"):
+        return obj
+    result = {}
+    for key, val in obj.__dict__.items():
+        # if isinstance(val, list):
+        #     # Handle lists of items
+        #     element = [serialize_class_instance(item) for item in val]
+        #     result[key] = element
+        if hasattr(val, "__dict__"):
+            # Recursively serialize class instances
+            result[key] = serialize_class_instance(val)
+        else:
+            result[key] = val
+    return result
+
+
 GA_SOLVER_DEFAULT_NAME = "GA solver without name specified"
 class GASolver(Solver):
     solver_name = GA_SOLVER_DEFAULT_NAME
@@ -225,17 +245,8 @@ class GASolver(Solver):
         solver_type = self.solver_type
 
         # TODO: FINISH - replace algorithm (function execution result) and fitness function (function definition)
-        import copy
 
-        algorithm = self.algorithm.__dict__
-        algorithm["crossover"] = copy.deepcopy(self.algorithm.mating.crossover.__dict__)
-        algorithm["crossover"]["prob"] = self.algorithm.mating.crossover.prob.__dict__
-        algorithm["selection"] = self.algorithm.mating.selection.__dict__
-        algorithm["mutation"] = copy.deepcopy(self.algorithm.mating.mutation.__dict__)
-        algorithm["mutation"]["prob"] = self.algorithm.mating.mutation.prob.__dict__
-        algorithm["mutation"]["eta"] = self.algorithm.mating.mutation.eta.__dict__
-        algorithm["sampling"] = self.algorithm.initialization.sampling.__dict__
-
+        algorithm = serialize_class_instance(self.algorithm)
         solver_config = {
             "seed": self.seed,
             "algorithm": algorithm,
