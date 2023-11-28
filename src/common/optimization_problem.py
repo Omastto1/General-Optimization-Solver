@@ -139,11 +139,12 @@ class OptimizationProblem:
         else:
             print("There in no known reference solution in current data")
 
-    def update_run_history(self, method, objective_value, solution_info, solve_status, solve_time, solver_config, solution_progress):
+    def update_run_history(self, method, solver_type, objective_value, solution_info, solve_status, solve_time, solver_config, solution_progress):
         timestamp_now = datetime.datetime.now()
         
         self._run_history.append({
             "timestamp": timestamp_now,
+            "solver_type": solver_type,
             "solver_name": method,
             "solver_config": solver_config,
             "solve_status": solve_status,  # docplex specific so far
