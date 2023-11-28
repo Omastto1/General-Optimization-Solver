@@ -53,7 +53,7 @@ naive_GA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), 
 class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 
     def is_equal(self, a, b):
-        return (a.X.astype(int) == a.X.astype(int)).all()
+        return (a.X.astype(int) == b.X.astype(int)).all()
 
 
 # values from https://pymoo.org/algorithms/soo/brkga.html 
