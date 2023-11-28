@@ -1,13 +1,23 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+from pymoo.algorithms.soo.nonconvex.ga import GA
+from pymoo.operators.sampling.rnd import FloatRandomSampling
+from pymoo.operators.crossover.pntx import TwoPointCrossover
+from pymoo.operators.mutation.pm import PolynomialMutation
+
+from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
+
 from src.strippacking2d.problem import StripPacking2D
 from src.strippacking2d.solvers.solver_cp_not_oriented import StripPacking2DCPSolver
 from src.strippacking2d.solvers.solver_cp_oriented import StripPacking2DCPSolver as StripPacking2DCPSolverOriented
 from src.strippacking2d.solvers.ga_solver import StripPacking2DGASolver
-import docplex.cp.utils_visu as visu
-import matplotlib.pyplot as plt
 
 
 skip_custom_input = True
-skip_instance_input = False
+skip_instance_input = True
+skip_benchmark_input = True
+skip_hybrid = False
 
 # Example usage
 
@@ -75,58 +85,72 @@ if not skip_custom_input:
     # else:
     #     print("No solution found.")
 
+algorithm = GA(
+    pop_size=200,
+    sampling=FloatRandomSampling(),
+    crossover=TwoPointCrossover(prob=1.0),
+    mutation=PolynomialMutation(),
+    eliminate_duplicates=True
+)
+
+def fitness_func(instance, x, out):
+    # Calculate the total height based on the order in x
+    order = np.argsort(x)
+    total_height = 0
+    current_width = 0
+    current_height = 0
+    rectangles = [None] * instance.no_elements
+    for i in order:
+        if current_width + instance.rectangles[i]['width'] > instance.strip_width:
+            total_height += current_height
+            current_width = 0
+            current_height = 0
+
+        rectangles[i] = (current_width, total_height)
+        
+        current_width += instance.rectangles[i]['width']
+        current_height = max(current_height, instance.rectangles[i]['height'])
+    total_height += current_height
+
+    out["F"] = total_height
+
+    # TODO FIX
+    out["rectangles"] = rectangles
+
+    return out
+
 if not skip_instance_input:
-
-    import numpy as np
-
-    from pymoo.algorithms.soo.nonconvex.ga import GA
-    from pymoo.operators.sampling.rnd import FloatRandomSampling
-    from pymoo.operators.crossover.pntx import TwoPointCrossover
-    from pymoo.operators.mutation.pm import PolynomialMutation
-
-
-    def fitness_func(instance, x, out):
-        # Calculate the total height based on the order in x
-        order = np.argsort(x)
-        total_height = 0
-        current_width = 0
-        current_height = 0
-        for i in order:
-            if current_width + instance.rectangles[i]['width'] > instance.strip_width:
-                total_height += current_height
-                current_width = 0
-                current_height = 0
-            
-            current_width += instance.rectangles[i]['width']
-            current_height = max(current_height, instance.rectangles[i]['height'])
-        total_height += current_height
-
-        out["F"] = total_height
-
-        # TODO FIX
-        out["rectangles"] = []
-
-        return out
-
-
-
-    algorithm = GA(
-        pop_size=200,
-        sampling=FloatRandomSampling(),
-        crossover=TwoPointCrossover(prob=1.0),
-        mutation=PolynomialMutation(),
-        eliminate_duplicates=True
-    )
-
-    from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
-
     # instance = load_raw_instance("raw_data/2d_strip_packing/zdf/zdf2.txt", "")
     instance = load_raw_instance("raw_data/2d_strip_packing/benchmark/BENG01.TXT", "")
 
     StripPacking2DGASolver(algorithm, fitness_func, ("n_gen", 10), seed=1).solve(instance)
 
     
-    total_height, placements, solution = StripPacking2DCPSolver(TimeLimit=3).solve(instance, validate=False, visualize=False, force_execution=True)
+    total_height, placements, solution = StripPacking2DCPSolver(TimeLimit=15).solve(instance, validate=False, visualize=True, force_execution=True)
 
     
     total_height, placements, solution = StripPacking2DCPSolverOriented(TimeLimit=3).solve(instance, validate=False, visualize=False, force_execution=True)
+
+if not skip_benchmark_input:
+    benchmark = load_raw_benchmark("raw_data/2d_strip_packing/benchmark", "", no_instances=1)
+    
+    StripPacking2DGASolver(algorithm, fitness_func, ("n_gen", 50), seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True)
+
+    StripPacking2DCPSolver(TimeLimit=15).solve(benchmark, validate=True, visualize=True, force_execution=True)
+
+    table1 = benchmark.generate_solver_comparison_markdown_table()
+    table2 = benchmark.generate_solver_comparison_percent_deviation_markdown_table()
+
+    print(table1)
+    print(table2)
+
+if not skip_hybrid:
+    instance = load_raw_instance("raw_data/2d_strip_packing/benchmark/BENG01.TXT", "")
+
+
+    fitness, placements, res = StripPacking2DGASolver(algorithm, fitness_func, ("n_gen", 10), seed=1).solve(instance, validate=True, visualize=True, force_execution=True)
+
+    fitness_cp, placements, res = StripPacking2DCPSolver(TimeLimit=10)._solve(instance, validate=True, visualize=True, force_execution=True, initial_solution=placements)
+
+    print(fitness, fitness_cp)
+    print("asd")

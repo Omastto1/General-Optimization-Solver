@@ -11,22 +11,22 @@ from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 from src.rcpsp.problem import RCPSP
 from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
 from src.rcpsp.solvers.solver_ga import RCPSPGASolver
-from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
+from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark, load_benchmark
 
 
 
 ### naive GA
 algorithm = GA(
-    pop_size=100,
-    n_offsprings=50,
+    pop_size=120,
+    n_offsprings=120,
     sampling=FloatRandomSampling(),
     crossover=TwoPointCrossover(prob=0.9),
-    mutation=PolynomialMutation(eta=3),
+    mutation=PolynomialMutation(eta=20),
     eliminate_duplicates=True
 )
 
 
-def fitness_func(instance, x, out):
+def fitness_func_backward(instance, x, out):
     # project makespan unknown, default to 65536
     finish_times = np.full(instance.no_jobs, 65536)
     
@@ -47,7 +47,7 @@ def fitness_func(instance, x, out):
 
         for job in schedulable_jobs:
             # Find the latest time this job can be finished based on resource availability and successor constraints
-            finish_time = min([finish_times[succ-1] - instance.durations[succ-1] for succ in instance.successors[job]])
+            finish_time = min(finish_times[succ-1] - instance.durations[succ-1] for succ in instance.successors[job])
             while True:
                 # Check if finishing the job at 'finish_time' violates any resource constraints
                 resource_violation = False
@@ -173,25 +173,26 @@ naive_GA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, ("n_gen
 class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 
     def is_equal(self, a, b):
-        return (a.X.astype(int) == a.X.astype(int)).all()
+        return (a.X.astype(int) == b.X.astype(int)).all()
 
 
 # values from https://pymoo.org/algorithms/soo/brkga.html 
 algorithm = BRKGA(
-    n_elites=30,
-    n_offsprings=60,
-    n_mutants=10,
+    n_elites=40,
+    n_offsprings=78,
+    n_mutants=30,
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination())
 
 
-BRKGA_solver = RCPSPGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="BRKGA")
+BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, ("n_gen", 2), seed=1, solver_name="BRKGA_backward3")
+BRKGA_solver_backward = RCPSPGASolver(algorithm, fitness_func_backward, ("n_gen", 2), seed=1, solver_name="BRKGA_forward3")
 
 ###
 
 ## CP
 
-cp_solver = RCPSPCPSolver(TimeLimit=10)
+cp_solver = RCPSPCPSolver(TimeLimit=15)
 
 
 def indices_to_onehot(indices, num_classes):
@@ -205,34 +206,55 @@ def indices_to_onehot(indices, num_classes):
 skip_instance_input = True
 skip_benchmark_input = False
 
+benchmark = load_benchmark("data/RCPSP/RG30_Set 1", no_instances=5)  # , "1Dbinpacking"
+
+
+table_markdown = benchmark.generate_solver_comparison_markdown_table()
+table_markdown2 = benchmark.generate_solver_comparison_percent_deviation_markdown_table()
+
+print(table_markdown)
+print(table_markdown2)
+
+
+
 
 if not skip_instance_input:
     # SPECIFIC BENCHMARK INSTANCE
     instance = load_raw_instance("raw_data/rcpsp/CV/cv1.rcp", "")  # , "1Dbinpacking"
     # instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
+
     cp_bins_used, cp_solution_variables, cp_solution = cp_solver.solve(instance, validate=True, visualize=True, force_execution=True)
-    cp_assignment = cp_solution_variables['tasks_schedule']
+    # cp_assignment = cp_solution_variables['tasks_schedule']
 
 
-    print("Number of bins used:", cp_bins_used)
-    print("tasks_schedule:", cp_assignment)
+    # print("Number of bins used:", cp_bins_used)
+    # print("tasks_schedule:", cp_assignment)
 
-    ga_fitness_value, ga_assignment, ga_solution = naive_GA_solver.solve(instance, visualize=True, validate=True)
+    # ga_fitness_value, ga_assignment, ga_solution = naive_GA_solver.solve(instance, visualize=True, validate=True)
 
-    brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(instance, visualize=True, validate=True)
+    brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(instance, visualize=False, validate=True)
 
 
     instance.dump()
 
 if not skip_benchmark_input:
     # SPECIFIC BENCHMARK INSTANCE
-    benchmark = load_raw_benchmark("raw_data/rcpsp/CV", no_instances=10)
-    cp_solver.solve(benchmark, validate=False, visualize=False, force_execution=True)
+    # benchmark = load_raw_benchmark("raw_data/rcpsp/CV", no_instances=10)
+    # benchmark = load_raw_benchmark("raw_data/rcpsp/j120.sm", no_instances=10)  # , "1Dbinpacking"
+    # benchmark = load_raw_benchmark("raw_data/rcpsp/RG30_Set 1", no_instances=5)  # , "1Dbinpacking"
+    # instance_ = load_raw_instance("raw_data/rcpsp/j120.sm/j1201_1.sm", "")
 
-    naive_GA_solver.solve(benchmark)
+    # cp_solver.solve(benchmark, validate=True, force_execution=True)
 
-    BRKGA_solver.solve(benchmark)
+    # BRKGA_solver_backward.solve(benchmark, validate=True, force_execution=True)
+    BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True)
+
+    # naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True)
+    naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True)
+
     
     table_markdown = benchmark.generate_solver_comparison_markdown_table()
+    table_markdown2 = benchmark.generate_solver_comparison_percent_deviation_markdown_table()
 
     print(table_markdown)
+    print(table_markdown2)
