@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 
 from pathlib import Path
 from typing import Optional, List
@@ -211,7 +212,8 @@ class OptimizationProblem:
         Path(benchmark_directory).mkdir(parents=True, exist_ok=True)
 
         if dir_path is not None:
-            if not dir_path.ends_with("/"):
+            os.makedirs(dir_path, exist_ok=True)
+            if not dir_path.endswith("/"):
                 dir_path += "/"
             path = dir_path + f"{self._instance_name}.json"
         else:
