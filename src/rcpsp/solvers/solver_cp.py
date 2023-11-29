@@ -14,6 +14,8 @@ class RCPSPCPSolver(CPSolver):
             instance.durations)]  # (4)
         
         if initial_solution is not None:
+            self.solver_name += " Hybrid"
+
             stp = model.create_empty_solution()
 
             for i, duration in enumerate(instance.durations):
