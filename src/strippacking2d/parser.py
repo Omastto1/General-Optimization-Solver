@@ -1,3 +1,5 @@
+import json
+import pandas as pd
 
 
 def print_verbose(print_input, verbose):
@@ -5,10 +7,29 @@ def print_verbose(print_input, verbose):
         print(print_input)
 
 
+def load_bkw_benchmark(file_path, verbose=False):
+    asd = json.loads(open(file_path, 'r', encoding='utf-8').read())
+
+    strip_width = asd['Objects'][0]['Length']
+    # items = [Rectangle(item['Length'], item["Height"]) for item in asd['Items']]
+    items = [{"width": item['Length'], 'height': item["Height"]} for item in asd['Items']]
+
+    data = {"strip_width": strip_width, "rectangles": items}
+
+    return data
+
+
+def load_bkw_benchmark_solution(file_path, instance_name: str, verbose=False):
+    solutions = pd.read_csv(file_path, sep=';')
+    obj_value = solutions[solutions['instance_id'] == int(instance_name)]['obj_value'].values[0]
+    solution = {"feasible": True, "optimum": obj_value}
+
+    return solution
+
 def load_strip_packing(instance_path, verbose=False):
     parsed_input = {}
 
-    with open(instance_path) as file:
+    with open(instance_path, 'r', encoding='utf-8') as file:
         # {no_elements}
         no_rectangles = int(file.readline().strip())
         parsed_input["no_rectangles"] = no_rectangles
