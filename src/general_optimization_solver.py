@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from src.mmrcpsp.c15 import load_c15, load_c15_solution
-from src.rcpsp.j30 import load_j30, load_j30_solution
+from src.rcpsp.j30 import load_j30, load_j30_solution, load_j30_ugent_csv_solution
 from src.rcpsp.patterson import load_patterson, load_patterson_solution
 from src.jobshop.parser import load_jobshop, load_jobshop_solution
 from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution
@@ -149,8 +149,11 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
     elif format == "j30":
         data = load_j30(path, verbose)
         if solution_path:
-            solution = load_j30_solution(
-                solution_path, benchmark_name, instance_name)
+            if solution_path.endswith(".csv"):
+                solution = load_j30_ugent_csv_solution(solution_path, benchmark_name, instance_name)
+            else:
+                solution = load_j30_solution(
+                    solution_path, benchmark_name, instance_name)
         else:
             solution = {}
 
