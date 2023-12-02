@@ -16,7 +16,8 @@ class StripPacking2DCPSolver(CPSolver):
         Y = [model.interval_var(size=instance.rectangles[i]['height']) for i in range(instance.no_elements)]
 
         if initial_solution is not None:
-            self.solver_name += " Hybrid"
+            if not self.solver_name.endswith(" Hybrid"):
+                self.solver_name += " Hybrid"
             
             stp = model.create_empty_solution()
 
