@@ -21,8 +21,9 @@ def load_bkw_benchmark(file_path, verbose=False):
 
 def load_bkw_benchmark_solution(file_path, instance_name: str, verbose=False):
     solutions = pd.read_csv(file_path, sep=';')
-    obj_value = solutions[solutions['instance_id'] == int(instance_name)]['obj_value'].values[0]
-    solution = {"feasible": True, "optimum": obj_value}
+    obj_value = solutions[solutions['instance_id'] == int(instance_name)]['obj_value'].astype(int).values[0]
+    # cast obj_value to int, np.int64 is not json serializable
+    solution = {"feasible": True, "optimum": int(obj_value)}
 
     return solution
 
