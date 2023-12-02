@@ -78,7 +78,7 @@ class BinPacking1DGASolver(GASolver):
 
         solution_info = {"placements": placements}
         # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
-        self.add_run_to_history(instance, fitness_value, solution_info)
+        self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
 
         if res.F is not None:
             X = np.floor(res.X).astype(int)
