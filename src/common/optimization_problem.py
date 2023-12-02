@@ -165,7 +165,7 @@ class Benchmark:
                             table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance._solution.get(
                                 'optimum') - 100,
                                 
-                                "time": instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) else instance_run['solve_time']}
+                                "time": instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) or isinstance(instance_run['solve_time'], tuple) else instance_run['solve_time']}
                         elif instance._solution.get('bounds', {}).get('lower') is not None:
                             table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance._solution.get('bounds', {}).get('lower') - 100,
                                 "time":  instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) else instance_run['solve_time']}
