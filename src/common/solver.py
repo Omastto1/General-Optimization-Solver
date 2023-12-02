@@ -22,10 +22,13 @@ class Solver(ABC):
             print("\nWarning: solver_name not specified for solver\n")
 
     def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None, hybrid_CP_solver=None):
+        # in case of hybrid solver (GA + CP) do not save GA result into history
+        update_history = False if hybrid_CP_solver is not None else True
+
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
                 print(f"Solving instance {instance_name}...")
-                _, solution, _ = self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, update_history=False)
+                _, solution, _ = self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, update_history=update_history)
 
                 if hybrid_CP_solver is not None:
                     hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
@@ -38,10 +41,10 @@ class Solver(ABC):
             if force_dump:
                 instance_or_benchmark.dump()
         else:
-            fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, update_history=False)
+            fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, update_history=update_history)
         
             if hybrid_CP_solver is not None:
-                fitness_value, solution, res = hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
+                fitness_value, solution, res = hybrid_CP_solver._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
 
             return fitness_value, solution, res
 
