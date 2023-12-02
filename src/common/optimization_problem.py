@@ -61,12 +61,21 @@ class Benchmark:
                         table_data[instance_name][instance_run["solver_name"]] = {
                             "objective_value": instance_run["solution_value"]}
 
-                        solution_status = instance_run.get(
-                            "solve_status", "Unknown")
-
                         if instance_run['solver_type'] != "CP":
-                            solution_status = "Optimal" if instance._solution.get(
-                                'optimum') == instance_run['solution_value'] else ""
+                            optimum_known = instance._solution.get('optimum') is not None
+                            
+                            if optimum_known:
+                                solution_status = "Optimal" if instance._solution.get(
+                                    'optimum') == instance_run['solution_value'] else ""
+                            else:
+                                lower_bound =instance._solution.get('bounds', {}).get("lower")
+                                if instance_run['solution_value'] == lower_bound:
+                                    solution_status = "Lower bound"
+                                elif instance_run['solution_value'] < lower_bound:
+                                    solution_status = "Better than lower bound"
+                                else:
+                                    solution_status = ""
+                            
                         else:
                             solution_status = instance_run.get(
                                 "solve_status", "Unknown")
@@ -90,15 +99,23 @@ class Benchmark:
         table_markdown += " | ".join(
             column_header_body_delimiter).strip() + "\n"
 
-        for instance_name, instance_data in table_data.items():
+        sorted_table_data = sorted(table_data.items(), key=lambda x: x[0])
+        for instance_name, instance_data in sorted_table_data:
             table_markdown += f"| {instance_name} | "
             for method in solvers_subset:
                 if method in instance_data:
+                    # TODO: DEPENDS ON CP OUTPUT, NOT WORKING FOR GA
                     is_optimal_objective = instance_data[method]["solution_status"] == "Optimal"
+                    is_lower_bound_objective = instance_data[method]["solution_status"] == "Lower bound"
+                    is_better_than_lower_bound_objective = instance_data[method]["solution_status"] == "Better than lower bound"
 
                     table_markdown += f"{instance_data[method]['objective_value']}"
                     if is_optimal_objective:
                         table_markdown += "*"
+                    if is_lower_bound_objective:
+                        table_markdown += "**"
+                    if is_better_than_lower_bound_objective:
+                        table_markdown += "***"
 
                     table_markdown += " | "
                 else:
@@ -144,8 +161,15 @@ class Benchmark:
                         if instance_run["solver_name"] not in table_data:
                             table_data[instance_run["solver_name"]] = {}
 
-                        table_data[instance_run["solver_name"]][instance_name] = 100 * instance_run["solution_value"] / instance._solution.get(
-                            'optimum') - 100
+                        if instance._solution.get('optimum') is not None:
+                            table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance._solution.get(
+                                'optimum') - 100,
+                                
+                                "time": instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) else instance_run['solve_time']}
+                        elif instance._solution.get('bounds', {}).get('lower') is not None:
+                            table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance._solution.get('bounds', {}).get('lower') - 100,
+                                "time":  instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) else instance_run['solve_time']}
+                        
 
                         if solvers_subset is None:
                             temp_solvers_subset.add(
@@ -155,7 +179,7 @@ class Benchmark:
             solvers_subset = list(temp_solvers_subset)
 
         # empty start and end to force " | " to start and end the line
-        column_headers = [""] + ["solver"] + ["deviation (%)"] + [""]
+        column_headers = [""] + ["solver"] + ["deviation (%)"] + ["time (s)"] + [""]
         table_markdown = " | ".join(column_headers).strip() + "\n"
 
         column_header_body_delimiter = [
@@ -166,9 +190,11 @@ class Benchmark:
         for solver_name, solver_data in table_data.items():
             table_markdown += f"| {solver_name} | "
             avg_deviation = round(
-                sum(solver_data.values()) / len(solver_data.values()), 1)
+                sum(solver['deviation'] for solver in solver_data.values()) / len(solver_data.values()), 1)
+            avg_time = round(
+                sum(solver['time'] for solver in solver_data.values()) / len(solver_data.values()), 1)
 
-            table_markdown += f"{avg_deviation} | \n"
+            table_markdown += f"{avg_deviation} | {avg_time} | \n"
 
         return table_markdown
 
@@ -207,15 +233,17 @@ class OptimizationProblem:
             "reference_solution": self._solution,
             "run_history": self._run_history,
         }
-        benchmark_directory = f"data/{self._instance_kind}/{self._benchmark_name}/"
-        Path(benchmark_directory).mkdir(parents=True, exist_ok=True)
 
         if dir_path is not None:
-            if not dir_path.ends_with("/"):
+            if not dir_path.endswith("/"):
                 dir_path += "/"
-            path = dir_path + f"{self._instance_name}.json"
+            benchmark_directory = dir_path   
         else:
-            path = benchmark_directory + f"{self._instance_name}.json"
+            benchmark_directory = f"data/{self._instance_kind}/{self._benchmark_name}/"
+
+        Path(benchmark_directory).mkdir(parents=True, exist_ok=True)
+
+        path = benchmark_directory + f"{self._instance_name}.json"
 
         if verbose:
             print("dumping to", path)
