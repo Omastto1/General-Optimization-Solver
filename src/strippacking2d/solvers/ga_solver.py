@@ -6,7 +6,7 @@ from ..utils.rectangle import Rectangle, RectanglePenalty
 
 
 class StripPacking2DGASolver(GASolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         class StripPackingProblem(ElementwiseProblem):
             def __init__(self, instance, fitness_func):
                 super().__init__(n_var=len(instance.rectangles),
@@ -25,16 +25,6 @@ class StripPacking2DGASolver(GASolver):
                 assert "solution" not in out, "Do not use `solution` key, it is pymoo reserved keyword"
 
                 return out
-                # print("running \n")
-                # Calculate the total height based on the order in x
-                rectangles = [RectanglePenalty(rectangle.width, rectangle.height, round(penalty)) for rectangle, penalty in zip(self.rectangles, x)]
-
-                skyline, rectangles = squeeky_wheel_optimization_ga(rectangles, self.strip_width)
-
-                total_height = max(skyline)
-
-                out["F"] = total_height
-                out["rectangles"] = rectangles
 
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
@@ -51,10 +41,7 @@ class StripPacking2DGASolver(GASolver):
         fitness_value = res.F[0]
         d = {}
         problem._evaluate(X, d)
-        rectangles = d['rectangles']
-
-        # rectangle..__dict__
-        placements = [rectangle for rectangle in rectangles]
+        placements = d['rectangles']
 
         if validate:
             try:
@@ -71,8 +58,9 @@ class StripPacking2DGASolver(GASolver):
         
         if visualize:
             instance.visualize(None, placements, fitness_value)
-        
-        self.add_run_to_history(instance, fitness_value, {"placements": placements}, exec_time=round(res.exec_time, 2))
+
+        if update_history:
+            self.add_run_to_history(instance, fitness_value, {"placements": placements}, exec_time=round(res.exec_time, 2))
 
         return fitness_value, placements, res
 

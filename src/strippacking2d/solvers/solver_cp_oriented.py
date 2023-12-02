@@ -4,6 +4,8 @@ from src.common.solver import CPSolver
 
 
 class StripPacking2DCPSolver(CPSolver):
+    solver_name = 'CP Default Oriented'
+    
     def build_model(self, instance):
         # Create a new CP model
         model = CpoModel()
@@ -82,7 +84,7 @@ class StripPacking2DCPSolver(CPSolver):
         
         return placements, orientations
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         print("Building model")
         model, X, Y, X_rot, Y_rot = self.build_model(instance)
 
@@ -130,6 +132,7 @@ class StripPacking2DCPSolver(CPSolver):
 
         instance.compare_to_reference(obj_value)
             
-        self.add_run_to_history(instance, solution)
+        if update_history:
+            self.add_run_to_history(instance, solution)
             
         return total_height, {"placements": placements, "orientations": orientations}, solution

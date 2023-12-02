@@ -4,11 +4,11 @@ from src.common.solver import CPSolver
 
 
 class StripPacking2DCPSolver(CPSolver):
-    solver_name = 'CP Default'
+    solver_name = 'CP Default Not Oriented'
     
     def build_model(self, instance, initial_solution=None):
         # Create a new CP model
-        model = CpoModel(name='2D Strip Packing With 90 degree Rotations')
+        model = CpoModel(name='2D Strip Packing Not Oriented')
         model.set_parameters(params=self.params)
 
         # Create interval variables for each rectangle's horizontal and vertical positions
@@ -16,6 +16,8 @@ class StripPacking2DCPSolver(CPSolver):
         Y = [model.interval_var(size=instance.rectangles[i]['height']) for i in range(instance.no_elements)]
 
         if initial_solution is not None:
+            self.solver_name += " Hybrid"
+            
             stp = model.create_empty_solution()
 
             for i, rectangle in enumerate(instance.rectangles):
@@ -58,7 +60,7 @@ class StripPacking2DCPSolver(CPSolver):
 
         return placements
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
                 return None, None
@@ -109,7 +111,8 @@ class StripPacking2DCPSolver(CPSolver):
 
         instance.compare_to_reference(obj_value)
             
-        self.add_run_to_history(instance, solution)
+        if update_history:
+            self.add_run_to_history(instance, solution)
 
         return total_height, placements, solution
 
