@@ -72,7 +72,7 @@ class StripPacking2DGASolver(GASolver):
         if visualize:
             instance.visualize(None, placements, fitness_value)
         
-        self.add_run_to_history(instance, fitness_value, {"placements": placements})
+        self.add_run_to_history(instance, fitness_value, {"placements": placements}, exec_time=round(res.exec_time, 2))
 
         return fitness_value, placements, res
 

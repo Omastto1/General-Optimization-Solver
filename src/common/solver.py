@@ -229,10 +229,10 @@ class GASolver(Solver):
         """Abstract solve method for GP solver."""
         pass
 
-    def add_run_to_history(self, instance, objective_value, solution_info, is_valid=True):
+    def add_run_to_history(self, instance, objective_value, solution_info, exec_time=-1, is_valid=True):
         # TODO
         solution_progress = []
-        solve_time = ""
+        solve_time = exec_time
 
         if is_valid and objective_value >= 0:
             solve_status = "Feasible"

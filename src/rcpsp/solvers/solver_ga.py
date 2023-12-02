@@ -63,7 +63,7 @@ class RCPSPGASolver(GASolver):
             start_times = []
 
         solution_info = f"start_times: {start_times}"
-        self.add_run_to_history(instance, fitness_value, solution_info)
+        self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
 
         if res.F is not None:
             return fitness_value, start_times, res
