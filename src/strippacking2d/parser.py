@@ -12,7 +12,7 @@ def load_bkw_benchmark(file_path, verbose=False):
 
     strip_width = asd['Objects'][0]['Length']
     # items = [Rectangle(item['Length'], item["Height"]) for item in asd['Items']]
-    items = [{"width": item['Length'], 'height': item["Height"]} for item in asd['Items']]
+    items = [{"width": item['Length'], 'height': item["Height"]} for item in asd['Items'] for _ in range(item['Demand'])]
 
     data = {"strip_width": strip_width, "rectangles": items}
 
