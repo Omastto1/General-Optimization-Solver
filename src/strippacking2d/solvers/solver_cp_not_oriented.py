@@ -12,8 +12,8 @@ class StripPacking2DCPSolver(CPSolver):
         model.set_parameters(params=self.params)
 
         # Create interval variables for each rectangle's horizontal and vertical positions
-        X = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width']) for i in range(instance.no_elements)]
-        Y = [model.interval_var(size=instance.rectangles[i]['height']) for i in range(instance.no_elements)]
+        X = [model.interval_var(name=f'rectangle_{i}_X', start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width']) for i in range(instance.no_elements)]
+        Y = [model.interval_var(name=f'rectangle_{i}_Y', size=instance.rectangles[i]['height']) for i in range(instance.no_elements)]
 
         if initial_solution is not None:
             if not self.solver_name.endswith(" Hybrid"):

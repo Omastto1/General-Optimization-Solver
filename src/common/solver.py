@@ -211,6 +211,8 @@ class CPSolver(Solver):
                     vval = [iv.get_name() for iv in vval]
                 info_dict["Variables"][v.get_name()] = vval
             nbanonym = len(allvars) - len(lvars)
+
+            # TODO: IF VARIABLE IS NOT NAMED IN MODEL THE RESULT IS NOT EXPORTED
             if nbanonym > 0:
                 info_dict["Variables"]["Anonymous variables"] = nbanonym
 

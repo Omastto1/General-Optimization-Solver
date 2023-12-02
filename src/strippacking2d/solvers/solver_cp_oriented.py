@@ -16,13 +16,13 @@ class StripPacking2DCPSolver(CPSolver):
 
         # Create interval variables for each rectangle's horizontal and vertical positions for both orientations
         X_main = [model.interval_var() for i in range(instance.no_elements)]
-        X = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
-        X_rot = [model.interval_var(start=(0, instance.strip_width - instance.rectangles[i]['height'] if instance.strip_width - instance.rectangles[i]['height'] >= 0 else 2 ** 31), size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
+        X = [model.interval_var(name=f'rectangle_{i}_X', start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
+        X_rot = [model.interval_var(name=f'rectangle_{i}_Xrot', start=(0, instance.strip_width - instance.rectangles[i]['height'] if instance.strip_width - instance.rectangles[i]['height'] >= 0 else 2 ** 31), size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
         
         print("1")
         Y_main = [model.interval_var() for i in range(instance.no_elements)]
-        Y = [model.interval_var(size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
-        Y_rot = [model.interval_var(size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
+        Y = [model.interval_var(name=f'rectangle_{i}_Y', size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
+        Y_rot = [model.interval_var(name=f'rectangle_{i}_Yrot', size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
 
         print("2")
         # Orientation decision variables
