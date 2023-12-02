@@ -21,11 +21,14 @@ class Solver(ABC):
         if self.solver_name == SOLVER_DEFAULT_NAME:
             print("\nWarning: solver_name not specified for solver\n")
 
-    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None):
+    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None, hybrid_CP_solver=None):
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
                 print(f"Solving instance {instance_name}...")
-                self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution)
+                _, solution, _ = self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, update_history=False)
+
+                if hybrid_CP_solver is not None:
+                    hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
             # return self.solve_benchmark(instance_or_benchmark)
 
             if force_dump is None:
@@ -35,10 +38,15 @@ class Solver(ABC):
             if force_dump:
                 instance_or_benchmark.dump()
         else:
-            return self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution)
+            fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, update_history=False)
+        
+            if hybrid_CP_solver is not None:
+                fitness_value, solution, res = hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
+
+            return fitness_value, solution, res
 
     @abstractmethod
-    def _solve(self):
+    def _solve(self, validate=False, visualize=False, force_execution=False, update_history=True):
         """Abstract solve method for solver."""
         pass
 
@@ -68,6 +76,56 @@ class CPSolver(Solver):
 
         print(
             f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
+        
+    def _wrap_solve(self, instance, validate=False, visualize=False, force_execution=False):
+        if not force_execution and len(instance._run_history) > 0:
+            if instance.skip_on_optimal_solution():
+                return None, None
+            
+        solution = self._solve(instance, validate, visualize)
+
+        info = self.retrieve_solution_info(instance, solution)
+
+        if solution:
+            if validate:
+                try:
+                    print("Validating solution...")
+                    instance.validate(solution, job_operations)
+                    instance.validate(solution, job_operations)
+                    print("Solution is valid.")
+                except AssertionError as e:
+                    print("Solution is invalid.")
+                    print(e)
+                    return None, None, None
+
+            if visualize:
+                instance.visualize(solution, job_operations, machine_operations)
+
+            print("Project completion time:", solution.get_objective_values()[0])
+        else:
+            print("No solution found.")
+            
+        # print solution
+        if solution.get_solve_status() == 'Optimal':
+            print("Optimal solution found")
+        elif solution.get_solve_status() == 'Feasible':
+            print("Feasible solution found")
+        else:
+            print("Unknown solution status")
+            print(solution.get_solve_status())
+
+        obj_value = solution.get_objective_values()[0]
+        print('Objective value:', obj_value)
+        instance.compare_to_reference(obj_value)
+
+        Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
+        variables = Solution(job_operations, machine_operations)
+
+        instance.update_run_history(sol, variables, "CP", self.params)
+
+        return objective_value, info, cp_solution
+
+
 
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):
@@ -156,6 +214,12 @@ class CPSolver(Solver):
         return info_dict
 
     def add_run_to_history(self, instance, sol):
+        """_summary_
+
+        Args:
+            instance (_type_): _description_
+            sol (_type_): _description_
+        """
         solution_progress = self._extract_solution_progress(sol.solver_log)
 
         if sol:
