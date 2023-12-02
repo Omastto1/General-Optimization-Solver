@@ -6,7 +6,7 @@ from src.mmrcpsp.c15 import load_c15, load_c15_solution
 from src.rcpsp.j30 import load_j30, load_j30_solution, load_j30_ugent_csv_solution
 from src.rcpsp.patterson import load_patterson, load_patterson_solution
 from src.jobshop.parser import load_jobshop, load_jobshop_solution
-from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution
+from src.strippacking2d.parser import load_strip_packing, load_strip_packing_solution, load_bkw_benchmark, load_bkw_benchmark_solution
 from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
 from src.binpacking1d.parser import load_1dbinpacking
 from src.binpacking2d.parser_no_items_first import load_2dbinpacking_no_items_first
@@ -185,6 +185,15 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
 
         instance = StripPacking2D(
             benchmark_name, instance_name, data, solution, [])
+    elif format == 'bkw':
+        data = load_bkw_benchmark(path, verbose)
+        if solution_path:
+            solution = load_bkw_benchmark_solution(solution_path, instance_name)
+        else:
+            solution = {}
+
+        instance = StripPacking2D(benchmark_name, instance_name, data, solution, [])
+
     elif format == "1Dbinpacking":
         data = load_1dbinpacking(path, verbose)
         solution = {}
