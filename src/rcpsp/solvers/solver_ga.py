@@ -4,7 +4,7 @@ from pymoo.optimize import minimize
 from src.common.solver import GASolver
 
 class RCPSPGASolver(GASolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         class RCPSP(ElementwiseProblem):
             
             def __init__(self, instance, fitness_func):
@@ -62,8 +62,9 @@ class RCPSPGASolver(GASolver):
             fitness_value = -1
             start_times = []
 
-        solution_info = f"start_times: {start_times}"
-        self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
+        if update_history:
+            solution_info = f"start_times: {start_times}"
+            self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
 
         if res.F is not None:
             return fitness_value, start_times, res
