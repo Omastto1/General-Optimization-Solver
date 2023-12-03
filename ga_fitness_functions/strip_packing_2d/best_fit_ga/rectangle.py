@@ -1,7 +1,8 @@
 class Rectangle:
-    def __init__(self, width, height):
+    def __init__(self, width, height, index):
         self.width = width
         self.height = height
+        self.index = index
 
         self.is_placed = False  # Flag indicating whether the rectangle is placed
         self.x_placement = None
@@ -53,6 +54,6 @@ class Rectangle:
 
 
 class RectanglePenalty(Rectangle):
-    def __init__(self, width, height, penalty):
-        super().__init__(width, height)
+    def __init__(self, width, height, index, penalty):
+        super().__init__(width, height, index)
         self.penalty = penalty

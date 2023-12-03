@@ -1,5 +1,5 @@
-from rectangle import Rectangle
-from best_fit import best_fit_heuristics, visualize
+from ga_fitness_functions.strip_packing_2d.best_fit_ga.rectangle import Rectangle
+from ga_fitness_functions.strip_packing_2d.best_fit_ga.best_fit import best_fit_heuristics, visualize
 
 
 # Example usage

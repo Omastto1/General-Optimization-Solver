@@ -1,9 +1,32 @@
 import copy
 import matplotlib.pyplot as plt
+
 from matplotlib.patches import Rectangle as PltRectangle
 
-from rectangle_utils import rotate_rectangles, sort_rectangles, find_highest_rectangle
-from rectangle_utils import sort_rectangles_penalty
+from ga_fitness_functions.strip_packing_2d.best_fit_ga.rectangle_utils import rotate_rectangles, sort_rectangles, find_highest_rectangle
+from ga_fitness_functions.strip_packing_2d.best_fit_ga.rectangle_utils import sort_rectangles_penalty
+
+from ga_fitness_functions.strip_packing_2d.best_fit_ga.rectangle import RectanglePenalty
+
+
+def squeeky_wheel_optimization_wrapper(instance, x, out):
+    # print("running \n")
+    # Calculate the total height based on the order in x
+    rectangles = [RectanglePenalty(rectangle['width'], rectangle['height'], index, round(penalty)) for index, (rectangle, penalty) in enumerate(zip(instance.rectangles, x))]
+
+    skyline, rectangles = squeeky_wheel_optimization_ga(rectangles, instance.strip_width)
+
+    total_height = max(skyline)
+    rectangles.sort(key=lambda x: x.index, reverse=False)
+
+    # rectangles = [(rectangle.x_placement, rectangle.y_placement) for rectangle in rectangles]
+
+    out["F"] = total_height
+    out["rectangles"] = rectangles
+
+    return out
+
+fitness_func = squeeky_wheel_optimization_wrapper
 
 
 def visualize(rectangles, strip_width, total_height):

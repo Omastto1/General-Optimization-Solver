@@ -1,8 +1,7 @@
 from pymoo.core.problem import ElementwiseProblem
 from pymoo.optimize import minimize
 
-from ...common.solver import GASolver
-from ..utils.rectangle import Rectangle, RectanglePenalty
+from src.common.solver import GASolver
 
 
 class StripPacking2DGASolver(GASolver):
