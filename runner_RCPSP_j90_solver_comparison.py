@@ -83,7 +83,7 @@ benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}"
 # cp_solver.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # BRKGA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 
 
@@ -93,4 +93,4 @@ table_markdown2 = benchmark.generate_solver_comparison_percent_deviation_markdow
 print(table_markdown)
 print(table_markdown2)
 
-benchmark.dump(f"master_thesis_data/{problem_type}/{benchmark_name}")
+# benchmark.dump(f"master_thesis_data/{problem_type}/{benchmark_name}")

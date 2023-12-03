@@ -62,8 +62,8 @@ algorithm = BRKGA(
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination())
 
-BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, term, seed=1, solver_name="BRKGA_forward_30_114_36_0.7")
-BRKGA_solver_backward = RCPSPGASolver(algorithm, fitness_func_backward, term, seed=1, solver_name="BRKGA_backward_30_114_36_0.7")
+BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, term, seed=1, solver_name="BRKGA_forwardaaa_30_114_36_0.7")
+BRKGA_solver_backward = RCPSPGASolver(algorithm, fitness_func_backward, term, seed=1, solver_name="BRKGA_backwardaa_30_114_36_0.7")
 
 ###
 
@@ -82,7 +82,7 @@ benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}"
 
 # cp_solver.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # BRKGA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 

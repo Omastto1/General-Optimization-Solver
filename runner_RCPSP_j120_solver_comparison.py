@@ -81,8 +81,8 @@ benchmark_name = "j120.sm"
 benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}")
 
 # cp_solver.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-BRKGA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-# BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# BRKGA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 
