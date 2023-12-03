@@ -10,6 +10,10 @@
                 "height": 6
             },
             {
+                "width": 7,
+                "height": 6
+            },
+            {
                 "width": 40,
                 "height": 16
             },
@@ -49,7 +53,7 @@
     },
     "run_history": [
         {
-            "timestamp": "2023-12-02 13:41:22.730174",
+            "timestamp": "2023-12-03 01:10:14.979368",
             "solver_type": "GA",
             "solver_name": "naive GA 200_1.0",
             "solver_config": {
@@ -117,11 +121,11 @@
                             "n_max_evals": 100000
                         },
                         "criteria": [
-                            "<pymoo.termination.robust.RobustTermination object at 0x7fb19afc3c70>",
-                            "<pymoo.termination.robust.RobustTermination object at 0x7fb19afc3d30>",
-                            "<pymoo.termination.robust.RobustTermination object at 0x7fb19afc3df0>",
-                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fb19afc3eb0>",
-                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fb19afc3e80>"
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cc70>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cd30>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cdf0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f438453ceb0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f438453ce80>"
                         ]
                     },
                     "output": {
@@ -142,8 +146,8 @@
                             "value": null
                         },
                         "columns": [
-                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fb19d981940>",
-                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fb19d9819a0>"
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f4387255910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f4387255970>"
                         ],
                         "cv_min": {
                             "name": "cv_min",
@@ -315,30 +319,14 @@
                         }
                     }
                 },
-                "fitness_func": "<function fitness_func at 0x7fb19afc0940>",
-                "termination": "<pymoo.termination.robust.RobustTermination object at 0x7fb1a377a490>"
+                "fitness_func": "<function fitness_func at 0x7f438453d280>",
+                "termination": "<pymoo.termination.robust.RobustTermination object at 0x7f43a313d280>"
             },
             "solve_status": "Feasible",
-            "solve_time": 1.74,
+            "solve_time": 5.99,
             "solution_value": 46.0,
             "solution_info": {
                 "placements": [
-                    [
-                        7,
-                        40
-                    ],
-                    [
-                        0,
-                        24
-                    ],
-                    [
-                        24,
-                        0
-                    ],
-                    [
-                        0,
-                        0
-                    ],
                     [
                         0,
                         40
@@ -348,15 +336,35 @@
                         40
                     ],
                     [
-                        29,
+                        0,
                         0
                     ],
                     [
-                        36,
-                        0
+                        11,
+                        16
                     ],
                     [
-                        14,
+                        16,
+                        16
+                    ],
+                    [
+                        12,
+                        40
+                    ],
+                    [
+                        26,
+                        40
+                    ],
+                    [
+                        0,
+                        16
+                    ],
+                    [
+                        7,
+                        16
+                    ],
+                    [
+                        7,
                         40
                     ]
                 ]
@@ -364,11 +372,181 @@
             "solution_progress": []
         },
         {
-            "timestamp": "2023-12-02 13:45:51.100570",
+            "timestamp": "2023-12-03 09:29:46.023470",
             "solver_type": "CP",
-            "solver_name": "CP Default Not Oriented",
+            "solver_name": "CP Default Not Oriented 15",
             "solver_config": {
                 "TimeLimit": 15,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Optimal",
+            "solve_time": [
+                0.05
+            ],
+            "solution_value": 40,
+            "solution_info": {
+                "Model constraints": 55,
+                "variables": {
+                    "integer": 1,
+                    "interval": 20,
+                    "sequence": 0
+                },
+                "Solve status": "Optimal",
+                "Search status": "SearchCompleted",
+                "Search status stop cause": "SearchHasNotBeenStopped",
+                "Solve time": "0.05 sec",
+                "Objective values": [
+                    40
+                ],
+                "Bounds": [
+                    40
+                ],
+                "Gaps": [
+                    0
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_0_Y": [
+                        6,
+                        12,
+                        6
+                    ],
+                    "rectangle_1_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        40,
+                        40
+                    ],
+                    "rectangle_2_Y": [
+                        24,
+                        40,
+                        16
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        4,
+                        24,
+                        20
+                    ],
+                    "rectangle_4_X": [
+                        5,
+                        29,
+                        24
+                    ],
+                    "rectangle_4_Y": [
+                        0,
+                        24,
+                        24
+                    ],
+                    "rectangle_5_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        12,
+                        16,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_6_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_7_Y": [
+                        16,
+                        24,
+                        8
+                    ],
+                    "rectangle_8_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        4,
+                        24,
+                        20
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    80,
+                    0.0
+                ],
+                [
+                    68,
+                    0.0
+                ],
+                [
+                    48,
+                    0.0
+                ],
+                [
+                    46,
+                    0.01
+                ],
+                [
+                    45,
+                    0.02
+                ],
+                [
+                    44,
+                    0.02
+                ],
+                [
+                    40,
+                    0.04
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 10:05:33.349286",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented 60",
+            "solver_config": {
+                "TimeLimit": 60,
                 "NoWorkers": 1,
                 "NoCores": 32,
                 "SolverVersion": "12.9.0.0"
@@ -379,10 +557,10 @@
             ],
             "solution_value": 40,
             "solution_info": {
-                "Model constraints": 45,
+                "Model constraints": 55,
                 "variables": {
                     "integer": 1,
-                    "interval": 18,
+                    "interval": 20,
                     "sequence": 0
                 },
                 "Solve status": "Optimal",
@@ -399,41 +577,133 @@
                     0
                 ],
                 "Variables": {
-                    "Anonymous variables": 19
+                    "rectangle_0_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_0_Y": [
+                        6,
+                        12,
+                        6
+                    ],
+                    "rectangle_1_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        40,
+                        40
+                    ],
+                    "rectangle_2_Y": [
+                        24,
+                        40,
+                        16
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        4,
+                        24,
+                        20
+                    ],
+                    "rectangle_4_X": [
+                        5,
+                        29,
+                        24
+                    ],
+                    "rectangle_4_Y": [
+                        0,
+                        24,
+                        24
+                    ],
+                    "rectangle_5_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        12,
+                        16,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_6_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_7_Y": [
+                        16,
+                        24,
+                        8
+                    ],
+                    "rectangle_8_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        4,
+                        24,
+                        20
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "Anonymous variables": 1
                 }
             },
             "solution_progress": [
                 [
-                    70,
-                    0.01
+                    80,
+                    0.0
                 ],
                 [
                     68,
-                    0.01
-                ],
-                [
-                    51,
-                    0.03
-                ],
-                [
-                    50,
-                    0.03
+                    0.0
                 ],
                 [
                     48,
-                    0.03
-                ],
-                [
-                    47,
-                    0.03
+                    0.0
                 ],
                 [
                     46,
+                    0.02
+                ],
+                [
+                    45,
                     0.03
                 ],
                 [
                     44,
-                    0.04
+                    0.03
                 ],
                 [
                     40,
@@ -442,31 +712,31 @@
             ]
         },
         {
-            "timestamp": "2023-12-02 13:54:53.473257",
+            "timestamp": "2023-12-03 16:46:28.439452",
             "solver_type": "CP",
-            "solver_name": "CP Default Not Oriented Hybrid ftol",
+            "solver_name": "CP Default Not Oriented Hybrid 15",
             "solver_config": {
-                "TimeLimit": 10,
+                "TimeLimit": 15,
                 "NoWorkers": 1,
                 "NoCores": 32,
                 "SolverVersion": "12.9.0.0"
             },
             "solve_status": "Optimal",
             "solve_time": [
-                0
+                0.02
             ],
             "solution_value": 40,
             "solution_info": {
-                "Model constraints": 45,
+                "Model constraints": 55,
                 "variables": {
                     "integer": 1,
-                    "interval": 18,
+                    "interval": 20,
                     "sequence": 0
                 },
                 "Solve status": "Optimal",
                 "Search status": "SearchCompleted",
                 "Search status stop cause": "SearchHasNotBeenStopped",
-                "Solve time": "0 sec",
+                "Solve time": "0.02 sec",
                 "Objective values": [
                     40
                 ],
@@ -477,12 +747,116 @@
                     0
                 ],
                 "Variables": {
-                    "Anonymous variables": 19
+                    "rectangle_0_X": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_0_Y": [
+                        16,
+                        22,
+                        6
+                    ],
+                    "rectangle_1_X": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        30,
+                        36,
+                        6
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        40,
+                        40
+                    ],
+                    "rectangle_2_Y": [
+                        0,
+                        16,
+                        16
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        20,
+                        40,
+                        20
+                    ],
+                    "rectangle_4_X": [
+                        5,
+                        29,
+                        24
+                    ],
+                    "rectangle_4_Y": [
+                        16,
+                        40,
+                        24
+                    ],
+                    "rectangle_5_X": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        29,
+                        33,
+                        4
+                    ],
+                    "rectangle_6_Y": [
+                        16,
+                        20,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_7_Y": [
+                        22,
+                        30,
+                        8
+                    ],
+                    "rectangle_8_X": [
+                        29,
+                        33,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        20,
+                        40,
+                        20
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        16,
+                        20,
+                        4
+                    ],
+                    "Anonymous variables": 1
                 }
             },
             "solution_progress": [
                 [
                     46,
+                    0.0
+                ],
+                [
+                    44,
                     0.0
                 ],
                 [
@@ -492,31 +866,31 @@
             ]
         },
         {
-            "timestamp": "2023-12-02 14:08:32.197376",
+            "timestamp": "2023-12-03 20:20:44.251368",
             "solver_type": "CP",
-            "solver_name": "CP Default Not Oriented Hybrid",
+            "solver_name": "CP Default Not Oriented Hybrid 60",
             "solver_config": {
-                "TimeLimit": 10,
-                "NoWorkers": 32,
+                "TimeLimit": 60,
+                "NoWorkers": 1,
                 "NoCores": 32,
                 "SolverVersion": "12.9.0.0"
             },
             "solve_status": "Optimal",
             "solve_time": [
-                0.27
+                0.08
             ],
             "solution_value": 40,
             "solution_info": {
-                "Model constraints": 45,
+                "Model constraints": 55,
                 "variables": {
                     "integer": 1,
-                    "interval": 18,
+                    "interval": 20,
                     "sequence": 0
                 },
                 "Solve status": "Optimal",
                 "Search status": "SearchCompleted",
                 "Search status stop cause": "SearchHasNotBeenStopped",
-                "Solve time": "0.27 sec",
+                "Solve time": "0.08 sec",
                 "Objective values": [
                     40
                 ],
@@ -527,17 +901,125 @@
                     0
                 ],
                 "Variables": {
-                    "Anonymous variables": 19
+                    "rectangle_0_X": [
+                        5,
+                        12,
+                        7
+                    ],
+                    "rectangle_0_Y": [
+                        22,
+                        28,
+                        6
+                    ],
+                    "rectangle_1_X": [
+                        5,
+                        12,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        16,
+                        22,
+                        6
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        40,
+                        40
+                    ],
+                    "rectangle_2_Y": [
+                        0,
+                        16,
+                        16
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        16,
+                        36,
+                        20
+                    ],
+                    "rectangle_4_X": [
+                        12,
+                        36,
+                        24
+                    ],
+                    "rectangle_4_Y": [
+                        16,
+                        40,
+                        24
+                    ],
+                    "rectangle_5_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_6_Y": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        5,
+                        12,
+                        7
+                    ],
+                    "rectangle_7_Y": [
+                        28,
+                        36,
+                        8
+                    ],
+                    "rectangle_8_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        16,
+                        36,
+                        20
+                    ],
+                    "rectangle_9_X": [
+                        7,
+                        12,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "Anonymous variables": 1
                 }
             },
             "solution_progress": [
                 [
                     46,
-                    0.16
+                    0.0
+                ],
+                [
+                    44,
+                    0.0
+                ],
+                [
+                    42,
+                    0.05
                 ],
                 [
                     40,
-                    0.16
+                    0.07
                 ]
             ]
         }
