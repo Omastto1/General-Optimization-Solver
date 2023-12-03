@@ -29,7 +29,7 @@ def parse_shift_section(lines):
             parts = line.split(',')
             shift_info = {
                 'Length': int(parts[1]),
-                'CannotFollow': [] if len(parts) < 3 else parts[2].strip().split('|')
+                'CannotFollow': [] if len(parts) < 3 or parts[2] == '' else parts[2].strip().split('|')
             }
             shifts[parts[0].strip()] = shift_info
     return shifts

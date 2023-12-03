@@ -1,5 +1,5 @@
 import os
-from interval_model import *
+from intervalmodel import *
 # from integer_model import *
 # from ORsolver import *
 
@@ -34,7 +34,7 @@ def main(args):
 
         print('instance_name:', instance_name)
 
-        instance = Interval_model()
+        instance = IntervalModel()
         instance.read_json(instance_path)
 
         if instance.instance['best_known_solution'] is not None:

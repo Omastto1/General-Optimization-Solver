@@ -293,7 +293,7 @@ def save_solution(sol, path_to_instance, fout):
         json.dump(solution_dict, f)
 
 
-class Interval_model(Solver):
+class IntervalModel(Solver):
     def __init__(self):
         self.sol = None
         self.solution = None
@@ -425,7 +425,7 @@ class Interval_model(Solver):
 if __name__ == "__main__":
     fname = "..\\..\\data\\VRPTW\\solomon_25\\RC201.json"
 
-    instance = Interval_model()
+    instance = IntervalModel()
     instance.read_json(fname)
 
     print('best_known_solution:', instance.instance['best_known_solution']['Distance'])

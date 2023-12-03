@@ -11,10 +11,6 @@ class Solver(ABC):
     def save_to_json(self):
         pass
 
-    # @abstractmethod
-    # def build_model(self):
-    #     pass
-
     @abstractmethod
     def solve(self, tlim):
         pass

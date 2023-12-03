@@ -1,5 +1,5 @@
 import os
-from interval_model import *
+from intervalmodel import *
 # from integer_model import *
 # from ORsolver import *
 
