@@ -1,0 +1,741 @@
+{
+    "benchmark_name": "BKW",
+    "instance_name": "6",
+    "instance_kind": "2DSTRIPPACKING",
+    "data": {
+        "strip_width": 50,
+        "rectangles": [
+            {
+                "width": 3,
+                "height": 3
+            },
+            {
+                "width": 9,
+                "height": 4
+            },
+            {
+                "width": 26,
+                "height": 30
+            },
+            {
+                "width": 5,
+                "height": 5
+            },
+            {
+                "width": 4,
+                "height": 21
+            },
+            {
+                "width": 14,
+                "height": 24
+            },
+            {
+                "width": 4,
+                "height": 5
+            },
+            {
+                "width": 3,
+                "height": 4
+            },
+            {
+                "width": 3,
+                "height": 5
+            },
+            {
+                "width": 7,
+                "height": 5
+            },
+            {
+                "width": 5,
+                "height": 3
+            },
+            {
+                "width": 3,
+                "height": 6
+            },
+            {
+                "width": 50,
+                "height": 4
+            },
+            {
+                "width": 6,
+                "height": 25
+            },
+            {
+                "width": 24,
+                "height": 30
+            },
+            {
+                "width": 4,
+                "height": 12
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 12,
+                "height": 6
+            },
+            {
+                "width": 16,
+                "height": 6
+            },
+            {
+                "width": 4,
+                "height": 14
+            },
+            {
+                "width": 7,
+                "height": 21
+            },
+            {
+                "width": 5,
+                "height": 24
+            },
+            {
+                "width": 5,
+                "height": 8
+            },
+            {
+                "width": 50,
+                "height": 3
+            },
+            {
+                "width": 3,
+                "height": 19
+            },
+            {
+                "width": 8,
+                "height": 3
+            },
+            {
+                "width": 3,
+                "height": 8
+            },
+            {
+                "width": 4,
+                "height": 3
+            },
+            {
+                "width": 35,
+                "height": 13
+            },
+            {
+                "width": 5,
+                "height": 21
+            },
+            {
+                "width": 4,
+                "height": 7
+            },
+            {
+                "width": 35,
+                "height": 12
+            },
+            {
+                "width": 4,
+                "height": 15
+            }
+        ]
+    },
+    "reference_solution": {
+        "feasible": true,
+        "optimum": 100
+    },
+    "run_history": [
+        {
+            "timestamp": "2023-12-02 13:41:20.950333",
+            "solver_type": "GA",
+            "solver_name": "naive GA 200_1.0",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fb19afc3c70>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fb19afc3d30>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fb19afc3df0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fb19afc3eb0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fb19afc3e80>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fb19d981940>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fb19d9819a0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 200,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 200,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func at 0x7fb19afc0940>",
+                "termination": "<pymoo.termination.robust.RobustTermination object at 0x7fb1a377a490>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 7.3,
+            "solution_value": 106.0,
+            "solution_info": {
+                "placements": [
+                    [
+                        24,
+                        101
+                    ],
+                    [
+                        3,
+                        101
+                    ],
+                    [
+                        0,
+                        49
+                    ],
+                    [
+                        19,
+                        101
+                    ],
+                    [
+                        44,
+                        19
+                    ],
+                    [
+                        32,
+                        49
+                    ],
+                    [
+                        35,
+                        101
+                    ],
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        0,
+                        101
+                    ],
+                    [
+                        12,
+                        101
+                    ],
+                    [
+                        16,
+                        93
+                    ],
+                    [
+                        33,
+                        93
+                    ],
+                    [
+                        0,
+                        15
+                    ],
+                    [
+                        26,
+                        49
+                    ],
+                    [
+                        20,
+                        19
+                    ],
+                    [
+                        9,
+                        79
+                    ],
+                    [
+                        0,
+                        79
+                    ],
+                    [
+                        21,
+                        93
+                    ],
+                    [
+                        0,
+                        93
+                    ],
+                    [
+                        5,
+                        79
+                    ],
+                    [
+                        13,
+                        19
+                    ],
+                    [
+                        0,
+                        19
+                    ],
+                    [
+                        43,
+                        93
+                    ],
+                    [
+                        0,
+                        12
+                    ],
+                    [
+                        10,
+                        19
+                    ],
+                    [
+                        27,
+                        101
+                    ],
+                    [
+                        36,
+                        93
+                    ],
+                    [
+                        39,
+                        93
+                    ],
+                    [
+                        13,
+                        79
+                    ],
+                    [
+                        5,
+                        19
+                    ],
+                    [
+                        38,
+                        0
+                    ],
+                    [
+                        3,
+                        0
+                    ],
+                    [
+                        46,
+                        49
+                    ]
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-02 13:45:50.923959",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented",
+            "solver_config": {
+                "TimeLimit": 15,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                15
+            ],
+            "solution_value": 92,
+            "solution_info": {
+                "Model constraints": 561,
+                "variables": {
+                    "integer": 1,
+                    "interval": 66,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "15 sec",
+                "Objective values": [
+                    92
+                ],
+                "Bounds": [
+                    82
+                ],
+                "Gaps": [
+                    0.108696
+                ],
+                "Variables": {
+                    "Anonymous variables": 67
+                }
+            },
+            "solution_progress": [
+                [
+                    373,
+                    0.03
+                ],
+                [
+                    314,
+                    0.03
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-02 13:54:51.947802",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented Hybrid ftol",
+            "solver_config": {
+                "TimeLimit": 10,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                10
+            ],
+            "solution_value": 91,
+            "solution_info": {
+                "Model constraints": 561,
+                "variables": {
+                    "integer": 1,
+                    "interval": 66,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "10 sec",
+                "Objective values": [
+                    91
+                ],
+                "Bounds": [
+                    83
+                ],
+                "Gaps": [
+                    0.0879121
+                ],
+                "Variables": {
+                    "Anonymous variables": 67
+                }
+            },
+            "solution_progress": [
+                [
+                    108,
+                    0.04
+                ],
+                [
+                    107,
+                    0.05
+                ],
+                [
+                    100,
+                    0.08
+                ],
+                [
+                    98,
+                    0.98
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-02 14:08:26.461430",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented Hybrid",
+            "solver_config": {
+                "TimeLimit": 10,
+                "NoWorkers": 32,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                10.1
+            ],
+            "solution_value": 104,
+            "solution_info": {
+                "Model constraints": 561,
+                "variables": {
+                    "integer": 1,
+                    "interval": 66,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "10.1 sec",
+                "Objective values": [
+                    104
+                ],
+                "Bounds": [
+                    55
+                ],
+                "Gaps": [
+                    0.471154
+                ],
+                "Variables": {
+                    "Anonymous variables": 67
+                }
+            },
+            "solution_progress": [
+                [
+                    119,
+                    1.61
+                ],
+                [
+                    118,
+                    1.61
+                ],
+                [
+                    117,
+                    1.61
+                ],
+                [
+                    114,
+                    1.61
+                ],
+                [
+                    112,
+                    1.61
+                ],
+                [
+                    108,
+                    1.61
+                ],
+                [
+                    105,
+                    1.61
+                ],
+                [
+                    104,
+                    1.61
+                ]
+            ]
+        }
+    ]
+}
