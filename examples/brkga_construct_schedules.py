@@ -13,7 +13,7 @@ from pymoo.optimize import minimize
 
 # from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
 # from src.rcpsp.solvers.solver_ga import RCPSPGASolver
-from src.general_optimization_solver import load_raw_instance  # , load_instance, load_raw_benchmark
+from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 from src.common.solver import GASolver
 
 
@@ -27,14 +27,14 @@ def decode_chromosome(instance, chromosome):
     Returns:
         _type_: _description_
     """
-    priorities = []
-    for i in range(instance.no_jobs):
-        priority_adjustment = (1 + chromosome[i]) / 2
-        priorities.append(
-            instance.longest_length_paths[i] / instance.longest_length_paths[0] * priority_adjustment)
+    # priorities = []
+    # for i in range(instance.no_jobs):
+    #     priority_adjustment = (1 + chromosome[i]) / 2
+    #     priorities.append(
+    #         instance.longest_length_paths[i] / instance.longest_length_paths[0] * priority_adjustment)
     priorities = chromosome[:instance.no_jobs]
 
-    delays = chromosome[instance.no_jobs:] * 1.5 * max(instance.durations)
+    delays = chromosome[instance.no_jobs:] * 3 * max(instance.durations)
 
     return priorities, delays
 
@@ -96,7 +96,7 @@ def construct_schedules(instance, E, S, F, t, priorities, delays):
             #     possible_times = gamma[g - 1][gamma[g - 1] > t[g - 1]]
             #     t.append(min(possible_times))
 
-            max_prio_to_schedule = np.argmax(priorities[i] for i in E[g])
+            max_prio_to_schedule = np.argmax([priorities[i] for i in E[g]])
             j_star = E[g][max_prio_to_schedule]
 
             # successors and predecessors are 1-based
@@ -290,9 +290,9 @@ class RCPSPGASolver(GASolver):
 
 # values from https://pymoo.org/algorithms/soo/brkga.html
 algorithm = BRKGA(
-    n_elites=40,
-    n_offsprings=80,
-    n_mutants=25,
+    n_elites=10,
+    n_offsprings=20,
+    n_mutants=8,
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination())
 
@@ -301,10 +301,11 @@ BRKGA_solver = RCPSPGASolver(
     algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
 
 
-instance_ = load_raw_instance("raw_data/rcpsp/j120.sm/j1201_1.sm", "")
+instance_ = load_raw_instance("raw_data/rcpsp/j30.sm/j3010_3.sm", "")
+# benchmark = load_raw_benchmark("raw_data/rcpsp/j30.sm/", no_instances=100)
 # instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
 
-
+# for instance_name, instance_ in benchmark._instances.items():
 G = nx.DiGraph()
 for job in range(instance_.no_jobs):
     G.add_node(job)
@@ -324,7 +325,17 @@ for job in range(instance_.no_jobs):
 longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
     G2, instance_.no_jobs - 1)
 instance_.longest_length_paths = {k: -v for k,
-                                 v in longest_length_paths_negative.items()}
+                                v in longest_length_paths_negative.items()}
 
 # brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
 #     instance_, visualize=True, validate=True)
+
+
+from pymoo.termination.ftol import SingleObjectiveSpaceTermination
+from pymoo.termination.robust import RobustTermination
+term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
+BRKGA_solver = RCPSPGASolver(algorithm, fitness_func, term, seed=1, solver_name="BRKGA_rcpsp_15_57_18_0.7")
+
+BRKGA_solver.solve(instance_, visualize=False, validate=True, force_dump=False)
+
+benchmark.generate_solver_comparison_percent_deviation_markdown_table()
