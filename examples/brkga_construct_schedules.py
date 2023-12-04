@@ -222,7 +222,7 @@ def fitness_func(instance, x, out):
 
     out["F"] = modified_makespan
     # out["G"] = 0
-    # out["start_times"] = start_times
+    out["start_times"] = [F[i] - instance.durations[i] for i in range(len(instance.durations))]
 
     return out
 
@@ -236,7 +236,7 @@ class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 class RCPSPGASolver(GASolver):
     """GA SOLVER WRAPPER CLASS
     """
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         class RCPSP(ElementwiseProblem):
             """pymoo wrapper class
             """
@@ -257,6 +257,19 @@ class RCPSPGASolver(GASolver):
         problem = RCPSP(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination,
                        verbose=True, seed=self.seed)
+    
+        if update_history:
+            X = np.floor(res.X).astype(int)
+            d = {}
+            problem._evaluate(X, d)
+
+            start_times = d['start_times']
+            fitness_value = max(start_times[i] + instance.durations[i] for i in range(len(instance.durations)))
+            export = {"tasks_schedule": [{"start": start_times[i], "end": start_times[i] + instance.durations[i], "name": f"Task_{i}"} for i in range(instance.no_jobs)]}
+
+            fitness_value = int(fitness_value) # F - modified makespan (< 1)
+            solution_info = f"start_times: {start_times}"
+            self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
 
         # if res.F is not None:
         #     X = np.floor(res.X).astype(int)
@@ -313,5 +326,5 @@ longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
 instance_.longest_length_paths = {k: -v for k,
                                  v in longest_length_paths_negative.items()}
 
-brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
-    instance_, visualize=True, validate=True)
+# brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
+#     instance_, visualize=True, validate=True)
