@@ -17,7 +17,6 @@ def fitness_func_forward(instance, x, out):
         # Find jobs that can be scheduled (those whose all predecessors are already scheduled)
         schedulable_jobs = [j for j in unscheduled_jobs if all((pred - 1) not in unscheduled_jobs for pred in instance.predecessors[j])]
 
-        # Sort schedulable jobs based on their order in X -------- (in reverse since we're scheduling backward)
         schedulable_jobs.sort(key=lambda j: x[j])
 
         for job in schedulable_jobs:
