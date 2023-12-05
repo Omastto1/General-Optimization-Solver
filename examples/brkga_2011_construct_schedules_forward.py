@@ -18,7 +18,7 @@ from src.common.solver import GASolver
 def update_D(instance, S, g):
     """return new E[g] element
     """
-    finished_predecessors_jobs = [job_index for job_index in range(len(instance.predecessors)) if len(
+    finished_predecessors_jobs = [job_index for job_index in range(instance.no_jobs) if len(
         set([i - 1 for i in instance.predecessors[job_index]]).difference(S[g-1])) == 0]
     not_scheduled_jobs = [
         job_index for job_index in finished_predecessors_jobs if job_index not in S[g-1]]
@@ -53,7 +53,7 @@ def construct_schedules(instance, S, F, priorities):
         gamma[g] = np.append(gamma[g-1], F[j_star])
 
         # Update Rd[k][t]
-        for t in gamma[g]:
+        for t in range(max(gamma[g])):
             for k in range(instance.no_renewable_resources):
                 jobs_active_in_t = [j for j in range(instance.no_jobs) if F[j] is not None and F[j] - instance.durations[j] <= t < F[j]]
                 remaining_capacities[k][t] = instance.renewable_capacities[k] - sum(instance.requests[k][job_index] for job_index in jobs_active_in_t)
@@ -67,21 +67,36 @@ def construct_schedules(instance, S, F, priorities):
 
         ts_temp = gamma[g][gamma[g] >= max_pred_finish]
 
-        ts = []
-        for t_temp in ts_temp:
-            passed = True
+        # ts = []
+        # for t_temp in ts_temp:
+        #     passed = True
+        #     for greek in range(t_temp, t_temp + instance.durations[j_star]):
+        #         for k in range(instance.no_renewable_resources):
+        #             if instance.requests[k][j_star] > remaining_capacities[k][greek]:
+        #                 passed = False
+        #                 break
+        #         if not passed:
+        #             break
+
+        #     if passed:
+        #         ts.append(t_temp)
+        
+        t_temp = min(ts_temp)
+        while True:
+            resource_violation = False
             for greek in range(t_temp, t_temp + instance.durations[j_star]):
                 for k in range(instance.no_renewable_resources):
                     if instance.requests[k][j_star] > remaining_capacities[k][greek]:
-                        passed = False
+                        resource_violation = True
                         break
-                if not passed:
+                if resource_violation:
                     break
 
-            if passed:
-                ts.append(t_temp)
+            if not resource_violation:
+                break
+            t_temp += 1
 
-        F[j_star] = min(ts) + instance.durations[j_star]
+        F[j_star] = t_temp + instance.durations[j_star]
         S.append(S[g-1] + [j_star])
     
     return F
