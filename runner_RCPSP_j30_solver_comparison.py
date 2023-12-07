@@ -28,9 +28,10 @@ from src.general_optimization_solver import load_raw_instance, load_instance, lo
 from ga_fitness_functions.rcpsp.naive_backward import fitness_func_backward
 from ga_fitness_functions.rcpsp.naive_forward import fitness_func_forward
 
+from examples.brkga_2011_construct_schedules_forward import RCPSPGASolver as PaperRCPSPGASolver, fitness_func as bkrga_fitness_func
 
 term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
-term_time = get_termination("time", "00:01:00")
+term_time = get_termination("time", "00:00:10")
 
 
 class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
@@ -57,6 +58,9 @@ naive_GA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, term, s
 naive_GA_solver_backward_time = RCPSPGASolver(algorithm, fitness_func_backward, term_time, seed=1, solver_name="naive GA backward_90_90_0.9_30_10sec")
 naive_GA_solver_forward_time = RCPSPGASolver(algorithm, fitness_func_forward, term_time, seed=1, solver_name="naive GA forward_90_90_0.9_30_10sec")
 
+naive_GA_solver_forward_time_paper = RCPSPGASolver(algorithm, bkrga_fitness_func, term_time, seed=1, solver_name="naive GA forward_90_90_0.9_30_10sec_paper")
+
+
 
 ### BRKGA
 
@@ -72,7 +76,7 @@ algorithm = BRKGA(
 BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, term, seed=1, solver_name="BRKGA_forward_15_57_18_0.7")
 BRKGA_solver_backward = RCPSPGASolver(algorithm, fitness_func_backward, term, seed=1, solver_name="BRKGA_backward_15_57_18_0.7")
 
-BRKGA_solver_forward_time = RCPSPGASolver(algorithm, fitness_func_forward, term_time, seed=1, solver_name="BRKGA_forward_15_57_18_0.7_10sec")
+BRKGA_solver_forward_time = RCPSPGASolver(algorithm, fitness_func_forward, term_time, seed=1, solver_name="BRKGA_forward_15_57_18_0.7_10secaaaaa")
 BRKGA_solver_backward_time = RCPSPGASolver(algorithm, fitness_func_backward, term_time, seed=1, solver_name="BRKGA_backward_15_57_18_0.7_10sec")
 
 
@@ -80,18 +84,24 @@ BRKGA_solver_backward_time = RCPSPGASolver(algorithm, fitness_func_backward, ter
 
 ### RCPSP BRKGA
 
-from examples.brkga_construct_schedules import RCPSPGASolver as PaperRCPSPGASolver, fitness_func as bkrga_fitness_func
 
 class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 
     def is_equal(self, a, b):
         return (a.X.round(2) == b.X.round(2)).all()
+    
+algorithm = BRKGA(
+    n_elites=5,
+    n_offsprings=19,
+    n_mutants=6,
+    bias=0.7,
+    eliminate_duplicates=MyElementwiseDuplicateElimination())
 
 BRKGA_solver = PaperRCPSPGASolver(
-    algorithm, bkrga_fitness_func, term, seed=1, solver_name="BRKGA_rcpsp_15_57_18_0.7")
+    algorithm, bkrga_fitness_func, term, seed=1, solver_name="BRKGA_rcpsp_5_19_6_0.7")
 
 BRKGA_solver_time = PaperRCPSPGASolver(
-    algorithm, bkrga_fitness_func, term_time, seed=1, solver_name="BRKGA_rcpsp_15_57_18_0.7_10sec")
+    algorithm, bkrga_fitness_func, term_time, seed=1, solver_name="BRKGA_rcpsp_5_19_6_0.7_10secaaaaapaper")
 
 ## CP
 
@@ -113,59 +123,19 @@ benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}"
 # naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 
-# for instance_name, instance in benchmark._instances.items():
-#     G = nx.DiGraph()
-#     for job in range(instance.no_jobs):
-#         G.add_node(job)
-#         for predecessor_ in instance.predecessors[job]:
-#             G.add_edge(job, predecessor_ - 1)
-
-#     instance.distances = nx.single_source_bellman_ford_path_length(
-#         G, instance.no_jobs - 1)
-
-#     G2 = nx.DiGraph()
-#     for job in range(instance.no_jobs):
-#         G2.add_node(job)
-#         for predecessor_ in instance.predecessors[job]:
-#             G2.add_edge(job, predecessor_ - 1, weight=-1)
-
-
-#     longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
-#         G2, instance.no_jobs - 1)
-#     instance.longest_length_paths = {k: -v for k,
-#                                     v in longest_length_paths_negative.items()}
-
 # BRKGA_solver.solve(benchmark, visualize=False, validate=True, force_dump=False)
 
-cp_solver10.solve(benchmark, validate=True, force_execution=True)
-BRKGA_solver_backward_time.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-BRKGA_solver_forward_time.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-# naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-# naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-
-# for instance_name, instance in benchmark._instances.items():
-#     G = nx.DiGraph()
-#     for job in range(instance.no_jobs):
-#         G.add_node(job)
-#         for predecessor_ in instance.predecessors[job]:
-#             G.add_edge(job, predecessor_ - 1)
-
-#     instance.distances = nx.single_source_bellman_ford_path_length(
-#         G, instance.no_jobs - 1)
-
-#     G2 = nx.DiGraph()
-#     for job in range(instance.no_jobs):
-#         G2.add_node(job)
-#         for predecessor_ in instance.predecessors[job]:
-#             G2.add_edge(job, predecessor_ - 1, weight=-1)
+# cp_solver10.solve(benchmark, validate=True, force_execution=True)
+# BRKGA_solver_backward_time.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# BRKGA_solver_forward_time.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# naive_GA_solver_backward_time.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# naive_GA_solver_forward_time.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 
 
-#     longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
-#         G2, instance.no_jobs - 1)
-#     instance.longest_length_paths = {k: -v for k,
-#                                     v in longest_length_paths_negative.items()}
+# BRKGA_solver.solve(benchmark,  visualize=False, validate=True, force_execution=True, force_dump=False)
+# BRKGA_solver_time.solve(benchmark, visualize=False, validate=True, force_execution=True, force_dump=False)
+# naive_GA_solver_forward_time_paper.solve(benchmark, visualize=False, validate=True, force_execution=True, force_dump=False)
 
-# BRKGA_solver.solve(benchmark, visualize=False, validate=True, force_dump=False)
 
 table_markdown = benchmark.generate_solver_comparison_markdown_table()
 table_markdown2 = benchmark.generate_solver_comparison_percent_deviation_markdown_table()
@@ -173,4 +143,4 @@ table_markdown2 = benchmark.generate_solver_comparison_percent_deviation_markdow
 print(table_markdown)
 print(table_markdown2)
 
-benchmark.dump(f"master_thesis_data/{problem_type}/{benchmark_name}")
+# benchmark.dump(f"master_thesis_data/{problem_type}/{benchmark_name}")
