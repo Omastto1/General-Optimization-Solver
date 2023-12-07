@@ -56,8 +56,6 @@ class Benchmark:
             if instance_name in instances_subset:
                 for instance_run in instance._run_history:
                     if solvers_subset is None or instance_run["solver_name"] in solvers_subset:
-                        print(instance_run["solver_name"],
-                              instance_run["solve_time"])
                         table_data[instance_name][instance_run["solver_name"]] = {
                             "objective_value": instance_run["solution_value"]}
 
@@ -156,8 +154,6 @@ class Benchmark:
             if instance_name in instances_subset:
                 for instance_run in instance._run_history:
                     if solvers_subset is None or instance_run["solver_name"] in solvers_subset:
-                        print(instance_run["solver_name"],
-                              instance_run["solve_time"])
                         if instance_run["solver_name"] not in table_data:
                             table_data[instance_run["solver_name"]] = {}
 
