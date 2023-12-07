@@ -1,6 +1,8 @@
 import datetime
 import json
 
+import networkx as nx
+
 from pathlib import Path
 from typing import Optional, List
 
@@ -122,7 +124,7 @@ class Benchmark:
 
         return table_markdown
 
-    def generate_solver_comparison_percent_deviation_markdown_table(self, instances_subset: Optional[List[str]] = None, solvers_subset: Optional[List[str]] = None):
+    def generate_solver_comparison_percent_deviation_markdown_table(self, instances_subset: Optional[List[str]] = None, solvers_subset: Optional[List[str]] = None, compare_to_cplb=False):
         """Generates a markdown table that lists average solver deviation from benchmark objective values
 
         Example:
@@ -148,6 +150,20 @@ class Benchmark:
         if solvers_subset is None:
             temp_solvers_subset = set()
 
+        
+        if compare_to_cplb:
+            for instance_name, instance in self._instances.items():
+                G = nx.DiGraph()
+                for job in range(instance.no_jobs):
+                    G.add_node(job)
+                    for predecessor_ in instance.predecessors[job]:
+                        G.add_edge(job, predecessor_ - 1, weight=-instance.durations[job])
+
+
+                longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
+                    G, instance.no_jobs - 1)
+                instance.critical_path_lower_bound = -longest_length_paths_negative[0]
+
         table_data = {}
 
         for instance_name, instance in self._instances.items():
@@ -157,14 +173,18 @@ class Benchmark:
                         if instance_run["solver_name"] not in table_data:
                             table_data[instance_run["solver_name"]] = {}
 
-                        if instance._solution.get('optimum') is not None:
+                        time = instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) or isinstance(instance_run['solve_time'], tuple) else instance_run['solve_time']
+
+                        if compare_to_cplb:
+                            table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance.critical_path_lower_bound - 100,
+                                "time": time}
+                        elif instance._solution.get('optimum') is not None:
                             table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance._solution.get(
                                 'optimum') - 100,
-                                
-                                "time": instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) or isinstance(instance_run['solve_time'], tuple) else instance_run['solve_time']}
+                                "time": time}
                         elif instance._solution.get('bounds', {}).get('lower') is not None:
                             table_data[instance_run["solver_name"]][instance_name] = {"deviation": 100 * instance_run["solution_value"] / instance._solution.get('bounds', {}).get('lower') - 100,
-                                "time":  instance_run['solve_time'][0] if isinstance(instance_run['solve_time'], list) else instance_run['solve_time']}
+                                "time": time}
                         
 
                         if solvers_subset is None:
