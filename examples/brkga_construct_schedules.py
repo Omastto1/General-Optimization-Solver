@@ -270,7 +270,7 @@ class RCPSPGASolver(GASolver):
 
             fitness_value = int(fitness_value) # F - modified makespan (< 1)
             solution_info = f"start_times: {start_times}"
-            solution_progress = res.callback.data['progress']
+            solution_progress = res.algorithm.callback.data['progress']
             self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         # if res.F is not None:
@@ -290,54 +290,57 @@ class RCPSPGASolver(GASolver):
         return None, None, res
 
 
-# values from https://pymoo.org/algorithms/soo/brkga.html
-algorithm = BRKGA(
-    n_elites=10,
-    n_offsprings=20,
-    n_mutants=8,
-    bias=0.7,
-    eliminate_duplicates=MyElementwiseDuplicateElimination())
+
+if __name__ == '__main__':
+
+    # values from https://pymoo.org/algorithms/soo/brkga.html
+    algorithm = BRKGA(
+        n_elites=10,
+        n_offsprings=20,
+        n_mutants=8,
+        bias=0.7,
+        eliminate_duplicates=MyElementwiseDuplicateElimination())
 
 
-BRKGA_solver = RCPSPGASolver(
-    algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
+    BRKGA_solver = RCPSPGASolver(
+        algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
 
 
-instance_ = load_raw_instance("raw_data/rcpsp/j30.sm/j3010_3.sm", "")
-# benchmark = load_raw_benchmark("raw_data/rcpsp/j30.sm/", no_instances=100)
-# instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
+    instance_ = load_raw_instance("raw_data/rcpsp/j30.sm/j3010_3.sm", "")
+    # benchmark = load_raw_benchmark("raw_data/rcpsp/j30.sm/", no_instances=100)
+    # instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
 
-# for instance_name, instance_ in benchmark._instances.items():
-G = nx.DiGraph()
-for job in range(instance_.no_jobs):
-    G.add_node(job)
-    for predecessor_ in instance_.predecessors[job]:
-        G.add_edge(job, predecessor_ - 1)
+    # for instance_name, instance_ in benchmark._instances.items():
+    G = nx.DiGraph()
+    for job in range(instance_.no_jobs):
+        G.add_node(job)
+        for predecessor_ in instance_.predecessors[job]:
+            G.add_edge(job, predecessor_ - 1)
 
-instance_.distances = nx.single_source_bellman_ford_path_length(
-    G, instance_.no_jobs - 1)
+    instance_.distances = nx.single_source_bellman_ford_path_length(
+        G, instance_.no_jobs - 1)
 
-G2 = nx.DiGraph()
-for job in range(instance_.no_jobs):
-    G2.add_node(job)
-    for predecessor_ in instance_.predecessors[job]:
-        G2.add_edge(job, predecessor_ - 1, weight=-1)
-
-
-longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
-    G2, instance_.no_jobs - 1)
-instance_.longest_length_paths = {k: -v for k,
-                                v in longest_length_paths_negative.items()}
-
-# brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
-#     instance_, visualize=True, validate=True)
+    G2 = nx.DiGraph()
+    for job in range(instance_.no_jobs):
+        G2.add_node(job)
+        for predecessor_ in instance_.predecessors[job]:
+            G2.add_edge(job, predecessor_ - 1, weight=-1)
 
 
-from pymoo.termination.ftol import SingleObjectiveSpaceTermination
-from pymoo.termination.robust import RobustTermination
-term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
-BRKGA_solver = RCPSPGASolver(algorithm, fitness_func, term, seed=1, solver_name="BRKGA_rcpsp_15_57_18_0.7")
+    longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
+        G2, instance_.no_jobs - 1)
+    instance_.longest_length_paths = {k: -v for k,
+                                    v in longest_length_paths_negative.items()}
 
-BRKGA_solver.solve(instance_, visualize=False, validate=True, force_dump=False)
+    # brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
+    #     instance_, visualize=True, validate=True)
 
-benchmark.generate_solver_comparison_percent_deviation_markdown_table()
+
+    from pymoo.termination.ftol import SingleObjectiveSpaceTermination
+    from pymoo.termination.robust import RobustTermination
+    term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
+    BRKGA_solver = RCPSPGASolver(algorithm, fitness_func, term, seed=1, solver_name="BRKGA_rcpsp_15_57_18_0.7")
+
+    BRKGA_solver.solve(instance_, visualize=False, validate=True, force_dump=False)
+
+    benchmark.generate_solver_comparison_percent_deviation_markdown_table()

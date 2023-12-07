@@ -60,7 +60,7 @@ class StripPacking2DGASolver(GASolver):
             instance.visualize(None, placements, fitness_value)
 
         if update_history:
-            solution_progress = res.callback.data['progress']
+            solution_progress = res.algorithm.callback.data['progress']
             self.add_run_to_history(instance, fitness_value, {"placements": placements}, solution_progress, exec_time=round(res.exec_time, 2))
 
         return fitness_value, placements, res

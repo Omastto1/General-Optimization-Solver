@@ -181,7 +181,7 @@ class RCPSPGASolver(GASolver):
 
             fitness_value = int(fitness_value) # F - modified makespan (< 1)
             solution_info = f"start_times: {start_times}"
-            solution_progress = res.callback.data['progress']
+            solution_progress = res.algorithm.callback.data['progress']
             self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         # if res.F is not None:

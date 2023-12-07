@@ -80,7 +80,7 @@ class BinPacking1DGASolver(GASolver):
 
         if update_history:
             solution_info = {"placements": placements}
-            solution_progress = res.callback.data['progress']
+            solution_progress = res.algorithm.callback.data['progress']
             # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
             self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
