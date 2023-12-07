@@ -52,11 +52,12 @@ def construct_schedules(instance, S, F, priorities):
 
         gamma[g] = np.append(gamma[g-1], F[j_star])
 
-        # Update Rd[k][t]
-        for t in range(max(gamma[g])):
-            for k in range(instance.no_renewable_resources):
-                jobs_active_in_t = [j for j in range(instance.no_jobs) if F[j] is not None and F[j] - instance.durations[j] <= t < F[j]]
-                remaining_capacities[k][t] = instance.renewable_capacities[k] - sum(instance.requests[k][job_index] for job_index in jobs_active_in_t)
+        # # Update Rd[k][t]
+        # for t in range(max(gamma[g])):
+        #     for k in range(instance.no_renewable_resources):
+        #         jobs_active_in_t = [j for j in range(instance.no_jobs) if F[j] is not None and F[j] - instance.durations[j] <= t < F[j]]
+        #         remaining_capacities[k][t] = instance.renewable_capacities[k] - sum(instance.requests[k][job_index] for job_index in jobs_active_in_t)
+        
 
         max_prio_to_schedule = np.argmax([priorities[i] for i in D[g]])
         j_star = D[g][max_prio_to_schedule]
@@ -95,6 +96,11 @@ def construct_schedules(instance, S, F, priorities):
             if not resource_violation:
                 break
             t_temp += 1
+
+        
+        for t in range(t_temp, t_temp + instance.durations[j_star]):
+            for k in range(instance.no_renewable_resources):
+                remaining_capacities[k][t] -= instance.requests[k][j_star]
 
         F[j_star] = t_temp + instance.durations[j_star]
         S.append(S[g-1] + [j_star])
