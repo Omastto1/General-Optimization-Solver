@@ -708,7 +708,7 @@
         {
             "timestamp": "2023-12-01 11:21:07.166228",
             "solver_type": "CP",
-            "solver_name": "CP Default",
+            "solver_name": "CP Default 15",
             "solver_config": {
                 "TimeLimit": 15,
                 "NoWorkers": 1,
@@ -914,7 +914,7 @@
         {
             "timestamp": "2023-12-01 11:21:07.166541",
             "solver_type": "CP",
-            "solver_name": "CP Default",
+            "solver_name": "CP Default 15",
             "solver_config": {
                 "TimeLimit": 15,
                 "NoWorkers": 1,
@@ -2516,6 +2516,2662 @@
             "solve_time": 9.99,
             "solution_value": 66.0,
             "solution_info": "start_times: [ 0  0  0  0  2  2  7 10 16  7 10 11 18 13 24 14 22 16 20 11 26 29 26 37\n 36 41 44 51 56 32 41 66]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-04 00:51:31.631492",
+            "solver_type": "GA",
+            "solver_name": "BRKGA_rcpsp_15_57_18_0.7",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f8c3d873400>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f8c3d8734c0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f8c3d873580>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f8c3d873610>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f8c3d873670>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f8c4246a850>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f8c4246a910>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 90,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 15,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        }
+                    },
+                    "n_offsprings": 57,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 15,
+                    "n_mutants": 18,
+                    "bias": 0.7
+                },
+                "fitness_func": "<function fitness_func at 0x7f8c3d86c820>",
+                "termination": "<pymoo.termination.robust.RobustTermination object at 0x7f8c46640040>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 16.62,
+            "solution_value": 70,
+            "solution_info": "start_times: [0, 0, 0, 0, 3, 2, 10, 10, 12, 1, 7, 13, 19, 13, 22, 20, 22, 26, 27, 12, 26, 32, 30, 36, 40, 45, 48, 55, 60, 36, 45, 70]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-04 13:47:52.461048",
+            "solver_type": "CP",
+            "solver_name": "CP Default",
+            "solver_config": {
+                "TimeLimit": 10,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Optimal",
+            "solve_time": [
+                0.01
+            ],
+            "solution_value": 66,
+            "solution_info": {
+                "Model constraints": 64,
+                "variables": {
+                    "integer": 1,
+                    "interval": 32,
+                    "sequence": 0
+                },
+                "Solve status": "Optimal",
+                "Search status": "SearchCompleted",
+                "Search status stop cause": "SearchHasNotBeenStopped",
+                "Solve time": "0.01 sec",
+                "Objective values": [
+                    66
+                ],
+                "Bounds": [
+                    66
+                ],
+                "Gaps": [
+                    0
+                ],
+                "Variables": {
+                    "cost": 66,
+                    "0": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "1": [
+                        0,
+                        1,
+                        1
+                    ],
+                    "2": [
+                        0,
+                        2,
+                        2
+                    ],
+                    "3": [
+                        0,
+                        10,
+                        10
+                    ],
+                    "4": [
+                        2,
+                        11,
+                        9
+                    ],
+                    "5": [
+                        2,
+                        7,
+                        5
+                    ],
+                    "6": [
+                        7,
+                        14,
+                        7
+                    ],
+                    "7": [
+                        10,
+                        13,
+                        3
+                    ],
+                    "8": [
+                        11,
+                        19,
+                        8
+                    ],
+                    "9": [
+                        7,
+                        9,
+                        2
+                    ],
+                    "10": [
+                        13,
+                        16,
+                        3
+                    ],
+                    "11": [
+                        13,
+                        14,
+                        1
+                    ],
+                    "12": [
+                        14,
+                        16,
+                        2
+                    ],
+                    "13": [
+                        13,
+                        22,
+                        9
+                    ],
+                    "14": [
+                        22,
+                        27,
+                        5
+                    ],
+                    "15": [
+                        19,
+                        21,
+                        2
+                    ],
+                    "16": [
+                        22,
+                        26,
+                        4
+                    ],
+                    "17": [
+                        26,
+                        30,
+                        4
+                    ],
+                    "18": [
+                        27,
+                        32,
+                        5
+                    ],
+                    "19": [
+                        16,
+                        23,
+                        7
+                    ],
+                    "20": [
+                        26,
+                        36,
+                        10
+                    ],
+                    "21": [
+                        32,
+                        40,
+                        8
+                    ],
+                    "22": [
+                        30,
+                        36,
+                        6
+                    ],
+                    "23": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "24": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "25": [
+                        41,
+                        51,
+                        10
+                    ],
+                    "26": [
+                        41,
+                        43,
+                        2
+                    ],
+                    "27": [
+                        51,
+                        56,
+                        5
+                    ],
+                    "28": [
+                        56,
+                        66,
+                        10
+                    ],
+                    "29": [
+                        40,
+                        49,
+                        9
+                    ],
+                    "30": [
+                        56,
+                        59,
+                        3
+                    ],
+                    "31": [
+                        66,
+                        66,
+                        0
+                    ]
+                }
+            },
+            "solution_progress": [
+                [
+                    66,
+                    0.01
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-04 13:47:52.461232",
+            "solver_type": "CP",
+            "solver_name": "CP Default",
+            "solver_config": {
+                "TimeLimit": 10,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Optimal",
+            "solve_time": [
+                0.01
+            ],
+            "solution_value": 66,
+            "solution_info": {
+                "Model constraints": 64,
+                "variables": {
+                    "integer": 1,
+                    "interval": 32,
+                    "sequence": 0
+                },
+                "Solve status": "Optimal",
+                "Search status": "SearchCompleted",
+                "Search status stop cause": "SearchHasNotBeenStopped",
+                "Solve time": "0.01 sec",
+                "Objective values": [
+                    66
+                ],
+                "Bounds": [
+                    66
+                ],
+                "Gaps": [
+                    0
+                ],
+                "Variables": {
+                    "cost": 66,
+                    "0": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "1": [
+                        0,
+                        1,
+                        1
+                    ],
+                    "2": [
+                        0,
+                        2,
+                        2
+                    ],
+                    "3": [
+                        0,
+                        10,
+                        10
+                    ],
+                    "4": [
+                        2,
+                        11,
+                        9
+                    ],
+                    "5": [
+                        2,
+                        7,
+                        5
+                    ],
+                    "6": [
+                        7,
+                        14,
+                        7
+                    ],
+                    "7": [
+                        10,
+                        13,
+                        3
+                    ],
+                    "8": [
+                        11,
+                        19,
+                        8
+                    ],
+                    "9": [
+                        7,
+                        9,
+                        2
+                    ],
+                    "10": [
+                        13,
+                        16,
+                        3
+                    ],
+                    "11": [
+                        13,
+                        14,
+                        1
+                    ],
+                    "12": [
+                        14,
+                        16,
+                        2
+                    ],
+                    "13": [
+                        13,
+                        22,
+                        9
+                    ],
+                    "14": [
+                        22,
+                        27,
+                        5
+                    ],
+                    "15": [
+                        19,
+                        21,
+                        2
+                    ],
+                    "16": [
+                        22,
+                        26,
+                        4
+                    ],
+                    "17": [
+                        26,
+                        30,
+                        4
+                    ],
+                    "18": [
+                        27,
+                        32,
+                        5
+                    ],
+                    "19": [
+                        16,
+                        23,
+                        7
+                    ],
+                    "20": [
+                        26,
+                        36,
+                        10
+                    ],
+                    "21": [
+                        32,
+                        40,
+                        8
+                    ],
+                    "22": [
+                        30,
+                        36,
+                        6
+                    ],
+                    "23": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "24": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "25": [
+                        41,
+                        51,
+                        10
+                    ],
+                    "26": [
+                        41,
+                        43,
+                        2
+                    ],
+                    "27": [
+                        51,
+                        56,
+                        5
+                    ],
+                    "28": [
+                        56,
+                        66,
+                        10
+                    ],
+                    "29": [
+                        40,
+                        49,
+                        9
+                    ],
+                    "30": [
+                        56,
+                        59,
+                        3
+                    ],
+                    "31": [
+                        66,
+                        66,
+                        0
+                    ]
+                }
+            },
+            "solution_progress": [
+                [
+                    66,
+                    0.01
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-04 14:54:04.132940",
+            "solver_type": "GA",
+            "solver_name": "BRKGA_backward_15_57_18_0.7_10sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fdb332618b0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fdb33261970>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fdb33261a30>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fdb33261ac0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fdb33261b20>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fdb37e57850>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fdb37e57910>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 90,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 15,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        }
+                    },
+                    "n_offsprings": 57,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 15,
+                    "n_mutants": 18,
+                    "bias": 0.7
+                },
+                "fitness_func": "<function fitness_func_backward at 0x7fdb33250dc0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fdb33257df0>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 10.09,
+            "solution_value": 66.0,
+            "solution_info": "start_times: [ 0 14 17  0 19 51 21 10 28 15 34 35 13 13 36 34 22 37 41 15 26 41 28 46\n 36 41 49 51 56 57 63 66]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-04 16:14:51.410899",
+            "solver_type": "GA",
+            "solver_name": "BRKGA_forward_15_57_18_0.7_10sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fdb332618b0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fdb33261970>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fdb33261a30>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fdb33261ac0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fdb33261b20>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fdb37e57850>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fdb37e57910>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 90,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 15,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        }
+                    },
+                    "n_offsprings": 57,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 15,
+                    "n_mutants": 18,
+                    "bias": 0.7
+                },
+                "fitness_func": "<function fitness_func_forward at 0x7fdb3325c0d0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fdb33257df0>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 10.09,
+            "solution_value": 66.0,
+            "solution_info": "start_times: [ 0  0  0  0  2  2  7 10 16  7 10 11 18 13 24 14 22 16 20 11 26 29 26 37\n 36 41 44 51 56 32 41 66]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-04 18:50:41.789759",
+            "solver_type": "GA",
+            "solver_name": "BRKGA_rcpsp_5_19_6_0.7_10sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fa69ed70520>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fa69ed705e0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fa69ed706a0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fa69ed70730>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fa69ed70790>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fa6a395c820>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fa6a395c8e0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 5,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        }
+                    },
+                    "n_offsprings": 19,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 5,
+                    "n_mutants": 6,
+                    "bias": 0.7
+                },
+                "fitness_func": "<function fitness_func at 0x7fa69ed619d0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fa69ed5c280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 10.53,
+            "solution_value": 67,
+            "solution_info": "start_times: [0, 0, 0, 0, 2, 2, 7, 10, 11, 7, 13, 13, 13, 14, 23, 19, 23, 27, 21, 15, 27, 28, 31, 37, 37, 42, 42, 52, 57, 36, 45, 67]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-05 00:21:20.689571",
+            "solver_type": "GA",
+            "solver_name": "BRKGA_rcpsp_5_19_6_0.7_30sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f9a76ee0520>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f9a76ee05e0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f9a76ee06a0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f9a76ee0730>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f9a76ee0790>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f9a7bacb820>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f9a7bacb8e0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 5,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        }
+                    },
+                    "n_offsprings": 19,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 5,
+                    "n_mutants": 6,
+                    "bias": 0.7
+                },
+                "fitness_func": "<function fitness_func at 0x7f9a76ecf9d0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f9a76ecb280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 30.69,
+            "solution_value": 67,
+            "solution_info": "start_times: [0, 0, 0, 0, 2, 2, 7, 10, 11, 7, 13, 13, 13, 14, 23, 19, 23, 27, 21, 15, 27, 28, 31, 37, 37, 42, 42, 52, 57, 36, 45, 67]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-05 10:54:34.014931",
+            "solver_type": "GA",
+            "solver_name": "BRKGA_rcpsp_5_19_6_0.7_10secaaaaapaper",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fa158a29520>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fa158a295e0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fa158a296a0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fa158a29730>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fa158a29790>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fa15d616820>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fa15d6168e0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 5,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        }
+                    },
+                    "n_offsprings": 19,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 5,
+                    "n_mutants": 6,
+                    "bias": 0.7
+                },
+                "fitness_func": "<function fitness_func at 0x7fa158a1a9d0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fa158a15280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 10.0,
+            "solution_value": 67,
+            "solution_info": "start_times: [0, 0, 0, 0, 2, 2, 7, 10, 11, 7, 13, 13, 13, 14, 23, 19, 23, 27, 21, 15, 27, 28, 31, 37, 37, 42, 42, 52, 57, 36, 45, 67]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-05 12:58:56.928972",
+            "solver_type": "GA",
+            "solver_name": "naive GA forward_90_90_0.9_30_10sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fc42e1afe50>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fc42e1aff10>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fc42e1affd0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fc42e1bc0d0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fc42e1bc0a0>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fc432da8c10>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fc432da8c70>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 90,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 90,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16,
+                        "cmp_func": {}
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 30,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func_forward at 0x7fc42e1b40d0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fc42e1af280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 10.01,
+            "solution_value": 66.0,
+            "solution_info": "start_times: [ 0  0  0  0  2  2  7 10 16  7 10 11 18 13 24 14 22 16 20 11 26 29 26 37\n 36 41 44 51 56 32 41 66]",
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-05 15:46:02.063493",
+            "solver_type": "GA",
+            "solver_name": "naive GA forward_90_90_0.9_30_10sec_paper",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fe747e05e80>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fe747e05f40>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7fe747e0b040>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7fe747e0b0d0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7fe747e0b130>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fe74c9f3c40>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fe74c9f3ca0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 90,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 90,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16,
+                        "cmp_func": {}
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16,
+                            "cmp_func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 30,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func at 0x7fe747dff3a0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fe750c1fd90>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 10.33,
+            "solution_value": 66.0,
+            "solution_info": "start_times: [0, 0, 0, 0, 17, 2, 2, 10, 26, 1, 7, 32, 15, 13, 41, 13, 22, 17, 17, 10, 26, 46, 26, 36, 36, 41, 54, 51, 56, 32, 41, 66]",
             "solution_progress": []
         }
     ]
