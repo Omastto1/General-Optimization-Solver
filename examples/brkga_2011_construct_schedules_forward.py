@@ -132,7 +132,7 @@ def fitness_func(instance, x, out):
     makespan = max(F[i-1] for i in instance.predecessors[instance.no_jobs - 1])
 
     out["F"] = makespan
-    # out["G"] = 0
+    out["G"] = [0] * instance.no_renewable_resources
     out["start_times"] = [F[i] - instance.durations[i] for i in range(len(instance.durations))]
 
     return out

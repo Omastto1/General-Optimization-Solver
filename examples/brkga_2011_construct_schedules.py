@@ -111,7 +111,7 @@ def fitness_func(instance, x, out):
     makespan = max(F[i-1] for i in instance.predecessors[instance.no_jobs - 1])
 
     out["F"] = makespan
-    # out["G"] = 0
+    out["G"] = [0] * instance.no_renewable_resources
     out["start_times"] = [F[i] - instance.durations[i] for i in range(len(instance.durations))]
 
     return out
@@ -177,20 +177,17 @@ class RCPSPGASolver(GASolver):
         # else:
         return None, None, res
 
-
-# values from https://pymoo.org/algorithms/soo/brkga.html
-algorithm = BRKGA(
-    n_elites=10,
-    n_offsprings=20,
-    n_mutants=8,
-    bias=0.7,
-    eliminate_duplicates=MyElementwiseDuplicateElimination())
-
-
-BRKGA_solver = RCPSPGASolver(
-    algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
-
 if __name__ == "__main__":
+    # values from https://pymoo.org/algorithms/soo/brkga.html
+    algorithm = BRKGA(
+        n_elites=10,
+        n_offsprings=20,
+        n_mutants=8,
+        bias=0.7,
+        eliminate_duplicates=MyElementwiseDuplicateElimination())
+
+    BRKGA_solver = RCPSPGASolver(
+        algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
     instance_ = load_raw_instance("raw_data/rcpsp/j30.sm/j3010_3.sm", "")
     # benchmark = load_raw_benchmark("raw_data/rcpsp/j30.sm/", no_instances=100)
     # instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
