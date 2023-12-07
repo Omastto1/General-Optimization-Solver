@@ -124,7 +124,7 @@ def _get_and_validate_meta_data(filepath):
     return metadata
 
 
-def load_raw_instance(path, solution_path, format=None, verbose=False):
+def load_raw_instance(path, solution_path=None, format=None, verbose=False):
     benchmark_name = path.split("/")[-2].split(".")[0]
     instance_name = path.split("/")[-1].split(".")[0]
 
@@ -133,6 +133,9 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
         meta_data = _get_and_validate_meta_data(meta_path)
 
         format = meta_data["FORMAT"]
+        if solution_path is None:
+            solution_path = meta_data.get("SOLUTION_PATH", None)
+            print("Loading .meta solution path: %s" % solution_path)
 
     assert format is not None, "Specify valid raw data input argument `format`"
 
