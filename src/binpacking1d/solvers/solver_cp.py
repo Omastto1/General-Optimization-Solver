@@ -36,7 +36,7 @@ class BinPacking1DCPSolver(CPSolver):
         
         return {"item_bin_pos_assignment": item_bin_pos_assignment_export, "is_bin_used": is_bin_used_export}
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         print("Building model")
         model, model_variables = self.build_model(instance)
         
@@ -85,8 +85,9 @@ class BinPacking1DCPSolver(CPSolver):
         print(solution.solution.get_objective_values())
 
         instance.compare_to_reference(obj_value)
-            
-        self.add_run_to_history(instance, solution)
+
+        if update_history:
+            self.add_run_to_history(instance, solution)
         
         return obj_value, model_variables_export, solution
 

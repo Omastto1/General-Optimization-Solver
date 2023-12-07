@@ -146,7 +146,8 @@ class RCPSPGASolver(GASolver):
 
         problem = RCPSP(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination,
-                       verbose=True, seed=self.seed)
+                       verbose=True, seed=self.seed,
+                       callback=self.callback)
     
         if update_history:
             X = np.floor(res.X).astype(int)
@@ -159,7 +160,8 @@ class RCPSPGASolver(GASolver):
 
             fitness_value = int(fitness_value) # F - modified makespan (< 1)
             solution_info = f"start_times: {start_times}"
-            self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
+            solution_progress = res.callback.data['progress']
+            self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         # if res.F is not None:
         #     X = np.floor(res.X).astype(int)

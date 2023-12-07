@@ -1,15 +1,18 @@
 import re
 import multiprocessing
 import functools
+import time
+
+from abc import ABC, abstractmethod
 
 from docplex.cp.model import CpoParameters
-from abc import ABC, abstractmethod
+from docplex.cp.solution import CpoSequenceVarSolution
+from docplex.cp.expression import compare_expressions
+
+from pymoo.core.callback import Callback
 
 from src.utils import convert_time_to_seconds
 from src.common.optimization_problem import Benchmark
-
-from docplex.cp.solution import CpoSequenceVarSolution
-from docplex.cp.expression import compare_expressions
 
 
 SOLVER_DEFAULT_NAME = "Unknown solver - check whether solver_name is specified for solver class"
@@ -274,6 +277,30 @@ def serialize_class_instance(obj):
     return result
 
 
+class HistoryCallback(Callback):
+
+    def __init__(self, algorithm) -> None:
+        super().__init__()
+        self.data["progress"] = []
+        self.algorithm_type = algorithm.__class__.__name__
+
+    def notify(self, algorithm):
+        f_min = algorithm.pop.get("F").min()
+        last_f_min = self.data["progress"][-1][0] if len(self.data["progress"]) > 0 else float('inf')
+
+        if f_min < last_f_min:
+            exec_time = round(time.time() - algorithm.start_time, 2)
+
+            if self.algorithm_type == "GA":
+                no_individuals = algorithm.pop_size * algorithm.n_gen
+            elif self.algorithm_type == "BRKGA":
+                no_individuals = algorithm.n_elites + (algorithm.n_mutants + algorithm.n_offsprings) * algorithm.n_gen
+
+            new_timestamp = (f_min, exec_time, no_individuals)
+
+            self.data["progress"].append(new_timestamp)
+
+
 GA_SOLVER_DEFAULT_NAME = "GA solver without name specified"
 class GASolver(Solver):
     solver_name = GA_SOLVER_DEFAULT_NAME
@@ -292,15 +319,14 @@ class GASolver(Solver):
         self.fitness_func = fitness_func
         self.termination = termination
         self.seed = seed
+        self.callback= HistoryCallback(algorithm)
 
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):
         """Abstract solve method for GP solver."""
         pass
 
-    def add_run_to_history(self, instance, objective_value, solution_info, exec_time=-1, is_valid=True):
-        # TODO
-        solution_progress = []
+    def add_run_to_history(self, instance, objective_value, solution_info, solution_progress, exec_time=-1, is_valid=True):
         solve_time = exec_time
 
         if is_valid and objective_value >= 0:

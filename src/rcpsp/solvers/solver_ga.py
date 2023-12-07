@@ -24,7 +24,8 @@ class RCPSPGASolver(GASolver):
                 return None, None
 
         problem = RCPSP(instance, self.fitness_func)
-        res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed)
+        res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed,
+                       callback=self.callback)
 
         if res.F is not None:
             X = np.floor(res.X).astype(int)
@@ -64,7 +65,8 @@ class RCPSPGASolver(GASolver):
 
         if update_history:
             solution_info = f"start_times: {start_times}"
-            self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
+            solution_progress = res.algorithm.callback.data['progress']
+            self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         if res.F is not None:
             return fitness_value, start_times, res

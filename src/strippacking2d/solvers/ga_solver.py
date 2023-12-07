@@ -31,7 +31,8 @@ class StripPacking2DGASolver(GASolver):
         
         problem = StripPackingProblem(instance, self.fitness_func)
 
-        res = minimize(problem, self.algorithm, self.termination, verbose=True)
+        res = minimize(problem, self.algorithm, self.termination, verbose=True,
+                       callback=self.callback)
 
         if not res:
             return None, None, None
@@ -59,7 +60,8 @@ class StripPacking2DGASolver(GASolver):
             instance.visualize(None, placements, fitness_value)
 
         if update_history:
-            self.add_run_to_history(instance, fitness_value, {"placements": placements}, exec_time=round(res.exec_time, 2))
+            solution_progress = res.callback.data['progress']
+            self.add_run_to_history(instance, fitness_value, {"placements": placements}, solution_progress, exec_time=round(res.exec_time, 2))
 
         return fitness_value, placements, res
 

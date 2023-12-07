@@ -14,7 +14,7 @@ def indices_to_onehot(indices, num_classes):
 ## python -m examples.example_BinPacking1D
 
 class BinPacking1DGASolver(GASolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         class BinPackingProblem(ElementwiseProblem):
             def __init__(self, instance, fitness_func):
                 super().__init__(n_var=len(instance.weights),
@@ -38,7 +38,8 @@ class BinPacking1DGASolver(GASolver):
                 return None, None
 
         problem = BinPackingProblem(instance, self.fitness_func)
-        res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed)
+        res = minimize(problem, self.algorithm, self.termination, verbose=True, seed=self.seed,
+                       callback=self.callback)
 
         if res.F is not None:
             X = np.floor(res.X).astype(int)
@@ -65,7 +66,8 @@ class BinPacking1DGASolver(GASolver):
                     print("Solution is invalid.")
                     print(e)
 
-                    self.add_run_to_history(instance, fitness_value, start_times, is_valid=False)
+                    # if update_history:
+                    #     self.add_run_to_history(instance, fitness_value, start_times, is_valid=False)
 
                     return None, None, res
 
@@ -76,9 +78,11 @@ class BinPacking1DGASolver(GASolver):
             fitness_value = -1
             placements = []
 
-        solution_info = {"placements": placements}
-        # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
-        self.add_run_to_history(instance, fitness_value, solution_info, exec_time=round(res.exec_time, 2))
+        if update_history:
+            solution_info = {"placements": placements}
+            solution_progress = res.callback.data['progress']
+            # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
+            self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         if res.F is not None:
             X = np.floor(res.X).astype(int)
