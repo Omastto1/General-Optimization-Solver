@@ -5,7 +5,9 @@ from src.common.solver import CPSolver
 
 
 class StripPackingLeveled2DCPSolver(CPSolver):
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    solver_name = 'CP Default Leveled'
+    
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
                 return None, None
@@ -79,6 +81,7 @@ class StripPackingLeveled2DCPSolver(CPSolver):
             instance.no_elements) if sol.get_var_solution(ys[level][i]).is_present()]
         variables = Solution(xs)
 
-        self.add_run_to_history(instance, sol)
+        if update_history:
+            self.add_run_to_history(instance, sol)
 
         return sol, variables

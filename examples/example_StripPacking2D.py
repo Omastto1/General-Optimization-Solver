@@ -132,7 +132,8 @@ if not skip_instance_input:
     total_height, placements, solution = StripPacking2DCPSolverOriented(TimeLimit=3).solve(instance, validate=False, visualize=False, force_execution=True)
 
 if not skip_benchmark_input:
-    benchmark = load_raw_benchmark("raw_data/2d_strip_packing/benchmark", "", no_instances=1)
+    # benchmark = load_raw_benchmark("raw_data/2d_strip_packing/benchmark", "", no_instances=1)
+    benchmark = load_raw_benchmark("raw_data/2d_strip_packing/BKW", no_instances=1)
     
     StripPacking2DGASolver(algorithm, fitness_func, ("n_gen", 50), seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True)
 
@@ -145,12 +146,13 @@ if not skip_benchmark_input:
     print(table2)
 
 if not skip_hybrid:
-    instance = load_raw_instance("raw_data/2d_strip_packing/benchmark/BENG01.TXT", "")
+    # instance = load_raw_instance("raw_data/2d_strip_packing/benchmark/BENG01.TXT", "")
+    benchmark = load_raw_benchmark("raw_data/2d_strip_packing/BKW", no_instances=2)
 
+    from pymoo.termination.ftol import SingleObjectiveSpaceTermination
+    from pymoo.termination.robust import RobustTermination
+    term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
 
-    fitness, placements, res = StripPacking2DGASolver(algorithm, fitness_func, ("n_gen", 10), seed=1).solve(instance, validate=True, visualize=True, force_execution=True)
+    StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=10))
 
-    fitness_cp, placements, res = StripPacking2DCPSolver(TimeLimit=10)._solve(instance, validate=True, visualize=True, force_execution=True, initial_solution=placements)
-
-    print(fitness, fitness_cp)
-    print("asd")
+    # fitness_cp, placements, res = StripPacking2DCPSolver(TimeLimit=10)._solve(instance, validate=True, visualize=True, force_execution=True, initial_solution=placements)

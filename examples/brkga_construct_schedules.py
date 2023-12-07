@@ -13,7 +13,7 @@ from pymoo.optimize import minimize
 
 # from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
 # from src.rcpsp.solvers.solver_ga import RCPSPGASolver
-from src.general_optimization_solver import load_raw_instance  # , load_instance, load_raw_benchmark
+from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 from src.common.solver import GASolver
 
 
@@ -27,14 +27,14 @@ def decode_chromosome(instance, chromosome):
     Returns:
         _type_: _description_
     """
-    priorities = []
-    for i in range(instance.no_jobs):
-        priority_adjustment = (1 + chromosome[i]) / 2
-        priorities.append(
-            instance.longest_length_paths[i] / instance.longest_length_paths[0] * priority_adjustment)
+    # priorities = []
+    # for i in range(instance.no_jobs):
+    #     priority_adjustment = (1 + chromosome[i]) / 2
+    #     priorities.append(
+    #         instance.longest_length_paths[i] / instance.longest_length_paths[0] * priority_adjustment)
     priorities = chromosome[:instance.no_jobs]
 
-    delays = chromosome[instance.no_jobs:] * 1.5 * max(instance.durations)
+    delays = chromosome[instance.no_jobs:] * 3 * max(instance.durations)
 
     return priorities, delays
 
@@ -96,7 +96,7 @@ def construct_schedules(instance, E, S, F, t, priorities, delays):
             #     possible_times = gamma[g - 1][gamma[g - 1] > t[g - 1]]
             #     t.append(min(possible_times))
 
-            max_prio_to_schedule = np.argmax(priorities[i] for i in E[g])
+            max_prio_to_schedule = np.argmax([priorities[i] for i in E[g]])
             j_star = E[g][max_prio_to_schedule]
 
             # successors and predecessors are 1-based
@@ -222,7 +222,7 @@ def fitness_func(instance, x, out):
 
     out["F"] = modified_makespan
     # out["G"] = 0
-    # out["start_times"] = start_times
+    out["start_times"] = [F[i] - instance.durations[i] for i in range(len(instance.durations))]
 
     return out
 
@@ -236,7 +236,7 @@ class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 class RCPSPGASolver(GASolver):
     """GA SOLVER WRAPPER CLASS
     """
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         class RCPSP(ElementwiseProblem):
             """pymoo wrapper class
             """
@@ -256,7 +256,22 @@ class RCPSPGASolver(GASolver):
 
         problem = RCPSP(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination,
-                       verbose=True, seed=self.seed)
+                       verbose=True, seed=self.seed,
+                       callback=self.callback)
+    
+        if update_history:
+            X = np.floor(res.X).astype(int)
+            d = {}
+            problem._evaluate(X, d)
+
+            start_times = d['start_times']
+            fitness_value = max(start_times[i] + instance.durations[i] for i in range(len(instance.durations)))
+            export = {"tasks_schedule": [{"start": start_times[i], "end": start_times[i] + instance.durations[i], "name": f"Task_{i}"} for i in range(instance.no_jobs)]}
+
+            fitness_value = int(fitness_value) # F - modified makespan (< 1)
+            solution_info = f"start_times: {start_times}"
+            solution_progress = res.algorithm.callback.data['progress']
+            self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         # if res.F is not None:
         #     X = np.floor(res.X).astype(int)
@@ -275,43 +290,57 @@ class RCPSPGASolver(GASolver):
         return None, None, res
 
 
-# values from https://pymoo.org/algorithms/soo/brkga.html
-algorithm = BRKGA(
-    n_elites=40,
-    n_offsprings=80,
-    n_mutants=25,
-    bias=0.7,
-    eliminate_duplicates=MyElementwiseDuplicateElimination())
+
+if __name__ == '__main__':
+
+    # values from https://pymoo.org/algorithms/soo/brkga.html
+    algorithm = BRKGA(
+        n_elites=10,
+        n_offsprings=20,
+        n_mutants=8,
+        bias=0.7,
+        eliminate_duplicates=MyElementwiseDuplicateElimination())
 
 
-BRKGA_solver = RCPSPGASolver(
-    algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
+    BRKGA_solver = RCPSPGASolver(
+        algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
 
 
-instance_ = load_raw_instance("raw_data/rcpsp/j120.sm/j1201_1.sm", "")
-# instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
+    instance_ = load_raw_instance("raw_data/rcpsp/j30.sm/j3010_3.sm", "")
+    # benchmark = load_raw_benchmark("raw_data/rcpsp/j30.sm/", no_instances=100)
+    # instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
+
+    # for instance_name, instance_ in benchmark._instances.items():
+    G = nx.DiGraph()
+    for job in range(instance_.no_jobs):
+        G.add_node(job)
+        for predecessor_ in instance_.predecessors[job]:
+            G.add_edge(job, predecessor_ - 1)
+
+    instance_.distances = nx.single_source_bellman_ford_path_length(
+        G, instance_.no_jobs - 1)
+
+    G2 = nx.DiGraph()
+    for job in range(instance_.no_jobs):
+        G2.add_node(job)
+        for predecessor_ in instance_.predecessors[job]:
+            G2.add_edge(job, predecessor_ - 1, weight=-1)
 
 
-G = nx.DiGraph()
-for job in range(instance_.no_jobs):
-    G.add_node(job)
-    for predecessor_ in instance_.predecessors[job]:
-        G.add_edge(job, predecessor_ - 1)
+    longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
+        G2, instance_.no_jobs - 1)
+    instance_.longest_length_paths = {k: -v for k,
+                                    v in longest_length_paths_negative.items()}
 
-instance_.distances = nx.single_source_bellman_ford_path_length(
-    G, instance_.no_jobs - 1)
-
-G2 = nx.DiGraph()
-for job in range(instance_.no_jobs):
-    G2.add_node(job)
-    for predecessor_ in instance_.predecessors[job]:
-        G2.add_edge(job, predecessor_ - 1, weight=-1)
+    # brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
+    #     instance_, visualize=True, validate=True)
 
 
-longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
-    G2, instance_.no_jobs - 1)
-instance_.longest_length_paths = {k: -v for k,
-                                 v in longest_length_paths_negative.items()}
+    from pymoo.termination.ftol import SingleObjectiveSpaceTermination
+    from pymoo.termination.robust import RobustTermination
+    term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
+    BRKGA_solver = RCPSPGASolver(algorithm, fitness_func, term, seed=1, solver_name="BRKGA_rcpsp_15_57_18_0.7")
 
-brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(
-    instance_, visualize=True, validate=True)
+    BRKGA_solver.solve(instance_, visualize=False, validate=True, force_dump=False)
+
+    benchmark.generate_solver_comparison_percent_deviation_markdown_table()

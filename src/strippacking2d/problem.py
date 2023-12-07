@@ -1,3 +1,4 @@
+from typing import List
 from src.common.optimization_problem import OptimizationProblem
 
 import matplotlib.pyplot as plt
@@ -10,7 +11,7 @@ class StripPacking2D(OptimizationProblem):
 
         self.no_elements = len(self._data["rectangles"])
         self.strip_width = self._data["strip_width"]
-        self.rectangles = self._data["rectangles"]
+        self.rectangles: List[dict] = self._data["rectangles"]
 
     def validate(self, sol):
         # assert sol.get_objective_value(
@@ -32,6 +33,7 @@ class StripPacking2D(OptimizationProblem):
 
         # Create a figure and axis for plotting
         fig, ax = plt.subplots()
+        fig.suptitle(f'{self._benchmark_name} - {self._instance_name}')
         ax.set_xlim([0, self.strip_width])
         ax.set_ylim([0, total_height])
 

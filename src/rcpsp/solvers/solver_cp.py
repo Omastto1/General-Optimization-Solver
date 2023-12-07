@@ -15,7 +15,7 @@ class RCPSPCPSolver(CPSolver):
         
         if initial_solution is not None:
             self.solver_name += " Hybrid"
-
+            
             stp = model.create_empty_solution()
 
             for i, duration in enumerate(instance.durations):
@@ -59,7 +59,7 @@ class RCPSPCPSolver(CPSolver):
         
         return {"tasks_schedule": export}
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
         print("Building model")
         model, model_variables = self.build_model(instance, initial_solution)
 
@@ -126,8 +126,9 @@ class RCPSPCPSolver(CPSolver):
             print(sol.get_solve_status())
 
         instance.compare_to_reference(obj_value)
-            
-        self.add_run_to_history(instance, sol)
+
+        if update_history:
+            self.add_run_to_history(instance, sol)
         
         return obj_value, model_variables_export, sol
 

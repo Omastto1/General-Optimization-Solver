@@ -185,8 +185,8 @@ algorithm = BRKGA(
     eliminate_duplicates=MyElementwiseDuplicateElimination())
 
 
-BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, ("n_gen", 2), seed=1, solver_name="BRKGA_backward3")
-BRKGA_solver_backward = RCPSPGASolver(algorithm, fitness_func_backward, ("n_gen", 2), seed=1, solver_name="BRKGA_forward3")
+BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, ("n_gen", 2), seed=1, solver_name="BRKGA_forward3")
+BRKGA_solver_backward = RCPSPGASolver(algorithm, fitness_func_backward, ("n_gen", 2), seed=1, solver_name="BRKGA_backward3")
 
 ###
 

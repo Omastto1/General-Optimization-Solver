@@ -1,0 +1,2460 @@
+{
+    "benchmark_name": "BKW",
+    "instance_name": "2",
+    "instance_kind": "2DSTRIPPACKING",
+    "data": {
+        "strip_width": 30,
+        "rectangles": [
+            {
+                "width": 23,
+                "height": 9
+            },
+            {
+                "width": 19,
+                "height": 4
+            },
+            {
+                "width": 12,
+                "height": 21
+            },
+            {
+                "width": 6,
+                "height": 4
+            },
+            {
+                "width": 6,
+                "height": 4
+            },
+            {
+                "width": 7,
+                "height": 13
+            },
+            {
+                "width": 9,
+                "height": 4
+            },
+            {
+                "width": 4,
+                "height": 6
+            },
+            {
+                "width": 4,
+                "height": 6
+            },
+            {
+                "width": 23,
+                "height": 6
+            },
+            {
+                "width": 16,
+                "height": 6
+            },
+            {
+                "width": 4,
+                "height": 14
+            },
+            {
+                "width": 14,
+                "height": 6
+            },
+            {
+                "width": 6,
+                "height": 6
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 7,
+                "height": 6
+            },
+            {
+                "width": 14,
+                "height": 11
+            },
+            {
+                "width": 4,
+                "height": 7
+            },
+            {
+                "width": 8,
+                "height": 4
+            },
+            {
+                "width": 14,
+                "height": 4
+            }
+        ]
+    },
+    "reference_solution": {
+        "feasible": true,
+        "optimum": 50
+    },
+    "run_history": [
+        {
+            "timestamp": "2023-12-02 17:39:12.103849",
+            "solver_type": "GA",
+            "solver_name": "naive GA 200_1.0",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cc70>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cd30>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cdf0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f438453ceb0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f438453ce80>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f4387255910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f4387255970>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 200,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 200,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func at 0x7f438453d280>",
+                "termination": "<pymoo.termination.robust.RobustTermination object at 0x7f43a313d280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 15.21,
+            "solution_value": 65.0,
+            "solution_info": {
+                "placements": [
+                    [
+                        4,
+                        25
+                    ],
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        0,
+                        44
+                    ],
+                    [
+                        0,
+                        40
+                    ],
+                    [
+                        23,
+                        40
+                    ],
+                    [
+                        20,
+                        44
+                    ],
+                    [
+                        14,
+                        40
+                    ],
+                    [
+                        22,
+                        4
+                    ],
+                    [
+                        16,
+                        44
+                    ],
+                    [
+                        0,
+                        34
+                    ],
+                    [
+                        0,
+                        4
+                    ],
+                    [
+                        12,
+                        44
+                    ],
+                    [
+                        14,
+                        14
+                    ],
+                    [
+                        16,
+                        4
+                    ],
+                    [
+                        14,
+                        10
+                    ],
+                    [
+                        23,
+                        34
+                    ],
+                    [
+                        0,
+                        14
+                    ],
+                    [
+                        0,
+                        25
+                    ],
+                    [
+                        6,
+                        40
+                    ],
+                    [
+                        0,
+                        10
+                    ]
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-03 09:10:05.199017",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented 15",
+            "solver_config": {
+                "TimeLimit": 15,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                15
+            ],
+            "solution_value": 117,
+            "solution_info": {
+                "Model constraints": 210,
+                "variables": {
+                    "integer": 1,
+                    "interval": 40,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "15 sec",
+                "Objective values": [
+                    117
+                ],
+                "Bounds": [
+                    40
+                ],
+                "Gaps": [
+                    0.65812
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        0,
+                        23,
+                        23
+                    ],
+                    "rectangle_0_Y": [
+                        49,
+                        58,
+                        9
+                    ],
+                    "rectangle_1_X": [
+                        8,
+                        27,
+                        19
+                    ],
+                    "rectangle_1_Y": [
+                        5,
+                        9,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        12,
+                        12
+                    ],
+                    "rectangle_2_Y": [
+                        96,
+                        117,
+                        21
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_3_Y": [
+                        8,
+                        12,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        5,
+                        11,
+                        6
+                    ],
+                    "rectangle_4_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        69,
+                        82,
+                        13
+                    ],
+                    "rectangle_6_X": [
+                        11,
+                        20,
+                        9
+                    ],
+                    "rectangle_6_Y": [
+                        1,
+                        5,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_7_Y": [
+                        12,
+                        18,
+                        6
+                    ],
+                    "rectangle_8_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        18,
+                        24,
+                        6
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        23,
+                        23
+                    ],
+                    "rectangle_9_Y": [
+                        31,
+                        37,
+                        6
+                    ],
+                    "rectangle_10_X": [
+                        4,
+                        20,
+                        16
+                    ],
+                    "rectangle_10_Y": [
+                        13,
+                        19,
+                        6
+                    ],
+                    "rectangle_11_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_11_Y": [
+                        82,
+                        96,
+                        14
+                    ],
+                    "rectangle_12_X": [
+                        5,
+                        19,
+                        14
+                    ],
+                    "rectangle_12_Y": [
+                        19,
+                        25,
+                        6
+                    ],
+                    "rectangle_13_X": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_13_Y": [
+                        43,
+                        49,
+                        6
+                    ],
+                    "rectangle_14_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_14_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_15_Y": [
+                        37,
+                        43,
+                        6
+                    ],
+                    "rectangle_16_X": [
+                        0,
+                        14,
+                        14
+                    ],
+                    "rectangle_16_Y": [
+                        58,
+                        69,
+                        11
+                    ],
+                    "rectangle_17_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        24,
+                        31,
+                        7
+                    ],
+                    "rectangle_18_X": [
+                        0,
+                        8,
+                        8
+                    ],
+                    "rectangle_18_Y": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        6,
+                        20,
+                        14
+                    ],
+                    "rectangle_19_Y": [
+                        9,
+                        13,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    145,
+                    0.02
+                ],
+                [
+                    132,
+                    0.08
+                ],
+                [
+                    129,
+                    0.08
+                ],
+                [
+                    126,
+                    0.13
+                ],
+                [
+                    125,
+                    0.13
+                ],
+                [
+                    117,
+                    0.13
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 09:39:55.146439",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented 60",
+            "solver_config": {
+                "TimeLimit": 60,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                60
+            ],
+            "solution_value": 113,
+            "solution_info": {
+                "Model constraints": 210,
+                "variables": {
+                    "integer": 1,
+                    "interval": 40,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "60 sec",
+                "Objective values": [
+                    113
+                ],
+                "Bounds": [
+                    40
+                ],
+                "Gaps": [
+                    0.646018
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        0,
+                        23,
+                        23
+                    ],
+                    "rectangle_0_Y": [
+                        45,
+                        54,
+                        9
+                    ],
+                    "rectangle_1_X": [
+                        6,
+                        25,
+                        19
+                    ],
+                    "rectangle_1_Y": [
+                        14,
+                        18,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        12,
+                        12
+                    ],
+                    "rectangle_2_Y": [
+                        92,
+                        113,
+                        21
+                    ],
+                    "rectangle_3_X": [
+                        20,
+                        26,
+                        6
+                    ],
+                    "rectangle_3_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        5,
+                        11,
+                        6
+                    ],
+                    "rectangle_4_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        65,
+                        78,
+                        13
+                    ],
+                    "rectangle_6_X": [
+                        11,
+                        20,
+                        9
+                    ],
+                    "rectangle_6_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_7_Y": [
+                        8,
+                        14,
+                        6
+                    ],
+                    "rectangle_8_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        32,
+                        38,
+                        6
+                    ],
+                    "rectangle_9_X": [
+                        7,
+                        30,
+                        23
+                    ],
+                    "rectangle_9_Y": [
+                        18,
+                        24,
+                        6
+                    ],
+                    "rectangle_10_X": [
+                        9,
+                        25,
+                        16
+                    ],
+                    "rectangle_10_Y": [
+                        4,
+                        10,
+                        6
+                    ],
+                    "rectangle_11_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_11_Y": [
+                        78,
+                        92,
+                        14
+                    ],
+                    "rectangle_12_X": [
+                        0,
+                        14,
+                        14
+                    ],
+                    "rectangle_12_Y": [
+                        26,
+                        32,
+                        6
+                    ],
+                    "rectangle_13_X": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_13_Y": [
+                        14,
+                        20,
+                        6
+                    ],
+                    "rectangle_14_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_14_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_15_Y": [
+                        20,
+                        26,
+                        6
+                    ],
+                    "rectangle_16_X": [
+                        0,
+                        14,
+                        14
+                    ],
+                    "rectangle_16_Y": [
+                        54,
+                        65,
+                        11
+                    ],
+                    "rectangle_17_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        38,
+                        45,
+                        7
+                    ],
+                    "rectangle_18_X": [
+                        1,
+                        9,
+                        8
+                    ],
+                    "rectangle_18_Y": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        4,
+                        18,
+                        14
+                    ],
+                    "rectangle_19_Y": [
+                        10,
+                        14,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    145,
+                    0.01
+                ],
+                [
+                    132,
+                    0.08
+                ],
+                [
+                    129,
+                    0.09
+                ],
+                [
+                    126,
+                    0.14
+                ],
+                [
+                    125,
+                    0.14
+                ],
+                [
+                    117,
+                    0.14
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 16:19:55.498557",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented Hybrid 15",
+            "solver_config": {
+                "TimeLimit": 15,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                15
+            ],
+            "solution_value": 60,
+            "solution_info": {
+                "Model constraints": 210,
+                "variables": {
+                    "integer": 1,
+                    "interval": 40,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "15 sec",
+                "Objective values": [
+                    60
+                ],
+                "Bounds": [
+                    45
+                ],
+                "Gaps": [
+                    0.25
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        0,
+                        23,
+                        23
+                    ],
+                    "rectangle_0_Y": [
+                        51,
+                        60,
+                        9
+                    ],
+                    "rectangle_1_X": [
+                        9,
+                        28,
+                        19
+                    ],
+                    "rectangle_1_Y": [
+                        6,
+                        10,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        18,
+                        30,
+                        12
+                    ],
+                    "rectangle_2_Y": [
+                        18,
+                        39,
+                        21
+                    ],
+                    "rectangle_3_X": [
+                        23,
+                        29,
+                        6
+                    ],
+                    "rectangle_3_Y": [
+                        12,
+                        16,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        1,
+                        7,
+                        6
+                    ],
+                    "rectangle_4_Y": [
+                        39,
+                        43,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        7,
+                        14,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        18,
+                        31,
+                        13
+                    ],
+                    "rectangle_6_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_6_Y": [
+                        43,
+                        47,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_7_Y": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_8_X": [
+                        11,
+                        15,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        41,
+                        47,
+                        6
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        23,
+                        23
+                    ],
+                    "rectangle_9_Y": [
+                        12,
+                        18,
+                        6
+                    ],
+                    "rectangle_10_X": [
+                        4,
+                        20,
+                        16
+                    ],
+                    "rectangle_10_Y": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_11_X": [
+                        14,
+                        18,
+                        4
+                    ],
+                    "rectangle_11_Y": [
+                        18,
+                        32,
+                        14
+                    ],
+                    "rectangle_12_X": [
+                        0,
+                        14,
+                        14
+                    ],
+                    "rectangle_12_Y": [
+                        31,
+                        37,
+                        6
+                    ],
+                    "rectangle_13_X": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_13_Y": [
+                        6,
+                        12,
+                        6
+                    ],
+                    "rectangle_14_X": [
+                        20,
+                        25,
+                        5
+                    ],
+                    "rectangle_14_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_15_Y": [
+                        18,
+                        24,
+                        6
+                    ],
+                    "rectangle_16_X": [
+                        15,
+                        29,
+                        14
+                    ],
+                    "rectangle_16_Y": [
+                        40,
+                        51,
+                        11
+                    ],
+                    "rectangle_17_X": [
+                        23,
+                        27,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        51,
+                        58,
+                        7
+                    ],
+                    "rectangle_18_X": [
+                        7,
+                        15,
+                        8
+                    ],
+                    "rectangle_18_Y": [
+                        37,
+                        41,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        0,
+                        14,
+                        14
+                    ],
+                    "rectangle_19_Y": [
+                        47,
+                        51,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    67,
+                    0.01
+                ],
+                [
+                    65,
+                    0.01
+                ],
+                [
+                    63,
+                    0.01
+                ],
+                [
+                    62,
+                    0.01
+                ],
+                [
+                    60,
+                    0.03
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 19:49:19.341468",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented Hybrid 60",
+            "solver_config": {
+                "TimeLimit": 60,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                60
+            ],
+            "solution_value": 54,
+            "solution_info": {
+                "Model constraints": 210,
+                "variables": {
+                    "integer": 1,
+                    "interval": 40,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "60 sec",
+                "Objective values": [
+                    54
+                ],
+                "Bounds": [
+                    47
+                ],
+                "Gaps": [
+                    0.12963
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        6,
+                        29,
+                        23
+                    ],
+                    "rectangle_0_Y": [
+                        41,
+                        50,
+                        9
+                    ],
+                    "rectangle_1_X": [
+                        7,
+                        26,
+                        19
+                    ],
+                    "rectangle_1_Y": [
+                        6,
+                        10,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        12,
+                        12
+                    ],
+                    "rectangle_2_Y": [
+                        20,
+                        41,
+                        21
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_3_Y": [
+                        12,
+                        16,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        15,
+                        21,
+                        6
+                    ],
+                    "rectangle_4_Y": [
+                        50,
+                        54,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        14,
+                        21,
+                        7
+                    ],
+                    "rectangle_5_Y": [
+                        27,
+                        40,
+                        13
+                    ],
+                    "rectangle_6_X": [
+                        21,
+                        30,
+                        9
+                    ],
+                    "rectangle_6_Y": [
+                        50,
+                        54,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        22,
+                        26,
+                        4
+                    ],
+                    "rectangle_7_Y": [
+                        35,
+                        41,
+                        6
+                    ],
+                    "rectangle_8_X": [
+                        21,
+                        25,
+                        4
+                    ],
+                    "rectangle_8_Y": [
+                        29,
+                        35,
+                        6
+                    ],
+                    "rectangle_9_X": [
+                        7,
+                        30,
+                        23
+                    ],
+                    "rectangle_9_Y": [
+                        10,
+                        16,
+                        6
+                    ],
+                    "rectangle_10_X": [
+                        0,
+                        16,
+                        16
+                    ],
+                    "rectangle_10_Y": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_11_X": [
+                        26,
+                        30,
+                        4
+                    ],
+                    "rectangle_11_Y": [
+                        16,
+                        30,
+                        14
+                    ],
+                    "rectangle_12_X": [
+                        16,
+                        30,
+                        14
+                    ],
+                    "rectangle_12_Y": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_13_X": [
+                        0,
+                        6,
+                        6
+                    ],
+                    "rectangle_13_Y": [
+                        42,
+                        48,
+                        6
+                    ],
+                    "rectangle_14_X": [
+                        25,
+                        30,
+                        5
+                    ],
+                    "rectangle_14_Y": [
+                        30,
+                        34,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_15_Y": [
+                        6,
+                        12,
+                        6
+                    ],
+                    "rectangle_16_X": [
+                        12,
+                        26,
+                        14
+                    ],
+                    "rectangle_16_Y": [
+                        16,
+                        27,
+                        11
+                    ],
+                    "rectangle_17_X": [
+                        26,
+                        30,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        34,
+                        41,
+                        7
+                    ],
+                    "rectangle_18_X": [
+                        0,
+                        8,
+                        8
+                    ],
+                    "rectangle_18_Y": [
+                        16,
+                        20,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        0,
+                        14,
+                        14
+                    ],
+                    "rectangle_19_Y": [
+                        50,
+                        54,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    65,
+                    0.01
+                ],
+                [
+                    61,
+                    0.01
+                ],
+                [
+                    59,
+                    0.01
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-04 14:13:33.060866",
+            "solver_type": "GA",
+            "solver_name": "best fit GA 200_1.0_60sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f223fd2c940>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f223fd2ca00>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f223fd2cac0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f223fd2cb80>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f223fd2cb50>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f2244961940>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f22449619a0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 200,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 200,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function squeeky_wheel_optimization_wrapper at 0x7f223fda03a0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f22485492b0>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 60.09,
+            "solution_value": 53.0,
+            "solution_info": {
+                "placements": [
+                    "Rectangle(width=23, height=9), placed at (0, 37)",
+                    "Rectangle(width=19, height=4), placed at (0, 29)",
+                    "Rectangle(width=21, height=12), placed at (9, 6)",
+                    "Rectangle(width=6, height=4), placed at (24, 29)",
+                    "Rectangle(width=6, height=4), placed at (14, 33)",
+                    "Rectangle(width=13, height=7), placed at (0, 22)",
+                    "Rectangle(width=9, height=4), placed at (0, 6)",
+                    "Rectangle(width=6, height=4), placed at (0, 10)",
+                    "Rectangle(width=6, height=4), placed at (0, 14)",
+                    "Rectangle(width=23, height=6), placed at (6, 0)",
+                    "Rectangle(width=16, height=6), placed at (14, 47)",
+                    "Rectangle(width=14, height=4), placed at (0, 18)",
+                    "Rectangle(width=14, height=6), placed at (0, 46)",
+                    "Rectangle(width=6, height=6), placed at (0, 0)",
+                    "Rectangle(width=5, height=4), placed at (19, 29)",
+                    "Rectangle(width=7, height=6), placed at (23, 41)",
+                    "Rectangle(width=14, height=11), placed at (14, 18)",
+                    "Rectangle(width=7, height=4), placed at (23, 37)",
+                    "Rectangle(width=8, height=4), placed at (20, 33)",
+                    "Rectangle(width=14, height=4), placed at (0, 33)"
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-04 17:41:13.614478",
+            "solver_type": "GA",
+            "solver_name": "best fit GA 30_1.0_60sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f6f4366b0d0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f6f4366b190>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f6f4366b250>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f6f4366b2e0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f6f4366b340>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f6f4829d910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f6f4829d970>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 30,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function squeeky_wheel_optimization_wrapper at 0x7f6f436dc3a0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f6f4be84280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 60.01,
+            "solution_value": 53.0,
+            "solution_info": {
+                "placements": [
+                    "Rectangle(width=23, height=9), placed at (0, 0)",
+                    "Rectangle(width=19, height=4), placed at (0, 25)",
+                    "Rectangle(width=21, height=12), placed at (0, 13)",
+                    "Rectangle(width=6, height=4), placed at (23, 4)",
+                    "Rectangle(width=6, height=4), placed at (23, 8)",
+                    "Rectangle(width=13, height=7), placed at (0, 29)",
+                    "Rectangle(width=9, height=4), placed at (14, 9)",
+                    "Rectangle(width=6, height=4), placed at (19, 26)",
+                    "Rectangle(width=6, height=4), placed at (23, 12)",
+                    "Rectangle(width=23, height=6), placed at (7, 47)",
+                    "Rectangle(width=16, height=6), placed at (13, 30)",
+                    "Rectangle(width=14, height=4), placed at (0, 42)",
+                    "Rectangle(width=14, height=6), placed at (0, 36)",
+                    "Rectangle(width=6, height=6), placed at (21, 20)",
+                    "Rectangle(width=5, height=4), placed at (25, 26)",
+                    "Rectangle(width=7, height=6), placed at (0, 46)",
+                    "Rectangle(width=14, height=11), placed at (14, 36)",
+                    "Rectangle(width=7, height=4), placed at (23, 0)",
+                    "Rectangle(width=8, height=4), placed at (21, 16)",
+                    "Rectangle(width=14, height=4), placed at (0, 9)"
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-05 09:58:40.228777",
+            "solver_type": "GA",
+            "solver_name": "naive GA 30_1.0_60sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f75594840d0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f7559484190>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f7559484250>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f75594842e0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f7559484340>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f755e0b7910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f755e0b7970>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 30,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func at 0x7f75594f6280>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f7561c9e280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 60.01,
+            "solution_value": 65.0,
+            "solution_info": {
+                "placements": [
+                    [
+                        0,
+                        4
+                    ],
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        0,
+                        23
+                    ],
+                    [
+                        14,
+                        19
+                    ],
+                    [
+                        19,
+                        0
+                    ],
+                    [
+                        23,
+                        23
+                    ],
+                    [
+                        20,
+                        19
+                    ],
+                    [
+                        24,
+                        44
+                    ],
+                    [
+                        23,
+                        4
+                    ],
+                    [
+                        0,
+                        13
+                    ],
+                    [
+                        14,
+                        55
+                    ],
+                    [
+                        19,
+                        23
+                    ],
+                    [
+                        0,
+                        55
+                    ],
+                    [
+                        0,
+                        44
+                    ],
+                    [
+                        23,
+                        13
+                    ],
+                    [
+                        12,
+                        23
+                    ],
+                    [
+                        10,
+                        44
+                    ],
+                    [
+                        6,
+                        44
+                    ],
+                    [
+                        0,
+                        61
+                    ],
+                    [
+                        0,
+                        19
+                    ]
+                ]
+            },
+            "solution_progress": []
+        }
+    ]
+}

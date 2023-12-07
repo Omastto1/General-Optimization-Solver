@@ -204,8 +204,59 @@ def load_j30_solution(file_path, benchmark_name, instance):
                 else:
                     raise Exception("Unknown solution format")
 
-                break
+                return solution
+                # break
             
             line = file.readline()
 
+    raise Exception("Unknown solution")
     return solution
+
+def load_j30_ugent_csv_solution(filename, benchmark_name, instance):
+    print(f"Loading solution for {benchmark_name} {instance} ...")
+
+    parameter = int(instance.split("_")[0][len(benchmark_name):])
+    instance = int(instance.split("_")[1].split(".")[0])
+
+    instance_id = (parameter - 1) * 10 + instance
+
+    with open(filename, 'r') as file:
+        for line in file:
+            # Split the line by semicolon and filter out empty strings
+            parts = [part for part in line.split(';') if part.strip()]
+
+            if parts[0].startswith("#") or parts[0] == "ID":
+                continue
+
+            # Check if the line is relevant (it should have at least 3 parts)
+            if len(parts) >= 3:
+                # Extract the ID, Type, and Value
+                line_id, line_type, line_value = parts[0], parts[1], parts[2]
+
+                if int(line_id) != instance_id:
+                    continue
+
+                # Handle 'optimal' type
+                if line_type == 'optimal':
+                    solution = {
+                        "feasible": True,
+                        "optimum": int(line_value),
+                        "cpu_time": float(parts[3]) if len(parts) > 3 else None
+                    }
+
+                    return solution
+
+                # Handle 'heuristic' type
+                elif line_type == 'heuristic':
+                    solution = {
+                        "feasible": True,
+                        "optimum": None,
+                        "bounds": {
+                            "upper": int(line_value),
+                            "lower": int(line_value)
+                        }
+                    }
+
+                    return solution
+
+    raise Exception("Unknown solution")

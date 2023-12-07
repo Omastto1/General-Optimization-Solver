@@ -1,0 +1,3564 @@
+{
+    "benchmark_name": "BKW",
+    "instance_name": "4",
+    "instance_kind": "2DSTRIPPACKING",
+    "data": {
+        "strip_width": 80,
+        "rectangles": [
+            {
+                "width": 61,
+                "height": 38
+            },
+            {
+                "width": 7,
+                "height": 4
+            },
+            {
+                "width": 9,
+                "height": 5
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 7
+            },
+            {
+                "width": 5,
+                "height": 7
+            },
+            {
+                "width": 7,
+                "height": 7
+            },
+            {
+                "width": 7,
+                "height": 7
+            },
+            {
+                "width": 9,
+                "height": 15
+            },
+            {
+                "width": 4,
+                "height": 4
+            },
+            {
+                "width": 4,
+                "height": 4
+            },
+            {
+                "width": 4,
+                "height": 4
+            },
+            {
+                "width": 4,
+                "height": 4
+            },
+            {
+                "width": 4,
+                "height": 4
+            },
+            {
+                "width": 32,
+                "height": 31
+            },
+            {
+                "width": 8,
+                "height": 10
+            },
+            {
+                "width": 5,
+                "height": 5
+            },
+            {
+                "width": 32,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 8
+            },
+            {
+                "width": 7,
+                "height": 24
+            },
+            {
+                "width": 10,
+                "height": 7
+            },
+            {
+                "width": 4,
+                "height": 7
+            },
+            {
+                "width": 20,
+                "height": 7
+            },
+            {
+                "width": 5,
+                "height": 12
+            },
+            {
+                "width": 5,
+                "height": 12
+            },
+            {
+                "width": 11,
+                "height": 7
+            },
+            {
+                "width": 8,
+                "height": 21
+            },
+            {
+                "width": 9,
+                "height": 4
+            },
+            {
+                "width": 5,
+                "height": 72
+            },
+            {
+                "width": 5,
+                "height": 52
+            },
+            {
+                "width": 9,
+                "height": 7
+            },
+            {
+                "width": 9,
+                "height": 33
+            },
+            {
+                "width": 4,
+                "height": 8
+            },
+            {
+                "width": 9,
+                "height": 34
+            },
+            {
+                "width": 29,
+                "height": 4
+            }
+        ]
+    },
+    "reference_solution": {
+        "feasible": true,
+        "optimum": 80
+    },
+    "run_history": [
+        {
+            "timestamp": "2023-12-02 16:53:14.462921",
+            "solver_type": "GA",
+            "solver_name": "naive GA 200_1.0",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cc70>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cd30>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f438453cdf0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f438453ceb0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f438453ce80>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f4387255910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f4387255970>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 200,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 200,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func at 0x7f438453d280>",
+                "termination": "<pymoo.termination.robust.RobustTermination object at 0x7f43a313d280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 44.75,
+            "solution_value": 130.0,
+            "solution_info": {
+                "placements": [
+                    [
+                        10,
+                        41
+                    ],
+                    [
+                        25,
+                        113
+                    ],
+                    [
+                        70,
+                        0
+                    ],
+                    [
+                        70,
+                        123
+                    ],
+                    [
+                        24,
+                        0
+                    ],
+                    [
+                        43,
+                        123
+                    ],
+                    [
+                        55,
+                        123
+                    ],
+                    [
+                        29,
+                        0
+                    ],
+                    [
+                        65,
+                        123
+                    ],
+                    [
+                        73,
+                        113
+                    ],
+                    [
+                        0,
+                        113
+                    ],
+                    [
+                        18,
+                        113
+                    ],
+                    [
+                        48,
+                        123
+                    ],
+                    [
+                        5,
+                        7
+                    ],
+                    [
+                        76,
+                        41
+                    ],
+                    [
+                        21,
+                        123
+                    ],
+                    [
+                        34,
+                        0
+                    ],
+                    [
+                        36,
+                        113
+                    ],
+                    [
+                        20,
+                        0
+                    ],
+                    [
+                        14,
+                        7
+                    ],
+                    [
+                        5,
+                        113
+                    ],
+                    [
+                        60,
+                        123
+                    ],
+                    [
+                        38,
+                        0
+                    ],
+                    [
+                        13,
+                        113
+                    ],
+                    [
+                        72,
+                        7
+                    ],
+                    [
+                        0,
+                        123
+                    ],
+                    [
+                        32,
+                        113
+                    ],
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        71,
+                        41
+                    ],
+                    [
+                        0,
+                        7
+                    ],
+                    [
+                        10,
+                        123
+                    ],
+                    [
+                        64,
+                        7
+                    ],
+                    [
+                        34,
+                        123
+                    ],
+                    [
+                        5,
+                        41
+                    ],
+                    [
+                        0,
+                        41
+                    ],
+                    [
+                        25,
+                        123
+                    ],
+                    [
+                        46,
+                        7
+                    ],
+                    [
+                        69,
+                        113
+                    ],
+                    [
+                        55,
+                        7
+                    ],
+                    [
+                        40,
+                        113
+                    ]
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-03 09:08:27.086168",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented 15",
+            "solver_config": {
+                "TimeLimit": 15,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                15
+            ],
+            "solution_value": 434,
+            "solution_info": {
+                "Model constraints": 820,
+                "variables": {
+                    "integer": 1,
+                    "interval": 80,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "15 sec",
+                "Objective values": [
+                    434
+                ],
+                "Bounds": [
+                    72
+                ],
+                "Gaps": [
+                    0.834101
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        9,
+                        70,
+                        61
+                    ],
+                    "rectangle_0_Y": [
+                        11,
+                        49,
+                        38
+                    ],
+                    "rectangle_1_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        28,
+                        32,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_2_Y": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        13,
+                        18,
+                        5
+                    ],
+                    "rectangle_4_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_5_Y": [
+                        32,
+                        36,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_6_Y": [
+                        8,
+                        12,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        8,
+                        13,
+                        5
+                    ],
+                    "rectangle_7_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_8_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_8_Y": [
+                        20,
+                        24,
+                        4
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        88,
+                        95,
+                        7
+                    ],
+                    "rectangle_10_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_10_Y": [
+                        95,
+                        102,
+                        7
+                    ],
+                    "rectangle_11_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_11_Y": [
+                        81,
+                        88,
+                        7
+                    ],
+                    "rectangle_12_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_12_Y": [
+                        67,
+                        74,
+                        7
+                    ],
+                    "rectangle_13_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_13_Y": [
+                        152,
+                        167,
+                        15
+                    ],
+                    "rectangle_14_X": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_14_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_15_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_16_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_16_Y": [
+                        24,
+                        28,
+                        4
+                    ],
+                    "rectangle_17_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        12,
+                        16,
+                        4
+                    ],
+                    "rectangle_18_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_18_Y": [
+                        16,
+                        20,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        0,
+                        32,
+                        32
+                    ],
+                    "rectangle_19_Y": [
+                        212,
+                        243,
+                        31
+                    ],
+                    "rectangle_20_X": [
+                        0,
+                        8,
+                        8
+                    ],
+                    "rectangle_20_Y": [
+                        118,
+                        128,
+                        10
+                    ],
+                    "rectangle_21_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_21_Y": [
+                        41,
+                        46,
+                        5
+                    ],
+                    "rectangle_22_X": [
+                        47,
+                        79,
+                        32
+                    ],
+                    "rectangle_22_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_23_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_23_Y": [
+                        110,
+                        118,
+                        8
+                    ],
+                    "rectangle_24_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_24_Y": [
+                        188,
+                        212,
+                        24
+                    ],
+                    "rectangle_25_X": [
+                        0,
+                        10,
+                        10
+                    ],
+                    "rectangle_25_Y": [
+                        74,
+                        81,
+                        7
+                    ],
+                    "rectangle_26_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_26_Y": [
+                        46,
+                        53,
+                        7
+                    ],
+                    "rectangle_27_X": [
+                        14,
+                        34,
+                        20
+                    ],
+                    "rectangle_27_Y": [
+                        4,
+                        11,
+                        7
+                    ],
+                    "rectangle_28_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_28_Y": [
+                        140,
+                        152,
+                        12
+                    ],
+                    "rectangle_29_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_29_Y": [
+                        128,
+                        140,
+                        12
+                    ],
+                    "rectangle_30_X": [
+                        0,
+                        11,
+                        11
+                    ],
+                    "rectangle_30_Y": [
+                        53,
+                        60,
+                        7
+                    ],
+                    "rectangle_31_X": [
+                        0,
+                        8,
+                        8
+                    ],
+                    "rectangle_31_Y": [
+                        167,
+                        188,
+                        21
+                    ],
+                    "rectangle_32_X": [
+                        5,
+                        14,
+                        9
+                    ],
+                    "rectangle_32_Y": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_33_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_33_Y": [
+                        362,
+                        434,
+                        72
+                    ],
+                    "rectangle_34_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_34_Y": [
+                        310,
+                        362,
+                        52
+                    ],
+                    "rectangle_35_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_35_Y": [
+                        60,
+                        67,
+                        7
+                    ],
+                    "rectangle_36_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_36_Y": [
+                        243,
+                        276,
+                        33
+                    ],
+                    "rectangle_37_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_37_Y": [
+                        102,
+                        110,
+                        8
+                    ],
+                    "rectangle_38_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_38_Y": [
+                        276,
+                        310,
+                        34
+                    ],
+                    "rectangle_39_X": [
+                        18,
+                        47,
+                        29
+                    ],
+                    "rectangle_39_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    503,
+                    0.02
+                ],
+                [
+                    478,
+                    0.52
+                ],
+                [
+                    463,
+                    0.53
+                ],
+                [
+                    458,
+                    0.53
+                ],
+                [
+                    446,
+                    0.53
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 09:35:12.886910",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented 60",
+            "solver_config": {
+                "TimeLimit": 60,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                60
+            ],
+            "solution_value": 422,
+            "solution_info": {
+                "Model constraints": 820,
+                "variables": {
+                    "integer": 1,
+                    "interval": 80,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "60 sec",
+                "Objective values": [
+                    422
+                ],
+                "Bounds": [
+                    72
+                ],
+                "Gaps": [
+                    0.829384
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        7,
+                        68,
+                        61
+                    ],
+                    "rectangle_0_Y": [
+                        11,
+                        49,
+                        38
+                    ],
+                    "rectangle_1_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        28,
+                        32,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        27,
+                        36,
+                        9
+                    ],
+                    "rectangle_2_Y": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        24,
+                        28,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        8,
+                        13,
+                        5
+                    ],
+                    "rectangle_4_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_5_Y": [
+                        16,
+                        20,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_6_Y": [
+                        20,
+                        24,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        13,
+                        18,
+                        5
+                    ],
+                    "rectangle_7_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_8_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_8_Y": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_9_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        41,
+                        48,
+                        7
+                    ],
+                    "rectangle_10_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_10_Y": [
+                        55,
+                        62,
+                        7
+                    ],
+                    "rectangle_11_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_11_Y": [
+                        83,
+                        90,
+                        7
+                    ],
+                    "rectangle_12_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_12_Y": [
+                        48,
+                        55,
+                        7
+                    ],
+                    "rectangle_13_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_13_Y": [
+                        140,
+                        155,
+                        15
+                    ],
+                    "rectangle_14_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_14_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_15_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_16_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_16_Y": [
+                        8,
+                        12,
+                        4
+                    ],
+                    "rectangle_17_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        12,
+                        16,
+                        4
+                    ],
+                    "rectangle_18_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_18_Y": [
+                        32,
+                        36,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        0,
+                        32,
+                        32
+                    ],
+                    "rectangle_19_Y": [
+                        200,
+                        231,
+                        31
+                    ],
+                    "rectangle_20_X": [
+                        0,
+                        8,
+                        8
+                    ],
+                    "rectangle_20_Y": [
+                        106,
+                        116,
+                        10
+                    ],
+                    "rectangle_21_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_21_Y": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "rectangle_22_X": [
+                        47,
+                        79,
+                        32
+                    ],
+                    "rectangle_22_Y": [
+                        4,
+                        8,
+                        4
+                    ],
+                    "rectangle_23_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_23_Y": [
+                        90,
+                        98,
+                        8
+                    ],
+                    "rectangle_24_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_24_Y": [
+                        176,
+                        200,
+                        24
+                    ],
+                    "rectangle_25_X": [
+                        0,
+                        10,
+                        10
+                    ],
+                    "rectangle_25_Y": [
+                        76,
+                        83,
+                        7
+                    ],
+                    "rectangle_26_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_26_Y": [
+                        69,
+                        76,
+                        7
+                    ],
+                    "rectangle_27_X": [
+                        5,
+                        25,
+                        20
+                    ],
+                    "rectangle_27_Y": [
+                        4,
+                        11,
+                        7
+                    ],
+                    "rectangle_28_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_28_Y": [
+                        116,
+                        128,
+                        12
+                    ],
+                    "rectangle_29_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_29_Y": [
+                        128,
+                        140,
+                        12
+                    ],
+                    "rectangle_30_X": [
+                        36,
+                        47,
+                        11
+                    ],
+                    "rectangle_30_Y": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_31_X": [
+                        0,
+                        8,
+                        8
+                    ],
+                    "rectangle_31_Y": [
+                        155,
+                        176,
+                        21
+                    ],
+                    "rectangle_32_X": [
+                        18,
+                        27,
+                        9
+                    ],
+                    "rectangle_32_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_33_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_33_Y": [
+                        350,
+                        422,
+                        72
+                    ],
+                    "rectangle_34_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_34_Y": [
+                        298,
+                        350,
+                        52
+                    ],
+                    "rectangle_35_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_35_Y": [
+                        62,
+                        69,
+                        7
+                    ],
+                    "rectangle_36_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_36_Y": [
+                        231,
+                        264,
+                        33
+                    ],
+                    "rectangle_37_X": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_37_Y": [
+                        98,
+                        106,
+                        8
+                    ],
+                    "rectangle_38_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_38_Y": [
+                        264,
+                        298,
+                        34
+                    ],
+                    "rectangle_39_X": [
+                        47,
+                        76,
+                        29
+                    ],
+                    "rectangle_39_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    503,
+                    0.04
+                ],
+                [
+                    478,
+                    0.66
+                ],
+                [
+                    463,
+                    0.66
+                ],
+                [
+                    458,
+                    0.66
+                ],
+                [
+                    446,
+                    0.66
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 16:17:18.364754",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented Hybrid 15",
+            "solver_config": {
+                "TimeLimit": 15,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                15
+            ],
+            "solution_value": 107,
+            "solution_info": {
+                "Model constraints": 820,
+                "variables": {
+                    "integer": 1,
+                    "interval": 80,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "15 sec",
+                "Objective values": [
+                    107
+                ],
+                "Bounds": [
+                    72
+                ],
+                "Gaps": [
+                    0.327103
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        0,
+                        61,
+                        61
+                    ],
+                    "rectangle_0_Y": [
+                        50,
+                        88,
+                        38
+                    ],
+                    "rectangle_1_X": [
+                        53,
+                        60,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        33,
+                        37,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        68,
+                        77,
+                        9
+                    ],
+                    "rectangle_2_Y": [
+                        21,
+                        26,
+                        5
+                    ],
+                    "rectangle_3_X": [
+                        59,
+                        64,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_4_Y": [
+                        43,
+                        47,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_5_Y": [
+                        11,
+                        15,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        0,
+                        5,
+                        5
+                    ],
+                    "rectangle_6_Y": [
+                        7,
+                        11,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        48,
+                        53,
+                        5
+                    ],
+                    "rectangle_7_Y": [
+                        33,
+                        37,
+                        4
+                    ],
+                    "rectangle_8_X": [
+                        37,
+                        42,
+                        5
+                    ],
+                    "rectangle_8_Y": [
+                        88,
+                        92,
+                        4
+                    ],
+                    "rectangle_9_X": [
+                        63,
+                        68,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_10_X": [
+                        36,
+                        41,
+                        5
+                    ],
+                    "rectangle_10_Y": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_11_X": [
+                        41,
+                        48,
+                        7
+                    ],
+                    "rectangle_11_Y": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_12_X": [
+                        29,
+                        36,
+                        7
+                    ],
+                    "rectangle_12_Y": [
+                        33,
+                        40,
+                        7
+                    ],
+                    "rectangle_13_X": [
+                        36,
+                        45,
+                        9
+                    ],
+                    "rectangle_13_Y": [
+                        92,
+                        107,
+                        15
+                    ],
+                    "rectangle_14_X": [
+                        27,
+                        31,
+                        4
+                    ],
+                    "rectangle_14_Y": [
+                        92,
+                        96,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        29,
+                        33,
+                        4
+                    ],
+                    "rectangle_15_Y": [
+                        43,
+                        47,
+                        4
+                    ],
+                    "rectangle_16_X": [
+                        72,
+                        76,
+                        4
+                    ],
+                    "rectangle_16_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_17_X": [
+                        25,
+                        29,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        43,
+                        47,
+                        4
+                    ],
+                    "rectangle_18_X": [
+                        10,
+                        14,
+                        4
+                    ],
+                    "rectangle_18_Y": [
+                        24,
+                        28,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        18,
+                        50,
+                        32
+                    ],
+                    "rectangle_19_Y": [
+                        0,
+                        31,
+                        31
+                    ],
+                    "rectangle_20_X": [
+                        60,
+                        68,
+                        8
+                    ],
+                    "rectangle_20_Y": [
+                        21,
+                        31,
+                        10
+                    ],
+                    "rectangle_21_X": [
+                        68,
+                        73,
+                        5
+                    ],
+                    "rectangle_21_Y": [
+                        33,
+                        38,
+                        5
+                    ],
+                    "rectangle_22_X": [
+                        5,
+                        37,
+                        32
+                    ],
+                    "rectangle_22_Y": [
+                        88,
+                        92,
+                        4
+                    ],
+                    "rectangle_23_X": [
+                        31,
+                        36,
+                        5
+                    ],
+                    "rectangle_23_Y": [
+                        92,
+                        100,
+                        8
+                    ],
+                    "rectangle_24_X": [
+                        11,
+                        18,
+                        7
+                    ],
+                    "rectangle_24_Y": [
+                        0,
+                        24,
+                        24
+                    ],
+                    "rectangle_25_X": [
+                        33,
+                        43,
+                        10
+                    ],
+                    "rectangle_25_Y": [
+                        43,
+                        50,
+                        7
+                    ],
+                    "rectangle_26_X": [
+                        23,
+                        27,
+                        4
+                    ],
+                    "rectangle_26_Y": [
+                        92,
+                        99,
+                        7
+                    ],
+                    "rectangle_27_X": [
+                        5,
+                        25,
+                        20
+                    ],
+                    "rectangle_27_Y": [
+                        43,
+                        50,
+                        7
+                    ],
+                    "rectangle_28_X": [
+                        5,
+                        10,
+                        5
+                    ],
+                    "rectangle_28_Y": [
+                        7,
+                        19,
+                        12
+                    ],
+                    "rectangle_29_X": [
+                        18,
+                        23,
+                        5
+                    ],
+                    "rectangle_29_Y": [
+                        92,
+                        104,
+                        12
+                    ],
+                    "rectangle_30_X": [
+                        0,
+                        11,
+                        11
+                    ],
+                    "rectangle_30_Y": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_31_X": [
+                        64,
+                        72,
+                        8
+                    ],
+                    "rectangle_31_Y": [
+                        0,
+                        21,
+                        21
+                    ],
+                    "rectangle_32_X": [
+                        45,
+                        54,
+                        9
+                    ],
+                    "rectangle_32_Y": [
+                        40,
+                        44,
+                        4
+                    ],
+                    "rectangle_33_X": [
+                        75,
+                        80,
+                        5
+                    ],
+                    "rectangle_33_Y": [
+                        31,
+                        103,
+                        72
+                    ],
+                    "rectangle_34_X": [
+                        61,
+                        66,
+                        5
+                    ],
+                    "rectangle_34_Y": [
+                        50,
+                        102,
+                        52
+                    ],
+                    "rectangle_35_X": [
+                        54,
+                        63,
+                        9
+                    ],
+                    "rectangle_35_Y": [
+                        43,
+                        50,
+                        7
+                    ],
+                    "rectangle_36_X": [
+                        50,
+                        59,
+                        9
+                    ],
+                    "rectangle_36_Y": [
+                        0,
+                        33,
+                        33
+                    ],
+                    "rectangle_37_X": [
+                        14,
+                        18,
+                        4
+                    ],
+                    "rectangle_37_Y": [
+                        24,
+                        32,
+                        8
+                    ],
+                    "rectangle_38_X": [
+                        66,
+                        75,
+                        9
+                    ],
+                    "rectangle_38_Y": [
+                        50,
+                        84,
+                        34
+                    ],
+                    "rectangle_39_X": [
+                        0,
+                        29,
+                        29
+                    ],
+                    "rectangle_39_Y": [
+                        33,
+                        37,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    141,
+                    0.06
+                ],
+                [
+                    137,
+                    0.07
+                ],
+                [
+                    134,
+                    0.08
+                ],
+                [
+                    130,
+                    0.08
+                ],
+                [
+                    129,
+                    0.08
+                ],
+                [
+                    116,
+                    0.1
+                ],
+                [
+                    107,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-03 19:43:37.812160",
+            "solver_type": "CP",
+            "solver_name": "CP Default Not Oriented Hybrid 60",
+            "solver_config": {
+                "TimeLimit": 60,
+                "NoWorkers": 1,
+                "NoCores": 32,
+                "SolverVersion": "12.9.0.0"
+            },
+            "solve_status": "Feasible",
+            "solve_time": [
+                60
+            ],
+            "solution_value": 110,
+            "solution_info": {
+                "Model constraints": 820,
+                "variables": {
+                    "integer": 1,
+                    "interval": 80,
+                    "sequence": 0
+                },
+                "Solve status": "Feasible",
+                "Search status": "SearchStopped",
+                "Search status stop cause": "SearchStoppedByLimit",
+                "Solve time": "60 sec",
+                "Objective values": [
+                    110
+                ],
+                "Bounds": [
+                    72
+                ],
+                "Gaps": [
+                    0.345455
+                ],
+                "Variables": {
+                    "rectangle_0_X": [
+                        0,
+                        61,
+                        61
+                    ],
+                    "rectangle_0_Y": [
+                        48,
+                        86,
+                        38
+                    ],
+                    "rectangle_1_X": [
+                        66,
+                        73,
+                        7
+                    ],
+                    "rectangle_1_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_2_X": [
+                        27,
+                        36,
+                        9
+                    ],
+                    "rectangle_2_Y": [
+                        86,
+                        91,
+                        5
+                    ],
+                    "rectangle_3_X": [
+                        73,
+                        78,
+                        5
+                    ],
+                    "rectangle_3_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_4_X": [
+                        39,
+                        44,
+                        5
+                    ],
+                    "rectangle_4_Y": [
+                        41,
+                        45,
+                        4
+                    ],
+                    "rectangle_5_X": [
+                        51,
+                        56,
+                        5
+                    ],
+                    "rectangle_5_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_6_X": [
+                        44,
+                        49,
+                        5
+                    ],
+                    "rectangle_6_Y": [
+                        90,
+                        94,
+                        4
+                    ],
+                    "rectangle_7_X": [
+                        41,
+                        46,
+                        5
+                    ],
+                    "rectangle_7_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_8_X": [
+                        61,
+                        66,
+                        5
+                    ],
+                    "rectangle_8_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_9_X": [
+                        56,
+                        61,
+                        5
+                    ],
+                    "rectangle_9_Y": [
+                        34,
+                        41,
+                        7
+                    ],
+                    "rectangle_10_X": [
+                        7,
+                        12,
+                        5
+                    ],
+                    "rectangle_10_Y": [
+                        41,
+                        48,
+                        7
+                    ],
+                    "rectangle_11_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_11_Y": [
+                        41,
+                        48,
+                        7
+                    ],
+                    "rectangle_12_X": [
+                        12,
+                        19,
+                        7
+                    ],
+                    "rectangle_12_Y": [
+                        41,
+                        48,
+                        7
+                    ],
+                    "rectangle_13_X": [
+                        66,
+                        75,
+                        9
+                    ],
+                    "rectangle_13_Y": [
+                        48,
+                        63,
+                        15
+                    ],
+                    "rectangle_14_X": [
+                        44,
+                        48,
+                        4
+                    ],
+                    "rectangle_14_Y": [
+                        7,
+                        11,
+                        4
+                    ],
+                    "rectangle_15_X": [
+                        74,
+                        78,
+                        4
+                    ],
+                    "rectangle_15_Y": [
+                        0,
+                        4,
+                        4
+                    ],
+                    "rectangle_16_X": [
+                        15,
+                        19,
+                        4
+                    ],
+                    "rectangle_16_Y": [
+                        86,
+                        90,
+                        4
+                    ],
+                    "rectangle_17_X": [
+                        48,
+                        52,
+                        4
+                    ],
+                    "rectangle_17_Y": [
+                        86,
+                        90,
+                        4
+                    ],
+                    "rectangle_18_X": [
+                        36,
+                        40,
+                        4
+                    ],
+                    "rectangle_18_Y": [
+                        86,
+                        90,
+                        4
+                    ],
+                    "rectangle_19_X": [
+                        7,
+                        39,
+                        32
+                    ],
+                    "rectangle_19_Y": [
+                        0,
+                        31,
+                        31
+                    ],
+                    "rectangle_20_X": [
+                        19,
+                        27,
+                        8
+                    ],
+                    "rectangle_20_Y": [
+                        86,
+                        96,
+                        10
+                    ],
+                    "rectangle_21_X": [
+                        46,
+                        51,
+                        5
+                    ],
+                    "rectangle_21_Y": [
+                        34,
+                        39,
+                        5
+                    ],
+                    "rectangle_22_X": [
+                        9,
+                        41,
+                        32
+                    ],
+                    "rectangle_22_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_23_X": [
+                        57,
+                        62,
+                        5
+                    ],
+                    "rectangle_23_Y": [
+                        21,
+                        29,
+                        8
+                    ],
+                    "rectangle_24_X": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_24_Y": [
+                        0,
+                        24,
+                        24
+                    ],
+                    "rectangle_25_X": [
+                        0,
+                        10,
+                        10
+                    ],
+                    "rectangle_25_Y": [
+                        86,
+                        93,
+                        7
+                    ],
+                    "rectangle_26_X": [
+                        74,
+                        78,
+                        4
+                    ],
+                    "rectangle_26_Y": [
+                        4,
+                        11,
+                        7
+                    ],
+                    "rectangle_27_X": [
+                        19,
+                        39,
+                        20
+                    ],
+                    "rectangle_27_Y": [
+                        41,
+                        48,
+                        7
+                    ],
+                    "rectangle_28_X": [
+                        10,
+                        15,
+                        5
+                    ],
+                    "rectangle_28_Y": [
+                        86,
+                        98,
+                        12
+                    ],
+                    "rectangle_29_X": [
+                        52,
+                        57,
+                        5
+                    ],
+                    "rectangle_29_Y": [
+                        86,
+                        98,
+                        12
+                    ],
+                    "rectangle_30_X": [
+                        62,
+                        73,
+                        11
+                    ],
+                    "rectangle_30_Y": [
+                        100,
+                        107,
+                        7
+                    ],
+                    "rectangle_31_X": [
+                        57,
+                        65,
+                        8
+                    ],
+                    "rectangle_31_Y": [
+                        0,
+                        21,
+                        21
+                    ],
+                    "rectangle_32_X": [
+                        0,
+                        9,
+                        9
+                    ],
+                    "rectangle_32_Y": [
+                        34,
+                        38,
+                        4
+                    ],
+                    "rectangle_33_X": [
+                        75,
+                        80,
+                        5
+                    ],
+                    "rectangle_33_Y": [
+                        38,
+                        110,
+                        72
+                    ],
+                    "rectangle_34_X": [
+                        61,
+                        66,
+                        5
+                    ],
+                    "rectangle_34_Y": [
+                        48,
+                        100,
+                        52
+                    ],
+                    "rectangle_35_X": [
+                        39,
+                        48,
+                        9
+                    ],
+                    "rectangle_35_Y": [
+                        0,
+                        7,
+                        7
+                    ],
+                    "rectangle_36_X": [
+                        65,
+                        74,
+                        9
+                    ],
+                    "rectangle_36_Y": [
+                        0,
+                        33,
+                        33
+                    ],
+                    "rectangle_37_X": [
+                        40,
+                        44,
+                        4
+                    ],
+                    "rectangle_37_Y": [
+                        7,
+                        15,
+                        8
+                    ],
+                    "rectangle_38_X": [
+                        48,
+                        57,
+                        9
+                    ],
+                    "rectangle_38_Y": [
+                        0,
+                        34,
+                        34
+                    ],
+                    "rectangle_39_X": [
+                        44,
+                        73,
+                        29
+                    ],
+                    "rectangle_39_Y": [
+                        41,
+                        45,
+                        4
+                    ],
+                    "Anonymous variables": 1
+                }
+            },
+            "solution_progress": [
+                [
+                    132,
+                    0.05
+                ],
+                [
+                    130,
+                    0.05
+                ],
+                [
+                    128,
+                    0.06
+                ],
+                [
+                    127,
+                    0.06
+                ],
+                [
+                    125,
+                    0.07
+                ],
+                [
+                    117,
+                    0.08
+                ],
+                [
+                    115,
+                    0.1
+                ],
+                [
+                    114,
+                    0.13
+                ],
+                [
+                    110,
+                    0.16
+                ]
+            ]
+        },
+        {
+            "timestamp": "2023-12-04 14:09:17.043799",
+            "solver_type": "GA",
+            "solver_name": "best fit GA 200_1.0_60sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f223fd2c940>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f223fd2ca00>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f223fd2cac0>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f223fd2cb80>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f223fd2cb50>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f2244961940>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f22449619a0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 200,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 200,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function squeeky_wheel_optimization_wrapper at 0x7f223fda03a0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f22485492b0>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 60.7,
+            "solution_value": 84.0,
+            "solution_info": {
+                "placements": [
+                    "Rectangle(width=61, height=38), placed at (0, 0)",
+                    "Rectangle(width=7, height=4), placed at (61, 0)",
+                    "Rectangle(width=9, height=5), placed at (66, 5)",
+                    "Rectangle(width=5, height=4), placed at (75, 8)",
+                    "Rectangle(width=5, height=4), placed at (71, 40)",
+                    "Rectangle(width=5, height=4), placed at (73, 16)",
+                    "Rectangle(width=5, height=4), placed at (61, 8)",
+                    "Rectangle(width=5, height=4), placed at (61, 4)",
+                    "Rectangle(width=5, height=4), placed at (75, 12)",
+                    "Rectangle(width=7, height=5), placed at (71, 35)",
+                    "Rectangle(width=7, height=5), placed at (66, 61)",
+                    "Rectangle(width=7, height=7), placed at (66, 14)",
+                    "Rectangle(width=7, height=7), placed at (52, 42)",
+                    "Rectangle(width=15, height=9), placed at (65, 66)",
+                    "Rectangle(width=4, height=4), placed at (71, 44)",
+                    "Rectangle(width=4, height=4), placed at (61, 17)",
+                    "Rectangle(width=4, height=4), placed at (76, 0)",
+                    "Rectangle(width=4, height=4), placed at (76, 40)",
+                    "Rectangle(width=4, height=4), placed at (76, 4)",
+                    "Rectangle(width=32, height=31), placed at (0, 42)",
+                    "Rectangle(width=10, height=8), placed at (61, 28)",
+                    "Rectangle(width=5, height=5), placed at (61, 12)",
+                    "Rectangle(width=32, height=4), placed at (0, 38)",
+                    "Rectangle(width=8, height=5), placed at (68, 0)",
+                    "Rectangle(width=24, height=7), placed at (32, 49)",
+                    "Rectangle(width=10, height=7), placed at (61, 36)",
+                    "Rectangle(width=7, height=4), placed at (73, 20)",
+                    "Rectangle(width=20, height=7), placed at (32, 42)",
+                    "Rectangle(width=12, height=5), placed at (66, 56)",
+                    "Rectangle(width=12, height=5), placed at (59, 43)",
+                    "Rectangle(width=11, height=7), placed at (61, 21)",
+                    "Rectangle(width=21, height=8), placed at (59, 48)",
+                    "Rectangle(width=9, height=4), placed at (66, 10)",
+                    "Rectangle(width=72, height=5), placed at (0, 79)",
+                    "Rectangle(width=52, height=5), placed at (0, 74)",
+                    "Rectangle(width=9, height=7), placed at (71, 28)",
+                    "Rectangle(width=33, height=9), placed at (32, 65)",
+                    "Rectangle(width=8, height=4), placed at (72, 24)",
+                    "Rectangle(width=34, height=9), placed at (32, 56)",
+                    "Rectangle(width=29, height=4), placed at (32, 38)"
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-04 17:37:12.244471",
+            "solver_type": "GA",
+            "solver_name": "best fit GA 30_1.0_60sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f6f4366b0d0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f6f4366b190>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f6f4366b250>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f6f4366b2e0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f6f4366b340>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f6f4829d910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f6f4829d970>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 30,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function squeeky_wheel_optimization_wrapper at 0x7f6f436dc3a0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f6f4be84280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 60.07,
+            "solution_value": 85.0,
+            "solution_info": {
+                "placements": [
+                    "Rectangle(width=61, height=38), placed at (0, 5)",
+                    "Rectangle(width=7, height=4), placed at (71, 4)",
+                    "Rectangle(width=9, height=5), placed at (61, 29)",
+                    "Rectangle(width=5, height=4), placed at (74, 48)",
+                    "Rectangle(width=5, height=4), placed at (75, 29)",
+                    "Rectangle(width=5, height=4), placed at (75, 8)",
+                    "Rectangle(width=5, height=4), placed at (65, 9)",
+                    "Rectangle(width=5, height=4), placed at (75, 12)",
+                    "Rectangle(width=5, height=4), placed at (70, 29)",
+                    "Rectangle(width=7, height=5), placed at (64, 0)",
+                    "Rectangle(width=7, height=5), placed at (61, 38)",
+                    "Rectangle(width=7, height=7), placed at (53, 52)",
+                    "Rectangle(width=7, height=7), placed at (70, 33)",
+                    "Rectangle(width=15, height=9), placed at (61, 20)",
+                    "Rectangle(width=4, height=4), placed at (76, 20)",
+                    "Rectangle(width=4, height=4), placed at (61, 9)",
+                    "Rectangle(width=4, height=4), placed at (76, 24)",
+                    "Rectangle(width=4, height=4), placed at (76, 16)",
+                    "Rectangle(width=4, height=4), placed at (72, 16)",
+                    "Rectangle(width=32, height=31), placed at (0, 43)",
+                    "Rectangle(width=10, height=8), placed at (68, 40)",
+                    "Rectangle(width=5, height=5), placed at (70, 8)",
+                    "Rectangle(width=32, height=4), placed at (29, 76)",
+                    "Rectangle(width=8, height=5), placed at (56, 62)",
+                    "Rectangle(width=24, height=7), placed at (32, 60)",
+                    "Rectangle(width=10, height=7), placed at (66, 67)",
+                    "Rectangle(width=7, height=4), placed at (61, 34)",
+                    "Rectangle(width=20, height=7), placed at (60, 55)",
+                    "Rectangle(width=12, height=5), placed at (0, 0)",
+                    "Rectangle(width=12, height=5), placed at (64, 62)",
+                    "Rectangle(width=11, height=7), placed at (61, 13)",
+                    "Rectangle(width=21, height=8), placed at (32, 52)",
+                    "Rectangle(width=9, height=4), placed at (61, 5)",
+                    "Rectangle(width=72, height=5), placed at (0, 80)",
+                    "Rectangle(width=52, height=5), placed at (12, 0)",
+                    "Rectangle(width=9, height=7), placed at (65, 48)",
+                    "Rectangle(width=33, height=9), placed at (32, 43)",
+                    "Rectangle(width=8, height=4), placed at (71, 0)",
+                    "Rectangle(width=34, height=9), placed at (32, 67)",
+                    "Rectangle(width=29, height=4), placed at (0, 74)"
+                ]
+            },
+            "solution_progress": []
+        },
+        {
+            "timestamp": "2023-12-05 09:54:40.008872",
+            "solver_type": "GA",
+            "solver_name": "naive GA 30_1.0_60sec",
+            "solver_config": {
+                "seed": 1,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f75594840d0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f7559484190>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f7559484250>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f75594842e0>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f7559484340>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f755e0b7910>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f755e0b7970>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 30,
+                    "advance_after_initial_infill": false,
+                    "survival": {
+                        "filter_infeasible": false
+                    },
+                    "n_offsprings": 30,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "TournamentSelection",
+                            "vtype": null,
+                            "repair": null,
+                            "pressure": 2,
+                            "func_comp": {}
+                        },
+                        "crossover": {
+                            "name": "TwoPointCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 2,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "n_points": 2
+                        },
+                        "mutation": {
+                            "name": "PolynomialMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 0.9,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null,
+                            "at_least_once": false,
+                            "eta": {
+                                "value": 20,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    3.0,
+                                    30.0
+                                ],
+                                "strict": [
+                                    1.0,
+                                    100.0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "fitness_func": "<function fitness_func at 0x7f75594f6280>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f7561c9e280>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 60.01,
+            "solution_value": 148.0,
+            "solution_info": {
+                "placements": [
+                    [
+                        10,
+                        0
+                    ],
+                    [
+                        4,
+                        144
+                    ],
+                    [
+                        41,
+                        137
+                    ],
+                    [
+                        40,
+                        72
+                    ],
+                    [
+                        75,
+                        0
+                    ],
+                    [
+                        36,
+                        137
+                    ],
+                    [
+                        45,
+                        72
+                    ],
+                    [
+                        11,
+                        144
+                    ],
+                    [
+                        50,
+                        72
+                    ],
+                    [
+                        75,
+                        137
+                    ],
+                    [
+                        72,
+                        72
+                    ],
+                    [
+                        9,
+                        137
+                    ],
+                    [
+                        17,
+                        103
+                    ],
+                    [
+                        33,
+                        103
+                    ],
+                    [
+                        68,
+                        72
+                    ],
+                    [
+                        68,
+                        103
+                    ],
+                    [
+                        0,
+                        144
+                    ],
+                    [
+                        36,
+                        72
+                    ],
+                    [
+                        71,
+                        0
+                    ],
+                    [
+                        4,
+                        72
+                    ],
+                    [
+                        55,
+                        72
+                    ],
+                    [
+                        63,
+                        72
+                    ],
+                    [
+                        45,
+                        144
+                    ],
+                    [
+                        7,
+                        103
+                    ],
+                    [
+                        0,
+                        103
+                    ],
+                    [
+                        50,
+                        137
+                    ],
+                    [
+                        71,
+                        137
+                    ],
+                    [
+                        16,
+                        137
+                    ],
+                    [
+                        72,
+                        103
+                    ],
+                    [
+                        12,
+                        103
+                    ],
+                    [
+                        60,
+                        137
+                    ],
+                    [
+                        51,
+                        103
+                    ],
+                    [
+                        0,
+                        137
+                    ],
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        5,
+                        0
+                    ],
+                    [
+                        42,
+                        103
+                    ],
+                    [
+                        59,
+                        103
+                    ],
+                    [
+                        0,
+                        72
+                    ],
+                    [
+                        24,
+                        103
+                    ],
+                    [
+                        16,
+                        144
+                    ]
+                ]
+            },
+            "solution_progress": []
+        }
+    ]
+}

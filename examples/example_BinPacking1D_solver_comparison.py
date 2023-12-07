@@ -15,7 +15,7 @@ from src.binpacking1d.solvers.solver_cp import BinPacking1DCPSolver
 from src.binpacking1d.solvers.solver_ga import BinPacking1DGASolver
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 
-
+from ga_fitness_functions.bin_packing_1d.naive import fitness_func
 
 ### naive GA
 algorithm = GA(
@@ -26,23 +26,7 @@ algorithm = GA(
     mutation=PolynomialMutation(eta=3),
     eliminate_duplicates=True
 )
-def fitness_func(instance, x, out):
-    bins = {}
-    for idx, bin_idx in enumerate(x):
-        bin_idx = int(bin_idx)
-        bins[bin_idx] = bins.get(bin_idx, 0) + instance.weights[idx]
-    
-    num_bins = len(bins)
-    max_bin_load = max(bins.values())
-    
-    # Objective: Minimize the number of bins used
-    out["F"] = num_bins - max_bin_load / instance.bin_capacity
-    out["placements"] = x.tolist()
-    
-    # Constraint: No bin should overflow
-    out["G"] = max_bin_load - instance.bin_capacity
 
-    return out
 
 naive_GA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="naive GA")
 
@@ -64,23 +48,7 @@ algorithm = BRKGA(
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination())
 
-def fitness_func(instance, x, out):
-    bins = {}
-    for idx, bin_idx in enumerate(x):
-        bin_idx = int(bin_idx)
-        bins[bin_idx] = bins.get(bin_idx, 0) + instance.weights[idx]
-    
-    num_bins = len(bins)
-    max_bin_load = max(bins.values())
-    
-    # Objective: Minimize the number of bins used
-    out["F"] = num_bins - max_bin_load / instance.bin_capacity
-    out["placements"] = x.tolist()
-    
-    # Constraint: No bin should overflow
-    out["G"] = max_bin_load - instance.bin_capacity
 
-    return out
 BRKGA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="BRKGA")
 
 ###

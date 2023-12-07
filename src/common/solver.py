@@ -1,15 +1,18 @@
 import re
 import multiprocessing
 import functools
+import time
+
+from abc import ABC, abstractmethod
 
 from docplex.cp.model import CpoParameters
-from abc import ABC, abstractmethod
+from docplex.cp.solution import CpoSequenceVarSolution
+from docplex.cp.expression import compare_expressions
+
+from pymoo.core.callback import Callback
 
 from src.utils import convert_time_to_seconds
 from src.common.optimization_problem import Benchmark
-
-from docplex.cp.solution import CpoSequenceVarSolution
-from docplex.cp.expression import compare_expressions
 
 
 SOLVER_DEFAULT_NAME = "Unknown solver - check whether solver_name is specified for solver class"
@@ -21,11 +24,17 @@ class Solver(ABC):
         if self.solver_name == SOLVER_DEFAULT_NAME:
             print("\nWarning: solver_name not specified for solver\n")
 
-    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None):
+    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None, hybrid_CP_solver=None):
+        # in case of hybrid solver (GA + CP) do not save GA result into history
+        update_history = False if hybrid_CP_solver is not None else True
+
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
                 print(f"Solving instance {instance_name}...")
-                self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution)
+                _, solution, _ = self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, update_history=update_history)
+
+                if hybrid_CP_solver is not None:
+                    hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
             # return self.solve_benchmark(instance_or_benchmark)
 
             if force_dump is None:
@@ -35,10 +44,15 @@ class Solver(ABC):
             if force_dump:
                 instance_or_benchmark.dump()
         else:
-            return self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution)
+            fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, update_history=update_history)
+        
+            if hybrid_CP_solver is not None:
+                fitness_value, solution, res = hybrid_CP_solver._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
+
+            return fitness_value, solution, res
 
     @abstractmethod
-    def _solve(self):
+    def _solve(self, validate=False, visualize=False, force_execution=False, update_history=True):
         """Abstract solve method for solver."""
         pass
 
@@ -68,6 +82,56 @@ class CPSolver(Solver):
 
         print(
             f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
+        
+    def _wrap_solve(self, instance, validate=False, visualize=False, force_execution=False):
+        if not force_execution and len(instance._run_history) > 0:
+            if instance.skip_on_optimal_solution():
+                return None, None
+            
+        solution = self._solve(instance, validate, visualize)
+
+        info = self.retrieve_solution_info(instance, solution)
+
+        if solution:
+            if validate:
+                try:
+                    print("Validating solution...")
+                    instance.validate(solution, job_operations)
+                    instance.validate(solution, job_operations)
+                    print("Solution is valid.")
+                except AssertionError as e:
+                    print("Solution is invalid.")
+                    print(e)
+                    return None, None, None
+
+            if visualize:
+                instance.visualize(solution, job_operations, machine_operations)
+
+            print("Project completion time:", solution.get_objective_values()[0])
+        else:
+            print("No solution found.")
+            
+        # print solution
+        if solution.get_solve_status() == 'Optimal':
+            print("Optimal solution found")
+        elif solution.get_solve_status() == 'Feasible':
+            print("Feasible solution found")
+        else:
+            print("Unknown solution status")
+            print(solution.get_solve_status())
+
+        obj_value = solution.get_objective_values()[0]
+        print('Objective value:', obj_value)
+        instance.compare_to_reference(obj_value)
+
+        Solution = namedtuple("Solution", ['job_operations', 'machine_operations'])
+        variables = Solution(job_operations, machine_operations)
+
+        instance.update_run_history(sol, variables, "CP", self.params)
+
+        return objective_value, info, cp_solution
+
+
 
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):
@@ -150,12 +214,20 @@ class CPSolver(Solver):
                     vval = [iv.get_name() for iv in vval]
                 info_dict["Variables"][v.get_name()] = vval
             nbanonym = len(allvars) - len(lvars)
+
+            # TODO: IF VARIABLE IS NOT NAMED IN MODEL THE RESULT IS NOT EXPORTED
             if nbanonym > 0:
                 info_dict["Variables"]["Anonymous variables"] = nbanonym
 
         return info_dict
 
     def add_run_to_history(self, instance, sol):
+        """_summary_
+
+        Args:
+            instance (_type_): _description_
+            sol (_type_): _description_
+        """
         solution_progress = self._extract_solution_progress(sol.solver_log)
 
         if sol:
@@ -205,6 +277,30 @@ def serialize_class_instance(obj):
     return result
 
 
+class HistoryCallback(Callback):
+
+    def __init__(self, algorithm) -> None:
+        super().__init__()
+        self.data["progress"] = []
+        self.algorithm_type = algorithm.__class__.__name__
+
+    def notify(self, algorithm):
+        f_min = algorithm.pop.get("F").min()
+        last_f_min = self.data["progress"][-1][0] if len(self.data["progress"]) > 0 else float('inf')
+
+        if f_min < last_f_min:
+            exec_time = round(time.time() - algorithm.start_time, 2)
+
+            if self.algorithm_type == "GA":
+                no_individuals = algorithm.pop_size * algorithm.n_gen
+            elif self.algorithm_type == "BRKGA":
+                no_individuals = algorithm.n_elites + (algorithm.n_mutants + algorithm.n_offsprings) * algorithm.n_gen
+
+            new_timestamp = (f_min, exec_time, no_individuals)
+
+            self.data["progress"].append(new_timestamp)
+
+
 GA_SOLVER_DEFAULT_NAME = "GA solver without name specified"
 class GASolver(Solver):
     solver_name = GA_SOLVER_DEFAULT_NAME
@@ -223,16 +319,15 @@ class GASolver(Solver):
         self.fitness_func = fitness_func
         self.termination = termination
         self.seed = seed
+        self.callback= HistoryCallback(algorithm)
 
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):
         """Abstract solve method for GP solver."""
         pass
 
-    def add_run_to_history(self, instance, objective_value, solution_info, is_valid=True):
-        # TODO
-        solution_progress = []
-        solve_time = ""
+    def add_run_to_history(self, instance, objective_value, solution_info, solution_progress, exec_time=-1, is_valid=True):
+        solve_time = exec_time
 
         if is_valid and objective_value >= 0:
             solve_status = "Feasible"
