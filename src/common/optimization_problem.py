@@ -66,7 +66,7 @@ class Benchmark:
                                 solution_status = "Optimal" if instance._solution.get(
                                     'optimum') == instance_run['solution_value'] else ""
                             else:
-                                lower_bound =instance._solution.get('bounds', {}).get("lower")
+                                lower_bound = instance._solution.get('bounds', {}).get("lower", -1)
                                 if instance_run['solution_value'] == lower_bound:
                                     solution_status = "Lower bound"
                                 elif instance_run['solution_value'] < lower_bound:
