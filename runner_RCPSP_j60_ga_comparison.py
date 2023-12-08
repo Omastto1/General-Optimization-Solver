@@ -87,11 +87,17 @@ BRKGA_solver_brkga = PaperRCPSPGASolver(
     algorithm, bkrga_fitness_func, term_eval, seed=1, solver_name="BRKGA_rcpsp_paper_5_19_6_0.7_1000evals")
 
 
+import os
+
+print("JOB ID")
+print(os.environ['SLURM_ARRAY_JOB_ID'])
+print("JOB ID")
+
 problem_type = "RCPSP"
 benchmark_name = "j60.sm"
 
 # SPECIFIC BENCHMARK INSTANCE
-benchmark = load_raw_benchmark(f"raw_data/{problem_type.lower()}/{benchmark_name}", no_instances=10)
+benchmark = load_raw_benchmark(f"raw_data/{problem_type.lower()}/{benchmark_name}", no_instances=1)
 # benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}")
 
 # cp_solver15.solve(benchmark, validate=True, force_execution=True)
