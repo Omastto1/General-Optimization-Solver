@@ -17,7 +17,7 @@ from pymoo.operators.selection.tournament import TournamentSelection
 from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 
 from src.rcpsp.solvers.solver_ga import RCPSPGASolver
-from src.general_optimization_solver import load_raw_instance
+from src.general_optimization_solver import load_raw_instance, load_instance
 
 # from ga_fitness_functions.rcpsp.naive_backward import fitness_func_backward
 # from ga_fitness_functions.rcpsp.naive_forward import fitness_func_forward
@@ -34,44 +34,60 @@ class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
     
 
 d = {
-"GA": [{
-    "name": "ga_half",
-    "pop_size": 60,
-    "n_offsprings": 60,
-    "cross_prob": 0.9,
-    "mut_eta": 30
-},{
-    "name": "ga",
-    "pop_size": 120,
-    "n_offsprings": 120,
-    "cross_prob": 0.9,
-    "mut_eta": 30
-},{
-    "name": "ga_double",
-    "pop_size": 240,
-    "n_offsprings": 240,
-    "cross_prob": 0.9,
-    "mut_eta": 30
-}],
-    "BRKGA": [{
-    "name": "brkga_TOP_20%",
-    "n_elites": 24,
-    "n_offsprings": 78,
+# "GA": [{
+#     "name": "ga_half",
+#     "pop_size": 60,
+#     "n_offsprings": 60,
+#     "cross_prob": 0.9,
+#     "mut_eta": 30
+# },{
+#     "name": "ga",
+#     "pop_size": 120,
+#     "n_offsprings": 120,
+#     "cross_prob": 0.9,
+#     "mut_eta": 30
+# },{
+#     "name": "ga_double",
+#     "pop_size": 240,
+#     "n_offsprings": 240,
+#     "cross_prob": 0.9,
+#     "mut_eta": 30
+# }],
+    "BRKGA": [
+        {
+    "name": "brkga_TOP_25%_BOT_20%",
+    "n_elites": 30,
+    "n_offsprings": 66,
+    "n_mutants": 24,
+    "bias": 0.7
+},
+{
+    "name": "brkga_TOP_25%_BOT_15%",
+    "n_elites": 30,
+    "n_offsprings": 72,
     "n_mutants": 18,
     "bias": 0.7
-},{
-    "name": "brkga_TOP_10%",
-    "n_elites": 12,
-    "n_offsprings": 72,
-    "n_mutants": 36,
-    "bias": 0.7
-},{
-    "name": "brkga_TOP_15%",
-    "n_elites": 18,
-    "n_offsprings": 76,
-    "n_mutants": 26,
-    "bias": 0.7
-}]}
+},
+# {
+#     "name": "brkga_TOP_20%",
+#     "n_elites": 24,
+#     "n_offsprings": 78,
+#     "n_mutants": 18,
+#     "bias": 0.7
+# },{
+#     "name": "brkga_TOP_10%",
+#     "n_elites": 12,
+#     "n_offsprings": 72,
+#     "n_mutants": 36,
+#     "bias": 0.7
+# },{
+#     "name": "brkga_TOP_15%",
+#     "n_elites": 18,
+#     "n_offsprings": 76,
+#     "n_mutants": 26,
+#     "bias": 0.7
+# }
+]}
 
 problem_type = "RCPSP"
 benchmark_name = "j120.sm"
@@ -91,7 +107,8 @@ if id % 10 == 0:
     instance = 10
 
 # SPECIFIC BENCHMARK INSTANCE
-instance = load_raw_instance(f"raw_data/{problem_type.lower()}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.sm")
+# instance = load_raw_instance(f"raw_data/{problem_type.lower()}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.sm")
+instance = load_instance(f"master_thesis_data_ga_comp_test/{problem_type}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.json")
 
 for algorithm_type, algorithm_variants in d.items():
     for algorithm_config in algorithm_variants:
@@ -106,7 +123,7 @@ for algorithm_type, algorithm_variants in d.items():
                 eliminate_duplicates=MyElementwiseDuplicateElimination()
             )
 
-            solver_name = f"GA {algorithm_config['pop_size']}_{algorithm_config['n_offsprings']}_{algorithm_config['cross_prob']}_{algorithm_config['mut_eta']}_{no_eval}evals"
+            solver_name = f"{algorithm_config['name']} {algorithm_config['pop_size']}_{algorithm_config['n_offsprings']}_{algorithm_config['cross_prob']}_{algorithm_config['mut_eta']}_{no_eval}evals"
 
         elif algorithm_type == "BRKGA":
             algorithm = BRKGA(
@@ -117,7 +134,7 @@ for algorithm_type, algorithm_variants in d.items():
                 eliminate_duplicates=MyElementwiseDuplicateElimination()
             )
 
-            solver_name = f"BRKGA {algorithm_config['n_elites']}_{algorithm_config['n_offsprings']}_{algorithm_config['n_mutants']}_{algorithm_config['bias']}_{no_eval}evals"
+            solver_name = f"{algorithm_config['name']} {algorithm_config['n_elites']}_{algorithm_config['n_offsprings']}_{algorithm_config['n_mutants']}_{algorithm_config['bias']}_{no_eval}evals"
             
         else:
             raise ValueError("Wrong algorithm type, insert one of 'GA' or 'BRKGA'")
