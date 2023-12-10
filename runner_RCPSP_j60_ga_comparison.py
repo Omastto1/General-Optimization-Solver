@@ -75,9 +75,9 @@ BRKGA_solver_forward = RCPSPGASolver(algorithm, fitness_func_forward, term_eval,
 ### RCPSP BRKGA
     
 algorithm_small = BRKGA(
-    n_elites=5,
-    n_offsprings=19,
-    n_mutants=6,
+    n_elites=15,
+    n_offsprings=57,
+    n_mutants=18,
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination()
 )
@@ -87,24 +87,19 @@ BRKGA_solver_brkga = PaperRCPSPGASolver(
     algorithm, bkrga_fitness_func, term_eval, seed=1, solver_name="BRKGA_rcpsp_paper_5_19_6_0.7_1000evals")
 
 
-import os
-
-print("JOB ID")
-print(os.environ['SLURM_ARRAY_JOB_ID'])
-print("JOB ID")
-
 problem_type = "RCPSP"
 benchmark_name = "j60.sm"
 
 # SPECIFIC BENCHMARK INSTANCE
-benchmark = load_raw_benchmark(f"raw_data/{problem_type.lower()}/{benchmark_name}", no_instances=1)
+# benchmark = load_raw_benchmark(f"raw_data/{problem_type.lower()}/{benchmark_name}", no_instances=1)
 # benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}")
+benchmark = load_benchmark(f"master_thesis_data_ga_comp_test/{problem_type}/{benchmark_name}")
 
 # cp_solver15.solve(benchmark, validate=True, force_execution=True)
 # BRKGA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # BRKGA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 # naive_GA_solver_backward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
-naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
+# naive_GA_solver_forward.solve(benchmark, validate=True, force_execution=True, force_dump=False)
 
 # BRKGA_solver.solve(benchmark, visualize=False, validate=True, force_dump=False)
 
@@ -128,4 +123,4 @@ print(table_markdown)
 print(table_markdown2)
 print(table_markdown3)
 
-# benchmark.dump(f"master_thesis_data/{problem_type}/{benchmark_name}")
+# benchmark.dump(f"master_thesis_data_ga_comp/{problem_type}/{benchmark_name}")
