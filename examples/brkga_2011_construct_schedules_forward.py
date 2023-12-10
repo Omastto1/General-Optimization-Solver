@@ -164,6 +164,7 @@ class RCPSPGASolver(GASolver):
                 assert "solution" not in out, "Do not use `solution` key, it is pymoo reserved keyword"
 
                 return out
+        raise Exception("Import Solver from src/rcpsp/solvers/ga_solve.py")
 
         problem = RCPSP(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination,
@@ -210,10 +211,12 @@ algorithm = BRKGA(
     eliminate_duplicates=MyElementwiseDuplicateElimination())
 
 
-BRKGA_solver = RCPSPGASolver(
-    algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
-
 if __name__ == "__main__":
+
+    BRKGA_solver = RCPSPGASolver(
+        algorithm, fitness_func, ("n_gen", 250), solver_name="BRKGA")  # , seed=1
+    
+
     instance_ = load_raw_instance("raw_data/rcpsp/j30.sm/j3010_3.sm", "")
     # benchmark = load_raw_benchmark("raw_data/rcpsp/j30.sm/", no_instances=100)
     # instance_ = load_raw_instance("raw_data/rcpsp/RG300/RG300_1.rcp", "")  # , "1Dbinpacking"
