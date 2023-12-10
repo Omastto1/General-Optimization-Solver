@@ -10,7 +10,6 @@ from pymoo.core.duplicate import ElementwiseDuplicateElimination
 
 from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 
-from src.binpacking1d.problem import BinPacking1D
 from src.binpacking1d.solvers.solver_cp import BinPacking1DCPSolver
 from src.binpacking1d.solvers.solver_ga import BinPacking1DGASolver
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
@@ -26,14 +25,11 @@ algorithm = GA(
     mutation=PolynomialMutation(eta=3),
     eliminate_duplicates=True
 )
-
-
 naive_GA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="naive GA")
-
 ###
 
-### BRKGA
 
+### BRKGA
 class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 
     def is_equal(self, a, b):
@@ -47,15 +43,13 @@ algorithm = BRKGA(
     n_mutants=10,
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination())
-
-
 BRKGA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="BRKGA")
-
 ###
 
-## CP
 
+## CP
 cp_solver = BinPacking1DCPSolver(TimeLimit=10)
+###
 
 
 def indices_to_onehot(indices, num_classes):
