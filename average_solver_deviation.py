@@ -1,5 +1,11 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import networkx as nx
+
+from typing import List
+
 from src.general_optimization_solver import load_benchmark
+from src.common.optimization_problem import Benchmark
 
 # Sample data structure
 # solvers_data = {
@@ -14,12 +20,9 @@ from src.general_optimization_solver import load_benchmark
 #     ...
 # }
 
-# Lower bounds for each instance
-# lower_bounds = {'instance1': value1, 'instance2': value2, ...}
 
-from src.common.optimization_problem import Benchmark
 
-def calculate_average_deviations(benchmark: Benchmark, evaluation_points: list[int]):
+def calculate_average_deviations(benchmark: Benchmark, evaluation_points: List[int]):
     """
     computes deviation from lower bound at each step of n_evaluations of GA
     eval_point_max is inclusive maximum
@@ -63,9 +66,8 @@ def calculate_average_deviations(benchmark: Benchmark, evaluation_points: list[i
 
 
 
-benchmark = load_benchmark(f"master_thesis_data_ga_comp_test/RCPSP/j60.sm", no_instances=2)
+benchmark = load_benchmark(f"master_thesis_data_ga_comp_test/RCPSP/j120.sm")
 
-import networkx as nx
 
 for instance_name, instance in benchmark._instances.items():
     G = nx.DiGraph()
@@ -85,11 +87,6 @@ eval_point_max = 5000
 evaluation_points = list(range(0, eval_point_max+1, eval_point_step))
 average_deviations = calculate_average_deviations(benchmark, evaluation_points)
 
-# You can then use 'average_deviations' for further analysis or plotting
-
-print("asd")
-
-import matplotlib.pyplot as plt
 
 def plot_average_deviations(average_deviations, evaluation_points):
     plt.figure(figsize=(10, 6))
@@ -101,7 +98,7 @@ def plot_average_deviations(average_deviations, evaluation_points):
 
     plt.xlabel('Number of Evaluations')
     plt.ylabel('Average Deviation')
-    plt.title('Average Deviations of Solvers Over Evaluations')
+    plt.title('J120.sm Average Deviations of Solvers Over Evaluations')
     plt.legend()
     plt.grid(True)
     plt.show()
