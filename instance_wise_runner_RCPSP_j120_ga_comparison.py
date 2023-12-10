@@ -110,39 +110,62 @@ if id % 10 == 0:
 # instance = load_raw_instance(f"raw_data/{problem_type.lower()}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.sm")
 instance = load_instance(f"master_thesis_data_ga_comp_test/{problem_type}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.json")
 
-for algorithm_type, algorithm_variants in d.items():
-    for algorithm_config in algorithm_variants:
-        if algorithm_type == "GA":
-            algorithm = GA(
-                pop_size=algorithm_config["pop_size"],
-                n_offsprings=algorithm_config["n_offsprings"],
-                sampling=FloatRandomSampling(),
-                crossover=TwoPointCrossover(prob=algorithm_config['cross_prob']),
-                mutation=PolynomialMutation(eta=algorithm_config['mut_eta']),
-                selection=TournamentSelection(comp_by_cv_and_fitness),
-                eliminate_duplicates=MyElementwiseDuplicateElimination()
-            )
+# for algorithm_type, algorithm_variants in d.items():
+#     for algorithm_config in algorithm_variants:
+#         if algorithm_type == "GA":
+#             algorithm = GA(
+#                 pop_size=algorithm_config["pop_size"],
+#                 n_offsprings=algorithm_config["n_offsprings"],
+#                 sampling=FloatRandomSampling(),
+#                 crossover=TwoPointCrossover(prob=algorithm_config['cross_prob']),
+#                 mutation=PolynomialMutation(eta=algorithm_config['mut_eta']),
+#                 selection=TournamentSelection(comp_by_cv_and_fitness),
+#                 eliminate_duplicates=MyElementwiseDuplicateElimination()
+#             )
 
-            solver_name = f"{algorithm_config['name']} {algorithm_config['pop_size']}_{algorithm_config['n_offsprings']}_{algorithm_config['cross_prob']}_{algorithm_config['mut_eta']}_{no_eval}evals"
+#             solver_name = f"{algorithm_config['name']} {algorithm_config['pop_size']}_{algorithm_config['n_offsprings']}_{algorithm_config['cross_prob']}_{algorithm_config['mut_eta']}_{no_eval}evals"
 
-        elif algorithm_type == "BRKGA":
-            algorithm = BRKGA(
-                n_elites=algorithm_config["n_elites"],
-                n_offsprings=algorithm_config["n_offsprings"],
-                n_mutants=algorithm_config["n_mutants"],
-                bias=algorithm_config["bias"],
-                eliminate_duplicates=MyElementwiseDuplicateElimination()
-            )
+#         elif algorithm_type == "BRKGA":
+#             algorithm = BRKGA(
+#                 n_elites=algorithm_config["n_elites"],
+#                 n_offsprings=algorithm_config["n_offsprings"],
+#                 n_mutants=algorithm_config["n_mutants"],
+#                 bias=algorithm_config["bias"],
+#                 eliminate_duplicates=MyElementwiseDuplicateElimination()
+#             )
 
-            solver_name = f"{algorithm_config['name']} {algorithm_config['n_elites']}_{algorithm_config['n_offsprings']}_{algorithm_config['n_mutants']}_{algorithm_config['bias']}_{no_eval}evals"
+#             solver_name = f"{algorithm_config['name']} {algorithm_config['n_elites']}_{algorithm_config['n_offsprings']}_{algorithm_config['n_mutants']}_{algorithm_config['bias']}_{no_eval}evals"
             
-        else:
-            raise ValueError("Wrong algorithm type, insert one of 'GA' or 'BRKGA'")
+#         else:
+#             raise ValueError("Wrong algorithm type, insert one of 'GA' or 'BRKGA'")
         
         
-        solver = RCPSPGASolver(
-            algorithm, bkrga_fitness_func, term_eval, seed=1, solver_name=solver_name)
-        solver.solve(instance, validate=True, force_execution=True, force_dump=False)
+#         solver = RCPSPGASolver(
+#             algorithm, bkrga_fitness_func, term_eval, seed=1, solver_name=solver_name)
+#         solver.solve(instance, validate=True, force_execution=True, force_dump=False)
+
+from pymoo.operators.crossover.pntx import SinglePointCrossover, TwoPointCrossover
+from pymoo.operators.crossover.sbx import SBX
+from pymoo.operators.crossover.ux import UniformCrossover
+from pymoo.operators.crossover.hux import HalfUniformCrossover
+
+for crossover in [SinglePointCrossover, TwoPointCrossover, SBX, UniformCrossover, HalfUniformCrossover]:
+    algorithm = GA(
+        pop_size=120,
+        n_offsprings=120,
+        sampling=FloatRandomSampling(),
+        crossover=crossover(),
+        mutation=PolynomialMutation(eta=30),
+        selection=TournamentSelection(comp_by_cv_and_fitness),
+        eliminate_duplicates=MyElementwiseDuplicateElimination()
+    )
+
+    print(f"running {algorithm.mating.crossover.__class__.__name__}")
+
+    solver_name = f"GA 120_120_{algorithm.mating.crossover.__class__.__name__}_30_{no_eval}evals"
+    solver = RCPSPGASolver(
+        algorithm, bkrga_fitness_func, term_eval, seed=1, solver_name=solver_name)
+    solver.solve(instance, validate=True, force_execution=True, force_dump=False)
 
 
 instance.dump(dir_path=f"master_thesis_data_ga_comp_test/{problem_type}/{benchmark_name}")
