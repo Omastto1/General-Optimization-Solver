@@ -11,9 +11,6 @@ class StripPacking2DCPSolver(CPSolver):
         model = CpoModel()
         model.set_parameters(params=self.params)
 
-        # Number of rectangles
-        n = len(instance.rectangles)
-
         # Create interval variables for each rectangle's horizontal and vertical positions for both orientations
         X_main = [model.interval_var() for i in range(instance.no_elements)]
         X = [model.interval_var(name=f'rectangle_{i}_X', start=(0, instance.strip_width - instance.rectangles[i]['width']), size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
@@ -50,7 +47,7 @@ class StripPacking2DCPSolver(CPSolver):
         # Add non-overlap constraints considering both orientations
         for i in range(instance.no_elements):
             print(i)
-            for j in range(i + 1, n):
+            for j in range(i + 1, instance.no_elements):
                 double_no_overlap(model, X[i], X[j], Y[i], Y[j])
                 double_no_overlap(model, X_rot[i], X[j], Y_rot[i], Y[j])
                 double_no_overlap(model, X[i], X_rot[j], Y[i], Y_rot[j])
@@ -63,7 +60,6 @@ class StripPacking2DCPSolver(CPSolver):
         print("4")
         # Add constraints linking z to the Y variables
         for i in range(instance.no_elements):
-            # model.add(model.max(model.end_of(Y[i]), model.end_of(Y_rot[i])) <= z)
             model.add(model.end_of(Y_main[i]) <= z)
 
         # Minimize the total height
@@ -75,11 +71,13 @@ class StripPacking2DCPSolver(CPSolver):
         placements = []
         orientations = []
         for i, (w, h) in enumerate(instance.rectangles):
+            print("A", i, solution.get_var_solution(X[i]).is_present(), solution.get_var_solution(Y[i]).is_present())
             if solution.get_var_solution(X[i]).is_present():
-                placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start()))
+                placements.append((solution.get_var_solution(X[i]).get_start(), solution.get_var_solution(Y[i]).get_start(), "original"))
                 orientations.append("original")
+
             else:
-                placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start()))
+                placements.append((solution.get_var_solution(X_rot[i]).get_start(), solution.get_var_solution(Y_rot[i]).get_start(), "rotated"))
                 orientations.append("rotated")
         
         return placements, orientations
@@ -113,7 +111,7 @@ class StripPacking2DCPSolver(CPSolver):
                 return None, None
         
         if visualize:
-            instance.visualize(solution, placements, total_height)
+            instance.visualize(None, placements, total_height)
 
         obj_value = solution.get_objective_value()
         print('Objective value:', obj_value)
