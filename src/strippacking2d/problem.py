@@ -27,8 +27,18 @@ class StripPacking2D(OptimizationProblem):
     def visualize(self, sol, placements, total_height):
         rectangles = []
         for i, rectangle in enumerate(self.rectangles):
-            x, y = placements[i]
+            
             width, height = rectangle['width'], rectangle['height']
+            if len(placements[i]) == 2:
+                x, y = placements[i]
+            elif len(placements[i]) == 3:
+                x, y, orientation = placements[i]
+
+                if orientation == 'rotated':
+                    height, width = width, height
+            else:
+                raise Exception("Invalid placement format")
+
             rectangles.append((x, y, width, height))
 
         # Create a figure and axis for plotting
@@ -43,7 +53,6 @@ class StripPacking2D(OptimizationProblem):
 
         # Draw the small rectangles within the large rectangle
         for i, (x, y, width, height) in enumerate(rectangles):
-            print(x, y, width, height)
             # if orientations[i] == 'rotated':
             #     height, width = width, height
             rect = Rectangle((x, y), width, height, edgecolor='red', facecolor='green')
