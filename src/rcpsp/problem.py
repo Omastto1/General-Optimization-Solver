@@ -45,6 +45,19 @@ class RCPSP(OptimizationProblem):
         """ xs holding arrays of "start", "end" dictionaries """
         # TODO:
         if sol is not None:
+            # Find the max time to define the range for checking
+            max_time = max(sol.get_var_solution(x[i]).get_end() for i in range(self.no_jobs))
+
+            # Check each time unit
+            for k in range(self.no_renewable_resources):
+                for time in range(max_time):
+                    if self.__class__.__name__ == "RCPSP":
+                        resource_used = sum(self.requests[i][k] for i in range(self.no_jobs) if sol.get_var_solution(x[i]).get_start() <= time < sol.get_var_solution(x[i]).get_end())
+                    elif self.__class__.__name__ == "MMRCPSP":
+                        resource_used = sum(self.requests[k][i][sol.get_var_solution(x[i]).get_name().split("_")[-1]] for i in range(self.no_jobs) if sol.get_var_solution(x[i]).get_start() <= time < sol.get_var_solution(x[i]).get_end())
+
+                    assert resource_used <= self.renewable_capacities[k], f"More resource used than renewable capacity {k} has available."
+
             assert sol.get_objective_value(
             ) <= self.horizon, "Project completion time exceeds horizon."
 
@@ -56,8 +69,21 @@ class RCPSP(OptimizationProblem):
             assert sol.get_var_solution(x[0]).get_start() == min(sol.get_var_solution(x[i]).get_start() for i in range(self.no_jobs)), "Job 0 does not start first."
         else:
             xs = model_variables_export['tasks_schedule']
-            # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
-            # end_times = [start_time + duration for start_time, duration in zip(start_times, self.durations)]
+
+            # Find the max time to define the range for checking
+            max_time = max(xs[i]['end'] for i in range(self.no_jobs))
+
+            # Check each time unit
+            for k in range(self.no_renewable_resources):
+                for time in range(max_time):
+                    if self.__class__.__name__ == "RCPSP":
+                        resource_used = sum(self.requests[k][i] for i in range(self.no_jobs) if xs[i]['start'] <= time < xs[i]['end'])
+                    elif self.__class__.__name__ == "MMRCPSP":
+                        resource_used = sum(self.requests[k][i][xs[i]['mode']] for i in range(self.no_jobs) if xs[i]['start'] <= time < xs[i]['end'])
+
+                    assert resource_used <= self.renewable_capacities[k], f"More resource used than renewable capacity {k} has available."
+
+
             assert max([x['end'] for x in xs]) <= self.horizon, "Project completion time exceeds horizon."
 
             for i, job_successors in enumerate(self.successors):
@@ -121,7 +147,9 @@ class RCPSP(OptimizationProblem):
                 visu.interval(CpoIntervalVarSolution(None, True, start_times[i], end_times[i], start_times[i] - end_times[i]), i, task_names[i])
             for j in range(self.no_renewable_resources):
                 visu.panel('R' + str(j+1))
-                visu.function(
-                    segments=[(0, 200, self.renewable_capacities[j])], style='area', color='lightgrey')
+                # visu.function(
+                #     segments=[(0, 200, self.renewable_capacities[j])], style='area', color='lightgrey')
+                # visu.function(
+                #     segments=[(0, 200, 0)], style='area', color='lightgrey')
                 visu.function(segments=load[j], style='area', color=j)
             visu.show()
