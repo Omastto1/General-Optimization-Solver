@@ -57,13 +57,13 @@ class MMRCPSPCPSolver(CPSolver):
         _xs = [ys[i][j] for i in jobs for j in range(
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         
-        export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name()} for i in jobs for j in range(
+        export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name(), "mode": j} for i in jobs for j in range(
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         
         return {"task_mode_assignment": export}
 
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         print("Building model")
         model, model_variables = self.build_model(instance)
         jobs = range(instance.no_jobs)
@@ -88,7 +88,7 @@ class MMRCPSPCPSolver(CPSolver):
             except AssertionError as e:
                 print("Solution is invalid.")
                 print(e)
-                return None, None
+                return None, None, sol
 
         if visualize:
             instance.visualize(model_variables_export)
@@ -117,7 +117,8 @@ class MMRCPSPCPSolver(CPSolver):
 
         instance.compare_to_reference(obj_value)
 
-        self.add_run_to_history(instance, sol)
+        if update_history:
+            self.add_run_to_history(instance, sol)
 
         return obj_value, model_variables_export, sol
 
