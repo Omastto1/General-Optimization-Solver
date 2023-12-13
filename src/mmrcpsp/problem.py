@@ -27,7 +27,7 @@ class MMRCPSP(RCPSP):
 
     def validate(self, model_variables_export):  # sol, x, 
         model_variables_export = {"tasks_schedule": model_variables_export['task_mode_assignment']}
-        super().validate(None, None, model_variables_export)  # sol, x, 
+        return super().validate(None, None, model_variables_export)  # sol, x, 
 
     def visualize(self, model_variables_export):  # , sol, xs
         # https://ibmdecisionoptimization.github.io/docplex-doc/cp/visu.rcpsp.py.html
@@ -79,13 +79,8 @@ class MMRCPSP(RCPSP):
         load = [CpoStepFunction() for j in range(
             self.no_renewable_resources + self.no_non_renewable_resources)]
         for i, _x in enumerate(export[1:-1], start=1):
-            print("itv solution", _x['start'], _x['end'])
-            print(_x['name'])
             mode = int(_x['name'].split("_")[-1])
-            print("mode", mode)
-            print("ranges", self.no_renewable_resources, self.no_jobs)
             for j in range(self.no_renewable_resources):
-                print(j, i, mode)
                 if 0 < self.requests[j][i][mode]:
                     load[j].add_value(
                         _x['start'], _x['end'], self.requests[j][i][mode])
