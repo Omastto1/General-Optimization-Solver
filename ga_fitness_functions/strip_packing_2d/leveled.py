@@ -2,7 +2,13 @@ import numpy as np
 
 
 def fitness_func(instance, x, out):
-    # Calculate the total height based on the order in x
+    """
+    Place rectangles one after each other by one into levels, 
+    where height of level is defined by the height of the largest
+    rectangle
+
+    Return total height as the sum of levels heights
+    """
     order = np.argsort(x)
     total_height = 0
     current_width = 0
@@ -21,8 +27,6 @@ def fitness_func(instance, x, out):
     total_height += current_height
 
     out["F"] = total_height
-
-    # TODO FIX
     out["rectangles"] = rectangles
 
     return out
