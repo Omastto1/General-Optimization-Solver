@@ -17,7 +17,7 @@
 # Define and create a unique scratch directory for this job
 # /lscratch is local ssd disk on particular node which is faster
 # than your network home dir
-SCRATCH_DIRECTORY=/lscratch/${USER}/${SLURM_JOBID}.stallo-adm.uit.no
+# SCRATCH_DIRECTORY=/lscratch/${USER}/${SLURM_JOBID}.stallo-adm.uit.no
 # mkdir -p ${SCRATCH_DIRECTORY}
 # cd ${SCRATCH_DIRECTORY}
 
@@ -38,7 +38,7 @@ python instance_wise_runner_RCPSP_j120_ga_comparison.py
 # After everything is saved to the home directory, delete the work directory to
 # save space on /lscratch
 # old files in /lscratch will be deleted automatically after some time
-cd ${SLURM_SUBMIT_DIR}
+# cd ${SLURM_SUBMIT_DIR}
 # rm -rf ${SCRATCH_DIRECTORY}
 
 # Finish the script

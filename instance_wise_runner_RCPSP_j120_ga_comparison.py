@@ -96,6 +96,8 @@ d = {
 # }
 ]}
 
+d = {}
+
 problem_type = "RCPSP"
 benchmark_name = "j120.sm"
 
@@ -115,7 +117,7 @@ if id % 10 == 0:
 
 # SPECIFIC BENCHMARK INSTANCE
 # instance = load_raw_instance(f"raw_data/{problem_type.lower()}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.sm")
-instance = load_instance(f"master_thesis_data_ga_comp_test/{problem_type}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.json")
+instance = load_instance(f"master_thesis_data/{problem_type}/{benchmark_name}/{benchmark_name.split('.')[0]}{parameter}_{instance}.json") # _ga_comp_test
 
 for algorithm_type, algorithm_variants in d.items():
     for algorithm_config in algorithm_variants:
@@ -151,6 +153,12 @@ for algorithm_type, algorithm_variants in d.items():
             algorithm, bkrga_fitness_func, term_eval, seed=1, solver_name=solver_name)
         solver.solve(instance, validate=True, force_execution=True, force_dump=False)
 
+
+from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
+cp_solver = RCPSPCPSolver(TimeLimit=600, no_workers=1)
+cp_solver.solve(instance, validate=True, force_execution=True, force_dump=False)
+
+
 # from pymoo.operators.crossover.pntx import SinglePointCrossover, TwoPointCrossover
 # from pymoo.operators.crossover.sbx import SBX
 # from pymoo.operators.crossover.ux import UniformCrossover
@@ -175,4 +183,9 @@ for algorithm_type, algorithm_variants in d.items():
 #     solver.solve(instance, validate=True, force_execution=True, force_dump=False)
 
 
-instance.dump(dir_path=f"master_thesis_data_ga_comp_test/{problem_type}/{benchmark_name}")
+instance.dump(dir_path=f"master_thesis_data/{problem_type}/{benchmark_name}") # _ga_comp_test
+
+
+
+
+exit(0)
