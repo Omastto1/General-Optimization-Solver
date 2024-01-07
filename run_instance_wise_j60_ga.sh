@@ -11,7 +11,7 @@
 #SBATCH --time=0-00:15:00
 #SBATCH --partition compute
 #SBATCH --mem=16G
-##SBATCH --mail-user=tomom@email.cz
+#SBATCH --mail-user=tomom@email.cz
 #SBATCH --mail-type=END,FAIL
 
 # Define and create a unique scratch directory for this job
