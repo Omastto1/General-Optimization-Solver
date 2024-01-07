@@ -34,8 +34,27 @@ def calculate_average_deviations(benchmark: Benchmark, evaluation_points: List[i
     for instance_name, instance in benchmark._instances.items():
         for run in instance._run_history:
             solver = run['solver_name']
+
+            # if not solver.startswith("brkga"):
+            #     continue
+
+            # 3 ga vs brkga
+            # if not(solver.endswith("0.9_30_5000evals") or solver.startswith("BRKGA 18")):
+            #     continue
+            
+            # ga comp
+            # if not (solver.startswith("GA 120_120") and not solver.startswith("GA 120_120_0")):
+            #     continue
+            
+            # brkga comp
+            # if not solver.startswith("brkga_TOP_25") and not  solver.startswith("BRKGA"):
+            #     continue
+
+
             if solver not in deviations:
                 deviations[solver] = {n_eval: [] for n_eval in evaluation_points}
+
+            
 
             lower_bound = instance.critical_path_lower_bound
 
@@ -83,7 +102,7 @@ for instance_name, instance in benchmark._instances.items():
 
 # Example usage
 eval_point_step = 30
-eval_point_max = 5000
+eval_point_max = 7000
 evaluation_points = list(range(0, eval_point_max+1, eval_point_step))
 average_deviations = calculate_average_deviations(benchmark, evaluation_points)
 
@@ -103,5 +122,26 @@ def plot_average_deviations(average_deviations, evaluation_points):
     plt.grid(True)
     plt.show()
 
+table_markdown2 = benchmark.generate_solver_comparison_percent_deviation_markdown_table(compare_to_cplb=True)
+
+print(table_markdown2)
+
+# {key, for print(average_deviations)
 # Assume average_deviations is the output from the previous function
 plot_average_deviations(average_deviations, evaluation_points)
+
+
+'GA 60_60_0.9_30_5000evals': 45.64
+'GA 120_120_0.9_30_5000evals': 43.96
+'GA 240_240_0.9_30_5000evals': 43.84
+'BRKGA 24_78_18_0.7_5000evals': 42.48
+'BRKGA 12_72_36_0.7_5000evals': 43.41
+'BRKGA 18_76_26_0.7_5000evals': 43.0
+'brkga_TOP_25%_BOT_20% 30_66_24_0.7_5000evals': 43.13
+'brkga_TOP_25%_BOT_15% 30_72_18_0.7_5000evals': 42.5
+'GA 120_120_SinglePointCrossover_30_5000evals': 44.9
+'GA 120_120_TwoPointCrossover_30_5000evals': 43.96
+'GA 120_120_SBX_30_5000evals': 42.82
+'GA 120_120_UniformCrossover_30_5000evals': 42.46
+'GA 120_120_HalfUniformCrossover_30_5000evals': 42.42
+'brkga_TOP_10%_BOT_20% 360_2520_720_0.7_5000evals': 48.71
