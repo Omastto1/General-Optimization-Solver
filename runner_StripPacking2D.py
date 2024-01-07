@@ -56,6 +56,7 @@ benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}"
 
 # without time limit
 # StripPacking2DGASolver(algorithm, fitness_func_leveled, term, seed=1, solver_name="naive GA 200_1.0").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+# StripPacking2DGASolver(algorithm, fitness_func_best_fit, term, seed=1, solver_name="best GA 200_1.0").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
 # StripPacking2DCPSolver(TimeLimit=15, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 # StripPacking2DCPSolver(TimeLimit=60, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
@@ -66,8 +67,8 @@ benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}"
 # StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=15, no_workers=1), force_dump=False)
 # StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=60, no_workers=1), force_dump=False)
 
-StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=15, no_workers=1), force_dump=False)
-StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=60, no_workers=1), force_dump=False)
+# StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=15, no_workers=1), force_dump=False)
+# StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=60, no_workers=1), force_dump=False)
 
 # with time limit
 # StripPacking2DGASolver(algorithm_small, fitness_func_best_fit, term_time, seed=1, solver_name="best fit GA 30_1.0_60sec").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
