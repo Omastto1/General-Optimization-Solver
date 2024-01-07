@@ -6,9 +6,9 @@ from src.common.solver import CPSolver
 class StripPacking2DCPSolver(CPSolver):
     solver_name = 'CP Default Oriented'
     
-    def build_model(self, instance):
+    def build_model(self, instance, initial_solution=None):
         # Create a new CP model
-        model = CpoModel()
+        model = CpoModel('2D Strip Packing Oriented')
         model.set_parameters(params=self.params)
 
         # Create interval variables for each rectangle's horizontal and vertical positions for both orientations
@@ -22,6 +22,27 @@ class StripPacking2DCPSolver(CPSolver):
 
         # Orientation decision variables
         O = [model.binary_var() for i in range(instance.no_elements)]
+        
+        if initial_solution is not None:
+            if not self.solver_name.endswith(" Hybrid"):
+                self.solver_name += " Hybrid"
+            
+            stp = model.create_empty_solution()
+
+            for i, rectangle in enumerate(instance.rectangles):
+                x, y = initial_solution[i]
+                width, height = rectangle['width'], rectangle['height']
+                stp.add_interval_var_solution(X_main[i], start=x, end=x + width)
+                stp.add_interval_var_solution(Y_main[i], start=y, end=y + height)
+                stp.add_interval_var_solution(X[i], start=x, end=x + width)
+                stp.add_interval_var_solution(Y[i], start=y, end=y + height)
+                stp.add_interval_var_solution(X_rot[i], presence=False)
+                stp.add_interval_var_solution(Y_rot[i], presence=False)
+
+                stp.add_integer_var_solution(O[i], 1)
+
+            model.set_starting_point(stp)
+
 
         # Adjust size and domain of interval variables based on orientation
         for i in range(instance.no_elements):
@@ -66,9 +87,9 @@ class StripPacking2DCPSolver(CPSolver):
         
         return placements, orientations
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
         print("Building model")
-        model, X, Y, X_rot, Y_rot = self.build_model(instance)
+        model, X, Y, X_rot, Y_rot = self.build_model(instance, initial_solution)
 
         print("Looking for solution")
         # Solve the model
