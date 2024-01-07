@@ -8,7 +8,7 @@ import docplex.cp.utils_visu as visu
 
 class BinPacking2D(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
-        super().__init__(benchmark_name, instance_name, "BinPacking2D", data, solution, run_history)
+        super().__init__(benchmark_name, instance_name, "2DBINPACKING", data, solution, run_history)
 
         self.bin_size = self._data["bin_size"]
         self.items_sizes = self._data["items_sizes"]

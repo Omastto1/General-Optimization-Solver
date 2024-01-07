@@ -32,9 +32,6 @@ class StripPacking2DCPSolver(CPSolver):
         # Add non-overlap constraints
         for i in range(instance.no_elements):
             for j in range(i + 1, instance.no_elements):
-                # model.add(model.no_overlap([X[i], X[j]]))
-                # model.add(model.no_overlap([Y[i], Y[j]]))
-
                 # Non-overlapping conditions
                 no_overlap_X1 = model.end_of(X[i]) <= model.start_of(X[j])
                 no_overlap_X2 = model.end_of(X[j]) <= model.start_of(X[i])

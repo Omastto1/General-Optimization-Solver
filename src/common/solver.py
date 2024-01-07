@@ -312,8 +312,7 @@ class GASolver(Solver):
         if solver_name is not None:
             self.solver_name = solver_name
         else:
-            # TODO: ADD SOLVER PARAMS TO NAME
-            print("\nWarning: solver_name not specified for GA solver\n")
+            print("Warning: solver_name not specified for GA solver")
 
         self.algorithm = algorithm
         self.fitness_func = fitness_func

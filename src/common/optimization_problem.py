@@ -158,7 +158,7 @@ class Benchmark:
                 for job in range(instance.no_jobs):
                     G.add_node(job)
                     for predecessor_ in instance.predecessors[job]:
-                        G.add_edge(job, predecessor_ - 1, weight=-instance.durations[job])
+                        G.add_edge(job, predecessor_ - 1, weight=-instance.durations[predecessor_ - 1])
 
 
                 longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
