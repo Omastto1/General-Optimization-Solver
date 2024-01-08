@@ -55,7 +55,7 @@ class BinPacking2DCPSolver(CPSolver):
 
         return model
     
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
         print("Building model")
         model = self.build_model(instance)
         

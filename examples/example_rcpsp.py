@@ -110,7 +110,7 @@ print(table_markdown)
 instance = load_instance("data/RCPSP/CV/cv1.json")
 
 
-cp_solution, cp_variables = RCPSPCPSolver(TimeLimit=5).solve(instance, validate=True, visualize=True)
+obj_value, cp_variables, cp_solution = RCPSPCPSolver(TimeLimit=5).solve(instance, validate=True, visualize=True)
 
 
 ga_fitness_value, ga_startimes, ga_solution = RCPSPGASolver(algorithm, fitness_func, ("n_gen", 20)).solve(instance, validate=True, visualize=True)

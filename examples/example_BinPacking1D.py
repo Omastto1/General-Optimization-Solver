@@ -63,6 +63,7 @@ if not skip_custom_input:
 
     ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1).solve(problem)
 
+    ga_assignment = ga_assignment["item_bin_pos_assignment"]
     bins = {}
     for idx, bin_idx in enumerate(ga_assignment):
         bin_idx = int(bin_idx)
@@ -75,7 +76,7 @@ if not skip_custom_input:
 
     print(f"Best solution: {np.floor(ga_solution.X)}")
     print(f"Number of bins used: {num_bins}")
-    problem.visualize(ga_assignment)
+    problem.visualize({"item_bin_pos_assignment": ga_assignment})
 
 
 if not skip_instance_input:
@@ -92,6 +93,7 @@ if not skip_instance_input:
     ga_fitness_value, ga_assignment, ga_solution = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1).solve(instance)
 
 
+    ga_assignment = ga_assignment["item_bin_pos_assignment"]
     bins = {}
     for idx, bin_idx in enumerate(ga_assignment):
         bin_idx = int(bin_idx)
@@ -104,7 +106,7 @@ if not skip_instance_input:
     print(f"Best solution: {np.floor(ga_solution.X)}")
     print(f"Number of bins used: {num_bins}")
     print(ga_assignment)
-    instance.visualize(ga_assignment)
+    instance.visualize({"item_bin_pos_assignment": ga_assignment})
 
     instance.dump()
 

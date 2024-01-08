@@ -5,6 +5,8 @@ from pymoo.algorithms.soo.nonconvex.ga import GA
 from pymoo.operators.sampling.rnd import FloatRandomSampling
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.pm import PolynomialMutation
+from pymoo.termination.ftol import SingleObjectiveSpaceTermination
+from pymoo.termination.robust import RobustTermination
 
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 
@@ -15,15 +17,15 @@ from src.strippacking2d.solvers.solver_cp_oriented import StripPacking2DCPSolver
 from src.strippacking2d.solvers.ga_solver import StripPacking2DGASolver
 
 
-skip_custom_input = True
+skip_custom_input = False
 skip_instance_input = False
-skip_benchmark_input = True
-skip_hybrid = True
+skip_benchmark_input = False
+skip_hybrid = False
 
 # Example usage
 
 if not skip_custom_input:
-    rectangles = [(3, 4), (5, 6), (2, 5)]  # Each tuple represents (width, height)
+    rectangles = [{'width': 3, 'height': 4}, {'width':5, 'height': 6}, {'width':2, 'height': 5}]  # Each tuple represents (width, height)
     strip_width = 7
 
     problem = StripPacking2D(benchmark_name="StripPacking2DTest", instance_name="Test01", data={"rectangles": rectangles, "strip_width": strip_width}, solution={}, run_history=[])
@@ -40,7 +42,7 @@ if not skip_custom_input:
     rectangles = []
     for i, rectangle in enumerate(problem.rectangles):
         x, y = placements[i]
-        width, height = rectangle
+        width, height = rectangle.values()
         rectangles.append((x, y, width, height))
 
     # Create a figure and axis for plotting
@@ -62,29 +64,6 @@ if not skip_custom_input:
     ax.set_aspect('equal', 'box')
     plt.show()
 
-
-
-
-
-    # seems easy but has visu.rectangle which does not exist
-    # if solution:
-    #     # Create a new visualization
-    #     visu.timeline("Strip Packing Solution", 0, strip_width)
-        
-    #     for i, ((x, y), (w, h)) in enumerate(zip(placements, rectangles)):
-    #         # orientation = "original" if solution[O[i]] == 0 else "rotated"
-            
-    #         # if orientation == "original":
-    #         visu.rectangle(x, y, 
-    #                         w, h, color="blue", legend=f"Rectangle {i}")
-    #         # else:
-    #         #     visu.rectangle(solution.get_value(X_rot[i].get_start()), solution.get_value(Y_rot[i].get_start()), 
-    #         #                    h, w, color="red", legend=f"Rectangle {i} (rotated)")
-        
-    #     # Show the visualization
-    #     visu.show()
-    # else:
-    #     print("No solution found.")
 
 algorithm = GA(
     pop_size=200,
@@ -127,10 +106,10 @@ if not skip_instance_input:
     # StripPacking2DGASolver(algorithm, fitness_func, ("n_gen", 10), seed=1).solve(instance)
 
     
-    # total_height, placements, solution = StripPacking2DCPSolver(TimeLimit=15).solve(instance, validate=False, visualize=True, force_execution=True)
+    total_height, placements, solution = StripPacking2DCPSolver(TimeLimit=15).solve(instance, validate=False, visualize=True, force_execution=True)
 
     
-    # total_height, placements, solution = StripPacking2DCPSolverOriented(TimeLimit=60).solve(instance, validate=True, visualize=True, force_execution=True)
+    total_height, placements, solution = StripPacking2DCPSolverOriented(TimeLimit=60).solve(instance, validate=True, visualize=True, force_execution=True)
     total_height, placements, solution = StripPacking2DCPSolverOrientedOptimized(TimeLimit=60).solve(instance, validate=True, visualize=True, force_execution=True)
 
 if not skip_benchmark_input:
@@ -151,11 +130,8 @@ if not skip_hybrid:
     # instance = load_raw_instance("raw_data/2d_strip_packing/benchmark/BENG01.TXT", "")
     benchmark = load_raw_benchmark("raw_data/2d_strip_packing/BKW", no_instances=1)
 
-    from pymoo.termination.ftol import SingleObjectiveSpaceTermination
-    from pymoo.termination.robust import RobustTermination
     term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
 
     # StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=10))
 
-    # StripPacking2DCPSolver
     StripPacking2DCPSolverOriented(TimeLimit=10).solve(benchmark, validate=True, visualize=True, force_execution=True)

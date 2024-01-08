@@ -203,10 +203,10 @@ def indices_to_onehot(indices, num_classes):
 #############################################################################
 
 
-skip_instance_input = True
+skip_instance_input = False
 skip_benchmark_input = False
 
-benchmark = load_benchmark("data/RCPSP/RG30_Set 1", no_instances=5)  # , "1Dbinpacking"
+benchmark = load_raw_benchmark("raw_data/RCPSP/RG30_Set 1", no_instances=5)
 
 
 table_markdown = benchmark.generate_solver_comparison_markdown_table()
@@ -232,7 +232,7 @@ if not skip_instance_input:
 
     # ga_fitness_value, ga_assignment, ga_solution = naive_GA_solver.solve(instance, visualize=True, validate=True)
 
-    brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(instance, visualize=False, validate=True)
+    brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver_forward.solve(instance, visualize=False, validate=True)
 
 
     instance.dump()
