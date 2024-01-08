@@ -10,7 +10,7 @@ from src.strippacking2d.parser import load_strip_packing, load_strip_packing_sol
 from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
 from src.binpacking1d.parser import load_1dbinpacking
 from src.binpacking2d.parser_no_items_first import load_2dbinpacking_no_items_first
-from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first  # TODO
+from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first
 
 from src.common.optimization_problem import Benchmark
 from src.mmrcpsp.problem import MMRCPSP
@@ -214,7 +214,7 @@ def load_raw_instance(path, solution_path=None, format=None, verbose=False):
         instance = BinPacking2D(
             benchmark_name, instance_name, data, solution, [])
     elif format == "2Dbinpacking_bin_size_first":
-        data = load_2dbinpacking_bin_size_first()(path, verbose)
+        data = load_2dbinpacking_bin_size_first(path, verbose)
         solution = {}
         # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
         # solution = load_strip_packing_solution(solution_path, instance_name)
@@ -229,13 +229,6 @@ def load_raw_instance(path, solution_path=None, format=None, verbose=False):
             solution = {}
 
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
-    elif format == "MIS":
-        from src.mis.data_reader import parse_instance
-        from src.mis.problem import MISProblem
-        data = parse_instance(path)
-        solution = {}
-
-        instance = MISProblem(benchmark_name, instance_name, data, solution, [])
     else:
         raise ValueError(
             "Invalid format, should be one of: c15, j30, patterson, jobshop, strippacking, 1Dbinpacking, 2Dbinpacking, mmlib")
