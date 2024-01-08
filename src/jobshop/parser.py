@@ -5,6 +5,7 @@ def load_jobshop(path, verbose):
     with open(path, "r") as file:
         line = file.readline()
 
+        # skip meta information lines
         while line.startswith("#"):
             line = file.readline()
         
@@ -14,7 +15,7 @@ def load_jobshop(path, verbose):
         durations = []
         for job in range(int(no_jobs)):
             line = file.readline()
-            # print(line.split(" "))
+            
             numbers = [int(number.strip()) for number in line.split(" ") if len(number.strip())]
             job_machines = numbers[::2]
             job_durations = numbers[1::2]
