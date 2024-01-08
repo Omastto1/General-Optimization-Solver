@@ -87,13 +87,12 @@ class StripPacking2DCPSolver(CPSolver):
             except AssertionError as e:
                 print("Solution is invalid.")
                 print(e)
-                return None, None
+                return None, None, None
         
         if visualize:
             instance.visualize(solution, placements, total_height)
 
-        obj_value = solution.get_objective_value()
-        print('Objective value:', obj_value)
+        print('Objective value:', total_height)
 
         if solution.get_solve_status() == 'Optimal':
             print("Optimal solution found")
@@ -107,7 +106,7 @@ class StripPacking2DCPSolver(CPSolver):
         print(solution.solution.get_objective_gaps())
         print(solution.solution.get_objective_values())
 
-        instance.compare_to_reference(obj_value)
+        instance.compare_to_reference(total_height)
             
         if update_history:
             self.add_run_to_history(instance, solution)

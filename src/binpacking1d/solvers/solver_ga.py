@@ -90,7 +90,7 @@ class BinPacking1DGASolver(GASolver):
 
             d = {}
             problem._evaluate(X, d)
-            placements = d['placements']
+            placements = {"item_bin_pos_assignment": d['placements']}
             return fitness_value, placements, res
         else:
             return None, None, res

@@ -57,7 +57,7 @@ class JobShopCPSolver(CPSolver):
 
         return {"jobs_operations": job_operations_export}
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
         print("Building model")
         model, model_variables = self.build_model(
             instance)  # , machine_operations
@@ -101,6 +101,7 @@ class JobShopCPSolver(CPSolver):
 
         instance.compare_to_reference(obj_value)
 
-        self.add_run_to_history(instance, sol)
+        if update_history:
+            self.add_run_to_history(instance, sol)
 
         return obj_value, model_variables_export, sol

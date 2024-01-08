@@ -229,6 +229,13 @@ def load_raw_instance(path, solution_path=None, format=None, verbose=False):
             solution = {}
 
         instance = MMRCPSP(benchmark_name, instance_name, data, solution, [])
+    elif format == "MIS":
+        from src.mis.data_reader import parse_instance
+        from src.mis.problem import MISProblem
+        data = parse_instance(path)
+        solution = {}
+
+        instance = MISProblem(benchmark_name, instance_name, data, solution, [])
     else:
         raise ValueError(
             "Invalid format, should be one of: c15, j30, patterson, jobshop, strippacking, 1Dbinpacking, 2Dbinpacking, mmlib")
