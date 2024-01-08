@@ -53,9 +53,6 @@ class MMRCPSPCPSolver(CPSolver):
         ys = model_variables["ys"]
 
         jobs = range(instance.no_jobs)
-
-        _xs = [ys[i][j] for i in jobs for j in range(
-            instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
         
         export = [{"start":  sol.get_var_solution(ys[i][j]).get_start(), "end":  sol.get_var_solution(ys[i][j]).get_end(), "name": ys[i][j].get_name(), "mode": j} for i in jobs for j in range(
             instance.no_modes_list[i]) if sol.get_var_solution(ys[i][j]).is_present()]
