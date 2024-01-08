@@ -9,11 +9,12 @@ class StripPacking2DGASolver(GASolver):
         class StripPackingProblem(ElementwiseProblem):
             def __init__(self, instance, fitness_func):
                 super().__init__(n_var=len(instance.rectangles),
-                                n_obj=1,
-                                n_constr=0,
-                                xl=0,
-                                xu=max(map(lambda x: x['width'], instance.rectangles)),
-                                elementwise_evaluation=True)
+                                 n_obj=1,
+                                 n_constr=0,
+                                 xl=0,
+                                 xu=max(
+                                     map(lambda x: x['width'], instance.rectangles)),
+                                 elementwise_evaluation=True)
 
                 self.instance = instance
                 self.fitness_func = fitness_func
@@ -28,7 +29,7 @@ class StripPacking2DGASolver(GASolver):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
                 return None, None
-        
+
         problem = StripPackingProblem(instance, self.fitness_func)
 
         res = minimize(problem, self.algorithm, self.termination, verbose=True,
@@ -36,7 +37,7 @@ class StripPacking2DGASolver(GASolver):
 
         if not res:
             return None, None, None
-        
+
         X = res.X
         fitness_value = res.F[0]
         d = {}
@@ -55,13 +56,13 @@ class StripPacking2DGASolver(GASolver):
                 print("Solution is invalid.")
                 print(e)
                 return None, None
-        
+
         if visualize:
             instance.visualize(None, placements, fitness_value)
 
         if update_history:
             solution_progress = res.algorithm.callback.data['progress']
-            self.add_run_to_history(instance, fitness_value, {"placements": placements}, solution_progress, exec_time=round(res.exec_time, 2))
+            self.add_run_to_history(instance, fitness_value, {
+                                    "placements": placements}, solution_progress, exec_time=round(res.exec_time, 2))
 
         return fitness_value, placements, res
-
