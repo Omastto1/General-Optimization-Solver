@@ -41,7 +41,6 @@ class BinPacking1DCPSolver(CPSolver):
         model, model_variables = self.build_model(instance)
         
         print("Looking for solution")
-        # Solve the model
         solution = model.solve()
 
         if solution.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
@@ -76,9 +75,6 @@ class BinPacking1DCPSolver(CPSolver):
         else:
             print("Unknown solution status")
             print(solution.get_solve_status())
-        
-        # for i in range(no_jobs):
-        #     print(f"Activity {i}: start={sol[i].get_start()}, end={sol[i].get_end()}")
 
         print(solution.solution.get_objective_bounds())
         print(solution.solution.get_objective_gaps())

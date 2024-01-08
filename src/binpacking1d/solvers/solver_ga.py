@@ -50,29 +50,8 @@ class BinPacking1DGASolver(GASolver):
             placements = d['placements']
 
             assignment = indices_to_onehot(placements, len(instance.weights))
-            if validate:
-                try:
-                    print("Validating solution...")
-                    instance.validate(instance, assignment, is_bin_used)
-                    print("Solution is valid.")
 
-                    # TODO
-                    # obj_value = sol.get_objective_value()
-                    # print("Project completion time:", obj_value)
-
-                    # TODO
-                    # instance.compare_to_reference(obj_value)
-                except AssertionError as e:
-                    print("Solution is invalid.")
-                    print(e)
-
-                    # if update_history:
-                    #     self.add_run_to_history(instance, fitness_value, start_times, is_valid=False)
-
-                    return None, None, res
-
-            if visualize:
-                
+            if visualize:                
                 instance.visualize(assignment)
         else:
             fitness_value = -1
@@ -81,7 +60,6 @@ class BinPacking1DGASolver(GASolver):
         if update_history:
             solution_info = {"placements": placements}
             solution_progress = res.algorithm.callback.data['progress']
-            # TODO: DOES NOT CORRESPOND TO Number of bins used if another fitness value used in fitness func
             self.add_run_to_history(instance, fitness_value, solution_info, solution_progress, exec_time=round(res.exec_time, 2))
 
         if res.F is not None:
