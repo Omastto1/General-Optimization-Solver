@@ -11,18 +11,30 @@ class StripPacking2DCPSolver(CPSolver):
         model = CpoModel('2D Strip Packing Oriented')
         model.set_parameters(params=self.params)
 
+        X_main = []
+        X = []
+        X_rot = []
+        Y_main = []
+        Y = []
+        Y_rot = []
         # Create interval variables for each rectangle's horizontal and vertical positions for both orientations
-        X_main = [model.interval_var() for i in range(instance.no_elements)]
-        X = [model.interval_var(name=f'rectangle_{i}_X', start=(0, instance.strip_width - instance.rectangles[i]
-                                ['width']), size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
-        X_rot = [model.interval_var(name=f'rectangle_{i}_Xrot', start=(0, instance.strip_width - instance.rectangles[i]['height'] if instance.strip_width -
-                                    instance.rectangles[i]['height'] >= 0 else 2 ** 31), size=instance.rectangles[i]['height'], optional=True) for i in range(instance.no_elements)]
+        for i in range(instance.no_elements):
+            X_main.append(model.interval_var())
+            Y_main.append(model.interval_var())
 
-        Y_main = [model.interval_var() for i in range(instance.no_elements)]
-        Y = [model.interval_var(name=f'rectangle_{i}_Y', size=instance.rectangles[i]
-                                ['height'], optional=True) for i in range(instance.no_elements)]
-        Y_rot = [model.interval_var(
-            name=f'rectangle_{i}_Yrot', size=instance.rectangles[i]['width'], optional=True) for i in range(instance.no_elements)]
+            force_no_rotation = False
+            if instance.strip_width - instance.rectangles[i]['height'] < 0:
+                # ban rotation if rectangle height is bigger than strip width
+                force_no_rotation = True
+
+            X.append(model.interval_var(name=f'rectangle_{i}_X', start=(0, instance.strip_width - instance.rectangles[i]
+                                    ['width']), size=instance.rectangles[i]['width'], optional=(not force_no_rotation)))
+            X_rot.append(model.interval_var(name=f'rectangle_{i}_Xrot', start=(0, instance.strip_width - instance.rectangles[i]['height'] if not force_no_rotation else 0), size=instance.rectangles[i]['height'], optional=True))
+
+            Y.append(model.interval_var(name=f'rectangle_{i}_Y', size=instance.rectangles[i]
+                                    ['height'], optional=(not force_no_rotation)))
+            Y_rot.append(model.interval_var(
+                name=f'rectangle_{i}_Yrot', size=instance.rectangles[i]['width'], optional=True))
 
         # Orientation decision variables
         O = [model.binary_var() for i in range(instance.no_elements)]
@@ -99,6 +111,8 @@ class StripPacking2DCPSolver(CPSolver):
                 ), solution.get_var_solution(Y_rot[i]).get_start(), "rotated"))
                 orientations.append("rotated")
 
+        print(placements)
+        print([(dimensions, position) for dimensions, position in zip(instance.rectangles, placements)])
         return placements, orientations
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
