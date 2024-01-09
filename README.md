@@ -1,7 +1,13 @@
 # General-Optimization-Solver
 
+Welcome to the README.md file of the General Optimization Solver.
 
-## CLASS DOCS:
+General Optimization Solver is practical framework for Combinatorial Optimization designed to facilitate unified benchmark handling and simplify the integration of custom solvers and their comparison. Prioritizing simplicity and accessibility, it supports Genetic Algorithms and Constraint Programming solvers defined with pymoo and IBM’s DOCplex CP Optimizer, respectively. The framework facilitates handling complex problems such as RCPSP, Job Shop Scheduling problems, and Packing problems. It is not intended to provide state-ofthe-art solutions but rather to offer a reliable and easy-to-use tool for researchers. Tool is based on modular architecture that makes it easy extend it with new benchmarks, problems or solvers. 
+
+The project is divided into 3 main folders
+ - `src` constaing modules with the source code of the framework
+ - `examples` containing examples of using the framework
+ - `raw_data` containing raw data of the benchmarks
 
 ## PROJECT STRUCTURE
 Each problem type has its own directory, which contains `solver` directory with solver modules and `problem.py` module as well as `parser` modules, if only one input format is implemented or multiple modules with respective format names (`c15.py` and `mmlib.py` for MM-RCPSP)
@@ -111,23 +117,3 @@ OptimizationProblem class
 
   - visualize(solution, variables) - problem specific
   - validate(solution, variables) - problem specific
-
-## TODO LIST
-### Tomas
-jobshop - MVP - solving, validating constraint, visualization
-rcpsp - MVP - solving, validating constraint, visualization
-mm-rcpsp - MVP - solving, validating constraint, visualization
-
-validation of solution
-
-Proper name for benchmarks  
-Different naming for formats  
-add instance type (rcp/mmrcsp/jobshop) to class
-save benchmark as json  
-Save solutions  
-Add solve parameters (Time Limit, etc.)
-
-binpacking - did not find cp model
-
-### Michal
-
