@@ -75,11 +75,11 @@ if id % 5 == 0:
 
 
 instance = load_raw_instance(
-    "raw_data/mm-rcpsp/MMLIB50/J50{parameter}_{instance}.mm", "", "c15")
+    f"raw_data/mm-rcpsp/MMLIB50/J50{parameter}_{instance}.mm", "", "mmlib")
 
 
 # cp_solution, cp_variables, sol = 
-MMRCPSPCPSolver(TimeLimit=5).solve(instance, validate=True, visualize=False, force_execution=True, force_dump=False)
+MMRCPSPCPSolver(TimeLimit=60).solve(instance, validate=True, visualize=False, force_execution=True, force_dump=False)
 
 MMRCPSPGASolver(algorithm, fitness_func_forward, (
     "n_evals", 1000)).solve(instance, validate=True, visualize=False, force_execution=True, force_dump=False)
@@ -89,3 +89,5 @@ MMRCPSPGASolver(algorithm, fitness_func_forward, (
 # print(table)
 
 instance.dump()
+
+exit(0)

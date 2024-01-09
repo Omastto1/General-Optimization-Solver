@@ -8,7 +8,7 @@
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks=1
-#SBATCH --time=0-00:60:00
+#SBATCH --time=0-04:00:00
 #SBATCH --partition compute
 #SBATCH --mem=16G
 #SBATCH --mail-user=tomom@email.cz
