@@ -132,7 +132,7 @@ if not skip_hybrid:
 
     term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
 
-    StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=10))
+    # StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=10))
     # StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True)
 
-    # StripPacking2DCPSolverOriented(TimeLimit=10).solve(benchmark, validate=True, visualize=True, force_execution=True)
+    StripPacking2DCPSolverOriented(TimeLimit=60).solve(benchmark, validate=True, visualize=True, force_execution=True)

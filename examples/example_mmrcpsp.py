@@ -55,16 +55,24 @@ algorithm = BRKGA(
 # BENCHMARK TEST END
 
 
-instance = load_raw_instance(
-    "raw_data/mm-rcpsp/c15.mm/c1510_1.mm", "raw_data/mm-rcpsp/c15opt.mm.html", "c15")
+# instance = load_raw_instance(
+#     "raw_data/mm-rcpsp/c15.mm/c1510_1.mm", "raw_data/mm-rcpsp/c15opt.mm.html", "c15")
 # instance = load_instance("data/RCPSP/CV/cv1.json")
+benchmark = load_raw_benchmark(
+    "raw_data/mm-rcpsp/c15.mm", "raw_data/mm-rcpsp/c15opt.mm.html", "c15", no_instances=2)
 
 
-cp_solution, cp_variables, sol = MMRCPSPCPSolver(TimeLimit=5).solve(instance, validate=True, visualize=True, force_execution=True)
+# cp_solution, cp_variables, sol = 
+MMRCPSPCPSolver(TimeLimit=5).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
 
-ga_fitness_value, ga_startimes, ga_solution = MMRCPSPGASolver(algorithm, fitness_func_forward, (
-    "n_gen", 20)).solve(instance, validate=True, visualize=True, force_execution=True)
-print("Best solution found: \nX = ", ga_solution.X)
+# ga_fitness_value, ga_startimes, ga_solution = 
+MMRCPSPGASolver(algorithm, fitness_func_forward, (
+    "n_evals", 1000)).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+# print("Best solution found: \nX = ", ga_solution.X)
 
-instance.dump()
+table = benchmark.generate_solver_comparison_percent_deviation_markdown_table(compare_to_cplb=True)
+
+print(table)
+
+benchmark.dump()
