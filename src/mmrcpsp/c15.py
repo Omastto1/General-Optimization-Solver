@@ -141,7 +141,7 @@ def load_c15(instance_path, verbose=False):
 
             mode_description["mode"] = mode
             mode_description["duration"] = duration
-            s
+
             if len(line) == 7:
                 resource_req = [int(req.strip()) for req in line[3:7]]
             else:

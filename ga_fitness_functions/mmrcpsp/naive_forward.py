@@ -7,7 +7,7 @@ def fitness_func_forward(instance, x, out):
     selected_modes = {0: 0}
     max_end_time = sum(max(modes_durations) for modes_durations in instance.durations)
     
-    # Start with the ending node
+    # Start with the start node
     start_times[0] = 0
     
     # List to track unscheduled jobs. Initially, it contains all jobs except the ending node.
