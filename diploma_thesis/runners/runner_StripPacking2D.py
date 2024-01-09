@@ -50,30 +50,32 @@ benchmark_name = "BKW"
 
 # instance = load_raw_instance("raw_data/2d_strip_packing/BKW/13.json", "")
 # benchmark = load_raw_benchmark("raw_data/2d_strip_packing/benchmark", "", no_instances=1)
-# benchmark = load_raw_benchmark(f"raw_data/{problem_type}/{benchmark_name}")
-benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}", no_instances=1)
+benchmark = load_raw_benchmark(f"raw_data/{problem_type}/{benchmark_name}", no_instances=1)
+# benchmark = load_benchmark(f"master_thesis_data/{problem_type}/{benchmark_name}", no_instances=1)
 # benchmark = load_instance(f"master_thesis_data/{problem_type}/{benchmark_name}/3.json")
 
 # without time limit
-StripPacking2DGASolver(algorithm, fitness_func_leveled, term, seed=1, solver_name="naive GA 200_1.0").solve(benchmark, validate=True, visualize=True, force_execution=True, force_dump=False)
+# StripPacking2DGASolver(algorithm, fitness_func_leveled, term, seed=1, solver_name="naive GA 200_1.0").solve(benchmark, validate=True, visualize=True, force_execution=True, force_dump=False)
 # StripPacking2DGASolver(algorithm, fitness_func_best_fit, term, seed=1, solver_name="best GA 200_1.0").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
-# StripPacking2DCPSolver(TimeLimit=15, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
-# StripPacking2DCPSolver(TimeLimit=60, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+StripPacking2DCPSolver(TimeLimit=15, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+StripPacking2DCPSolver(TimeLimit=60, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
-# StripPacking2DCPSolverOriented(TimeLimit=15, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
-# StripPacking2DCPSolverOriented(TimeLimit=60, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+StripPacking2DCPSolverOriented(TimeLimit=15, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+StripPacking2DCPSolverOriented(TimeLimit=60, no_workers=1).solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
-# StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=15, no_workers=1), force_dump=False)
-# StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=60, no_workers=1), force_dump=False)
+StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=15, no_workers=1), force_dump=False)
+StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolver(TimeLimit=60, no_workers=1), force_dump=False)
 
 StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=15, no_workers=1), force_dump=False)
-# StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=60, no_workers=1), force_dump=False)
+StripPacking2DGASolver(algorithm, fitness_func_leveled, ("n_gen", 20), seed=1).solve(benchmark, validate=True, visualize=False, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=60, no_workers=1), force_dump=False)
+
+StripPacking2DGASolver(algorithm, fitness_func_best_fit, term_time, seed=1, solver_name="best fit GA 30_1.0_60sec").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
 # with time limit
-# StripPacking2DGASolver(algorithm_small, fitness_func_best_fit, term_time, seed=1, solver_name="best fit GA 30_1.0_60sec").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+StripPacking2DGASolver(algorithm_small, fitness_func_best_fit, term_time, seed=1, solver_name="best fit GA 30_1.0_60sec").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
-# StripPacking2DGASolver(algorithm_small, fitness_func_leveled, term_time, seed=1, solver_name="naive GA 30_1.0_60sec").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
+StripPacking2DGASolver(algorithm_small, fitness_func_leveled, term_time, seed=1, solver_name="naive GA 30_1.0_60sec").solve(benchmark, validate=True, visualize=False, force_execution=True, force_dump=False)
 
 table1 = benchmark.generate_solver_comparison_markdown_table()
 table2 = benchmark.generate_solver_comparison_percent_deviation_markdown_table()
