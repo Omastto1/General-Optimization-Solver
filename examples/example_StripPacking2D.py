@@ -17,9 +17,9 @@ from src.strippacking2d.solvers.solver_cp_oriented import StripPacking2DCPSolver
 from src.strippacking2d.solvers.ga_solver import StripPacking2DGASolver
 
 
-skip_custom_input = False
-skip_instance_input = False
-skip_benchmark_input = False
+skip_custom_input = True
+skip_instance_input = True
+skip_benchmark_input = True
 skip_hybrid = False
 
 # Example usage
@@ -132,6 +132,7 @@ if not skip_hybrid:
 
     term = RobustTermination(SingleObjectiveSpaceTermination(tol = 0.1), period=30)
 
-    # StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=10))
+    StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True, hybrid_CP_solver=StripPacking2DCPSolverOriented(TimeLimit=10))
+    # StripPacking2DGASolver(algorithm, fitness_func, term, seed=1).solve(benchmark, validate=True, visualize=True, force_execution=True)
 
-    StripPacking2DCPSolverOriented(TimeLimit=10).solve(benchmark, validate=True, visualize=True, force_execution=True)
+    # StripPacking2DCPSolverOriented(TimeLimit=10).solve(benchmark, validate=True, visualize=True, force_execution=True)
