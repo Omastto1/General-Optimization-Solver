@@ -142,7 +142,7 @@ class Benchmark:
         Returns:
             _type_: _description_
         """
-        if all(instance._solution == {} for instance in self._instances.values()):
+        if all(instance._solution == {} for instance in self._instances.values()) and not compare_to_cplb:
             print("No solution found for instance")
             return
 
@@ -158,8 +158,10 @@ class Benchmark:
                 for job in range(instance.no_jobs):
                     G.add_node(job)
                     for predecessor_ in instance.predecessors[job]:
-                        G.add_edge(job, predecessor_ - 1, weight=-instance.durations[predecessor_ - 1])
-
+                        if instance._instance_kind == 'MMRCPSP':
+                            G.add_edge(job, predecessor_ - 1, weight=-min(instance.durations[predecessor_ - 1]))
+                        else:
+                            G.add_edge(job, predecessor_ - 1, weight=-instance.durations[predecessor_ - 1])
 
                 longest_length_paths_negative = nx.single_source_bellman_ford_path_length(
                     G, instance.no_jobs - 1)
