@@ -41,24 +41,4 @@
             "resource name" (str): "resurce availability" (int)
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

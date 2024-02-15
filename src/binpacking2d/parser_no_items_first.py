@@ -5,6 +5,10 @@
 # {items...}
  
 def load_2dbinpacking_no_items_first(path, verbose):
+    """
+    Load the input for 2D Bin Packing in .BPP format 
+    Contains the the number of rectangles, bin size and the dimensions of each rectangle
+    """
     with open(path, "r") as file:
         line = file.readline()        
         no_items = int(line.strip())

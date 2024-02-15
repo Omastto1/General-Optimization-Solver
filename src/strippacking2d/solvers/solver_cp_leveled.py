@@ -1,12 +1,34 @@
 from docplex.cp.model import CpoModel
-from collections import namedtuple
 
 from src.common.solver import CPSolver
 
 
 class StripPackingLeveled2DCPSolver(CPSolver):
     solver_name = 'CP Default Leveled'
-    
+
+    def _export_solution(self, instance, solution, xs, ys):
+        variables_export = [None] * instance.no_elements
+
+        height = 0
+        for level in range(instance.no_elements):
+            level_variable_solutions = [solution.get_var_solution(
+                ys[level][item]) for item in range(instance.no_elements)]
+
+            if not any(variable_solution.is_present() for variable_solution in level_variable_solutions):
+                continue
+
+            level_height = max(instance.rectangles[item]['height'] for item, variable_solution in enumerate(
+                level_variable_solutions) if variable_solution.is_present())
+
+            for item in range(instance.no_elements):
+                if level_variable_solutions[item].is_present():
+                    variables_export[item] = (solution.get_var_solution(
+                        ys[level][item]).get_start(), height)
+
+            height += level_height
+
+        return variables_export
+
     def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
@@ -30,39 +52,46 @@ class StripPackingLeveled2DCPSolver(CPSolver):
                 )
             )
         )
-        
+
         for i in range(instance.no_elements):
-            model.add(model.alternative(xs[i], [ys[level][i] for level in range(instance.no_elements)]))
+            model.add(model.alternative(
+                xs[i], [ys[level][i] for level in range(instance.no_elements)]))
 
         for level in ys:
             model.add(model.no_overlap(level))
 
         for level in range(instance.no_elements):
-            model.add(model.max(model.end_of(ys[level][i]) for i in range(instance.no_elements)) <= instance.strip_width)
+            model.add(model.max(model.end_of(ys[level][i]) for i in range(
+                instance.no_elements)) <= instance.strip_width)
 
         print("Using 10 second time limit")
-        sol = model.solve()  # TimeLimit=self.TimeLimit, LogVerbosity='Terse'
+        sol = model.solve()
 
-        # if sol:
-        #     if validate:
-        #         try:
-        #             print("Validating solution...")
-        #             instance.validate(sol, job_operations)
-        #             print("Solution is valid.")
-        #         except AssertionError as e:
-        #             print("Solution is invalid.")
-        #             print(e)
-        #             return None, None, None
+        if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
+            print('No solution found')
+            return None, None, sol
 
-        #     if visualize:
-        #         pass
-        #         # instance.visualize(sol, job_operations, machine_operations)
+        placements = self._export_solution(instance, sol, xs, ys)
+        total_height = sol.get_objective_values()[0]
 
-        #     print("Project completion time:", sol.get_objective_values()[0])
-        # else:
-        #     print("No solution found.")
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = instance.validate(sol)
+                if is_valid:
+                    print("Solution is valid.")
+                else:
+                    print("Solution is invalid.")
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, None, None
 
-        # print solution
+        if visualize:
+            instance.visualize(sol, placements, total_height)
+
+        print('Objective value:', total_height)
+
         if sol.get_solve_status() == 'Optimal':
             print("Optimal solution found")
         elif sol.get_solve_status() == 'Feasible':
@@ -71,17 +100,13 @@ class StripPackingLeveled2DCPSolver(CPSolver):
             print("Unknown solution status")
             print(sol.get_solve_status())
 
-        obj_value = sol.get_objective_values()[0]
-        print('Objective value:', obj_value)
-        instance.compare_to_reference(obj_value)
+        print(sol.solution.get_objective_bounds())
+        print(sol.solution.get_objective_gaps())
+        print(sol.solution.get_objective_values())
 
-        # variables = Solution(job_operations, machine_operations)
-        Solution = namedtuple("Solution", ['xs'])
-        xs = [ys[level][i] for i in range(instance.no_elements) for level in range(
-            instance.no_elements) if sol.get_var_solution(ys[level][i]).is_present()]
-        variables = Solution(xs)
+        instance.compare_to_reference(total_height)
 
         if update_history:
             self.add_run_to_history(instance, sol)
 
-        return sol, variables
+        return total_height, placements, sol

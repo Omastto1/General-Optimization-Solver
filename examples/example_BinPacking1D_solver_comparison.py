@@ -10,12 +10,11 @@ from pymoo.core.duplicate import ElementwiseDuplicateElimination
 
 from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 
-from src.binpacking1d.problem import BinPacking1D
 from src.binpacking1d.solvers.solver_cp import BinPacking1DCPSolver
 from src.binpacking1d.solvers.solver_ga import BinPacking1DGASolver
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 
-
+from ga_fitness_functions.bin_packing_1d.naive import fitness_func
 
 ### naive GA
 algorithm = GA(
@@ -26,30 +25,11 @@ algorithm = GA(
     mutation=PolynomialMutation(eta=3),
     eliminate_duplicates=True
 )
-def fitness_func(instance, x, out):
-    bins = {}
-    for idx, bin_idx in enumerate(x):
-        bin_idx = int(bin_idx)
-        bins[bin_idx] = bins.get(bin_idx, 0) + instance.weights[idx]
-    
-    num_bins = len(bins)
-    max_bin_load = max(bins.values())
-    
-    # Objective: Minimize the number of bins used
-    out["F"] = num_bins - max_bin_load / instance.bin_capacity
-    out["placements"] = x.tolist()
-    
-    # Constraint: No bin should overflow
-    out["G"] = max_bin_load - instance.bin_capacity
-
-    return out
-
-naive_GA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="naive GA")
-
+naive_GA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 20), seed=1, solver_name="naive GA")
 ###
 
-### BRKGA
 
+### BRKGA
 class MyElementwiseDuplicateElimination(ElementwiseDuplicateElimination):
 
     def is_equal(self, a, b):
@@ -63,31 +43,13 @@ algorithm = BRKGA(
     n_mutants=10,
     bias=0.7,
     eliminate_duplicates=MyElementwiseDuplicateElimination())
-
-def fitness_func(instance, x, out):
-    bins = {}
-    for idx, bin_idx in enumerate(x):
-        bin_idx = int(bin_idx)
-        bins[bin_idx] = bins.get(bin_idx, 0) + instance.weights[idx]
-    
-    num_bins = len(bins)
-    max_bin_load = max(bins.values())
-    
-    # Objective: Minimize the number of bins used
-    out["F"] = num_bins - max_bin_load / instance.bin_capacity
-    out["placements"] = x.tolist()
-    
-    # Constraint: No bin should overflow
-    out["G"] = max_bin_load - instance.bin_capacity
-
-    return out
 BRKGA_solver = BinPacking1DGASolver(algorithm, fitness_func, ("n_gen", 100), seed=1, solver_name="BRKGA")
-
 ###
 
-## CP
 
+## CP
 cp_solver = BinPacking1DCPSolver(TimeLimit=10)
+###
 
 
 def indices_to_onehot(indices, num_classes):
@@ -98,13 +60,13 @@ def indices_to_onehot(indices, num_classes):
 #############################################################################
 
 
-skip_instance_input = True
+skip_instance_input = False
 skip_benchmark_input = False
 
 
 if not skip_instance_input:
     # SPECIFIC BENCHMARK INSTANCE
-    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "")  # , "1Dbinpacking"
+    instance = load_raw_instance("raw_data/1d-binpacking/scholl_bin1data/N1C1W1_A.BPP", "")
     # instance = load_instance("data/1DBINPACKING/scholl_bin1data/N1C1W1_A.json")
     cp_bins_used, cp_solution_variables, cp_solution = cp_solver.solve(instance, validate=False, visualize=False, force_execution=True)
     cp_assignment = cp_solution_variables['item_bin_pos_assignment']
@@ -112,29 +74,32 @@ if not skip_instance_input:
 
     print("Number of bins used:", cp_bins_used)
     print("Assignment of items to bins:", cp_assignment)
-    instance.visualize(cp_assignment)
+    instance.visualize(cp_solution_variables)
 
     ga_fitness_value, ga_assignment, ga_solution = naive_GA_solver.solve(instance)
 
+
     if ga_assignment is not None:
+        ga_assignment_list = ga_assignment["item_bin_pos_assignment"]
         bins = {}
-        for idx, bin_idx in enumerate(ga_assignment):
+        for idx, bin_idx in enumerate(ga_assignment_list):
             bin_idx = int(bin_idx)
             bins[bin_idx] = bins.get(bin_idx, 0) + instance.weights[idx]
 
         num_bins = len(bins)
 
-        ga_assignment = indices_to_onehot(ga_assignment, len(instance.weights))
+        ga_assignment_list = indices_to_onehot(ga_assignment_list, len(instance.weights))
 
         print(f"Best solution: {np.floor(ga_solution.X)}")
         print(f"Number of bins used: {num_bins}")
-        print(ga_assignment)
-        instance.visualize(ga_assignment)
+        print(ga_assignment_list)
+        instance.visualize({"item_bin_pos_assignment": ga_assignment_list})
 
     brkga_fitness_value, brkga_assignment, brkga_solution = BRKGA_solver.solve(instance)
 
 
     if brkga_assignment is not None:
+        brkga_assignment = brkga_assignment["item_bin_pos_assignment"]
         bins = {}
         for idx, bin_idx in enumerate(brkga_assignment):
             bin_idx = int(bin_idx)
@@ -147,14 +112,14 @@ if not skip_instance_input:
         print(f"Best solution: {np.floor(brkga_solution.X)}")
         print(f"Number of bins used: {num_bins}")
         print(brkga_assignment)
-        instance.visualize(brkga_assignment)
+        instance.visualize({"item_bin_pos_assignment": brkga_assignment})
 
 
     instance.dump()
 
 if not skip_benchmark_input:
     # SPECIFIC BENCHMARK INSTANCE
-    benchmark = load_raw_benchmark("raw_data/1d-binpacking/scholl_bin1data", no_instances=10)
+    benchmark = load_raw_benchmark("raw_data/1d-binpacking/scholl_bin1data", no_instances=3)
     cp_solver.solve(benchmark, validate=False, visualize=False, force_execution=True)
 
     naive_GA_solver.solve(benchmark)

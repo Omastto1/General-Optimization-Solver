@@ -1,10 +1,14 @@
 # THIS FILE LOADS .BPP FORMAT FOR 2D BINPACKING
 ###
-# {no items}
 # {bin_width} {bin_height}
+# {no items}
 # {items...}
  
 def load_2dbinpacking_bin_size_first(path, verbose):
+    """
+    Load the input for 2D Bin Packing in .BPP format 
+    Contains the the bin size, number of rectangles and the dimensions of each rectangle
+    """
     with open(path, "r") as file:
         line = file.readline()
         bin_size = [int(number) for number in line.strip().split(" ")]  

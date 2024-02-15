@@ -34,9 +34,6 @@ class JobShop(OptimizationProblem):
             #               self._instance_name, 1, sol.get_objective_value())
             visu.panel('Jobs')
             for i in range(self.no_jobs):
-                # visu.sequence(name='J' + str(i),
-                #               intervals=[(sol.get_var_solution(jobs_operations[i][j]), self.machines[i][j], 'M' + str(self.machines[i][j])) for j in
-                #                          range(self.no_machines)])
                 visu.sequence(name='J' + str(i),
                               intervals=[(jobs_operations[i][j]['start'], jobs_operations[i][j]['end'], self.machines[i][j], 'M' + str(self.machines[i][j])) for j in
                                          range(self.no_machines)])

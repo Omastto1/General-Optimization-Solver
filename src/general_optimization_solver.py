@@ -10,7 +10,7 @@ from src.strippacking2d.parser import load_strip_packing, load_strip_packing_sol
 from src.mmrcpsp.mmlib import load_mmlib, load_mmlib_solution
 from src.binpacking1d.parser import load_1dbinpacking
 from src.binpacking2d.parser_no_items_first import load_2dbinpacking_no_items_first
-from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first  # TODO
+from src.binpacking2d.parser_bin_size_first import load_2dbinpacking_bin_size_first
 
 from src.common.optimization_problem import Benchmark
 from src.mmrcpsp.problem import MMRCPSP
@@ -124,7 +124,7 @@ def _get_and_validate_meta_data(filepath):
     return metadata
 
 
-def load_raw_instance(path, solution_path, format=None, verbose=False):
+def load_raw_instance(path, solution_path=None, format=None, verbose=False):
     benchmark_name = path.split("/")[-2].split(".")[0]
     instance_name = path.split("/")[-1].split(".")[0]
 
@@ -133,6 +133,9 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
         meta_data = _get_and_validate_meta_data(meta_path)
 
         format = meta_data["FORMAT"]
+        if solution_path is None:
+            solution_path = meta_data.get("SOLUTION_PATH", None)
+            print("Loading .meta solution path: %s" % solution_path)
 
     assert format is not None, "Specify valid raw data input argument `format`"
 
@@ -211,7 +214,7 @@ def load_raw_instance(path, solution_path, format=None, verbose=False):
         instance = BinPacking2D(
             benchmark_name, instance_name, data, solution, [])
     elif format == "2Dbinpacking_bin_size_first":
-        data = load_2dbinpacking_bin_size_first()(path, verbose)
+        data = load_2dbinpacking_bin_size_first(path, verbose)
         solution = {}
         # TODO: SO FAR USINGBENCHMARK WITH NO SOLUTION
         # solution = load_strip_packing_solution(solution_path, instance_name)

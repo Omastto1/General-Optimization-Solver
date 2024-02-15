@@ -7,17 +7,18 @@ class BinPacking1D(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
         super().__init__(benchmark_name, instance_name, "1DBINPACKING", data, solution, run_history)
 
-        # self.no_items = len(instance.weights)
         self.bin_capacity = self._data["bin_capacity"]
         self.weights = self._data["weights"]
         self.no_items = len(self._data["weights"])
 
     def validate(self, model_variables):
-        """_summary_
+        """
+        validate solution of 1D Bin Packing problem
 
         Args:
-            item_bin_pos_assignment (_type_): one hot encoded item_bin_assignment - item_bin_assignment[0][5] - is the first item in the sixth bin
-            is_bin_used (List[int]): 0/1 list showing which bin is used (=1)
+            model_variables(dict):
+                item_bin_pos_assignment (_type_): one hot encoded item_bin_assignment - item_bin_assignment[0][5] - is the first item in the sixth bin
+                is_bin_used (List[int]): 0/1 list showing which bin is used (=1)
 
         Raises:
             ValueError: sum of item weights in one of bins exceeds the capacity
@@ -41,7 +42,8 @@ class BinPacking1D(OptimizationProblem):
         expects one hot encoded item_bin_assignment
 
         Args:
-            item_bin_assignment (List[List[int]]): one hot encoded item_bin_assignment - item_bin_assignment[0][5] - is the first item in the sixth bin
+            model_variables: dict
+                item_bin_assignment (List[List[int]]): one hot encoded item_bin_assignment - item_bin_assignment[0][5] - is the first item in the sixth bin
         """
         item_bin_assignment = model_variables['item_bin_pos_assignment']
         

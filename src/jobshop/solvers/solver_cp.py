@@ -26,7 +26,6 @@ class JobShopCPSolver(CPSolver):
              for i in range(instance.no_jobs) for j in range(instance.no_machines) if 0 < j]
         )
 
-        # [ model.no_overlap( job_operations[job][machine_index] for job in range(instance.no_jobs) for machine_index in range(instance.no_machines) if instance.machines[job][machine_index] == k ) for k in range(instance.no_machines) ] +
         machine_operations = [[] for m in range(instance.no_machines)]
         for j in range(instance.no_jobs):
             for s in range(instance.no_machines):
@@ -35,7 +34,7 @@ class JobShopCPSolver(CPSolver):
         for mops in machine_operations:
             model.add(model.no_overlap(mops))
 
-        return model, {"jobs_operations": job_operations}  # , machine_operations
+        return model, {"jobs_operations": job_operations}
 
     def _export_solution(self, instance, sol, model_variables):
         job_operations = model_variables["jobs_operations"]
@@ -57,10 +56,10 @@ class JobShopCPSolver(CPSolver):
 
         return {"jobs_operations": job_operations_export}
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, initial_solution=None, update_history=True):
         print("Building model")
         model, model_variables = self.build_model(
-            instance)  # , machine_operations
+            instance)
 
         print("Looking for solution")
         sol = model.solve()
@@ -68,7 +67,7 @@ class JobShopCPSolver(CPSolver):
         if sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
-        
+
         model_variables_export = self._export_solution(
             instance, sol, model_variables)
 
@@ -101,6 +100,7 @@ class JobShopCPSolver(CPSolver):
 
         instance.compare_to_reference(obj_value)
 
-        self.add_run_to_history(instance, sol)
+        if update_history:
+            self.add_run_to_history(instance, sol)
 
         return obj_value, model_variables_export, sol
