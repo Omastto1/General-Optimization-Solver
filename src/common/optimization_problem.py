@@ -272,7 +272,7 @@ class OptimizationProblem:
             json.dump(instance_dict, f, indent=4, default=str)
 
     def compare_to_reference(self, obj_value):
-        # TODO: WHAT HAPPENS IF SELF SOLUTION IS NOT FEASIBLE?
+        # TODO: WHAT HAPPENS IF SELF SOLUTION IS NOT FEASIBLE? OR BETTER THAN KNOWN BEST?
         if self._solution.get("optimum", None) is not None:
             if obj_value == self._solution["optimum"]:
                 print("Solution is optimal.")
