@@ -267,19 +267,23 @@ class OptimizationProblem:
 
         if verbose:
             print("dumping to", path)
+        print("dumping to", path)
 
         with open(path, "w+", encoding='utf-8') as f:
             json.dump(instance_dict, f, indent=4, default=str)
 
     def compare_to_reference(self, obj_value):
-        # TODO: WHAT HAPPENS IF SELF SOLUTION IS NOT FEASIBLE? OR BETTER THAN KNOWN BEST?
+        # TODO: WHAT HAPPENS IF SELF SOLUTION IS NOT FEASIBLE? OR BETTER THAN KNOWN BEST? OR THERE ARE MULTIPLE VARIABLES
         if self._solution.get("optimum", None) is not None:
             if obj_value == self._solution["optimum"]:
                 print("Solution is optimal.")
             else:
                 ratio = round(
                     (obj_value / self._solution["optimum"] - 1) * 100, 1)
-                print(f"Solution is {ratio} % worse than the optimum.")
+                if ratio < 0:
+                    print(f"Solution is {abs(ratio)} % better than the optimum.")
+                else:
+                    print(f"Solution is {ratio} % worse than the optimum.")
         elif self._solution.get("bounds", None) is not None:
             if obj_value >= self._solution["bounds"]["lower"]:
                 ratio = round(

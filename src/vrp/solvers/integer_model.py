@@ -1,9 +1,12 @@
+import multiprocessing
+
 from docplex.cp.model import CpoModel
 from src.common.solver import CPSolver
 from src.vrp.problem import *
 
 
 class VRPTWSolver(CPSolver):
+    solver_name = 'CP Integer Model'
     def build_model(self, instance):
         vrp = VRP(instance)
 
@@ -68,11 +71,38 @@ class VRPTWSolver(CPSolver):
         # KPIs
         model.add_kpi(used, 'Used')
 
-        return model, {'vehicles': veh}
+        return model, {'vrp': vrp, 'prev': prev}
 
-    def _export_solution(self, instance, sol, model_variables):
-        # TODO: sol to path
-        pass
+    def _export_solution(self, sol, data, model_variables):
+        vrp = data
+        sprev = tuple(sol.solution[p] for p in model_variables['prev'])
+
+        n_vehicles = 0
+        total_distance = 0
+        paths = []
+
+        for v, fv, lv in model_variables['vrp'].vehicles():
+            route = []
+            nd = lv
+            while nd != fv:
+                route.append(nd)
+                nd = sprev[nd]
+            route.append(fv)
+            route.reverse()
+
+            if len(route) > 2:
+                n_vehicles += 1
+                paths.append([0 if i + 1 > vrp.nb_customers else i + 1 for i in route])
+
+                for idx, nd in enumerate(route):
+                    if nd != route[-1]:
+                        nxt = route[idx + 1]
+                        locald = model_variables['vrp'].get_distance(nd, nxt)
+                        total_distance += locald
+
+        total_distance /= TIME_FACTOR
+        ret = {'n_vehicles': n_vehicles, 'total_distance': total_distance, 'paths': paths}
+        return ret
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         print("Building model")
@@ -85,12 +115,12 @@ class VRPTWSolver(CPSolver):
             print('No solution found')
             return None, None, sol
 
-        # model_variables_export = self._export_solution(instance, sol, model_variables)
+        result = self._export_solution(sol, instance, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = validate_path(sol, instance)
+                is_valid = validate_path(result, instance)
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -98,12 +128,12 @@ class VRPTWSolver(CPSolver):
             except AssertionError as e:
                 print("Solution is invalid.")
                 print(e)
-                return None, None, sol
+                return None, None, result
 
         if visualize:
-            instance.visualize_path(sol, instance)
+            visualize_path(result, instance)
 
-        obj_value = sol.get_objective_values()[0]
+        obj_value = result['total_distance']
         print('Objective value:', obj_value)
 
         if sol.get_solve_status() == 'Optimal':
@@ -118,5 +148,10 @@ class VRPTWSolver(CPSolver):
 
         if update_history:
             self.add_run_to_history(instance, sol)
+
+            # Add number of vehicles and total distance and paths to history
+            instance._run_history[-1]["solution_info"]['n_vehicles'] = result['n_vehicles']
+            instance._run_history[-1]["solution_info"]['total_distance'] = result['total_distance']
+            instance._run_history[-1]["solution_info"]['paths'] = result['paths']
 
         return obj_value, model_variables, sol

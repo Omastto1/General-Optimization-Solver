@@ -57,6 +57,6 @@ def main(args):
 if __name__ == "__main__":
     main(sys.argv[1:])
 
-# "C:\Users\micha\OneDrive - České vysoké učení technické v Praze\Dokumenty\PycharmProjects\optimizin\General-Optimization-Solver\data\VRPTW\solomon_25"
+# "C:\Users\micha\OneDrive - České vysoké učení technické v Praze\Dokumenty\PycharmProjects\optimizin\General-Optimization-Solver\data\CVRPTW\solomon_25"
 # "C:\Users\micha\OneDrive - České vysoké učení technické v Praze\Dokumenty\PycharmProjects\optimizin\General-Optimization-Solver\data\out\solomon_25"
 # 6

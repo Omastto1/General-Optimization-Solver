@@ -29,7 +29,7 @@ def main(args):
 
         path = instance_path
 
-        cvrptw_prob = VRPTW()
+        cvrptw_prob = CVRPTW()
         with open(path) as f:
             instance = json.load(f)
         cvrptw_prob.from_dict(instance['data'])

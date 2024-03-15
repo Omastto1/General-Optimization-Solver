@@ -19,6 +19,7 @@ from src.jobshop.problem import JobShop
 from src.strippacking2d.problem import StripPacking2D
 from src.binpacking1d.problem import BinPacking1D
 from src.binpacking2d.problem import BinPacking2D
+from src.vrp.problem import CVRPTW
 
 
 def load_raw_benchmark(directory_path, solution_path=None, format=None, no_instances=0, force_dump=True):
@@ -265,8 +266,12 @@ def load_instance(path):
     elif instance_kind == "1DBINPACKING":
         instance = BinPacking1D(
             benchmark_name, instance_name, data, solution, run_history)
+    elif instance_kind == "CVRPTW":
+        instance = CVRPTW(
+            benchmark_name, instance_name, data, solution, run_history)
     else:
+        print(path)
         raise ValueError(
-            "Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP")
+            "Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP, found %s" % instance_kind)
 
     return instance

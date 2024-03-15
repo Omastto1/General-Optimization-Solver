@@ -75,9 +75,9 @@ class VRP:
     def get_distance(self, i, j): return self.distance_matrix[i][j]
 
 
-class VRPTW(OptimizationProblem):
+class CVRPTW(OptimizationProblem):
     def __init__(self, benchmark_name, instance_name, data, solution, run_history) -> None:
-        super().__init__(benchmark_name, instance_name, "VRPTW", data, solution, run_history)
+        super().__init__(benchmark_name, instance_name, "CVRPTW", data, solution, run_history)
         self.nb_trucks = self._data['nb_trucks']
         self.truck_capacity = self._data['truck_capacity']
         self.max_horizon = self._data['max_horizon']
@@ -168,6 +168,9 @@ class VRPTW(OptimizationProblem):
             return 0
         return TIME_FACTOR * self.earliest_start[i - 1]
 
+    def vehicles(self):
+        return zip(range(self.nb_trucks), [0] * self.nb_trucks, [0] * self.nb_trucks)
+
     def get_latest_start(self, i):
         assert i >= 0
         assert i < self.get_num_nodes()
@@ -182,10 +185,10 @@ class VRPTW(OptimizationProblem):
         return int(math.floor(d * TIME_FACTOR))
 
     def get_distance(self, from_, to_):
-        assert from_ >= 0
-        assert from_ < self.get_num_nodes()
-        assert to_ >= 0
-        assert to_ < self.get_num_nodes()
+        assert from_ >= 0, f"from_ = {from_}, to_ = {to_}"
+        assert from_ < self.get_num_nodes(), f"from_ = {from_}, to_ = {to_}"
+        assert to_ >= 0, f"from_ = {from_}, to_ = {to_}"
+        assert to_ < self.get_num_nodes(), f"from_ = {from_}, to_ = {to_}"
         return self._get_distance(from_, to_)
 
     def to_dict(self):

@@ -9,6 +9,7 @@ class SolverSetting(BaseModel):
 
 
 class VRPTWSolver(CPSolver):
+    solver_name = 'CP OR-tools Model'
     def __init__(self):
         super().__init__()
         self.time = None

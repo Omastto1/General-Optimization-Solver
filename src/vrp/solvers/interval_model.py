@@ -8,6 +8,7 @@ from docplex.cp.model import CpoModel
 
 
 class VRPTWSolver(CPSolver):
+    solver_name = 'CP Interval Model'
     def build_model(self, instance):
         vrp = VRP(instance)
         num_cust = vrp.get_num_customers()

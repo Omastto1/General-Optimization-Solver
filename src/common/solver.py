@@ -14,8 +14,9 @@ from pymoo.core.callback import Callback
 from src.utils import convert_time_to_seconds
 from src.common.optimization_problem import Benchmark
 
-
 SOLVER_DEFAULT_NAME = "Unknown solver - check whether solver_name is specified for solver class"
+
+
 # TODO: Add solver path (to better identify solver if 2 solvers have the same name) and class name to output
 class Solver(ABC):
     solver_name = SOLVER_DEFAULT_NAME
@@ -24,17 +25,20 @@ class Solver(ABC):
         if self.solver_name == SOLVER_DEFAULT_NAME:
             print("\nWarning: solver_name not specified for solver\n")
 
-    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None, hybrid_CP_solver=None):
+    def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None,
+              hybrid_CP_solver=None):
         # in case of hybrid solver (GA + CP) do not save GA result into history
         update_history = False if hybrid_CP_solver is not None else True
 
         if isinstance(instance_or_benchmark, Benchmark):
             for instance_name, instance in instance_or_benchmark._instances.items():
                 print(f"Solving instance {instance_name}...")
-                _, solution, _ = self._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, update_history=update_history)
+                _, solution, _ = self._solve(instance, validate=validate, visualize=visualize,
+                                             force_execution=force_execution, update_history=update_history)
 
                 if hybrid_CP_solver is not None:
-                    hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
+                    hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize,
+                                            force_execution=force_execution, initial_solution=solution)
             # return self.solve_benchmark(instance_or_benchmark)
 
             if force_dump is None:
@@ -44,10 +48,14 @@ class Solver(ABC):
             if force_dump:
                 instance_or_benchmark.dump()
         else:
-            fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, update_history=update_history)
-        
+            fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize,
+                                                       force_execution=force_execution, update_history=update_history)
+
             if hybrid_CP_solver is not None:
-                fitness_value, solution, res = hybrid_CP_solver._solve(instance_or_benchmark, validate=validate, visualize=visualize, force_execution=force_execution, initial_solution=solution)
+                fitness_value, solution, res = hybrid_CP_solver._solve(instance_or_benchmark, validate=validate,
+                                                                       visualize=visualize,
+                                                                       force_execution=force_execution,
+                                                                       initial_solution=solution)
 
             return fitness_value, solution, res
 
@@ -58,6 +66,8 @@ class Solver(ABC):
 
 
 CP_SOLVER_DEFAULT_NAME = "CP solver without name specified"
+
+
 class CPSolver(Solver):
     solver_name = CP_SOLVER_DEFAULT_NAME
     solver_type = "CP"
@@ -82,12 +92,12 @@ class CPSolver(Solver):
 
         print(
             f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
-        
+
     def _wrap_solve(self, instance, validate=False, visualize=False, force_execution=False):
         if not force_execution and len(instance._run_history) > 0:
             if instance.skip_on_optimal_solution():
                 return None, None
-            
+
         solution = self._solve(instance, validate, visualize)
 
         info = self.retrieve_solution_info(instance, solution)
@@ -110,7 +120,7 @@ class CPSolver(Solver):
             print("Project completion time:", solution.get_objective_values()[0])
         else:
             print("No solution found.")
-            
+
         # print solution
         if solution.get_solve_status() == 'Optimal':
             print("Optimal solution found")
@@ -131,21 +141,21 @@ class CPSolver(Solver):
 
         return objective_value, info, cp_solution
 
-
-
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):
         """Abstract solve method for CP solver."""
         pass
 
     def _extract_solution_progress(self, log):
-        pattern = r"\*\s+(\d+)\s+(?:\d+)\s+(\d+\.\d+s)"
+        #  Changed the pattern to match with my VRP, if it breaks something else, merge them or make a switch
+        # r"\*\s+(\d+)\s+(?:\d+)\s+(\d+\.\d+s)"
+        pattern = r"\*\s+(\d+\.\d+)\s+\w+\s+(\d+\.\d+s)"
 
         # Find all matches of numbers and times in the log using the regex pattern
         matches = re.findall(pattern, log, re.MULTILINE)
 
         # Convert minutes and hours into seconds and store the results
-        result = [[int(match[0]), match[1]] for match in matches]
+        result = [[float(match[0]), match[1]] for match in matches]
         solution_progress = convert_time_to_seconds(result)
 
         return solution_progress
@@ -159,8 +169,8 @@ class CPSolver(Solver):
         sinfos = sol.get_solver_infos()
         info_dict["Model constraints"] = sinfos.get_number_of_constraints()
         info_dict["variables"] = {"integer": sinfos.get_number_of_integer_vars(),
-                             "interval": sinfos.get_number_of_interval_vars(),
-                             "sequence": sinfos.get_number_of_sequence_vars()}
+                                  "interval": sinfos.get_number_of_interval_vars(),
+                                  "sequence": sinfos.get_number_of_sequence_vars()}
 
         # Print search/solve status
         s = sol.get_search_status()
@@ -180,17 +190,17 @@ class CPSolver(Solver):
         info_dict = self.parse_cp_model_solution_info(sol.solution, info_dict)
 
         return info_dict
-    
+
     def parse_cp_model_solution_info(self, model_sol, info_dict):
         """docplex.cp.solution.CpoModelSolution.write
         """
-                # Print objective value, bounds and gaps
+        # Print objective value, bounds and gaps
         ovals = model_sol.get_objective_values()
         if ovals:
             info_dict["Objective values"] = ovals
         bvals = model_sol.get_objective_bounds()
         if bvals:
-                info_dict["Bounds"] = bvals
+            info_dict["Bounds"] = bvals
         gvals = model_sol.get_objective_gaps()
         if gvals:
             info_dict["Gaps"] = gvals
@@ -302,6 +312,8 @@ class HistoryCallback(Callback):
 
 
 GA_SOLVER_DEFAULT_NAME = "GA solver without name specified"
+
+
 class GASolver(Solver):
     solver_name = GA_SOLVER_DEFAULT_NAME
     solver_type = "GA"
@@ -318,14 +330,15 @@ class GASolver(Solver):
         self.fitness_func = fitness_func
         self.termination = termination
         self.seed = seed
-        self.callback= HistoryCallback(algorithm)
+        self.callback = HistoryCallback(algorithm)
 
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):
         """Abstract solve method for GP solver."""
         pass
 
-    def add_run_to_history(self, instance, objective_value, solution_info, solution_progress, exec_time=-1, is_valid=True):
+    def add_run_to_history(self, instance, objective_value, solution_info, solution_progress, exec_time=-1,
+                           is_valid=True):
         solve_time = exec_time
 
         if is_valid and objective_value >= 0:
