@@ -14,6 +14,9 @@ from pymoo.core.callback import Callback
 from src.utils import convert_time_to_seconds
 from src.common.optimization_problem import Benchmark
 
+from ortools.constraint_solver import pywrapcp, routing_enums_pb2
+from pydantic import BaseModel
+
 SOLVER_DEFAULT_NAME = "Unknown solver - check whether solver_name is specified for solver class"
 
 
@@ -359,6 +362,79 @@ class GASolver(Solver):
             "algorithm": algorithm,
             "fitness_func": self.fitness_func,
             "termination": self.termination
+        }
+
+        instance.update_run_history(solver_name, solver_type, objective_value, solution_info,
+                                    solve_status, solve_time, solver_config, solution_progress)
+
+
+class SolverSetting(BaseModel):
+    time_limit: int
+
+
+class ORtoolsSolver(Solver):
+    solver_name = CP_SOLVER_DEFAULT_NAME
+    solver_type = "CP"
+
+    def __init__(self, TimeLimit=60, no_workers=0):
+        super().__init__()
+
+        if self.solver_name == "CP_SOLVER_DEFAULT_NAME":
+            # TODO: ADD SOLVER PARAMS TO NAME
+            print("\nWarning: solver_name not specified for CP solver\n")
+
+        self.solved = False
+        # self.TimeLimit = TimeLimit
+        self.params = CpoParameters()
+        # params.SearchType = 'Restart'
+        # self.params.LogPeriod = 100000
+        self.params.LogVerbosity = 'Terse'
+        self.params.TimeLimit = TimeLimit
+
+        if no_workers > 0:
+            self.params.Workers = no_workers
+
+        print(
+            f"Time limit set to {TimeLimit} seconds" if TimeLimit is not None else "Time limit not restricted")
+
+    @abstractmethod
+    def _solve(self, instance, validate, visualize, force_execution):
+        """Abstract solve method for GP solver."""
+        pass
+
+    def add_run_to_history(self, instance, sol, result, history, time):
+        """_summary_
+
+        Args:
+            instance (_type_): _description_
+            sol (_type_): _description_
+        """
+        solution_progress = history
+
+        # TODO: Fix history objective values
+        # diff = result['total_distance'] - float(str(solution_progress[-1][0])[2:])
+        # solution_progress = [[round(float(str(i[0])[2:]) + diff, 2), i[1]] for i in solution_progress]
+
+
+        if sol:
+            objective_value = result
+            # solution_info = sol.write_in_string()
+            solution_info = []
+            solve_status = "Feasible"
+            solve_time = time
+            solution_progress = solution_progress
+        else:
+            objective_value = -1
+            solution_info = {}
+            solve_status = "No solution found"
+            solve_time = time
+            solution_progress = []
+
+        solver_name = self.solver_name
+        solver_type = self.solver_type
+        solver_config = {
+            "TimeLimit": self.params.TimeLimit,
+            "NoCores": multiprocessing.cpu_count(),
         }
 
         instance.update_run_history(solver_name, solver_type, objective_value, solution_info,

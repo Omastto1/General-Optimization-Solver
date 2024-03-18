@@ -8,6 +8,7 @@ The solvers are:
 Integer model using Docplex
 
 Integer model using OR-Tools
+- Adopted from https://developers.google.com/optimization/routing/vrptw
 
 Interval model using Docplex
 

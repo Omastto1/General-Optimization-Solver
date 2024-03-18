@@ -7,6 +7,7 @@ from src.vrp.problem import *
 
 class VRPTWSolver(CPSolver):
     solver_name = 'CP Integer Model'
+
     def build_model(self, instance):
         vrp = VRP(instance)
 

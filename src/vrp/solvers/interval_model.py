@@ -1,3 +1,4 @@
+import numpy as np
 
 from src.common.solver import CPSolver
 from src.vrp.problem import *
@@ -9,6 +10,7 @@ from docplex.cp.model import CpoModel
 
 class VRPTWSolver(CPSolver):
     solver_name = 'CP Interval Model'
+
     def build_model(self, instance):
         vrp = VRP(instance)
         num_cust = vrp.get_num_customers()
@@ -20,6 +22,7 @@ class VRPTWSolver(CPSolver):
         # print("n=", n)
 
         mdl = CpoModel()
+        mdl.set_parameters(params=self.params)
 
         visit = [mdl.interval_var(name="V{}".format(i)) for i in range(n)]
 
@@ -61,8 +64,41 @@ class VRPTWSolver(CPSolver):
 
         return mdl, {"visit": visit, "visit_veh": visit_veh, "route": route}
 
-    def _export_solution(self, instance, sol, model_variables):
-        pass
+    def _export_solution(self, sol, data, model_variables):
+        vrp = data
+
+        n_vehicles = 0
+        total_distance = np.round(sol.solution.objective_values[0], 3)
+        paths = []
+
+        solutions = []
+
+        for key, sol in sol.solution.var_solutions_dict.items():
+            match type(sol):
+
+                case docplex.cp.solution.CpoSequenceVarSolution:
+                    if sol.lvars != []:
+                        # print(sol)
+                        if len(sol.lvars) > 2:
+                            solutions.append(sol)
+                            # print("found path", key)
+
+        # convert sequence to path
+        paths = []
+        for sol in solutions:
+            path = []
+            for i in range(len(sol.lvars)):
+                target = int(sol.lvars[i].get_name()[1:].split('_')[0]) + 1
+                if target > vrp.nb_customers:
+                    target = 0
+                path.append(target)
+            if path in paths:
+                continue
+            # path.reverse()
+            paths.append(path)
+
+        ret = {'n_vehicles': len(paths), 'total_distance': total_distance, 'paths': paths}
+        return ret
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         print("Building model")
@@ -75,12 +111,12 @@ class VRPTWSolver(CPSolver):
             print('No solution found')
             return None, None, sol
 
-        # model_variables_export = self._export_solution(instance, sol, model_variables)
+        result = self._export_solution(sol, instance, model_variables)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = validate_path(sol, instance)
+                is_valid = validate_path(result, instance)
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -88,12 +124,12 @@ class VRPTWSolver(CPSolver):
             except AssertionError as e:
                 print("Solution is invalid.")
                 print(e)
-                return None, None, sol
+                return None, None, result
 
         if visualize:
-            instance.visualize_path(sol, instance)
+            visualize_path(result, instance)
 
-        obj_value = sol.get_objective_values()[0]
+        obj_value = result['total_distance']
         print('Objective value:', obj_value)
 
         if sol.get_solve_status() == 'Optimal':
@@ -108,5 +144,10 @@ class VRPTWSolver(CPSolver):
 
         if update_history:
             self.add_run_to_history(instance, sol)
+
+            # Add number of vehicles and total distance and paths to history
+            instance._run_history[-1]["solution_info"]['n_vehicles'] = result['n_vehicles']
+            instance._run_history[-1]["solution_info"]['total_distance'] = result['total_distance']
+            instance._run_history[-1]["solution_info"]['paths'] = result['paths']
 
         return obj_value, model_variables, sol

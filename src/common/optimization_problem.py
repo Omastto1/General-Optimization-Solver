@@ -309,7 +309,7 @@ class OptimizationProblem:
             solver_config (_type_): _description_
             solution_progress (_type_): _description_
         """
-        timestamp_now = datetime.datetime.now()
+        timestamp_now = str(datetime.datetime.now())
 
         self._run_history.append({
             "timestamp": timestamp_now,
