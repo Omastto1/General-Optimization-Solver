@@ -1,0 +1,3320 @@
+{
+    "benchmark_name": "NRC",
+    "instance_name": "Instance16",
+    "instance_kind": "NRP",
+    "reference_solution": {
+        "optimum": 3225
+    },
+    "data": {
+        "weeks": 8,
+        "employees": 20,
+        "shift_types": 3,
+        "horizon": 56,
+        "shifts": {
+            "E": {
+                "Length": 480,
+                "CannotFollow": []
+            },
+            "D": {
+                "Length": 480,
+                "CannotFollow": [
+                    "E"
+                ]
+            },
+            "L": {
+                "Length": 480,
+                "CannotFollow": [
+                    "E",
+                    "D"
+                ]
+            }
+        },
+        "staff": {
+            "A": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "B": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "C": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 0,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "D": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 0
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "E": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "F": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "G": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 0,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "H": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "I": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 56,
+                    "L": 0
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "J": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "K": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "L": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 56,
+                    "L": 0
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "M": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 0,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "N": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "O": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "P": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "Q": {
+                "max_of_shift": {
+                    "E": 0,
+                    "D": 56,
+                    "L": 0
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "R": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "S": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            },
+            "T": {
+                "max_of_shift": {
+                    "E": 56,
+                    "D": 56,
+                    "L": 56
+                },
+                "max_total_minutes": 16860,
+                "min_total_minutes": 16380,
+                "max_consecutive_shifts": 5,
+                "min_consecutive_shifts": 2,
+                "min_consecutive_days_off": 2,
+                "max_weekends": 4
+            }
+        },
+        "days_off": {
+            "A": [
+                32,
+                33,
+                34,
+                35,
+                52,
+                53
+            ],
+            "B": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                49
+            ],
+            "C": [
+                23,
+                24,
+                25,
+                26,
+                27,
+                33
+            ],
+            "D": [
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+            ],
+            "E": [
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+            ],
+            "F": [
+                37,
+                38,
+                39,
+                40,
+                41,
+                42
+            ],
+            "G": [
+                32,
+                33,
+                34,
+                35,
+                54,
+                55
+            ],
+            "H": [
+                15,
+                16,
+                17,
+                23,
+                24,
+                25
+            ],
+            "I": [
+                17,
+                18,
+                19,
+                20,
+                21,
+                22
+            ],
+            "J": [
+                34,
+                35,
+                36,
+                37,
+                38,
+                39
+            ],
+            "K": [
+                23,
+                24,
+                25,
+                26,
+                27,
+                28
+            ],
+            "L": [
+                15,
+                16,
+                17,
+                23,
+                26,
+                37
+            ],
+            "M": [
+                46,
+                47,
+                48,
+                49,
+                50,
+                51
+            ],
+            "N": [
+                27,
+                28,
+                29,
+                41,
+                42,
+                55
+            ],
+            "O": [
+                13,
+                26,
+                27,
+                28,
+                29,
+                30
+            ],
+            "P": [
+                31,
+                32,
+                44,
+                49,
+                50,
+                51
+            ],
+            "Q": [
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+            ],
+            "R": [
+                2,
+                10,
+                11,
+                26,
+                27,
+                35
+            ],
+            "S": [
+                16,
+                17,
+                18,
+                36,
+                37,
+                38
+            ],
+            "T": [
+                11,
+                17,
+                18,
+                19,
+                28,
+                48
+            ]
+        },
+        "shift_on_requests": [
+            {
+                "EmployeeID": "A",
+                "Day": 20,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 21,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 22,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 23,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 24,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 51,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 1,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 7,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 8,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 16,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 17,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 18,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 22,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 26,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 27,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 28,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 29,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 30,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 36,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 37,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 38,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 39,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 44,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 45,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 46,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "B",
+                "Day": 47,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 13,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 14,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 15,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 16,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 35,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 36,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 43,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 47,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 48,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 49,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 50,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 1,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 2,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 3,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 11,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 12,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 39,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 40,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 41,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 45,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 46,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 47,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 48,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 15,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 16,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 17,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 18,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 26,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 27,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 28,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 23,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 24,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 51,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 52,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 1,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 2,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 3,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 4,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 5,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 24,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 25,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 44,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 52,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "G",
+                "Day": 53,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 8,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 9,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 19,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 20,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 21,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 22,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 31,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 32,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 37,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 42,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "I",
+                "Day": 37,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 45,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 46,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 47,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 48,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 53,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 0,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 35,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 36,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 3,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 4,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 5,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 6,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 7,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 18,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 19,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 20,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 27,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 28,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 47,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 48,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 49,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 50,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 51,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "L",
+                "Day": 55,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 16,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 27,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 31,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 32,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 33,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 34,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 41,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 42,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 43,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 44,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 52,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 53,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 7,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 8,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 9,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 6,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 7,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 8,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 9,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 22,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 23,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 24,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 31,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 32,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 33,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 41,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 42,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 43,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 47,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 8,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 9,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 10,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 11,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 12,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 20,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 21,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 22,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 29,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 30,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 38,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 39,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 40,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 24,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 13,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 14,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 21,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 22,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 30,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 31,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 32,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 33,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 34,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 38,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 39,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 40,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 41,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 42,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 30,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 31,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 44,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 45,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 46,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 13,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 25,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 26,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 33,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 34,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 39,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 40,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 52,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 53,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 54,
+                "ShiftID": "D",
+                "Weight": 2
+            }
+        ],
+        "shift_off_requests": [
+            {
+                "EmployeeID": "A",
+                "Day": 1,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 2,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 12,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 40,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 41,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 42,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 43,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "A",
+                "Day": 47,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 21,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "C",
+                "Day": 22,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 30,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 31,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "D",
+                "Day": 32,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 32,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 33,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 34,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 35,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 42,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 43,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 44,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 45,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 46,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 52,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "E",
+                "Day": 53,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 0,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 1,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 2,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 3,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 4,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 8,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 9,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 10,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 11,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "F",
+                "Day": 32,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 50,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 51,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 52,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 53,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "H",
+                "Day": 54,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "I",
+                "Day": 24,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "I",
+                "Day": 25,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "I",
+                "Day": 26,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 21,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 22,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 23,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 24,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "J",
+                "Day": 25,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 46,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 47,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 48,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "K",
+                "Day": 49,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "M",
+                "Day": 20,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 2,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 19,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 20,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 21,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 34,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 35,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 36,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 37,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 38,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 44,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 45,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 46,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 47,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "N",
+                "Day": 48,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 0,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 1,
+                "ShiftID": "L",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "O",
+                "Day": 52,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 0,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 1,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 2,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "P",
+                "Day": 3,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 0,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 1,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 2,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 3,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 4,
+                "ShiftID": "D",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 37,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 38,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 39,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 40,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "Q",
+                "Day": 41,
+                "ShiftID": "D",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 4,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "R",
+                "Day": 5,
+                "ShiftID": "E",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 2,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 3,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 4,
+                "ShiftID": "D",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 12,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 24,
+                "ShiftID": "E",
+                "Weight": 1
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 51,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 52,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 53,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 54,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "S",
+                "Day": 55,
+                "ShiftID": "E",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 2,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 3,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 4,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 5,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 6,
+                "ShiftID": "L",
+                "Weight": 2
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 45,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 46,
+                "ShiftID": "L",
+                "Weight": 3
+            },
+            {
+                "EmployeeID": "T",
+                "Day": 47,
+                "ShiftID": "L",
+                "Weight": 3
+            }
+        ],
+        "cover_requirements": [
+            {
+                "Day": 0,
+                "ShiftID": "E",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 0,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 0,
+                "ShiftID": "L",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 1,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 1,
+                "ShiftID": "D",
+                "Requirement": 7,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 1,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 2,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 2,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 2,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 3,
+                "ShiftID": "E",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 3,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 3,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 4,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 4,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 4,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 5,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 5,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 5,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 6,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 6,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 6,
+                "ShiftID": "L",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 7,
+                "ShiftID": "E",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 7,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 7,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 8,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 8,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 8,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 9,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 9,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 9,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 10,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 10,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 10,
+                "ShiftID": "L",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 11,
+                "ShiftID": "E",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 11,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 11,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 12,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 12,
+                "ShiftID": "D",
+                "Requirement": 7,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 12,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 13,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 13,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 13,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 14,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 14,
+                "ShiftID": "D",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 14,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 15,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 15,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 15,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 16,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 16,
+                "ShiftID": "D",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 16,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 17,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 17,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 17,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 18,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 18,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 18,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 19,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 19,
+                "ShiftID": "D",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 19,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 20,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 20,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 20,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 21,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 21,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 21,
+                "ShiftID": "L",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 22,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 22,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 22,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 23,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 23,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 23,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 24,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 24,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 24,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 25,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 25,
+                "ShiftID": "D",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 25,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 26,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 26,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 26,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 27,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 27,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 27,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 28,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 28,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 28,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 29,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 29,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 29,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 30,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 30,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 30,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 31,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 31,
+                "ShiftID": "D",
+                "Requirement": 7,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 31,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 32,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 32,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 32,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 33,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 33,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 33,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 34,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 34,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 34,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 35,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 35,
+                "ShiftID": "D",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 35,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 36,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 36,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 36,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 37,
+                "ShiftID": "E",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 37,
+                "ShiftID": "D",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 37,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 38,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 38,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 38,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 39,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 39,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 39,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 40,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 40,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 40,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 41,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 41,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 41,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 42,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 42,
+                "ShiftID": "D",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 42,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 43,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 43,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 43,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 44,
+                "ShiftID": "E",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 44,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 44,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 45,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 45,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 45,
+                "ShiftID": "L",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 46,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 46,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 46,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 47,
+                "ShiftID": "E",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 47,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 47,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 48,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 48,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 48,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 49,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 49,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 49,
+                "ShiftID": "L",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 50,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 50,
+                "ShiftID": "D",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 50,
+                "ShiftID": "L",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 51,
+                "ShiftID": "E",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 51,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 51,
+                "ShiftID": "L",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 52,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 52,
+                "ShiftID": "D",
+                "Requirement": 4,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 52,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 53,
+                "ShiftID": "E",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 53,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 53,
+                "ShiftID": "L",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 54,
+                "ShiftID": "E",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 54,
+                "ShiftID": "D",
+                "Requirement": 2,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 54,
+                "ShiftID": "L",
+                "Requirement": 3,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 55,
+                "ShiftID": "E",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 55,
+                "ShiftID": "D",
+                "Requirement": 5,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            },
+            {
+                "Day": 55,
+                "ShiftID": "L",
+                "Requirement": 6,
+                "WeightForUnder": 100,
+                "WeightForOver": 1
+            }
+        ]
+    },
+    "run_history": []
+}
