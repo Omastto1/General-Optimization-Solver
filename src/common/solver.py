@@ -14,7 +14,6 @@ from pymoo.core.callback import Callback
 from src.utils import convert_time_to_seconds
 from src.common.optimization_problem import Benchmark
 
-from ortools.constraint_solver import pywrapcp, routing_enums_pb2
 from pydantic import BaseModel
 
 SOLVER_DEFAULT_NAME = "Unknown solver - check whether solver_name is specified for solver class"

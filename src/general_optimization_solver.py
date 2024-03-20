@@ -20,6 +20,7 @@ from src.strippacking2d.problem import StripPacking2D
 from src.binpacking1d.problem import BinPacking1D
 from src.binpacking2d.problem import BinPacking2D
 from src.vrp.problem import CVRPTW
+from src.nrp.problem import NRC
 
 
 def load_raw_benchmark(directory_path, solution_path=None, format=None, no_instances=0, force_dump=True):
@@ -268,6 +269,9 @@ def load_instance(path):
             benchmark_name, instance_name, data, solution, run_history)
     elif instance_kind == "CVRPTW":
         instance = CVRPTW(
+            benchmark_name, instance_name, data, solution, run_history)
+    elif instance_kind == "NRP":
+        instance = NRC(
             benchmark_name, instance_name, data, solution, run_history)
     else:
         print(path)
