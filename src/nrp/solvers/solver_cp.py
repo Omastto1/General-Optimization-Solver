@@ -1,4 +1,6 @@
 import multiprocessing
+
+import numpy as np
 import pandas as pd
 
 from docplex.cp.model import CpoModel
@@ -22,7 +24,8 @@ class NRPSolver(CPSolver):
 
         # the assignment variables.
         # assigned = mdl.binary_var_cube(keys1=all_nurses, keys2=all_days, keys3=all_shifts, name="assign_%s_%s_%s")
-        assigned = mdl.binary_var_dict(((n, d, s) for n in all_nurses for d in all_days for s in all_shifts), name="assign_%s_%s_%s")
+        assigned = mdl.binary_var_dict(((n, d, s) for n in all_nurses for d in all_days for s in all_shifts),
+                                       name="assign_%s_%s_%s")
         # print("assigned: ", assigned)
 
         # Hard Constraints
@@ -49,7 +52,8 @@ class NRPSolver(CPSolver):
         for nurse in all_nurses:
             for shift in all_shifts:
                 mdl.add_constraint(
-                    mdl.sum(assigned[nurse, day, shift] for day in all_days) <= instance.staff[nurse]['max_of_shift'][shift])
+                    mdl.sum(assigned[nurse, day, shift] for day in all_days) <= instance.staff[nurse]['max_of_shift'][
+                        shift])
 
         # Maximum Total Minutes - The maximum amount of total time in minutes that can be assigned to each employee is defined in SECTION_STAFF in the field MaxTotalMinutes. The duration in minutes of each shift is defined in SECTION_SHIFTS in the field Length in mins.
         # Minimum Total Minutes - The minimum amount of total time in minutes that must be assigned to each employee is defined in SECTION_STAFF in the field MinTotalMinutes. The duration in minutes of each shift is defined in SECTION_SHIFTS in the field Length in mins.
@@ -68,40 +72,56 @@ class NRPSolver(CPSolver):
             max_consecutive_shifts = instance.staff[nurse]['max_consecutive_shifts']
             for day in all_days[:-max_consecutive_shifts]:
                 mdl.add_constraint(mdl.sum(
-                    assigned[nurse, day + i, shift] for i in range(max_consecutive_shifts) for shift in
-                    all_shifts) <= max_consecutive_shifts)
+                    assigned[nurse, day + i, shift] for i in range(max_consecutive_shifts+1) for shift in all_shifts)
+                                   <= max_consecutive_shifts)
 
         # Minimum Consecutive Shifts - The minimum number of shifts that must be worked before having a day off. This constraint always assumes that there are an infinite number of consecutive shifts assigned at the end of the previous planning period and at the start of the next planning period.
 
         for nurse in all_nurses:
-            min_consecutive_shifts = instance.staff[nurse]['min_consecutive_shifts']
-            for day in all_days[:-min_consecutive_shifts]:
-                mdl.add_constraint(mdl.sum(
-                    assigned[nurse, day + i, shift] for i in range(min_consecutive_shifts) for shift in
-                    all_shifts) >= min_consecutive_shifts)
+            for s in range(1, instance.staff[nurse]['min_consecutive_shifts']):  # min_consecutive_shifts = 2
+                for day in all_days[:-s - 1]:
+                    mdl.add_constraint(mdl.sum(assigned[nurse, day, shift] for shift in all_shifts) +  # 0
+                                       s - mdl.sum(
+                        assigned[nurse, day + i, shift] for i in range(1, s + 1) for shift in all_shifts) +     # + 3 - 0
+                                       mdl.sum(assigned[nurse, day + s + 1, shift] for shift in all_shifts) > 0)  # 0
 
         # Minimum Consecutive Days Off - The minimum number of consecutive days off that must be assigned before assigning a shift. This constraint always assumes that there are an infinite number of consecutive days off assigned at the end of the previous planning period and at the start of the next planning period.
 
         for nurse in all_nurses:
-            min_consecutive_days_off = instance.staff[nurse]['min_consecutive_days_off']
-            for day in all_days[:-min_consecutive_days_off]:
-                mdl.add_constraint(mdl.sum(
-                    assigned[nurse, day + i, shift] for i in range(min_consecutive_days_off) for shift in
-                    all_shifts) == 0)
+            for s in range(1, instance.staff[nurse]['min_consecutive_days_off'] - 1):
+                for day in all_days[:-s + 1]:
+                    mdl.add_constraint(1 - mdl.sum(assigned[nurse, day, shift] for shift in all_shifts) +
+                                       mdl.sum(assigned[nurse, day + i, shift] for i in range(1, s) for shift in
+                                               all_shifts) +
+                                       1 - mdl.sum(assigned[nurse, day + s + 1, shift] for shift in all_shifts) > 0)
 
         # Maximum Number of Weekends - A weekend is defined as being worked if there is a shift on the Saturday or the Sunday.
+        # Variable k represents if nurse n has a shift on weekend w. If k=1 then the nurse has a shift on the weekend, if k=0 then the nurse does not have a shift on the weekend.
+
+        number_of_weeks = instance.horizon // 7
+        k = mdl.binary_var_dict(((n, w) for n in all_nurses for w in range(number_of_weeks)), name="weekend_%s_%s")
 
         for nurse in all_nurses:
-            max_weekends = instance.staff[nurse]['max_weekends']
-            for i in range(0, len(all_days), 7):
-                mdl.add_constraint(mdl.sum(
-                    assigned[nurse, day, shift] for day in all_days[i:i + 2] for shift in all_shifts) <= max_weekends)
+            for w in range(number_of_weeks):
+                saturday = w * 7 + 5
+
+                mdl.add_constraint(
+                    mdl.sum(assigned[nurse, d, shift] for d in range(saturday, saturday + 2) for shift in all_shifts) >=
+                    k[nurse, w])
+                mdl.add_constraint(
+                    mdl.sum(assigned[nurse, d, shift] for d in range(saturday, saturday + 2) for shift in all_shifts) <=
+                    k[nurse, w])
+
+        for nurse in all_nurses:
+            mdl.add_constraint(
+                mdl.sum(k[nurse, w] for w in range(number_of_weeks)) <= instance.staff[nurse]['max_weekends'])
 
         # Days off - Shifts must not be assigned to the specified employee on the specified days. They are defined in the section SECTION_DAYS_OFF.
 
         for nurse in instance.days_off.keys():
             for day in instance.days_off[nurse]:
-                mdl.add_constraint(mdl.sum(assigned[nurse, day, shift] for shift in all_shifts) == 0)
+                for shift in all_shifts:
+                    mdl.add_constraint(assigned[nurse, day, shift] == 0)
 
         # Soft Constraints
         # The following constraints are soft constraints. If they are not met then the solution's penalty is the weight value. Sum of the penalties is the total penalty for the solution and is minimized.
@@ -111,32 +131,54 @@ class NRPSolver(CPSolver):
         # Shift on requests - If the specified shift is not assigned to the specified employee on the specified day then the solution's penalty is the specified weight value. Defined in SECTION_SHIFT_ON_REQUESTS.
 
         for request in instance.shift_on_requests:
-            nurse, day, shift, weight = request.get('EmployeeID'), request.get('Day'), request.get('ShiftID'), request.get('Weight')
-            penalty.append(assigned[nurse, day, shift] * weight)
+            nurse, day, shift, weight = request.get('EmployeeID'), request.get('Day'), request.get(
+                'ShiftID'), request.get('Weight')
+            penalty.append((1 - assigned[nurse, day, shift]) * weight)
 
         # Shift off requests - If the specified shift is assigned to the specified employee on the specified day then the solution's penalty is the weight value. Defined in SECTION_SHIFT_OFF_REQUESTS.
 
         for request in instance.shift_off_requests:
-            nurse, day, shift, weight = request.get('EmployeeID'), request.get('Day'), request.get('ShiftID'), request.get('Weight')
-            penalty.append((1 - assigned[nurse, day, shift]) * weight)
+            nurse, day, shift, weight = request.get('EmployeeID'), request.get('Day'), request.get(
+                'ShiftID'), request.get('Weight')
+            penalty.append(assigned[nurse, day, shift] * weight)
 
         # Cover - If the required number of staff on the specified day for the specified shift is not assigned (defined in SECTION_COVER) then it is a soft constraint violation. If the number assigned (x) is below the required number then the solution's penalty is:
         # (requirement - x) * weight for under
         # If the total number assigned is more than the required number then the solution's penalty is:
         # (x - requirement) * weight for over
+        # Variable z represents total above the preferred cover for shift type t on day d.
+        z = mdl.integer_var_dict(((d, s) for d in all_days for s in all_shifts), name="above_%s_%s", min=0)
+        # Variable y represents total below the preferred cover for shift type t on day d.
+        y = mdl.integer_var_dict(((d, s) for d in all_days for s in all_shifts), name="below_%s_%s", min=0)
 
-        for requirement in instance.cover_requirements:
-            day, shift, requirement, weight_under, weight_over = requirement.get('Day'), requirement.get('ShiftID'), requirement.get('Requirement'), requirement.get('WeightForUnder'), requirement.get('WeightForOver')
-            penalty.append((mdl.sum(assigned[nurse, day, shift] for nurse in all_nurses) - requirement) * weight_over)
-            penalty.append((requirement - mdl.sum(assigned[nurse, day, shift] for nurse in all_nurses)) * weight_under)
+        for cover in instance.cover_requirements:
+            day, shift, preferred, weight_under, weight_over = cover.get('Day'), cover.get('ShiftID'), cover.get(
+                'Requirement'), cover.get('WeightForUnder'), cover.get('WeightForOver')
+            mdl.add_constraint(mdl.sum(assigned[nurse, day, shift] for nurse in all_nurses) - z[day, shift] + y[
+                day, shift] == preferred)
+            penalty.append(y[day, shift] * weight_under)
+            penalty.append(z[day, shift] * weight_over)
 
         # Objective
         mdl.minimize(mdl.sum(penalty))
 
         return mdl, {"assigned": assigned}
 
-    def _export_solution(self, sol, data, model_variables):
-        pass
+    def _export_solution(self, sol, instance, model_variables):
+        result = np.full((len(instance.staff), instance.horizon), " ", dtype=str)
+
+        staff_keys = list(instance.staff.keys())
+
+        for nurse in instance.staff.keys():
+            for day in range(instance.horizon):
+                for shift in instance.shifts.keys():
+                    if sol.get_value(model_variables['assigned'][nurse, day, shift]) == 1:
+                        nurse_int = staff_keys.index(nurse)
+                        assert result[nurse_int, day] == " ", \
+                            f"Shift already assigned to nurse {nurse} on day {day}, old shift: {result[nurse_int, day]}, new shift: {shift}"
+                        result[nurse_int, day] = shift
+
+        return result
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         print("Building model")
@@ -145,31 +187,20 @@ class NRPSolver(CPSolver):
         print("Looking for solution")
         sol = model.solve()
 
-        # Print the result in a nice table
-
-        schedule_df = pd.DataFrame(0, index=instance.staff.keys(), columns=range(instance.horizon))
-
         if not sol or sol.get_solve_status() in ["Unknown", "Infeasible", "JobFailed", "JobAborted"]:
             print('No solution found')
             return None, None, sol
 
-        # Fill the DataFrame with shift types
-        for nurse in instance.staff.keys():
-            for day in range(instance.horizon):
-                for shift in instance.shifts.keys():
-                    if sol.get_var_value(model_variables['assigned'][nurse, day, shift]) == 1:
-                        schedule_df.at[nurse, day] = shift
-
-        # Print the DataFrame
-        # print(schedule_df.to_string())
-        print(tabulate(schedule_df, headers='keys', tablefmt='psql'))
-
         result = self._export_solution(sol, instance, model_variables)
+        obj_value = sol.get_objective_values()[0]
+
+        if visualize:
+            visualize_nrp(result, instance, obj_value)
 
         if validate:
             try:
                 print("Validating solution...")
-                is_valid = validate_nrp(result, instance)
+                is_valid = validate_nrp(instance, sol, result)
                 if is_valid:
                     print("Solution is valid.")
                 else:
@@ -179,10 +210,6 @@ class NRPSolver(CPSolver):
                 print(e)
                 return None, None, result
 
-        if visualize:
-            visualize_nrp(result, instance)
-
-        obj_value = result['total_distance']
         print('Objective value:', obj_value)
 
         if sol.get_solve_status() == 'Optimal':
@@ -198,9 +225,6 @@ class NRPSolver(CPSolver):
         if update_history:
             self.add_run_to_history(instance, sol)
 
-            # Add number of vehicles and total distance and paths to history
-            instance._run_history[-1]["solution_info"]['n_vehicles'] = result['n_vehicles']
-            instance._run_history[-1]["solution_info"]['total_distance'] = result['total_distance']
-            instance._run_history[-1]["solution_info"]['paths'] = result['paths']
+            instance._run_history[-1]["solution_info"]['roster'] = result
 
         return obj_value, model_variables, sol

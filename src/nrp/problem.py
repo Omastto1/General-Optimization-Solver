@@ -1,3 +1,6 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
 from src.common.optimization_problem import OptimizationProblem
 
 
@@ -117,9 +120,120 @@ def parse_cover_section(lines):
     return cover_requirements
 
 
-def visualize_nrp(path, data):
-    pass
+def visualize_nrp(schedule_data, instance, obj_value, instance_name=None):
+    # Extract unique shifts
+    unique_shifts = sorted(set(shift for row in schedule_data for shift in row))
+
+    # Define colors for each shift
+    shift_colors = {shift: (1, 1, 1, 1.0) if shift == ' ' else plt.cm.tab10(i) for i, shift in enumerate(unique_shifts)}
+    # Plotting
+    plt.figure(figsize=(8, 6))
+    plt.imshow([[shift_colors[shift] for shift in row] for row in schedule_data], aspect='auto')
+
+    # Annotate cells with shift labels
+    for i in range(len(schedule_data)):
+        for j in range(len(schedule_data[0])):
+            plt.text(j, i, schedule_data[i][j], ha='center', va='center', color='black')
+
+    # Customize ticks and labels
+    plt.yticks(np.arange(len(instance.staff.keys())), instance.staff.keys())
+    plt.xticks(np.arange(instance.horizon), np.arange(instance.horizon) + 1)
+    plt.xlabel('Day')
+    plt.ylabel('Nurse')
+
+    plt.tick_params(axis='both', bottom=True, top=True, left=True, right=True, labelbottom=True, labeltop=True,
+                    labelleft=True, labelright=True)
+
+    plt.title('Nurse Rostering Schedule ' + (instance_name if instance_name else ''))
+    plt.text(len(schedule_data[0]) + 0.5, len(schedule_data)*1.01 + 0.45, f"Penalty = {obj_value}", ha='right', va='center', color='gray', fontsize=8)
+
+    plt.show()
 
 
-def validate_nrp(data, solution):
-    pass
+def validate_nrp(instance, sol, result):
+    print(result)
+
+    # Check hard constraints
+
+    staff_keys = list(instance.staff.keys())
+    for nurse in instance.staff.keys():
+        max_of_shift = {key: 0 for key in instance.staff[nurse]['max_of_shift'].keys()}
+        nurse_int = staff_keys.index(nurse)
+        consecutive_shifts = 0
+        min_consecutive_shifts = instance.staff[nurse]['min_consecutive_shifts']
+        consecutive_days_off = 0
+        total_minutes = 0
+        consecutive_shifts_max = 0
+        consecutive_days_off_max = 0
+        weekends = [False for _ in range(instance.horizon // 7)]
+        for day in range(instance.horizon):
+            shift = result[nurse_int, day]
+            if shift in max_of_shift.keys():
+                max_of_shift[shift] += 1
+            if shift != ' ':
+                if day in instance.days_off[nurse]:
+                    assert False, f"Day off constraint violated for nurse {nurse} on day {day}"
+                consecutive_shifts += 1
+                min_consecutive_shifts += 1
+                consecutive_days_off = 0
+                total_minutes += instance.shifts[shift]['Length']
+                if consecutive_shifts > consecutive_shifts_max:
+                    consecutive_shifts_max = consecutive_shifts
+                if day != instance.horizon - 1 and result[nurse_int, day + 1] in instance.shifts[shift]['CannotFollow']:
+                    assert False, f"Shift {shift} cannot follow {result[nurse_int, day + 1]}"
+            else:
+                if 0 < min_consecutive_shifts < instance.staff[nurse]['min_consecutive_shifts']:
+                    assert False, f"Min consecutive shifts constraint violated for nurse {nurse} {consecutive_shifts} < {instance.staff[nurse]['min_consecutive_shifts']}"
+                consecutive_shifts = 0
+                min_consecutive_shifts = 0
+                consecutive_days_off += 1
+                if consecutive_days_off > consecutive_days_off_max:
+                    consecutive_days_off_max = consecutive_days_off
+
+            if (day % 7 == 5 or day % 7 == 6) and shift != ' ':
+                weekends[day // 7] = True
+
+        assert consecutive_shifts_max <= instance.staff[nurse]['max_consecutive_shifts'], f"Max consecutive shifts constraint violated for nurse {nurse} {consecutive_shifts_max} > {instance.staff[nurse]['max_consecutive_shifts']}"
+        assert consecutive_days_off_max >= instance.staff[nurse]['min_consecutive_days_off'], f"Min consecutive days off constraint violated for nurse {nurse} {consecutive_days_off_max} < {instance.staff[nurse]['min_consecutive_days_off']}"
+        assert total_minutes <= instance.staff[nurse]['max_total_minutes'], f"Total minutes constraint violated for nurse {nurse}, {total_minutes} > {instance.staff[nurse]['max_total_minutes']}"
+        assert total_minutes >= instance.staff[nurse]['min_total_minutes'], f"Total minutes constraint violated for nurse {nurse}, {total_minutes} < {instance.staff[nurse]['min_total_minutes']}"
+        assert sum(weekends) <= instance.staff[nurse]['max_weekends'], f"Weekends constraint violated for nurse {nurse}"
+
+        for shift in instance.staff[nurse]['max_of_shift'].keys():
+            assert max_of_shift[shift] <= instance.staff[nurse]['max_of_shift'][shift], f"Shift {shift} constraint violated for nurse {nurse}"
+
+    penalty = 0
+
+    # Shift on requests
+
+    for request in instance.shift_on_requests:
+        nurse, day, shift, weight = request.get('EmployeeID'), request.get('Day'), request.get(
+            'ShiftID'), request.get('Weight')
+        nurse_int = staff_keys.index(nurse)
+        if result[nurse_int, day] != shift:
+            penalty += weight
+
+    # Shift off requests
+
+    for request in instance.shift_off_requests:
+        nurse, day, shift, weight = request.get('EmployeeID'), request.get('Day'), request.get(
+            'ShiftID'), request.get('Weight')
+        nurse_int = staff_keys.index(nurse)
+        if result[nurse_int, day] == shift:
+            penalty += weight
+
+    # Cover
+
+    for cover in instance.cover_requirements:
+        day, shift, preferred, weight_under, weight_over = cover.get('Day'), cover.get('ShiftID'), cover.get(
+            'Requirement'), cover.get('WeightForUnder'), cover.get('WeightForOver')
+        assigned = np.sum(result[:, day] == shift)
+        if assigned < preferred:
+            penalty += (preferred - assigned) * weight_under
+        elif assigned > preferred:
+            penalty += (assigned - preferred) * weight_over
+
+    diff = sol.get_objective_values()[0] - penalty
+    assert diff < 1e-6, f"Penalty {penalty} does not match objective value {sol.get_objective_values()[0]}"
+
+    return True
