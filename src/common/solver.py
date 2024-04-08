@@ -367,10 +367,6 @@ class GASolver(Solver):
                                     solve_status, solve_time, solver_config, solution_progress)
 
 
-class SolverSetting(BaseModel):
-    time_limit: int
-
-
 class ORtoolsSolver(Solver):
     solver_name = CP_SOLVER_DEFAULT_NAME
     solver_type = "CP"
