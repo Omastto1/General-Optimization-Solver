@@ -307,6 +307,8 @@ class HistoryCallback(Callback):
                 no_individuals = algorithm.pop_size * algorithm.n_gen
             elif self.algorithm_type == "BRKGA":
                 no_individuals = algorithm.n_elites + (algorithm.n_mutants + algorithm.n_offsprings) * algorithm.n_gen
+            else:
+                no_individuals = -1
 
             new_timestamp = (f_min, exec_time, no_individuals)
 
