@@ -28,7 +28,7 @@ class Solver(ABC):
             print("\nWarning: solver_name not specified for solver\n")
 
     def solve(self, instance_or_benchmark, validate=False, visualize=False, force_execution=False, force_dump=None,
-              hybrid_CP_solver=None):
+              hybrid_CP_solver=None, output=None):
         # in case of hybrid solver (GA + CP) do not save GA result into history
         update_history = False if hybrid_CP_solver is not None else True
 
@@ -48,7 +48,7 @@ class Solver(ABC):
                 force_dump = True
 
             if force_dump:
-                instance_or_benchmark.dump()
+                instance_or_benchmark.dump(output)
         else:
             fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize,
                                                        force_execution=force_execution, update_history=update_history)

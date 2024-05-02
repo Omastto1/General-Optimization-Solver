@@ -5,14 +5,14 @@ from src.vrp.solvers.interval_model import *
 
 def main(args):
     if len(args) != 3:
-        print('Usage: python starter.py <data_folder> <output_folder> <number of available cores>')
+        print('Usage: python CP.py <data_folder> <output_folder> <number of available cores>')
         return
     folder_path = args[0]
     cores = int(args[2])
 
     # for folder_name in os.listdir(data_folder):
     if not os.path.isdir(folder_path):
-        print('Usage: python starter.py <data_folder> <output_folder> <number of available cores>')
+        print('Usage: python CP.py <data_folder> <output_folder> <number of available cores>')
         return
     folder_name = os.path.basename(folder_path)
     # N = int(folder_name.split('_')[-1])  # Extract the value of N from the folder name

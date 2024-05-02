@@ -1,12 +1,9 @@
-import multiprocessing
-
 import numpy as np
 import pandas as pd
-
 from docplex.cp.model import CpoModel
+
 from src.common.solver import CPSolver
 from src.nrp.problem import *
-from tabulate import tabulate
 
 
 class NRPSolver(CPSolver):

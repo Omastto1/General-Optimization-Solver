@@ -263,6 +263,7 @@ def validate_path(path, data):
     visited = [False for i in range(vrp.nb_customers)]
     for route in path['paths']:
         # route = [-1 if i >= vrp.get_num_customers() else i for i in route]
+        # print("Route", route)
         assert route[0] == 0 and route[-1] == 0, f"Vehicle {v} does not start or end at the depot"
         if len(route) > 2:
             arrive = 0

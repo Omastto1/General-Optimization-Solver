@@ -1,9 +1,6 @@
 import numpy as np
-import networkx as nx
 from pymoo.algorithms.soo.nonconvex.pso import PSO
 
-from pymoo.core.duplicate import ElementwiseDuplicateElimination
-from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 from pymoo.core.problem import ElementwiseProblem, Problem
 from pymoo.optimize import minimize
 
@@ -11,6 +8,9 @@ from pymoo.optimize import minimize
 # from src.rcpsp.solvers.solver_ga import RCPSPGASolver
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
 from src.common.solver import GASolver
+from src.vrp.problem import *
+
+from queue import PriorityQueue
 
 
 def decode_chromosome_fast(instance, chromosome):
@@ -240,8 +240,18 @@ def decode_chromosome_rec_pruned_less(instance, chromosome):
 
         # Find the best solution
         if new_length1 <= new_length2:
+            if (instance.get_distance(chromosome[idx - 1], 0) <= instance.get_distance(customer, chromosome[idx - 1])
+                    and instance.get_distance(0, customer) <= instance.get_distance(customer, chromosome[idx - 1])):
+                print(f"Using old vehicle because of distance: {instance.get_distance(chromosome[idx - 1], 0)} at {idx}")
+            else:
+                print(f"Using old vehicle because of demand: {remaining_capacity1 - instance.get_demand(customer)} at {idx}")
             return first, new_length1
         else:
+            if (instance.get_distance(chromosome[idx - 1], 0) <= instance.get_distance(customer, chromosome[idx - 1])
+                    and instance.get_distance(0, customer) <= instance.get_distance(customer, chromosome[idx - 1])):
+                print(f"Using new vehicle because of distance: {instance.get_distance(chromosome[idx - 1], 0)} at {idx}")
+            else:
+                print(f"Using new vehicle because of demand: {remaining_capacity1 - instance.get_demand(customer)} at {idx}")
             return second, new_length2
 
     # print("Chromosome", chromosome)
@@ -323,6 +333,70 @@ def decode_chromosome_rec_pruned_less2(instance, chromosome):
     return routes, length
 
 
+def decode_chromosome_second(instance, chromosome):
+    """
+    Args:
+        instance (_type_): _description_
+        chromosome (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    routes = []
+    remaining_capacity = instance.get_capacity()
+    current_time = 0
+    route = [0]
+    length = 0
+
+    for customer in chromosome:
+        c_to_next = instance.get_distance(route[-1], customer)
+        if (instance.get_distance(route[-1], 0) <= c_to_next
+                and instance.get_distance(0, customer) <= c_to_next):
+            # Start a new route for the next vehicle
+            length += instance.get_distance(route[-1], 0) + instance.get_distance(0, customer)
+            route.append(0)
+            routes.append(route)
+            remaining_capacity = instance.get_capacity() - instance.get_demand(customer)
+            current_time = (max(instance.get_distance(0, customer), instance.get_earliest_start(customer))
+                            + instance.get_service_time(customer))
+            route = [0, customer]
+        elif (remaining_capacity - instance.get_demand(customer) >= 0 and
+                current_time + c_to_next <= instance.get_latest_start(customer)):
+
+            # Update remaining capacity and current time
+            remaining_capacity -= instance.get_demand(customer)
+            current_time = (max(current_time + c_to_next,
+                                instance.get_earliest_start(customer)) + instance.get_service_time(customer))
+            length += c_to_next
+
+            route.append(customer)
+        else:
+            # Start a new route for the next vehicle
+            length += instance.get_distance(route[-1], 0) + instance.get_distance(0, customer)
+            route.append(0)
+            routes.append(route)
+            remaining_capacity = instance.get_capacity() - instance.get_demand(customer)
+            current_time = (max(instance.get_distance(0, customer), instance.get_earliest_start(customer))
+                            + instance.get_service_time(customer))
+            route = [0, customer]
+
+    length += instance.get_distance(route[-1], 0)
+    route.append(0)
+    routes.append(route)
+
+    return routes, length
+
+
+def decode_chromosome_smart(instance, chromosome):
+    # TODO: This decoder would precompute all distances for given order of customers and solve it like the first decoder only using a new vehicle when it has to. It would then only move the points at which a new car is used to the left based on the difference of distance to the next customer and to the depo and back. This might save a lot of computation time since not all routes after the change might need to be reevaluated.
+    pass
+
+
+def decode_chromosome_iterative_ordered(instance, chromosome):
+    # TODO: The idea for this decoder is based on combining iterative deepening search with a search heuristic. It would compute the path until it has to use a new vehicle and then compute all the paths where new vehicle might be better until the point where the previous path stopped. There it would evaluate the best one and repeat from there.
+    pass
+
+
 def route_to_length(instance, routes):
     """
     Args:
@@ -356,12 +430,13 @@ def fitness_func(instance, x, out):
     # print("Chromosome shape", x.shape)
     # print("Chromosome", x)
     chromosome = sorted(range(1, len(x) + 1), key=lambda i: x[i - 1])
-    routes, dist = decode_chromosome_rec_pruned_less(instance, chromosome)
+    # routes, dist = decode_chromosome_rec_pruned_less(instance, chromosome)
+    routes, dist = decode_chromosome_second(instance, chromosome)
 
     # print(f"DISTANCE: {dist}")
 
     out["F"] = dist
-    # out["routes"] = str(routes)
+    # out["routes"] = {0: routes}     # For some reason, pymoo requires routes to be in a structure, string and dicts work
 
     # print(out)
 
@@ -379,8 +454,7 @@ class VRPTWSolver(GASolver):
 
             def __init__(self, instance, fitness_func_):
                 # print("number of customers", instance.nb_customers)
-                super().__init__(n_var=instance.nb_customers, n_obj=1,
-                                 n_ieq_constr=4, n_eq_constr=4, xl=0, xu=1)
+                super().__init__(n_var=instance.nb_customers, n_obj=1, xl=0, xu=1)
                 self.instance = instance
                 self.fitness_func = fitness_func_
 
@@ -393,90 +467,69 @@ class VRPTWSolver(GASolver):
 
         problem = VRPTW(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination,
-                       verbose=True, seed=self.seed,
+                       verbose=False, seed=self.seed,
                        callback=self.callback)
 
-        print("Optimal solution:")
-        print(res.X)
-        print("Optimal value:")
-        print(res.F)
+        if res.F is None:
+            print("No solution found")
+            return None, None, res
+
+        chromosome = sorted(range(1, len(res.X) + 1), key=lambda i: res.X[i - 1])
+        routes, dist = decode_chromosome_rec_pruned_less2(instance, chromosome)
+        fitness_value = dist/10
+
+        # print(f"Fitness value: {fitness_value}"
+        #       f"\nRoutes: {routes}")
+
+        export = {'paths': routes, 'total_distance': fitness_value}
+
+        if validate:
+            try:
+                print("Validating solution...")
+                is_valid = validate_path(export, instance)
+                if is_valid:
+                    print("Solution is valid.")
+                else:
+                    print("Solution is invalid.")
+            except AssertionError as e:
+                print("Solution is invalid.")
+                print(e)
+                return None, export, res
+
+        if visualize:
+            visualize_path(export, instance)
 
         if update_history:
-            X = np.floor(res.X).astype(int)
-            d = {}
-            problem._evaluate(X, d)
-
-            start_times = d['start_times']
-            fitness_value = max(start_times[i] + instance.durations[i] for i in range(len(instance.durations)))
-            export = {"tasks_schedule": [
-                {"start": start_times[i], "end": start_times[i] + instance.durations[i], "name": f"Task_{i}"} for i in
-                range(instance.no_jobs)]}
-
-            fitness_value = int(fitness_value)  # F - modified makespan (< 1)
-            solution_info = f"start_times: {start_times}"
+            fitness_value = fitness_value
+            solution_info = {'total_distance': fitness_value, 'n_vehicles': len(routes), 'paths': routes}
             solution_progress = res.algorithm.callback.data['progress']
             self.add_run_to_history(instance, fitness_value, solution_info, solution_progress,
                                     exec_time=round(res.exec_time, 2))
 
-        # if res.F is not None:
-        #     X = np.floor(res.X).astype(int)
-        #     fitness_value = res.F[0]
-        #     print('Objective value:', fitness_value)
-
-        #     d = {}
-        #     problem._evaluate(X, d)
-        #     start_times = d['start_times']
-        #     export = {"tasks_schedule": [{"start": start_times[i], "end": start_times[i] +
-        #                                   instance.durations[i], "name": f"Task_{i}"} for i in range(instance.no_jobs)]}
-
-        # if res.F is not None:
-        #     return fitness_value, start_times, res
-        # else:
-        return None, None, res
-
-
-if __name__ == "__main__":
-    path = "..\\..\\..\\data\\VRPTW\\solomon_25\\C101.json"
-
-    algorithm = PSO()
-    instance = load_instance(path)
-    solver = VRPTWSolver(algorithm=algorithm, fitness_func=fitness_func, termination=('n_gen', 100), seed=1, solver_name="GA")
-
-    res = solver.solve(instance, validate=True, visualize=True)
+        return fitness_value, export, res
 
 
 # if __name__ == "__main__":
-#     class VRPTW(ElementwiseProblem):
-#         """pymoo wrapper class
-#         """
-#
-#         def __init__(self, instance):
-#             # print("number of customers", instance.nb_customers)
-#             super().__init__(n_var=instance.nb_customers, n_obj=1,
-#                              n_ieq_constr=4, n_eq_constr=4, xl=0, xu=100)
-#             self.instance = instance
-#
-#         def _evaluate(self, x, out, *args, **kwargs):
-#             out = fitness_func(self.instance, x, out)
-#
-#             assert "solution" not in out, "Do not use `solution` key, it is pymoo reserved keyword"
-#
-#             return out
-#
-#
-#     from pymoo.algorithms.soo.nonconvex.ga import GA
-#
 #     path = "..\\..\\..\\data\\VRPTW\\solomon_25\\C101.json"
-#     instance = load_instance(path)
-#     algorithm = GA(
-#         pop_size=100,
-#         eliminate_duplicates=True)
-#     problem = VRPTW(instance)
-#     termination = ('n_gen', 100)
-#     res = minimize(problem, algorithm, termination,
-#                    verbose=True)
 #
-#     print("Optimal solution:")
-#     print(res.X)
-#     print("Optimal value:")
-#     print(res.F)
+#     algorithm = PSO()
+#     instance = load_instance(path)
+#     solver = VRPTWSolver(algorithm=algorithm, fitness_func=fitness_func, termination=('n_gen', 100), seed=1, solver_name="PSO")
+#
+#     res = solver.solve(instance, validate=True, visualize=True)
+
+
+if __name__ == "__main__":
+    path = "..\\..\\..\\data\\VRPTW\\solomon_100\\C206.json"
+
+    algorithm = PSO()
+    instance = load_instance(path)
+    solver = VRPTWSolver(algorithm=algorithm, fitness_func=fitness_func, termination=('n_gen', 1000), solver_name="GA")
+
+    res = solver.solve(instance, validate=True, visualize=True)
+
+    print(res)
+
+    print(instance)
+
+    instance.dump(verbose=True, dir_path="..\\..\\..\\data\\VRPTW")

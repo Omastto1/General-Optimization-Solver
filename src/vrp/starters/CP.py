@@ -3,9 +3,12 @@ from src.vrp.solvers.interval_model import *
 # from ORsolver import *
 
 
+# File used to benchmark VRP on the cluster
+
+
 def main(args):
     if len(args) != 3:
-        print('Usage: python starter.py <data_folder> <output_folder> <number of available cores>')
+        print('Usage: python CP.py <data_folder> <output_folder> <number of available cores>')
         print('Got:', args)
         return
     folder_path = args[0]
@@ -13,7 +16,7 @@ def main(args):
 
     # for folder_name in os.listdir(data_folder):
     if not os.path.isdir(folder_path):
-        print('Usage: python starter.py <data_folder> <output_folder> <number of available cores>')
+        print('Usage: python CP.py <data_folder> <output_folder> <number of available cores>')
         print('Got:', args)
         return
     folder_name = os.path.basename(folder_path)
@@ -51,7 +54,7 @@ def main(args):
         print('Saving to', output)
         instance.save_to_json(output)
 
-        # return
+        return
 
 
 if __name__ == "__main__":
