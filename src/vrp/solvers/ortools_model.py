@@ -32,11 +32,11 @@ class VRPTWSolver(ORtoolsSolver):
         class SolutionCallback(object):
             def __init__(self, model):
                 self.model = model
-                self.start_time = time.time()
+                self.start_time = time.perf_counter()
                 self.history = []
 
             def __call__(self):
-                CurrTime = time.time()
+                CurrTime = time.perf_counter()
                 # print("Solution", CurrTime - self.start_time, self.model.CostVar().Max())
                 self.history.append([self.model.CostVar().Max(), CurrTime - self.start_time])
 
@@ -211,7 +211,7 @@ class VRPTWSolver(ORtoolsSolver):
         return ret
 
     def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
-        time_start = time.time()
+        time_start = time.perf_counter()
         print("Building model")
         model, model_variables, history = self.build_model(instance)
 
@@ -259,7 +259,7 @@ class VRPTWSolver(ORtoolsSolver):
 
         instance.compare_to_reference(obj_value)
 
-        time_end = time.time()
+        time_end = time.perf_counter()
 
         if update_history:
             self.add_run_to_history(instance, sol, result, history.history, time_end - time_start)

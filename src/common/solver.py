@@ -301,7 +301,7 @@ class HistoryCallback(Callback):
         last_f_min = self.data["progress"][-1][0] if len(self.data["progress"]) > 0 else float('inf')
 
         if f_min < last_f_min:
-            exec_time = round(time.time() - algorithm.start_time, 2)
+            exec_time = round(time.perf_counter() - algorithm.start_time, 2)
 
             if self.algorithm_type == "GA":
                 no_individuals = algorithm.pop_size * algorithm.n_gen

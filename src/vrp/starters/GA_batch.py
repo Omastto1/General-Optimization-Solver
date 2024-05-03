@@ -1,6 +1,8 @@
 import os
 import sys
 
+from pymoo.algorithms.soo.nonconvex.de import DE
+
 from src.vrp.solvers.ga_model import *
 from src.general_optimization_solver import *
 
@@ -32,6 +34,7 @@ def main(args):
     termination = get_termination("time", "00:15:00")
 
     algorithm = PSO()
+    # algorithm = DE()
     solver = VRPTWSolver(algorithm=algorithm, fitness_func=fitness_func, termination=termination,
                          solver_name="GA PSO, decode_chromosome_second")
 

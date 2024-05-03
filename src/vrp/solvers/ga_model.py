@@ -431,7 +431,7 @@ def fitness_func(instance, x, out):
     # print("Chromosome", x)
     chromosome = sorted(range(1, len(x) + 1), key=lambda i: x[i - 1])
     # routes, dist = decode_chromosome_rec_pruned_less(instance, chromosome)
-    routes, dist = decode_chromosome_second(instance, chromosome)
+    routes, dist = decode_chromosome_fast(instance, chromosome)
 
     # print(f"DISTANCE: {dist}")
 
@@ -475,7 +475,10 @@ class VRPTWSolver(GASolver):
             return None, None, res
 
         chromosome = sorted(range(1, len(res.X) + 1), key=lambda i: res.X[i - 1])
-        routes, dist = decode_chromosome_rec_pruned_less2(instance, chromosome)
+
+        #   Take min from the 2 non-recursive decoders?
+        routes, dist = decode_chromosome_fast(instance, chromosome)
+
         fitness_value = dist/10
 
         # print(f"Fitness value: {fitness_value}"
