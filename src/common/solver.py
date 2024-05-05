@@ -48,7 +48,7 @@ class Solver(ABC):
                 force_dump = True
 
             if force_dump:
-                instance_or_benchmark.dump(output)
+                instance_or_benchmark.dump(dir_path=output)
         else:
             fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize,
                                                        force_execution=force_execution, update_history=update_history)
@@ -58,6 +58,13 @@ class Solver(ABC):
                                                                        visualize=visualize,
                                                                        force_execution=force_execution,
                                                                        initial_solution=solution)
+
+            if force_dump is None:
+                print("Force Dump not set, defaulting to saving the instances")
+                force_dump = True
+
+            if force_dump:
+                instance_or_benchmark.dump(dir_path=output)
 
             return fitness_value, solution, res
 
@@ -295,13 +302,14 @@ class HistoryCallback(Callback):
         super().__init__()
         self.data["progress"] = []
         self.algorithm_type = algorithm.__class__.__name__
+        algorithm.start_time2 = time.perf_counter()
 
     def notify(self, algorithm):
         f_min = algorithm.pop.get("F").min()
         last_f_min = self.data["progress"][-1][0] if len(self.data["progress"]) > 0 else float('inf')
 
         if f_min < last_f_min:
-            exec_time = round(time.perf_counter() - algorithm.start_time, 2)
+            exec_time = round(time.perf_counter() - algorithm.start_time2, 2)
 
             if self.algorithm_type == "GA":
                 no_individuals = algorithm.pop_size * algorithm.n_gen

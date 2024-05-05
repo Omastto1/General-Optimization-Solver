@@ -36,7 +36,7 @@ def main(args):
     algorithm = PSO()
     # algorithm = DE()
     solver = VRPTWSolver(algorithm=algorithm, fitness_func=fitness_func, termination=termination,
-                         solver_name="GA PSO, decode_chromosome_second")
+                         solver_name="GA PSO, decode_chromosome_rec")
 
     solver.solve(benchmark, validate=True, force_dump=True, output=output_folder)
 

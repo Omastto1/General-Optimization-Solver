@@ -267,7 +267,6 @@ class OptimizationProblem:
 
         if verbose:
             print("dumping to", path)
-        print("dumping to", path)
 
         with open(path, "w+", encoding='utf-8') as f:
             json.dump(instance_dict, f, indent=4, default=str)

@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import numpy as np
 from pymoo.algorithms.soo.nonconvex.pso import PSO
 
@@ -431,7 +433,7 @@ def fitness_func(instance, x, out):
     # print("Chromosome", x)
     chromosome = sorted(range(1, len(x) + 1), key=lambda i: x[i - 1])
     # routes, dist = decode_chromosome_rec_pruned_less(instance, chromosome)
-    routes, dist = decode_chromosome_fast(instance, chromosome)
+    routes, dist = decode_chromosome_second(instance, chromosome)
 
     # print(f"DISTANCE: {dist}")
 
@@ -477,7 +479,7 @@ class VRPTWSolver(GASolver):
         chromosome = sorted(range(1, len(res.X) + 1), key=lambda i: res.X[i - 1])
 
         #   Take min from the 2 non-recursive decoders?
-        routes, dist = decode_chromosome_fast(instance, chromosome)
+        routes, dist = decode_chromosome_second(instance, chromosome)
 
         fitness_value = dist/10
 
@@ -505,7 +507,7 @@ class VRPTWSolver(GASolver):
         if update_history:
             fitness_value = fitness_value
             solution_info = {'total_distance': fitness_value, 'n_vehicles': len(routes), 'paths': routes}
-            solution_progress = res.algorithm.callback.data['progress']
+            solution_progress = deepcopy(res.algorithm.callback.data['progress'])
             self.add_run_to_history(instance, fitness_value, solution_info, solution_progress,
                                     exec_time=round(res.exec_time, 2))
 
