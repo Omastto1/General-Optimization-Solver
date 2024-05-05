@@ -49,6 +49,8 @@ class Solver(ABC):
 
             if force_dump:
                 instance_or_benchmark.dump(dir_path=output)
+            elif output is not None:
+                print("Output specified but force_dump is set to False, instances will not be saved")
         else:
             fitness_value, solution, res = self._solve(instance_or_benchmark, validate=validate, visualize=visualize,
                                                        force_execution=force_execution, update_history=update_history)
@@ -65,6 +67,8 @@ class Solver(ABC):
 
             if force_dump:
                 instance_or_benchmark.dump(dir_path=output)
+            elif output is not None:
+                print("Output specified but force_dump is set to False, instances will not be saved")
 
             return fitness_value, solution, res
 
@@ -342,7 +346,7 @@ class GASolver(Solver):
         self.fitness_func = fitness_func
         self.termination = termination
         self.seed = seed
-        self.callback = HistoryCallback(algorithm)
+        self.callback = Callback()
 
     @abstractmethod
     def _solve(self, instance, validate, visualize, force_execution):

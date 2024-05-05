@@ -9,7 +9,7 @@ from pymoo.optimize import minimize
 # from src.rcpsp.solvers.solver_cp import RCPSPCPSolver
 # from src.rcpsp.solvers.solver_ga import RCPSPGASolver
 from src.general_optimization_solver import load_raw_instance, load_instance, load_raw_benchmark
-from src.common.solver import GASolver
+from src.common.solver import GASolver, HistoryCallback
 from src.vrp.problem import *
 
 from queue import PriorityQueue
@@ -467,6 +467,7 @@ class VRPTWSolver(GASolver):
 
                 return out
 
+        self.callback = HistoryCallback(self.algorithm)
         problem = VRPTW(instance, self.fitness_func)
         res = minimize(problem, self.algorithm, self.termination,
                        verbose=False, seed=self.seed,

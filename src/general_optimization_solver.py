@@ -267,7 +267,7 @@ def load_instance(path):
     elif instance_kind == "1DBINPACKING":
         instance = BinPacking1D(
             benchmark_name, instance_name, data, solution, run_history)
-    elif instance_kind == "CVRPTW":
+    elif instance_kind == "VRPTW":
         instance = CVRPTW(
             benchmark_name, instance_name, data, solution, run_history)
     elif instance_kind == "NRP":
@@ -276,6 +276,6 @@ def load_instance(path):
     else:
         print(path)
         raise ValueError(
-            "Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP, found %s" % instance_kind)
+            "Invalid instance kind, should be one of: MMRCPSP, RCPSP, JOBSHOP, VRPTW, NRP found %s" % instance_kind)
 
     return instance
