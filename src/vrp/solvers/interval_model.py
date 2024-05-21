@@ -100,7 +100,7 @@ class VRPTWSolver(CPSolver):
         ret = {'n_vehicles': len(paths), 'total_distance': total_distance, 'paths': paths}
         return ret
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True, initial_solution=None):
         print("Building model")
         model, model_variables = self.build_model(instance)
 

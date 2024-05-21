@@ -225,7 +225,7 @@ class CVRPTW(OptimizationProblem):
         return self._xy
 
 
-def visualize_path(path, data):
+def visualize_path(path, data, save=None):
     loc_x, loc_y = list(zip(*data.customers_xy))
 
     n = range(1, len(loc_x)+1)
@@ -252,7 +252,14 @@ def visualize_path(path, data):
                 c = 0
         v += 1
 
+    if 'total_distance' in path:
+        plt.title(f"Total distance: {path['total_distance']}")
+    else:
+        plt.title("Paths")
+    if save:
+        plt.savefig(save, format='pdf')
     plt.show()
+
 
 
 def validate_path(path, data):

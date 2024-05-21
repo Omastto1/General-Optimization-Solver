@@ -38,10 +38,11 @@ class Solver(ABC):
                 _, solution, _ = self._solve(instance, validate=validate, visualize=visualize,
                                              force_execution=force_execution, update_history=update_history)
 
+                print(solution)
+
                 if hybrid_CP_solver is not None:
-                    hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize,
-                                            force_execution=force_execution, initial_solution=solution)
-            # return self.solve_benchmark(instance_or_benchmark)
+                    _, solution, _ = hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize,
+                                                             force_execution=force_execution, initial_solution=solution)
 
             if force_dump is None:
                 print("Force Dump not set, defaulting to saving the instances")
@@ -73,7 +74,7 @@ class Solver(ABC):
             return fitness_value, solution, res
 
     @abstractmethod
-    def _solve(self, validate=False, visualize=False, force_execution=False, update_history=True):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
         """Abstract solve method for solver."""
         pass
 
@@ -423,7 +424,6 @@ class ORtoolsSolver(Solver):
         # TODO: Fix history objective values
         # diff = result['total_distance'] - float(str(solution_progress[-1][0])[2:])
         # solution_progress = [[round(float(str(i[0])[2:]) + diff, 2), i[1]] for i in solution_progress]
-
 
         if sol:
             objective_value = result

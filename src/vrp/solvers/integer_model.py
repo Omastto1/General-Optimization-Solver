@@ -8,7 +8,7 @@ from src.vrp.problem import *
 class VRPTWSolver(CPSolver):
     solver_name = 'CP Integer Model'
 
-    def build_model(self, instance):
+    def build_model(self, instance, initial_solution=None):
         vrp = VRP(instance)
 
         model = CpoModel()
@@ -48,6 +48,7 @@ class VRPTWSolver(CPSolver):
         # Time
         start_time = [model.integer_var(vrp.get_earliest_start(i), vrp.get_latest_start(i), "T{}".format(i)) for i in
                       range(vrp.get_num_visits())]
+        # pr = [(i, vrp.get_earliest_start(i), vrp.get_latest_start(i)) for i in range(vrp.get_num_visits())]
         for fv in vrp.first():
             model.add(start_time[fv] == 0)
         for i in vrp.customers() + vrp.last():
@@ -72,11 +73,64 @@ class VRPTWSolver(CPSolver):
         # KPIs
         model.add_kpi(used, 'Used')
 
+        if initial_solution:
+            self.solver_name += " Hybrid"
+
+            stp = model.create_empty_solution()
+            # sprev = [0 for _ in range(vrp.get_num_visits())]
+
+            # Set prev
+            vehicles = list(vrp.vehicles())
+            vehicle = 0
+            for i, p in enumerate(initial_solution['paths']):
+                # stp[prev[i]] = p[-1]
+                v, fv, lv = vehicles[vehicle]
+                # last = fv
+                # time = 0
+                # stp[start_time[fv]] = time
+                # for j in p[1:-1]:
+                #     j -= 1
+                #     stp[veh[j]] = vehicle
+                #     time = max(time + vrp.get_service_time(last) + vrp.get_distance(last, j) // TIME_FACTOR, vrp.get_earliest_start(j))
+                #     stp[start_time[j]] = time
+                #     last = j
+                # stp[veh[lv]] = vehicle
+                # stp[load[vehicle]] = sum(vrp.get_demand(j-1) for j in p)
+
+                last = lv
+                for j in p[1:-1][::-1]:
+                    j -= 1
+                    stp[prev[last]] = j
+                    # sprev[last] = j
+                    last = j
+                stp[prev[last]] = fv
+                # sprev[last] = fv
+                stp[prev[fv]] = ((lv - 2*vrp.get_num_vehicles() - 1) % vrp.get_num_vehicles()) + 2*vrp.get_num_vehicles()
+                # sprev[fv] = ((lv - 2*vrp.get_num_vehicles() - 1) % vrp.get_num_vehicles()) + 2*vrp.get_num_vehicles()
+
+                vehicle += 1
+
+            stp[used] = vehicle
+
+            for v, fv, lv in vehicles[vehicle:]:
+                stp[prev[fv]] = lv - 1
+                stp[prev[lv]] = fv
+                # sprev[fv] = lv - 1
+                # sprev[lv] = fv
+                stp[veh[fv]] = v
+                stp[veh[lv]] = v
+                stp[load[v]] = 0
+                stp[start_time[fv]] = 0
+                stp[start_time[lv]] = 0
+
+            model.set_starting_point(stp)
+
         return model, {'vrp': vrp, 'prev': prev}
 
     def _export_solution(self, sol, data, model_variables):
         vrp = data
         sprev = tuple(sol.solution[p] for p in model_variables['prev'])
+        print('sprev: ',sprev)
 
         n_vehicles = 0
         total_distance = 0
@@ -105,9 +159,9 @@ class VRPTWSolver(CPSolver):
         ret = {'n_vehicles': n_vehicles, 'total_distance': total_distance, 'paths': paths}
         return ret
 
-    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True):
+    def _solve(self, instance, validate=False, visualize=False, force_execution=False, update_history=True, initial_solution=None):
         print("Building model")
-        model, model_variables = self.build_model(instance)
+        model, model_variables = self.build_model(instance, initial_solution=initial_solution)
 
         print("Looking for solution")
         sol = model.solve()
@@ -155,4 +209,4 @@ class VRPTWSolver(CPSolver):
             instance._run_history[-1]["solution_info"]['total_distance'] = result['total_distance']
             instance._run_history[-1]["solution_info"]['paths'] = result['paths']
 
-        return obj_value, model_variables, sol
+        return obj_value, result, sol

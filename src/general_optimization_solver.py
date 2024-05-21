@@ -267,7 +267,7 @@ def load_instance(path):
     elif instance_kind == "1DBINPACKING":
         instance = BinPacking1D(
             benchmark_name, instance_name, data, solution, run_history)
-    elif instance_kind == "VRPTW":
+    elif instance_kind == "VRPTW" or instance_kind == "CVRPTW":
         instance = CVRPTW(
             benchmark_name, instance_name, data, solution, run_history)
     elif instance_kind == "NRP":

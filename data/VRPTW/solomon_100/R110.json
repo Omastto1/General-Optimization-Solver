@@ -1,11 +1,7 @@
 {
-    "instance_kind": "VRPTW",
     "benchmark_name": "solomon_100",
     "instance_name": "R110",
-    "reference_solution": {
-        "optimum": 1068.0,
-        "NV": 12.0
-    },
+    "instance_kind": "CVRPTW",
     "data": {
         "nb_trucks": 25,
         "truck_capacity": 200,
@@ -1231,6 +1227,10 @@
                 18
             ]
         ]
+    },
+    "reference_solution": {
+        "optimum": 1068.0,
+        "NV": 12.0
     },
     "run_history": [
         {
@@ -6238,9 +6238,11 @@
                 ]
             },
             "solution_progress": [
-                17505.0,
-                900.01,
-                -1
+                [
+                    17505.0,
+                    900.01,
+                    -1
+                ]
             ]
         },
         {
@@ -6611,9 +6613,3258 @@
                 ]
             },
             "solution_progress": [
-                18838.0,
-                900.01,
-                -1
+                [
+                    18838.0,
+                    900.01,
+                    -1
+                ]
+            ]
+        },
+        {
+            "timestamp": "2024-05-05 15:26:03.302199",
+            "solver_type": "GA",
+            "solver_name": "GA PSO, min of 2",
+            "solver_config": {
+                "seed": null,
+                "algorithm": {
+                    "problem": null,
+                    "termination": null,
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7fb14811b810>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7fb14958ed10>",
+                            "<pymoo.util.display.column.Column object at 0x7fb148325fd0>",
+                            "<pymoo.util.display.column.Column object at 0x7fb14958eb10>",
+                            "<pymoo.util.display.column.Column object at 0x7fb14958ec50>",
+                            "<pymoo.util.display.column.Column object at 0x7fb147e56110>",
+                            "<pymoo.util.display.column.Column object at 0x7fb147e560d0>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null,
+                        "f": {
+                            "name": "f",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "S": {
+                            "name": "S",
+                            "func": null,
+                            "width": 7,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "w": {
+                            "name": "w",
+                            "func": null,
+                            "width": 7,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "c1": {
+                            "name": "c1",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "c2": {
+                            "name": "c2",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        }
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "initialization": {
+                        "sampling": {
+                            "name": "LHS",
+                            "vtype": null,
+                            "repair": null,
+                            "smooth": true,
+                            "iterations": 20,
+                            "criterion": {}
+                        },
+                        "eliminate_duplicates": {
+                            "func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "pop_size": 25,
+                    "adaptive": true,
+                    "pertube_best": true,
+                    "V_max": null,
+                    "initial_velocity": "random",
+                    "max_velocity_rate": 0.2,
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "w": 0.9,
+                    "c1": 2.0,
+                    "c2": 2.0,
+                    "particles": null,
+                    "sbest": null,
+                    "start_time2": 25822628.736511327
+                },
+                "fitness_func": "<function fitness_func at 0x7fb143eb42c0>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7fb147f8c850>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 900.02,
+            "solution_value": 1746.0,
+            "solution_info": {
+                "total_distance": 1746.0,
+                "n_vehicles": 21,
+                "paths": [
+                    [
+                        0,
+                        42,
+                        14,
+                        98,
+                        59,
+                        99,
+                        94,
+                        97,
+                        0
+                    ],
+                    [
+                        0,
+                        51,
+                        71,
+                        20,
+                        0
+                    ],
+                    [
+                        0,
+                        73,
+                        2,
+                        57,
+                        84,
+                        60,
+                        0
+                    ],
+                    [
+                        0,
+                        30,
+                        76,
+                        54,
+                        0
+                    ],
+                    [
+                        0,
+                        83,
+                        17,
+                        86,
+                        44,
+                        92,
+                        13,
+                        58,
+                        0
+                    ],
+                    [
+                        0,
+                        18,
+                        89,
+                        0
+                    ],
+                    [
+                        0,
+                        52,
+                        82,
+                        47,
+                        49,
+                        36,
+                        46,
+                        0
+                    ],
+                    [
+                        0,
+                        40,
+                        85,
+                        61,
+                        93,
+                        6,
+                        0
+                    ],
+                    [
+                        0,
+                        21,
+                        75,
+                        22,
+                        87,
+                        100,
+                        37,
+                        0
+                    ],
+                    [
+                        0,
+                        19,
+                        7,
+                        62,
+                        10,
+                        27,
+                        0
+                    ],
+                    [
+                        0,
+                        39,
+                        67,
+                        25,
+                        55,
+                        4,
+                        0
+                    ],
+                    [
+                        0,
+                        65,
+                        66,
+                        35,
+                        34,
+                        24,
+                        80,
+                        68,
+                        0
+                    ],
+                    [
+                        0,
+                        28,
+                        33,
+                        9,
+                        81,
+                        78,
+                        79,
+                        3,
+                        0
+                    ],
+                    [
+                        0,
+                        53,
+                        15,
+                        41,
+                        26,
+                        0
+                    ],
+                    [
+                        0,
+                        69,
+                        90,
+                        48,
+                        0
+                    ],
+                    [
+                        0,
+                        95,
+                        45,
+                        8,
+                        16,
+                        38,
+                        43,
+                        0
+                    ],
+                    [
+                        0,
+                        88,
+                        11,
+                        64,
+                        63,
+                        32,
+                        70,
+                        1,
+                        0
+                    ],
+                    [
+                        0,
+                        72,
+                        56,
+                        23,
+                        74,
+                        0
+                    ],
+                    [
+                        0,
+                        12,
+                        29,
+                        77,
+                        50,
+                        0
+                    ],
+                    [
+                        0,
+                        5,
+                        91,
+                        96,
+                        0
+                    ],
+                    [
+                        0,
+                        31,
+                        0
+                    ]
+                ]
+            },
+            "solution_progress": [
+                [
+                    38167.0,
+                    0.05,
+                    -1
+                ],
+                [
+                    37888.0,
+                    0.09,
+                    -1
+                ],
+                [
+                    37159.0,
+                    0.14,
+                    -1
+                ],
+                [
+                    36436.0,
+                    0.19,
+                    -1
+                ],
+                [
+                    36353.0,
+                    0.24,
+                    -1
+                ],
+                [
+                    35438.0,
+                    0.37,
+                    -1
+                ],
+                [
+                    35255.0,
+                    0.64,
+                    -1
+                ],
+                [
+                    34893.0,
+                    0.69,
+                    -1
+                ],
+                [
+                    34475.0,
+                    0.92,
+                    -1
+                ],
+                [
+                    34219.0,
+                    0.96,
+                    -1
+                ],
+                [
+                    33802.0,
+                    1.06,
+                    -1
+                ],
+                [
+                    33580.0,
+                    1.53,
+                    -1
+                ],
+                [
+                    33359.0,
+                    1.9,
+                    -1
+                ],
+                [
+                    33333.0,
+                    2.7,
+                    -1
+                ],
+                [
+                    33304.0,
+                    3.19,
+                    -1
+                ],
+                [
+                    33191.0,
+                    4.72,
+                    -1
+                ],
+                [
+                    33109.0,
+                    4.76,
+                    -1
+                ],
+                [
+                    33094.0,
+                    5.12,
+                    -1
+                ],
+                [
+                    33041.0,
+                    5.47,
+                    -1
+                ],
+                [
+                    32992.0,
+                    5.56,
+                    -1
+                ],
+                [
+                    32479.0,
+                    5.61,
+                    -1
+                ],
+                [
+                    32406.0,
+                    5.96,
+                    -1
+                ],
+                [
+                    32343.0,
+                    6.01,
+                    -1
+                ],
+                [
+                    32302.0,
+                    6.05,
+                    -1
+                ],
+                [
+                    31984.0,
+                    6.14,
+                    -1
+                ],
+                [
+                    31980.0,
+                    7.38,
+                    -1
+                ],
+                [
+                    31752.0,
+                    7.42,
+                    -1
+                ],
+                [
+                    31404.0,
+                    9.23,
+                    -1
+                ],
+                [
+                    31298.0,
+                    9.89,
+                    -1
+                ],
+                [
+                    31241.0,
+                    10.1,
+                    -1
+                ],
+                [
+                    31232.0,
+                    10.54,
+                    -1
+                ],
+                [
+                    31155.0,
+                    11.11,
+                    -1
+                ],
+                [
+                    30946.0,
+                    12.04,
+                    -1
+                ],
+                [
+                    30820.0,
+                    12.21,
+                    -1
+                ],
+                [
+                    30519.0,
+                    12.64,
+                    -1
+                ],
+                [
+                    30429.0,
+                    12.74,
+                    -1
+                ],
+                [
+                    30190.0,
+                    12.87,
+                    -1
+                ],
+                [
+                    29971.0,
+                    13.27,
+                    -1
+                ],
+                [
+                    29562.0,
+                    14.97,
+                    -1
+                ],
+                [
+                    29443.0,
+                    15.23,
+                    -1
+                ],
+                [
+                    29290.0,
+                    15.62,
+                    -1
+                ],
+                [
+                    29085.0,
+                    15.88,
+                    -1
+                ],
+                [
+                    29037.0,
+                    16.28,
+                    -1
+                ],
+                [
+                    28901.0,
+                    16.63,
+                    -1
+                ],
+                [
+                    28869.0,
+                    16.8,
+                    -1
+                ],
+                [
+                    28823.0,
+                    17.06,
+                    -1
+                ],
+                [
+                    28700.0,
+                    17.5,
+                    -1
+                ],
+                [
+                    28408.0,
+                    17.54,
+                    -1
+                ],
+                [
+                    28001.0,
+                    18.63,
+                    -1
+                ],
+                [
+                    27968.0,
+                    18.71,
+                    -1
+                ],
+                [
+                    27480.0,
+                    18.8,
+                    -1
+                ],
+                [
+                    27319.0,
+                    19.31,
+                    -1
+                ],
+                [
+                    27279.0,
+                    20.22,
+                    -1
+                ],
+                [
+                    27104.0,
+                    21.12,
+                    -1
+                ],
+                [
+                    26907.0,
+                    21.63,
+                    -1
+                ],
+                [
+                    26885.0,
+                    21.68,
+                    -1
+                ],
+                [
+                    26706.0,
+                    21.89,
+                    -1
+                ],
+                [
+                    26597.0,
+                    23.3,
+                    -1
+                ],
+                [
+                    26391.0,
+                    24.66,
+                    -1
+                ],
+                [
+                    26182.0,
+                    24.95,
+                    -1
+                ],
+                [
+                    26148.0,
+                    26.09,
+                    -1
+                ],
+                [
+                    25844.0,
+                    26.42,
+                    -1
+                ],
+                [
+                    25524.0,
+                    27.16,
+                    -1
+                ],
+                [
+                    24722.0,
+                    27.5,
+                    -1
+                ],
+                [
+                    24696.0,
+                    27.58,
+                    -1
+                ],
+                [
+                    24656.0,
+                    27.99,
+                    -1
+                ],
+                [
+                    24619.0,
+                    28.23,
+                    -1
+                ],
+                [
+                    24514.0,
+                    28.44,
+                    -1
+                ],
+                [
+                    24411.0,
+                    28.48,
+                    -1
+                ],
+                [
+                    24259.0,
+                    28.56,
+                    -1
+                ],
+                [
+                    24171.0,
+                    28.64,
+                    -1
+                ],
+                [
+                    24103.0,
+                    30.25,
+                    -1
+                ],
+                [
+                    23858.0,
+                    30.92,
+                    -1
+                ],
+                [
+                    23614.0,
+                    31.51,
+                    -1
+                ],
+                [
+                    23463.0,
+                    32.37,
+                    -1
+                ],
+                [
+                    23397.0,
+                    32.8,
+                    -1
+                ],
+                [
+                    23271.0,
+                    33.01,
+                    -1
+                ],
+                [
+                    23266.0,
+                    34.91,
+                    -1
+                ],
+                [
+                    23258.0,
+                    35.51,
+                    -1
+                ],
+                [
+                    23210.0,
+                    37.66,
+                    -1
+                ],
+                [
+                    23116.0,
+                    39.28,
+                    -1
+                ],
+                [
+                    23092.0,
+                    40.43,
+                    -1
+                ],
+                [
+                    22955.0,
+                    40.86,
+                    -1
+                ],
+                [
+                    22868.0,
+                    42.84,
+                    -1
+                ],
+                [
+                    22762.0,
+                    43.18,
+                    -1
+                ],
+                [
+                    22761.0,
+                    46.35,
+                    -1
+                ],
+                [
+                    22747.0,
+                    47.32,
+                    -1
+                ],
+                [
+                    22704.0,
+                    47.79,
+                    -1
+                ],
+                [
+                    22665.0,
+                    48.63,
+                    -1
+                ],
+                [
+                    22641.0,
+                    51.11,
+                    -1
+                ],
+                [
+                    22549.0,
+                    51.96,
+                    -1
+                ],
+                [
+                    22535.0,
+                    53.78,
+                    -1
+                ],
+                [
+                    22530.0,
+                    54.13,
+                    -1
+                ],
+                [
+                    22445.0,
+                    55.36,
+                    -1
+                ],
+                [
+                    22348.0,
+                    55.4,
+                    -1
+                ],
+                [
+                    22310.0,
+                    59.43,
+                    -1
+                ],
+                [
+                    22273.0,
+                    60.03,
+                    -1
+                ],
+                [
+                    21982.0,
+                    62.54,
+                    -1
+                ],
+                [
+                    21921.0,
+                    66.39,
+                    -1
+                ],
+                [
+                    21844.0,
+                    73.15,
+                    -1
+                ],
+                [
+                    21839.0,
+                    74.13,
+                    -1
+                ],
+                [
+                    21649.0,
+                    78.55,
+                    -1
+                ],
+                [
+                    21638.0,
+                    80.25,
+                    -1
+                ],
+                [
+                    21500.0,
+                    80.42,
+                    -1
+                ],
+                [
+                    21485.0,
+                    91.68,
+                    -1
+                ],
+                [
+                    21361.0,
+                    91.85,
+                    -1
+                ],
+                [
+                    21355.0,
+                    94.51,
+                    -1
+                ],
+                [
+                    21276.0,
+                    96.3,
+                    -1
+                ],
+                [
+                    21218.0,
+                    97.8,
+                    -1
+                ],
+                [
+                    21133.0,
+                    101.68,
+                    -1
+                ],
+                [
+                    20916.0,
+                    106.53,
+                    -1
+                ],
+                [
+                    20862.0,
+                    113.28,
+                    -1
+                ],
+                [
+                    20840.0,
+                    124.56,
+                    -1
+                ],
+                [
+                    20762.0,
+                    145.08,
+                    -1
+                ],
+                [
+                    20736.0,
+                    154.22,
+                    -1
+                ],
+                [
+                    20555.0,
+                    161.65,
+                    -1
+                ],
+                [
+                    20529.0,
+                    175.22,
+                    -1
+                ],
+                [
+                    20352.0,
+                    184.0,
+                    -1
+                ],
+                [
+                    20304.0,
+                    184.54,
+                    -1
+                ],
+                [
+                    20299.0,
+                    195.23,
+                    -1
+                ],
+                [
+                    20279.0,
+                    200.21,
+                    -1
+                ],
+                [
+                    20247.0,
+                    201.65,
+                    -1
+                ],
+                [
+                    20064.0,
+                    222.9,
+                    -1
+                ],
+                [
+                    20061.0,
+                    223.65,
+                    -1
+                ],
+                [
+                    19986.0,
+                    223.75,
+                    -1
+                ],
+                [
+                    19943.0,
+                    230.36,
+                    -1
+                ],
+                [
+                    19822.0,
+                    231.76,
+                    -1
+                ],
+                [
+                    19418.0,
+                    233.12,
+                    -1
+                ],
+                [
+                    19415.0,
+                    234.14,
+                    -1
+                ],
+                [
+                    19406.0,
+                    234.28,
+                    -1
+                ],
+                [
+                    19314.0,
+                    235.16,
+                    -1
+                ],
+                [
+                    19198.0,
+                    250.56,
+                    -1
+                ],
+                [
+                    19186.0,
+                    251.08,
+                    -1
+                ],
+                [
+                    19116.0,
+                    251.58,
+                    -1
+                ],
+                [
+                    19045.0,
+                    262.78,
+                    -1
+                ],
+                [
+                    18967.0,
+                    268.11,
+                    -1
+                ],
+                [
+                    18909.0,
+                    279.73,
+                    -1
+                ],
+                [
+                    18841.0,
+                    279.78,
+                    -1
+                ],
+                [
+                    18807.0,
+                    290.81,
+                    -1
+                ],
+                [
+                    18773.0,
+                    310.54,
+                    -1
+                ],
+                [
+                    18758.0,
+                    310.68,
+                    -1
+                ],
+                [
+                    18738.0,
+                    321.56,
+                    -1
+                ],
+                [
+                    18677.0,
+                    355.59,
+                    -1
+                ],
+                [
+                    18675.0,
+                    356.72,
+                    -1
+                ],
+                [
+                    18612.0,
+                    381.1,
+                    -1
+                ],
+                [
+                    18590.0,
+                    393.77,
+                    -1
+                ],
+                [
+                    18571.0,
+                    396.79,
+                    -1
+                ],
+                [
+                    18521.0,
+                    413.28,
+                    -1
+                ],
+                [
+                    18496.0,
+                    472.64,
+                    -1
+                ],
+                [
+                    18466.0,
+                    477.08,
+                    -1
+                ],
+                [
+                    18337.0,
+                    478.23,
+                    -1
+                ],
+                [
+                    18249.0,
+                    513.73,
+                    -1
+                ],
+                [
+                    18203.0,
+                    516.04,
+                    -1
+                ],
+                [
+                    18103.0,
+                    586.16,
+                    -1
+                ],
+                [
+                    18088.0,
+                    589.68,
+                    -1
+                ],
+                [
+                    18037.0,
+                    609.49,
+                    -1
+                ],
+                [
+                    17983.0,
+                    653.38,
+                    -1
+                ],
+                [
+                    17949.0,
+                    688.27,
+                    -1
+                ],
+                [
+                    17924.0,
+                    690.19,
+                    -1
+                ],
+                [
+                    17814.0,
+                    711.19,
+                    -1
+                ],
+                [
+                    17676.0,
+                    738.3,
+                    -1
+                ],
+                [
+                    17628.0,
+                    740.17,
+                    -1
+                ],
+                [
+                    17592.0,
+                    834.74,
+                    -1
+                ],
+                [
+                    17526.0,
+                    852.53,
+                    -1
+                ],
+                [
+                    17519.0,
+                    853.1,
+                    -1
+                ],
+                [
+                    17495.0,
+                    881.25,
+                    -1
+                ],
+                [
+                    17460.0,
+                    890.35,
+                    -1
+                ]
+            ]
+        },
+        {
+            "timestamp": "2024-05-18 13:36:59.962230",
+            "solver_type": "GA",
+            "solver_name": "GA DE",
+            "solver_config": {
+                "seed": null,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f4cadd33c50>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f4cacfd8a50>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f4caf896c50>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f4cacfd8b10>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f4cacfd8b90>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f4cadd23d50>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f4cadd23f50>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 100,
+                    "advance_after_initial_infill": false,
+                    "survival": null,
+                    "n_offsprings": 100,
+                    "eliminate_duplicates": {
+                        "func": {}
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {}
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "value": "best",
+                            "flag": "default",
+                            "active": true,
+                            "options": [
+                                "rand",
+                                "best"
+                            ],
+                            "all": [
+                                "rand",
+                                "best",
+                                "target-to-best"
+                            ]
+                        },
+                        "n_diffs": {
+                            "value": 1,
+                            "flag": "default",
+                            "active": true,
+                            "options": [
+                                1
+                            ],
+                            "all": [
+                                1,
+                                2
+                            ]
+                        },
+                        "F": {
+                            "value": 0.5,
+                            "flag": "default",
+                            "active": true,
+                            "bounds": [
+                                0.4,
+                                0.7
+                            ],
+                            "strict": [
+                                0.0,
+                                null
+                            ]
+                        },
+                        "crossover": {
+                            "value": "bin",
+                            "flag": "default",
+                            "active": true,
+                            "options": [
+                                "bin"
+                            ],
+                            "all": [
+                                "bin",
+                                "exp",
+                                "hypercube",
+                                "line"
+                            ]
+                        },
+                        "CR": {
+                            "value": 0.2,
+                            "flag": "default",
+                            "active": true,
+                            "bounds": [
+                                0.2,
+                                0.8
+                            ],
+                            "strict": [
+                                0.0,
+                                1.0
+                            ]
+                        },
+                        "jitter": {
+                            "value": false,
+                            "flag": "default",
+                            "active": true,
+                            "options": [
+                                false
+                            ],
+                            "all": [
+                                true,
+                                false
+                            ]
+                        },
+                        "mutation": {
+                            "name": "PM",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": 0.1,
+                            "prob_var": null,
+                            "at_least_once": true,
+                            "eta": 20
+                        },
+                        "control": {
+                            "data": null,
+                            "params": {}
+                        }
+                    },
+                    "start_time2": 177947.059469363
+                },
+                "fitness_func": "<function fitness_func at 0x7f4cadd29d00>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f4cadd23650>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 900.01,
+            "solution_value": 2622.3,
+            "solution_info": {
+                "total_distance": 2622.3,
+                "n_vehicles": 29,
+                "paths": [
+                    [
+                        0,
+                        33,
+                        42,
+                        85,
+                        0
+                    ],
+                    [
+                        0,
+                        3,
+                        62,
+                        1,
+                        0
+                    ],
+                    [
+                        0,
+                        44,
+                        16,
+                        47,
+                        49,
+                        89,
+                        93,
+                        0
+                    ],
+                    [
+                        0,
+                        29,
+                        7,
+                        48,
+                        36,
+                        0
+                    ],
+                    [
+                        0,
+                        73,
+                        91,
+                        0
+                    ],
+                    [
+                        0,
+                        11,
+                        64,
+                        30,
+                        0
+                    ],
+                    [
+                        0,
+                        71,
+                        79,
+                        24,
+                        0
+                    ],
+                    [
+                        0,
+                        61,
+                        100,
+                        59,
+                        45,
+                        46,
+                        0
+                    ],
+                    [
+                        0,
+                        37,
+                        99,
+                        0
+                    ],
+                    [
+                        0,
+                        28,
+                        6,
+                        2,
+                        57,
+                        13,
+                        0
+                    ],
+                    [
+                        0,
+                        53,
+                        72,
+                        0
+                    ],
+                    [
+                        0,
+                        18,
+                        5,
+                        17,
+                        0
+                    ],
+                    [
+                        0,
+                        22,
+                        15,
+                        38,
+                        0
+                    ],
+                    [
+                        0,
+                        98,
+                        14,
+                        86,
+                        92,
+                        97,
+                        60,
+                        0
+                    ],
+                    [
+                        0,
+                        21,
+                        41,
+                        74,
+                        56,
+                        54,
+                        25,
+                        58,
+                        0
+                    ],
+                    [
+                        0,
+                        40,
+                        94,
+                        26,
+                        0
+                    ],
+                    [
+                        0,
+                        8,
+                        82,
+                        0
+                    ],
+                    [
+                        0,
+                        87,
+                        0
+                    ],
+                    [
+                        0,
+                        83,
+                        84,
+                        0
+                    ],
+                    [
+                        0,
+                        51,
+                        81,
+                        78,
+                        9,
+                        0
+                    ],
+                    [
+                        0,
+                        67,
+                        23,
+                        4,
+                        39,
+                        0
+                    ],
+                    [
+                        0,
+                        66,
+                        65,
+                        34,
+                        0
+                    ],
+                    [
+                        0,
+                        52,
+                        12,
+                        0
+                    ],
+                    [
+                        0,
+                        31,
+                        80,
+                        76,
+                        27,
+                        0
+                    ],
+                    [
+                        0,
+                        88,
+                        35,
+                        43,
+                        0
+                    ],
+                    [
+                        0,
+                        96,
+                        0
+                    ],
+                    [
+                        0,
+                        69,
+                        75,
+                        68,
+                        77,
+                        50,
+                        55,
+                        0
+                    ],
+                    [
+                        0,
+                        19,
+                        90,
+                        20,
+                        10,
+                        0
+                    ],
+                    [
+                        0,
+                        95,
+                        63,
+                        32,
+                        70,
+                        0
+                    ]
+                ]
+            },
+            "solution_progress": [
+                [
+                    35235.0,
+                    0.03,
+                    -1
+                ],
+                [
+                    35072.0,
+                    0.53,
+                    -1
+                ],
+                [
+                    33632.0,
+                    0.64,
+                    -1
+                ],
+                [
+                    33575.0,
+                    0.87,
+                    -1
+                ],
+                [
+                    32422.0,
+                    1.55,
+                    -1
+                ],
+                [
+                    32388.0,
+                    2.79,
+                    -1
+                ],
+                [
+                    31870.0,
+                    4.26,
+                    -1
+                ],
+                [
+                    31699.0,
+                    8.42,
+                    -1
+                ],
+                [
+                    30847.0,
+                    9.62,
+                    -1
+                ],
+                [
+                    29985.0,
+                    17.21,
+                    -1
+                ],
+                [
+                    29618.0,
+                    27.8,
+                    -1
+                ],
+                [
+                    29358.0,
+                    51.6,
+                    -1
+                ],
+                [
+                    29284.0,
+                    59.67,
+                    -1
+                ],
+                [
+                    29035.0,
+                    69.9,
+                    -1
+                ],
+                [
+                    28779.0,
+                    70.94,
+                    -1
+                ],
+                [
+                    28713.0,
+                    88.81,
+                    -1
+                ],
+                [
+                    28556.0,
+                    97.01,
+                    -1
+                ],
+                [
+                    28428.0,
+                    97.86,
+                    -1
+                ],
+                [
+                    27484.0,
+                    125.03,
+                    -1
+                ],
+                [
+                    27206.0,
+                    299.63,
+                    -1
+                ],
+                [
+                    26880.0,
+                    428.58,
+                    -1
+                ],
+                [
+                    26838.0,
+                    437.5,
+                    -1
+                ],
+                [
+                    26729.0,
+                    592.66,
+                    -1
+                ],
+                [
+                    26696.0,
+                    651.95,
+                    -1
+                ],
+                [
+                    26525.0,
+                    712.06,
+                    -1
+                ],
+                [
+                    26391.0,
+                    793.77,
+                    -1
+                ],
+                [
+                    26223.0,
+                    794.21,
+                    -1
+                ]
+            ]
+        },
+        {
+            "timestamp": "2024-05-18 13:04:03.566533",
+            "solver_type": "GA",
+            "solver_name": "GA BRKGA",
+            "solver_config": {
+                "seed": null,
+                "algorithm": {
+                    "problem": null,
+                    "termination": {
+                        "force_termination": false,
+                        "perc": 0.0,
+                        "x": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "cv": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-08,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "terminate_when_feasible": false
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "f": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "termination": {
+                                "force_termination": false,
+                                "perc": 0.0,
+                                "tol": 1e-06,
+                                "data": null,
+                                "counter": 0,
+                                "n_skip": 0,
+                                "only_feas": true
+                            },
+                            "history": {
+                                "size": 30
+                            }
+                        },
+                        "max_gen": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_gen": 1000
+                        },
+                        "max_evals": {
+                            "force_termination": false,
+                            "perc": 0.0,
+                            "n_max_evals": 100000
+                        },
+                        "criteria": [
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f5fb4f1d4d0>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f5fb1387890>",
+                            "<pymoo.termination.robust.RobustTermination object at 0x7f5fb1387950>",
+                            "<pymoo.termination.max_gen.MaximumGenerationTermination object at 0x7f5fb1387a10>",
+                            "<pymoo.termination.max_eval.MaximumFunctionCallTermination object at 0x7f5fb1387a50>"
+                        ]
+                    },
+                    "output": {
+                        "data": {},
+                        "is_initialized": false,
+                        "n_gen": {
+                            "name": "n_gen",
+                            "func": null,
+                            "width": 6,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "n_eval": {
+                            "name": "n_eval",
+                            "func": null,
+                            "width": 8,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "columns": [
+                            "<pymoo.util.display.output.NumberOfGenerations object at 0x7f5fb20edf90>",
+                            "<pymoo.util.display.output.NumberOfEvaluations object at 0x7f5fb20ee290>"
+                        ],
+                        "cv_min": {
+                            "name": "cv_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "cv_avg": {
+                            "name": "cv_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_min": {
+                            "name": "f_min",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_avg": {
+                            "name": "f_avg",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "f_gap": {
+                            "name": "f_gap",
+                            "func": null,
+                            "width": 13,
+                            "truncate": true,
+                            "value": null
+                        },
+                        "best": null
+                    },
+                    "archive": null,
+                    "display": null,
+                    "callback": {
+                        "data": {},
+                        "is_initialized": false
+                    },
+                    "return_least_infeasible": false,
+                    "save_history": false,
+                    "verbose": false,
+                    "seed": null,
+                    "evaluator": {
+                        "evaluate_values_of": [
+                            "F",
+                            "G",
+                            "H"
+                        ],
+                        "skip_already_evaluated": true,
+                        "callback": null,
+                        "n_eval": 0
+                    },
+                    "history": [],
+                    "pop": null,
+                    "off": null,
+                    "opt": null,
+                    "n_iter": null,
+                    "data": {},
+                    "is_initialized": false,
+                    "start_time": null,
+                    "pop_size": 1000,
+                    "advance_after_initial_infill": true,
+                    "survival": {
+                        "filter_infeasible": false,
+                        "n_elites": 200,
+                        "eliminate_duplicates": false
+                    },
+                    "n_offsprings": 700,
+                    "eliminate_duplicates": {
+                        "func": {},
+                        "epsilon": 1e-16
+                    },
+                    "repair": {
+                        "name": "NoRepair",
+                        "vtype": null,
+                        "repair": null
+                    },
+                    "initialization": {
+                        "sampling": {
+                            "name": "FloatRandomSampling",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        }
+                    },
+                    "mating": {
+                        "n_max_iterations": 100,
+                        "eliminate_duplicates": {
+                            "func": {},
+                            "epsilon": 1e-16
+                        },
+                        "repair": {
+                            "name": "NoRepair",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "selection": {
+                            "name": "EliteBiasedSelection",
+                            "vtype": null,
+                            "repair": null
+                        },
+                        "crossover": {
+                            "name": "BinomialCrossover",
+                            "vtype": null,
+                            "repair": null,
+                            "n_parents": 2,
+                            "n_offsprings": 1,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.5,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "bias": {
+                                "value": 0.7,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.1,
+                                    0.9
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        },
+                        "mutation": {
+                            "name": "NoMutation",
+                            "vtype": null,
+                            "repair": null,
+                            "prob": {
+                                "value": 1.0,
+                                "flag": "default",
+                                "active": true,
+                                "bounds": [
+                                    0.7,
+                                    1.0
+                                ],
+                                "strict": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            "prob_var": null
+                        }
+                    },
+                    "n_elites": 200,
+                    "n_mutants": 100,
+                    "bias": 0.7,
+                    "start_time2": 175962.237021565
+                },
+                "fitness_func": "<function fitness_func at 0x7f5fb20ddd00>",
+                "termination": "<pymoo.termination.max_time.TimeBasedTermination object at 0x7f5fc6ec9590>"
+            },
+            "solve_status": "Feasible",
+            "solve_time": 900.34,
+            "solution_value": 1335.6,
+            "solution_info": {
+                "total_distance": 1335.6,
+                "n_vehicles": 16,
+                "paths": [
+                    [
+                        0,
+                        5,
+                        84,
+                        61,
+                        85,
+                        37,
+                        93,
+                        60,
+                        89,
+                        0
+                    ],
+                    [
+                        0,
+                        47,
+                        36,
+                        19,
+                        7,
+                        88,
+                        0
+                    ],
+                    [
+                        0,
+                        28,
+                        33,
+                        9,
+                        71,
+                        65,
+                        35,
+                        34,
+                        78,
+                        68,
+                        0
+                    ],
+                    [
+                        0,
+                        53,
+                        40,
+                        26,
+                        0
+                    ],
+                    [
+                        0,
+                        95,
+                        14,
+                        38,
+                        44,
+                        16,
+                        59,
+                        0
+                    ],
+                    [
+                        0,
+                        72,
+                        75,
+                        22,
+                        41,
+                        23,
+                        67,
+                        39,
+                        25,
+                        55,
+                        4,
+                        0
+                    ],
+                    [
+                        0,
+                        82,
+                        11,
+                        64,
+                        63,
+                        32,
+                        20,
+                        66,
+                        1,
+                        0
+                    ],
+                    [
+                        0,
+                        31,
+                        70,
+                        30,
+                        90,
+                        10,
+                        69,
+                        27,
+                        0
+                    ],
+                    [
+                        0,
+                        2,
+                        57,
+                        15,
+                        43,
+                        42,
+                        97,
+                        13,
+                        0
+                    ],
+                    [
+                        0,
+                        94,
+                        96,
+                        6,
+                        0
+                    ],
+                    [
+                        0,
+                        99,
+                        98,
+                        21,
+                        73,
+                        74,
+                        56,
+                        58,
+                        0
+                    ],
+                    [
+                        0,
+                        12,
+                        80,
+                        29,
+                        24,
+                        54,
+                        0
+                    ],
+                    [
+                        0,
+                        83,
+                        17,
+                        45,
+                        46,
+                        49,
+                        62,
+                        0
+                    ],
+                    [
+                        0,
+                        76,
+                        51,
+                        81,
+                        79,
+                        3,
+                        77,
+                        50,
+                        0
+                    ],
+                    [
+                        0,
+                        52,
+                        18,
+                        8,
+                        48,
+                        0
+                    ],
+                    [
+                        0,
+                        87,
+                        86,
+                        91,
+                        100,
+                        92,
+                        0
+                    ]
+                ]
+            },
+            "solution_progress": [
+                [
+                    34878.0,
+                    0.41,
+                    1000
+                ],
+                [
+                    34727.0,
+                    0.77,
+                    1800
+                ],
+                [
+                    34661.0,
+                    1.12,
+                    2600
+                ],
+                [
+                    32867.0,
+                    2.18,
+                    5000
+                ],
+                [
+                    32465.0,
+                    7.1,
+                    16200
+                ],
+                [
+                    31960.0,
+                    9.26,
+                    21000
+                ],
+                [
+                    31545.0,
+                    13.83,
+                    31400
+                ],
+                [
+                    31162.0,
+                    15.94,
+                    36200
+                ],
+                [
+                    30973.0,
+                    18.46,
+                    41800
+                ],
+                [
+                    30881.0,
+                    18.81,
+                    42600
+                ],
+                [
+                    29288.0,
+                    19.85,
+                    45000
+                ],
+                [
+                    28904.0,
+                    21.25,
+                    48200
+                ],
+                [
+                    28674.0,
+                    21.6,
+                    49000
+                ],
+                [
+                    27770.0,
+                    22.64,
+                    51400
+                ],
+                [
+                    27711.0,
+                    24.03,
+                    54600
+                ],
+                [
+                    27123.0,
+                    24.37,
+                    55400
+                ],
+                [
+                    26493.0,
+                    25.06,
+                    57000
+                ],
+                [
+                    26219.0,
+                    25.41,
+                    57800
+                ],
+                [
+                    26183.0,
+                    25.75,
+                    58600
+                ],
+                [
+                    25535.0,
+                    26.14,
+                    59400
+                ],
+                [
+                    25267.0,
+                    26.49,
+                    60200
+                ],
+                [
+                    24825.0,
+                    26.83,
+                    61000
+                ],
+                [
+                    24729.0,
+                    27.17,
+                    61800
+                ],
+                [
+                    24647.0,
+                    27.52,
+                    62600
+                ],
+                [
+                    24241.0,
+                    27.86,
+                    63400
+                ],
+                [
+                    24083.0,
+                    28.2,
+                    64200
+                ],
+                [
+                    23784.0,
+                    28.88,
+                    65800
+                ],
+                [
+                    23350.0,
+                    29.57,
+                    67400
+                ],
+                [
+                    22781.0,
+                    29.91,
+                    68200
+                ],
+                [
+                    22032.0,
+                    31.6,
+                    72200
+                ],
+                [
+                    21964.0,
+                    31.94,
+                    73000
+                ],
+                [
+                    21719.0,
+                    32.62,
+                    74600
+                ],
+                [
+                    21576.0,
+                    32.95,
+                    75400
+                ],
+                [
+                    21432.0,
+                    33.63,
+                    77000
+                ],
+                [
+                    20516.0,
+                    33.96,
+                    77800
+                ],
+                [
+                    20451.0,
+                    35.35,
+                    81000
+                ],
+                [
+                    20365.0,
+                    36.02,
+                    82600
+                ],
+                [
+                    20007.0,
+                    36.36,
+                    83400
+                ],
+                [
+                    19719.0,
+                    36.69,
+                    84200
+                ],
+                [
+                    19504.0,
+                    37.03,
+                    85000
+                ],
+                [
+                    19194.0,
+                    38.36,
+                    88200
+                ],
+                [
+                    19156.0,
+                    38.69,
+                    89000
+                ],
+                [
+                    19086.0,
+                    39.36,
+                    90600
+                ],
+                [
+                    18942.0,
+                    39.7,
+                    91400
+                ],
+                [
+                    18821.0,
+                    40.03,
+                    92200
+                ],
+                [
+                    18628.0,
+                    41.04,
+                    94600
+                ],
+                [
+                    18511.0,
+                    41.71,
+                    96200
+                ],
+                [
+                    18239.0,
+                    42.05,
+                    97000
+                ],
+                [
+                    18171.0,
+                    43.44,
+                    100200
+                ],
+                [
+                    18159.0,
+                    44.11,
+                    101800
+                ],
+                [
+                    17990.0,
+                    44.78,
+                    103400
+                ],
+                [
+                    17948.0,
+                    45.11,
+                    104200
+                ],
+                [
+                    17940.0,
+                    45.45,
+                    105000
+                ],
+                [
+                    17738.0,
+                    45.79,
+                    105800
+                ],
+                [
+                    17651.0,
+                    46.13,
+                    106600
+                ],
+                [
+                    17647.0,
+                    46.81,
+                    108200
+                ],
+                [
+                    17554.0,
+                    47.83,
+                    110600
+                ],
+                [
+                    17482.0,
+                    49.2,
+                    113800
+                ],
+                [
+                    17392.0,
+                    50.59,
+                    117000
+                ],
+                [
+                    17367.0,
+                    50.93,
+                    117800
+                ],
+                [
+                    17282.0,
+                    53.12,
+                    122600
+                ],
+                [
+                    17269.0,
+                    54.23,
+                    125000
+                ],
+                [
+                    17250.0,
+                    54.6,
+                    125800
+                ],
+                [
+                    17221.0,
+                    55.32,
+                    127400
+                ],
+                [
+                    17178.0,
+                    55.67,
+                    128200
+                ],
+                [
+                    17146.0,
+                    56.39,
+                    129800
+                ],
+                [
+                    17094.0,
+                    56.74,
+                    130600
+                ],
+                [
+                    17091.0,
+                    57.09,
+                    131400
+                ],
+                [
+                    17030.0,
+                    57.44,
+                    132200
+                ],
+                [
+                    17006.0,
+                    57.8,
+                    133000
+                ],
+                [
+                    16941.0,
+                    58.14,
+                    133800
+                ],
+                [
+                    16925.0,
+                    58.49,
+                    134600
+                ],
+                [
+                    16893.0,
+                    59.18,
+                    136200
+                ],
+                [
+                    16766.0,
+                    59.88,
+                    137800
+                ],
+                [
+                    16742.0,
+                    60.96,
+                    140200
+                ],
+                [
+                    16740.0,
+                    61.3,
+                    141000
+                ],
+                [
+                    16732.0,
+                    61.64,
+                    141800
+                ],
+                [
+                    16711.0,
+                    61.98,
+                    142600
+                ],
+                [
+                    16677.0,
+                    62.32,
+                    143400
+                ],
+                [
+                    16618.0,
+                    63.01,
+                    145000
+                ],
+                [
+                    16600.0,
+                    63.69,
+                    146600
+                ],
+                [
+                    16384.0,
+                    66.17,
+                    152200
+                ],
+                [
+                    16290.0,
+                    68.64,
+                    157800
+                ],
+                [
+                    16288.0,
+                    68.99,
+                    158600
+                ],
+                [
+                    16271.0,
+                    69.39,
+                    159400
+                ],
+                [
+                    16254.0,
+                    69.74,
+                    160200
+                ],
+                [
+                    16252.0,
+                    70.09,
+                    161000
+                ],
+                [
+                    16235.0,
+                    70.81,
+                    162600
+                ],
+                [
+                    16231.0,
+                    71.18,
+                    163400
+                ],
+                [
+                    16228.0,
+                    71.55,
+                    164200
+                ],
+                [
+                    16226.0,
+                    72.26,
+                    165800
+                ],
+                [
+                    16224.0,
+                    72.62,
+                    166600
+                ],
+                [
+                    16142.0,
+                    72.99,
+                    167400
+                ],
+                [
+                    16131.0,
+                    74.77,
+                    171400
+                ],
+                [
+                    16115.0,
+                    75.12,
+                    172200
+                ],
+                [
+                    16104.0,
+                    75.81,
+                    173800
+                ],
+                [
+                    16048.0,
+                    76.51,
+                    175400
+                ],
+                [
+                    16044.0,
+                    76.86,
+                    176200
+                ],
+                [
+                    16035.0,
+                    77.21,
+                    177000
+                ],
+                [
+                    16026.0,
+                    77.56,
+                    177800
+                ],
+                [
+                    15976.0,
+                    78.32,
+                    179400
+                ],
+                [
+                    15969.0,
+                    78.66,
+                    180200
+                ],
+                [
+                    15967.0,
+                    79.36,
+                    181800
+                ],
+                [
+                    15965.0,
+                    79.71,
+                    182600
+                ],
+                [
+                    15907.0,
+                    80.06,
+                    183400
+                ],
+                [
+                    15734.0,
+                    81.14,
+                    185800
+                ],
+                [
+                    15732.0,
+                    82.2,
+                    188200
+                ],
+                [
+                    15704.0,
+                    83.24,
+                    190600
+                ],
+                [
+                    15633.0,
+                    83.94,
+                    192200
+                ],
+                [
+                    15617.0,
+                    84.62,
+                    193800
+                ],
+                [
+                    15600.0,
+                    85.67,
+                    196200
+                ],
+                [
+                    15598.0,
+                    86.02,
+                    197000
+                ],
+                [
+                    15580.0,
+                    86.44,
+                    197800
+                ],
+                [
+                    15566.0,
+                    87.17,
+                    199400
+                ],
+                [
+                    15337.0,
+                    87.9,
+                    201000
+                ],
+                [
+                    15321.0,
+                    88.96,
+                    203400
+                ],
+                [
+                    15302.0,
+                    89.31,
+                    204200
+                ],
+                [
+                    15286.0,
+                    89.67,
+                    205000
+                ],
+                [
+                    15282.0,
+                    91.08,
+                    208200
+                ],
+                [
+                    15238.0,
+                    91.79,
+                    209800
+                ],
+                [
+                    15210.0,
+                    93.62,
+                    213800
+                ],
+                [
+                    15162.0,
+                    94.37,
+                    215400
+                ],
+                [
+                    15083.0,
+                    95.51,
+                    217800
+                ],
+                [
+                    15048.0,
+                    97.29,
+                    221800
+                ],
+                [
+                    15028.0,
+                    97.65,
+                    222600
+                ],
+                [
+                    15020.0,
+                    99.39,
+                    226600
+                ],
+                [
+                    15015.0,
+                    102.26,
+                    233000
+                ],
+                [
+                    14932.0,
+                    102.99,
+                    234600
+                ],
+                [
+                    14927.0,
+                    104.85,
+                    238600
+                ],
+                [
+                    14872.0,
+                    105.2,
+                    239400
+                ],
+                [
+                    14861.0,
+                    105.55,
+                    240200
+                ],
+                [
+                    14824.0,
+                    105.91,
+                    241000
+                ],
+                [
+                    14819.0,
+                    106.61,
+                    242600
+                ],
+                [
+                    14762.0,
+                    107.98,
+                    245800
+                ],
+                [
+                    14757.0,
+                    108.32,
+                    246600
+                ],
+                [
+                    14696.0,
+                    110.78,
+                    252200
+                ],
+                [
+                    14604.0,
+                    112.63,
+                    256200
+                ],
+                [
+                    14574.0,
+                    113.67,
+                    258600
+                ],
+                [
+                    14543.0,
+                    114.37,
+                    260200
+                ],
+                [
+                    14539.0,
+                    115.07,
+                    261800
+                ],
+                [
+                    14525.0,
+                    116.13,
+                    264200
+                ],
+                [
+                    14521.0,
+                    117.21,
+                    266600
+                ],
+                [
+                    14504.0,
+                    117.93,
+                    268200
+                ],
+                [
+                    14500.0,
+                    119.36,
+                    271400
+                ],
+                [
+                    14497.0,
+                    119.72,
+                    272200
+                ],
+                [
+                    14482.0,
+                    120.42,
+                    273800
+                ],
+                [
+                    14476.0,
+                    121.49,
+                    276200
+                ],
+                [
+                    14473.0,
+                    121.89,
+                    277000
+                ],
+                [
+                    14452.0,
+                    122.58,
+                    278600
+                ],
+                [
+                    14451.0,
+                    123.27,
+                    280200
+                ],
+                [
+                    14428.0,
+                    127.53,
+                    289800
+                ],
+                [
+                    14414.0,
+                    134.41,
+                    305000
+                ],
+                [
+                    14269.0,
+                    135.85,
+                    308200
+                ],
+                [
+                    14255.0,
+                    137.27,
+                    311400
+                ],
+                [
+                    14160.0,
+                    138.32,
+                    313800
+                ],
+                [
+                    14100.0,
+                    140.86,
+                    319400
+                ],
+                [
+                    14072.0,
+                    145.53,
+                    329800
+                ],
+                [
+                    14064.0,
+                    152.42,
+                    345000
+                ],
+                [
+                    14008.0,
+                    159.61,
+                    361000
+                ],
+                [
+                    13979.0,
+                    164.3,
+                    371400
+                ],
+                [
+                    13946.0,
+                    165.75,
+                    374600
+                ],
+                [
+                    13917.0,
+                    167.18,
+                    377800
+                ],
+                [
+                    13836.0,
+                    186.99,
+                    421800
+                ],
+                [
+                    13821.0,
+                    189.9,
+                    428200
+                ],
+                [
+                    13817.0,
+                    202.67,
+                    456200
+                ],
+                [
+                    13816.0,
+                    205.21,
+                    461800
+                ],
+                [
+                    13772.0,
+                    226.26,
+                    508200
+                ],
+                [
+                    13724.0,
+                    241.07,
+                    541000
+                ],
+                [
+                    13705.0,
+                    275.95,
+                    618600
+                ],
+                [
+                    13687.0,
+                    319.81,
+                    716200
+                ],
+                [
+                    13666.0,
+                    335.26,
+                    750600
+                ],
+                [
+                    13640.0,
+                    339.16,
+                    759400
+                ],
+                [
+                    13589.0,
+                    347.05,
+                    777000
+                ],
+                [
+                    13567.0,
+                    348.82,
+                    781000
+                ],
+                [
+                    13566.0,
+                    351.34,
+                    786600
+                ],
+                [
+                    13544.0,
+                    352.41,
+                    789000
+                ],
+                [
+                    13496.0,
+                    353.47,
+                    791400
+                ],
+                [
+                    13473.0,
+                    354.52,
+                    793800
+                ],
+                [
+                    13458.0,
+                    359.18,
+                    804200
+                ],
+                [
+                    13442.0,
+                    394.66,
+                    883400
+                ],
+                [
+                    13441.0,
+                    411.83,
+                    921800
+                ],
+                [
+                    13431.0,
+                    421.83,
+                    944200
+                ],
+                [
+                    13422.0,
+                    449.9,
+                    1007400
+                ],
+                [
+                    13363.0,
+                    457.71,
+                    1025000
+                ],
+                [
+                    13362.0,
+                    502.81,
+                    1125800
+                ],
+                [
+                    13357.0,
+                    505.32,
+                    1131400
+                ],
+                [
+                    13356.0,
+                    506.02,
+                    1133000
+                ]
             ]
         }
     ]

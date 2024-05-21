@@ -33,22 +33,24 @@ def decode_chromosome_fast(instance, chromosome):
     for customer in chromosome:
 
         # Check if the current vehicle can serve the customer
+        c_to_next = instance.get_distance(route[-1], customer)
         if (remaining_capacity - instance.get_demand(customer) >= 0 and
-                current_time + instance.get_distance(route[-1], customer) <= instance.get_latest_start(customer)):
+                current_time + c_to_next <= instance.get_latest_start(customer)):
             # Update remaining capacity and current time
             remaining_capacity -= instance.get_demand(customer)
-            current_time = (max(current_time + instance.get_distance(route[-1], customer),
+            current_time = (max(current_time + c_to_next,
                                 instance.get_earliest_start(customer)) + instance.get_service_time(customer))
-            length += instance.get_distance(route[-1], customer)
+            length += c_to_next
 
             route.append(customer)
         else:
             # Start a new route for the next vehicle
-            length += instance.get_distance(route[-1], 0) + instance.get_distance(0, customer)
+            depo_to_next = instance.get_distance(0, customer)
+            length += instance.get_distance(route[-1], 0) + depo_to_next
             route.append(0)
             routes.append(route)
             remaining_capacity = instance.get_capacity() - instance.get_demand(customer)
-            current_time = (max(instance.get_distance(0, customer), instance.get_earliest_start(customer))
+            current_time = (max(depo_to_next, instance.get_earliest_start(customer))
                             + instance.get_service_time(customer))
             route = [0, customer]
 
@@ -244,16 +246,20 @@ def decode_chromosome_rec_pruned_less(instance, chromosome):
         if new_length1 <= new_length2:
             if (instance.get_distance(chromosome[idx - 1], 0) <= instance.get_distance(customer, chromosome[idx - 1])
                     and instance.get_distance(0, customer) <= instance.get_distance(customer, chromosome[idx - 1])):
-                print(f"Using old vehicle because of distance: {instance.get_distance(chromosome[idx - 1], 0)} at {idx}")
+                print(
+                    f"Using old vehicle because of distance: {instance.get_distance(chromosome[idx - 1], 0)} at {idx}")
             else:
-                print(f"Using old vehicle because of demand: {remaining_capacity1 - instance.get_demand(customer)} at {idx}")
+                print(
+                    f"Using old vehicle because of demand: {remaining_capacity1 - instance.get_demand(customer)} at {idx}")
             return first, new_length1
         else:
             if (instance.get_distance(chromosome[idx - 1], 0) <= instance.get_distance(customer, chromosome[idx - 1])
                     and instance.get_distance(0, customer) <= instance.get_distance(customer, chromosome[idx - 1])):
-                print(f"Using new vehicle because of distance: {instance.get_distance(chromosome[idx - 1], 0)} at {idx}")
+                print(
+                    f"Using new vehicle because of distance: {instance.get_distance(chromosome[idx - 1], 0)} at {idx}")
             else:
-                print(f"Using new vehicle because of demand: {remaining_capacity1 - instance.get_demand(customer)} at {idx}")
+                print(
+                    f"Using new vehicle because of demand: {remaining_capacity1 - instance.get_demand(customer)} at {idx}")
             return second, new_length2
 
     # print("Chromosome", chromosome)
@@ -363,7 +369,7 @@ def decode_chromosome_second(instance, chromosome):
                             + instance.get_service_time(customer))
             route = [0, customer]
         elif (remaining_capacity - instance.get_demand(customer) >= 0 and
-                current_time + c_to_next <= instance.get_latest_start(customer)):
+              current_time + c_to_next <= instance.get_latest_start(customer)):
 
             # Update remaining capacity and current time
             remaining_capacity -= instance.get_demand(customer)
@@ -432,8 +438,11 @@ def fitness_func(instance, x, out):
     # print("Chromosome shape", x.shape)
     # print("Chromosome", x)
     chromosome = sorted(range(1, len(x) + 1), key=lambda i: x[i - 1])
-    # routes, dist = decode_chromosome_rec_pruned_less(instance, chromosome)
-    routes, dist = decode_chromosome_second(instance, chromosome)
+    routes, dist = decode_chromosome_fast(instance, chromosome)
+    # res1 = decode_chromosome_fast(instance, chromosome)
+    # res2 = decode_chromosome_second(instance, chromosome)
+
+    # routes, dist = min([res1, res2], key=lambda z: z[1])
 
     # print(f"DISTANCE: {dist}")
 
@@ -479,10 +488,14 @@ class VRPTWSolver(GASolver):
 
         chromosome = sorted(range(1, len(res.X) + 1), key=lambda i: res.X[i - 1])
 
-        #   Take min from the 2 non-recursive decoders?
-        routes, dist = decode_chromosome_second(instance, chromosome)
+        routes, dist = decode_chromosome_fast(instance, chromosome)
 
-        fitness_value = dist/10
+        # res1 = decode_chromosome_fast(instance, chromosome)
+        # res2 = decode_chromosome_second(instance, chromosome)
+        #
+        # routes, dist = min([res1, res2], key=lambda z: z[1])
+
+        fitness_value = dist / 10
 
         # print(f"Fitness value: {fitness_value}"
         #       f"\nRoutes: {routes}")
