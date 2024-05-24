@@ -270,7 +270,7 @@ def load_instance(path):
     elif instance_kind == "VRPTW" or instance_kind == "CVRPTW":
         instance = CVRPTW(
             benchmark_name, instance_name, data, solution, run_history)
-    elif instance_kind == "NRP":
+    elif instance_kind == "NRP" or instance_kind == "NRC":
         instance = NRC(
             benchmark_name, instance_name, data, solution, run_history)
     else:

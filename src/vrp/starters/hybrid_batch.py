@@ -17,8 +17,8 @@ from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 
 
 def main(args):
-    if len(args) != 2:
-        print('Usage: python ...py <data_folder> <output_folder>')
+    if len(args) != 3:
+        print('Usage: python ...py <data_folder> <output_folder> <number of available cores>')
         print('Got:', args)
         return
     folder_path = args[0]
@@ -27,7 +27,7 @@ def main(args):
 
     # for folder_name in os.listdir(data_folder):
     if not os.path.isdir(folder_path):
-        print('Usage: python ...py <data_folder> <output_folder>')
+        print('Usage: python ...py <data_folder> <output_folder> <number of available cores>')
         print('Got:', args)
         print('folder_path:', folder_path, 'is not a folder')
         return
@@ -48,8 +48,8 @@ def main(args):
     solver1 = GASolver(algorithm=algorithm, fitness_func=fitness_func, termination=termination, solver_name="GA PSO")
 
     # solver1 = IntegerSolver(TimeLimit=5, no_workers=6)
-
-    solver2 = IntegerSolver(TimeLimit=(15*60)-1, no_workers=cores)
+    # (15 * 60) - 1
+    solver2 = IntegerSolver(TimeLimit=2, no_workers=cores)
 
     solver1.solve(benchmark, validate=False, force_dump=False, output=output_folder, hybrid_CP_solver=solver2)
 

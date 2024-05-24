@@ -147,11 +147,11 @@ def visualize_nrp(schedule_data, instance, obj_value, instance_name=None):
     plt.title('Nurse Rostering Schedule ' + (instance_name if instance_name else ''))
     plt.text(len(schedule_data[0]) + 0.5, len(schedule_data)*1.01 + 0.45, f"Penalty = {obj_value}", ha='right', va='center', color='gray', fontsize=8)
 
-    plt.show()
+    # plt.show()
 
 
 def validate_nrp(instance, sol, result):
-    print(result)
+    # print(result)
 
     # Check hard constraints
 

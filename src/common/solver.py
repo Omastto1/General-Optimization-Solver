@@ -38,7 +38,7 @@ class Solver(ABC):
                 _, solution, _ = self._solve(instance, validate=validate, visualize=visualize,
                                              force_execution=force_execution, update_history=update_history)
 
-                print(solution)
+                # print(solution)
 
                 if hybrid_CP_solver is not None:
                     _, solution, _ = hybrid_CP_solver._solve(instance, validate=validate, visualize=visualize,
